@@ -155,4 +155,5 @@ def water(s1, s2):
 
 if __name__ == '__main__':
     # example with two sequences
-    water('AGCACACA','ACACACTA')
+    #water('AGCACACA','ACACACTA')
+    water('AGCA', 'ACAC')
