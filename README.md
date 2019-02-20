@@ -12,10 +12,11 @@ at California State Polytechnic University, Pomona
 - Simon Tutak
 - Sivaramakrishnan Prabakar
 
-## Advisor
-Mohamed El-Hadedy (Mohamed Aly)
+## Advisors
+- Mohamed El-Hadedy (Mohamed Aly)
+- Mostafa M. Hashim Ellabaan
 
 ## Requirements
-The current implementation is in Python 3 and uses the
+The first implementation will be in Python 3 and uses the
 standard built in Python libraries.
 
