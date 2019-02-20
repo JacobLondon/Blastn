@@ -12,8 +12,9 @@ at California State Polytechnic University, Pomona
 - Simon Tutak
 - Sivaramakrishnan Prabakar
 
-## Advisor
+## Advisors
 Mohamed El-Hadedy (Mohamed Aly)
+Mostafa M. Hashim Ellabaan
 
 ## Requirements
 The first implementation will be in Python 3 and uses the
