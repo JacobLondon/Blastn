@@ -16,6 +16,6 @@ at California State Polytechnic University, Pomona
 Mohamed El-Hadedy (Mohamed Aly)
 
 ## Requirements
-The current implementation is in Python 3 and uses the
+The first implementation will be in Python 3 and uses the
 standard built in Python libraries.
 
