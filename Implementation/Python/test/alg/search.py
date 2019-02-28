@@ -8,10 +8,22 @@ def locate(words, database):
     
     for word in words:
         # look for all matches, including overlapping
-        temp = [match.start()for match in re.finditer(f'(?={word})', database)]
+        temp = [match.start() for match in re.finditer(f'(?={word})', database)]
         if len(temp) > 0:
             lookup[word] = temp
 
+    return lookup
+
+"""Given a database where all possible words are sorted out,
+get intersection of our words and all words that can exist"""
+def locate_hash(words, database):
+    lookup = {}
+
+    for word in words:
+        # if the word is in the database
+        if word in database.keys():
+            lookup[word] = database[word]
+    
     return lookup
 
 """Same as above but without regex"""
