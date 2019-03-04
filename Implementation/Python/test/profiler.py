@@ -1,3 +1,9 @@
+"""
+Author: Jacob London
+
+Date Modified: March 4, 2019
+"""
+
 import time
 
 class Profiler(object):
