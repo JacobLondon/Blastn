@@ -1,10 +1,9 @@
 import random
 
-"""Hmayak, Simon:
-use to randomly create a sequence of a given length
+"""use to randomly create a sequence of a given length
 """
 def create_sequence(length):
-    letters = 'ATGC'
+    letters = 'ACGT'
     sequence = ''
 
     for _ in range(length):
@@ -12,9 +11,13 @@ def create_sequence(length):
 
     return sequence
 
-"""Alden, Siva:
-use to randomly generate words to test searching for
+"""use to randomly generate words to test searching for
 """
-def generate_words(amount, word_length):
+def generate_words(amount, length):
+    words = []
     for _ in range(amount):
-        yield(create_sequence(word_length))
+        words.append(create_sequence(length))
+    
+    return words
+
+

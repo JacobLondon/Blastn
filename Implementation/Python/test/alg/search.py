@@ -1,3 +1,9 @@
+"""
+Author: Jacob London
+
+Date Modified: March 4, 2019
+"""
+
 import re
 
 """Given a large set of letters and words, find all instances of
