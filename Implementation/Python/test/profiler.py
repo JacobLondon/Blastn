@@ -11,13 +11,20 @@ class Profiler(object):
     def __init__(self):
         self.times = []
         self.start = time.time()
+        self.end = 0
 
     def mark(self, name):
         self.times.append((name, time.time()))
     
-    def display(self):
+    def stop(self):
+        self.end = time.time()
 
-        total = time.time() - self.start
+    def display(self):
+        
+        # get cumulative time
+        if self.end == 0:
+            self.stop()
+        total = self.end - self.start
         print('\nTotal:', total, 'sec')
 
         # find the time for each individual step

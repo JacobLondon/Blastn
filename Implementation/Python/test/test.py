@@ -40,13 +40,18 @@ def main():
     profiler.mark('matching')
 
     # make each value list have only 1 index, and append the others to the end
-    single_out_indices(matches)
+    matches = single_out_indices(matches)
+    print('presort\n', matches)
     matches = sorted(matches, key=lambda v: v[1])
+    #matches = sorted(matches, key=lambda v: v[0][1])
     profiler.mark('sorting')
 
     # find pairs of candidates which are close
     candidates = get_candidates(matches=matches, threshold=dist_threshold)
     profiler.mark('candidate')
+
+    # don't record output printing time
+    profiler.stop()
 
     # show matches/candidates
     print('\nMatches:')

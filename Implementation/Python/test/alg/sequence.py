@@ -6,6 +6,7 @@ Date Modified: March 4, 2019
 
 import random, operator
 from itertools import permutations
+from math import factorial
 from functools import reduce
 
 """use to randomly create a sequence of a given length
@@ -37,6 +38,11 @@ def get_permutations(word):
 def permute_words(words):
     # words are given [[]] of strings, get only inner layer
     return reduce(operator.add, [get_permutations(w) for w in words])
+    """length = factorial(len(words[0]))
+    for word in words:
+        perms = permutations(word)
+        for _ in range(length):
+            yield ''.join(next(perms))"""
 
 """Split words into a given length"""
 def split(query, length=11):
@@ -66,13 +72,14 @@ def create_hash(sequence, word_length):
 reduce the list(indices) to be individual elements
 in the output"""
 def single_out_indices(matches):
+    singled_out = []
     addtnl_indices = []
     first_indices = []
     for match in matches:
         # if there are multple indices
         indices = len(match[1])
         if indices > 1:
-        # skip the first, keep it in position
+            # skip the first, keep it in position
             for i in range(1, indices):
                 addtnl_indices.append((match[0], match[1][i]))
 
@@ -80,8 +87,9 @@ def single_out_indices(matches):
         first_indices.append((match[0], match[1][0]))
 
     # remove duplicate indices
-    matches = first_indices
-    matches.extend(addtnl_indices)
+    singled_out = first_indices
+    singled_out.extend(addtnl_indices)
+    return singled_out
 
 """Find every nearby pair of candidate matches from a sorted list of matches"""
 def get_candidates(matches, threshold):
@@ -89,18 +97,19 @@ def get_candidates(matches, threshold):
 
     # find all candidates from current until the threshold index distance is met
     for first in range(len(matches)):
-        for second in range(first + 1, len(matches)):
+        # start at 1 to not match with itself
+        for second in range(1, len(matches)):
             # at the end of all matches
             if first + second >= len(matches):
                 break
 
             # get the indices for the current and next match
-            index1 = matches[first][1][0]
-            index2 = matches[second][1][0]
+            index1 = matches[first][1]
+            index2 = matches[second][1]
 
             # check if candidate is within the threshold
             if index2 - index1 < threshold:
-                candidates.append((matches[first], matches[second]))
+                candidates.append((matches[first], matches[first + second]))
             # too far, go to next
             else:
                 break
