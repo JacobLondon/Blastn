@@ -8,13 +8,19 @@ import time
 
 class Profiler(object):
 
-    def __init__(self):
+    def __init__(self, printing=False):
         self.times = []
         self.start = time.time()
         self.end = 0
+        self.printing = printing
+
+        if self.printing:
+            print('\nTiming profile:')
 
     def mark(self, name):
         self.times.append((name, time.time()))
+        if self.printing:
+            print(name + ':', time.time() - self.start)
     
     def stop(self):
         self.end = time.time()
@@ -25,7 +31,7 @@ class Profiler(object):
         if self.end == 0:
             self.stop()
         total = self.end - self.start
-        print('\nTotal:', total, 'sec')
+        print('\nTotal:', total)
 
         # find the time for each individual step
         for index in range(len(self.times)):
