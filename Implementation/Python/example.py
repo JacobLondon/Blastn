@@ -3,7 +3,7 @@ Here are some examples of how to use sequence.py
 to test for your specific program.
 """
 
-from sequence import generate_words, create_sequence
+from util import *
 
 """TEST CODE HERE"""
 def main():
