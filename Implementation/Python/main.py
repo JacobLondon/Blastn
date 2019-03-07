@@ -11,12 +11,12 @@ from util import *
 def blastn():
 
     # control vars
-    min_matches = 5
+    min_matches = 10
     score_threshold = 20
     dist_threshold = 40
     word_length = 9
     query_length = 14
-    database_length = 1000000
+    database_length = 10000000
 
     random.seed(0)
 
@@ -27,6 +27,7 @@ def blastn():
     query = create_sequence(length=query_length)
     query_words = split(query=query, length=word_length)
     database = create_sequence(length=database_length)
+    profiler.mark('startup')
 
     # score query_words here and remove those under the score threshold
 

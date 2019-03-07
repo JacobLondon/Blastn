@@ -14,8 +14,13 @@ class Profiler(object):
         self.end = 0
         self.printing = printing
 
+        self.lchar = '='
+        self.lwidth = 40
+        self.dlen = 15
+
         if self.printing:
-            print('\nTiming profile:')
+            print('\nReal Time Profile:')
+            self.printline()
 
     def mark(self, name):
         self.times.append((name, time.time()))
@@ -25,17 +30,21 @@ class Profiler(object):
     def stop(self):
         self.end = time.time()
 
+    def printline(self):
+        print(self.lchar * self.lwidth)
+
     def display(self):
         
         # get cumulative time
         if self.end == 0:
             self.stop()
         total = self.end - self.start
-        print('\nTotal:', total)
+
+        table = ''
 
         # find the time for each individual step
         for index in range(len(self.times)):
-            name = self.times[index][0] + ' time:'
+            name = self.times[index][0] + ':'
             duration = self.times[index][1]
 
             # find the differences b/w the current/prev times for cumulative
@@ -48,6 +57,16 @@ class Profiler(object):
             cumulative = duration - prev_time
             percentage = cumulative / total * 100
 
-            print(name, cumulative, 'sec\n', percentage, '%')
+            # put the data into the table for printing
+            time = str(name) + '\n\t' + str(cumulative)[:self.dlen] + 's'
+            percent = '\n\t' + str(percentage)[:self.dlen] + '%'
+            table += time + percent + '\n'
 
+        # display data
+        print()
+        self.printline()
+        print('\tTotal:', str(total) + 's')
+        self.printline()
+        print(table)
+        self.printline()
         print()
