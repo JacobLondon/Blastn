@@ -11,12 +11,12 @@ from util import *
 def blastn():
 
     # control vars
-    min_matches = 10
+    min_matches = 2
     score_threshold = 20
     dist_threshold = 40
-    word_length = 9
+    word_length = 7
     query_length = 14
-    database_length = 10000000
+    database_length = 10000
 
     random.seed(0)
 
@@ -44,6 +44,7 @@ def blastn():
     # matches: list(tuple('sequence', list(indices)))
     query_matches = locate_hash(query_perms, database)
     query_matches = list(query_matches.items())
+    print(query_matches)
     profiler.mark('matching')
 
     # make each value list have only 1 index, and append the others to the end
