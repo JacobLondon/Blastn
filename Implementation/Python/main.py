@@ -37,6 +37,7 @@ def blastn():
 
     # get all permutations of those words and look for them
     query_perms = permute_words(query_words)
+    #query_perms = query_words
     # complexity filtering of query_perms here
     # score query_perms here and remove those under the score threshold
     profiler.mark('permutation')
@@ -44,7 +45,7 @@ def blastn():
     # matches: list(tuple('sequence', list(indices)))
     query_matches = locate_hash(query_perms, database)
     query_matches = list(query_matches.items())
-    print(query_matches)
+    #print(query_matches)
     profiler.mark('matching')
 
     # make each value list have only 1 index, and append the others to the end
