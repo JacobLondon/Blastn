@@ -75,3 +75,4 @@ def create_hash(sequence, word_length):
             table[words[index]] = [index]
 
     return table
+

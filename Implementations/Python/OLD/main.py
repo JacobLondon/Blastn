@@ -71,8 +71,8 @@ def blastn():
     print('\nQuery:', query)
     print('Matches:', len(query_matches))
     print('Candidates Pairs:', len(candidates))
-    """print('\nMatches:', query_matches, sep='\n')
-    print('\nCandidates:')
+    print('\nMatches:', query_matches, sep='\n')
+    """print('\nCandidates:')
     for c in candidates:
         print(c)"""
 

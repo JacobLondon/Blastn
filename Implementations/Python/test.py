@@ -32,4 +32,9 @@ def main():
         print(w)
 
 if __name__ == '__main__':
-    main()
+    #main()
+	query = create_sequence(sequence_length=23);
+	words = split(query=query, length=3)
+	database = create_sequence(sequence_length=10);
+	
+
