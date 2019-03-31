@@ -5,11 +5,7 @@ Python 3.6+
 
 import numpy as np
 
-match, gap, mismatch = (
-    2, -1, -1
-)
-
-def mtch(alpha, beta):
+def mtch(alpha, beta, match, mismatch, gap):
     if alpha == beta:
         return match
     elif '-' == alpha or beta == '-':
@@ -17,7 +13,8 @@ def mtch(alpha, beta):
     else:
         return mismatch
 
-def sw(seq1, seq2, printing=False):
+def sw(seq1, seq2, printing=False, match=2, mismatch=-1, gap=-1):
+
     m, n = len(seq1), len(seq2)
 
     score_mat = np.zeros((m + 1, n + 1))
@@ -40,7 +37,7 @@ def sw(seq1, seq2, printing=False):
                 # up score
                 score_mat[i][j - 1] + gap,
                 # diagnal score
-                score_mat[i - 1][j - 1] + mtch(seq1[i - 1], seq2[j - 1])
+                score_mat[i - 1][j - 1] + mtch(seq1[i - 1], seq2[j - 1], match, mismatch, gap)
             ]
 
             # index (point mat) corresponds to dir
@@ -129,6 +126,4 @@ def sw(seq1, seq2, printing=False):
 if __name__ == '__main__':
     seq1 = 'AGCACACA'
     seq2 = 'ACACACTA'
-    sw(seq1, seq2, printing=True)
-        
-
+    sw(seq1, seq2, printing=True, match=2, mismatch=-1, gap=-1)
