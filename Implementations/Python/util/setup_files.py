@@ -13,7 +13,7 @@ def sequence(path, sep='>'):
         os.mkdir(path)
     except OSError as e:
         print(e)
-        response = input('Continue anyway? y/n ')
+        response = input('Continue anyway? [y/n] ')
         if response.lower() != 'y':
             return
 
