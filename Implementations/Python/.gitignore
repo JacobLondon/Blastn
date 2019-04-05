@@ -1,5 +1,7 @@
 __pycache__/*
-util/__pycache__/*
-test/__pycache__/*
 OLD/__pycache__/*
+test/__pycache__/*
+util/__pycache__/*
+util/packing_table.json
+util/unpacking_table.json
 
