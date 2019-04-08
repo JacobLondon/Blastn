@@ -1,7 +1,7 @@
 
 import os, tqdm
 
-def sequence(path, sep='>'):
+def setup(path, sep='>'):
     in_file = open(path, 'r')
 
     # make a directory to output the files to
@@ -30,4 +30,4 @@ def sequence(path, sep='>'):
 if __name__ == '__main__':
     f_in = 'SRR7236689--ARG830.fa'
     #f_in = 'Gn-SRR7236689_contigs.fasta'
-    sequence(f_in)
+    setup(f_in)
