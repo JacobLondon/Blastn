@@ -2,7 +2,7 @@
 import os, tqdm, json
 from copy import copy
 
-from split import split
+from .split import split
 
 thisfilepath = os.path.dirname(os.path.abspath(__file__))
 
