@@ -2,4 +2,5 @@
 .vs
 .vscode
 Implementations/.DS_Store
-Data/SRR7236689--ARG830.fa.json
+Implementations/Python/util/Gn-SRR7236689_contigs.fasta.json
+Implementations/Python/util/SRR7236689--ARG830.fa.json

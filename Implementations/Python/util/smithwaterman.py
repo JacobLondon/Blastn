@@ -5,7 +5,7 @@ Python 3.6+
 
 import numpy as np
 
-def mtch(alpha, beta, match, mismatch, gap):
+def mtch(alpha: str, beta: str, match: int, mismatch: int, gap: int) -> int:
     if alpha == beta:
         return match
     elif '-' == alpha or beta == '-':
@@ -13,7 +13,7 @@ def mtch(alpha, beta, match, mismatch, gap):
     else:
         return mismatch
 
-def sw(seq1, seq2, printing=False, match=2, mismatch=-1, gap=-1):
+def sw(seq1: str, seq2: str, printing: bool=False, match: int=2, mismatch: int=-1, gap: int=-1):
 
     m, n = len(seq1), len(seq2)
 
@@ -121,7 +121,7 @@ def sw(seq1, seq2, printing=False, match=2, mismatch=-1, gap=-1):
         print()
         print('  Output: ', output_alignment)
 
-    return output_alignment
+    return max_score
 
 if __name__ == '__main__':
     seq1 = 'AGCACACA'
