@@ -1,4 +1,6 @@
-import json, tqdm
+import os, sys, json, tqdm
+
+thisfilepath = os.path.dirname(os.path.abspath(__file__))
 
 """
 Find exact matches in the database given a sequence
@@ -53,14 +55,40 @@ Test
 
 """
 
-if __name__ == '__main__':
-    with open('Gn-SRR7236689_contigs.fasta.json', 'r') as d_json:
+def parse_match():
+    dpath = '/data/data_small.fasta.json'
+    qpath = '/data/query_small.fa.json'
+
+    args = iter(sys.argv)
+
+    try:
+        for arg in args:
+            if arg == '-d':
+                dpath = next(args)
+            elif arg == '-q':
+                qpath = next(args)
+            elif arg == 'help':
+                print(
+                """
+                -d  \tjson dataset  \t(has default)
+                -q  \tjson queries  \t(has default)
+                """)
+                return
+    except:
+        print('Failure: invalid argument(s)')
+        return
+    
+    with open(thisfilepath + dpath, 'r') as d_json:
         data = json.load(d_json)
-    with open('SRR7236689--ARG830.fa.json', 'r') as q_json:
+    with open(thisfilepath + qpath, 'r') as q_json:
         query = json.load(q_json)
 
-    matches = match(query, data)
+    return match(query, data)
+
+if __name__ == '__main__':
     
-    for dataset, quers in matches.items():
-        for quer, match in quers.items():
-            print('data:', dataset, 'query:', quer, match)
+    matches = parse_match()
+    if matches is not None:
+        for dataset, quers in matches.items():
+            for quer, match in quers.items():
+                print('data:', dataset, 'query:', quer, match)

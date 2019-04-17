@@ -3,5 +3,7 @@
 .vscode
 Implementations/.DS_Store
 Implementations/Python/.vscode
-Implementations/Python/util/Gn-SRR7236689_contigs.fasta.json
-Implementations/Python/util/SRR7236689--ARG830.fa.json
+Implementations/Python/util/data/Gn-SRR7236689_contigs.fasta.json
+Implementations/Python/util/data/SRR7236689--ARG830.fa.json
+Implementations/Python/util/data/packing_table.json
+Implementations/Python/util/data/unpacking_table.json

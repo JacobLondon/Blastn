@@ -6,8 +6,8 @@ lookup = {'A':'00', 'C':'01', 'G':'10', 'T':'11'}
 pad_char = 'A'
 # load/save the lookup tables in the same directory as this file
 thisfilepath = os.path.dirname(os.path.abspath(__file__))
-packing_file = thisfilepath + os.sep + 'packing_table.json'
-unpacking_file = thisfilepath + os.sep + 'unpacking_table.json'
+packing_file = thisfilepath + os.sep + 'data' + os.sep + 'packing_table.json'
+unpacking_file = thisfilepath + os.sep + 'data' + os.sep + 'unpacking_table.json'
 
 """Create a lookup table to create a byte at a time"""
 def create_lookup():

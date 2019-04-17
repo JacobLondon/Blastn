@@ -1,9 +1,9 @@
 
-import os, tqdm, json
+import os, sys, tqdm, json
 from copy import copy
 from collections import defaultdict
 
-from .split import split
+from split import split
 
 thisfilepath = os.path.dirname(os.path.abspath(__file__))
 
@@ -66,7 +66,7 @@ def setup_data(path: str, length: int=11, sep: str='>') -> None:
     split_seq = split_sequence(data=string_seq, length=length)
 
     # write to .json file
-    data_file = thisfilepath + os.sep + path + '.json'
+    data_file = path + '.json'
     with open(data_file, 'w') as d_json:
         json.dump(split_seq, d_json, indent=0, separators=(',', ': '))
 
@@ -76,7 +76,35 @@ Test
 
 """
 
+def parse_prepare():
+    path = None
+    length = 11
+    sep = '>'
+
+    args = iter(sys.argv)
+
+    try:
+        for arg in args:
+            if arg == '-p':
+                path = next(args)
+            elif arg == '-l':
+                length = int(next(args))
+            elif arg == '-s':
+                sep = next(args)
+            elif arg == 'help':
+                print(
+                """
+                -p  \tfile path \t(expects *.fa or *.fasta)
+                -l  \tlength    \t(has default)
+                -s  \tseperator \t(has default)
+                """)
+                return
+    except:
+        print('Failure: invalid argument(s)')
+        return
+
+    setup_data(path=thisfilepath + path, length=length, sep=sep)
+
+
 if __name__ == '__main__':
-    #f_in = 'SRR7236689--ARG830.fa'
-    f_in = 'Gn-SRR7236689_contigs.fasta'
-    setup_data(f_in)
+    parse_prepare()

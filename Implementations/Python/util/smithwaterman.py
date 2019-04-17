@@ -3,6 +3,7 @@ Requirements:
 Python 3.6+
 """
 
+import sys
 import numpy as np
 
 def mtch(alpha: str, beta: str, match: int, mismatch: int, gap: int) -> int:
@@ -129,7 +130,51 @@ Test
 
 """
 
+def parse_sw():
+    s1 = None
+    s2 = None
+    printing = False
+    match = 2
+    mismatch = -1
+    gap = -1
+
+    args = iter(sys.argv)
+
+    try:
+        for arg in args:
+            if arg == '-s1':
+                s1 = next(args)
+            elif arg == '-s2':
+                s2 = next(args)
+            elif arg == '-p':
+                printing = True
+            elif arg == '-match':
+                match = int(next(args))
+            elif arg == '-mismatch':
+                mismatch = int(next(args))
+            elif arg == '-gap':
+                gap = int(next(args))
+            elif arg == 'help':
+                print(
+                """
+                -s1         \tsequence 1        \t(expects string)
+                -s2         \tsequence 2        \t(expects string)
+                -p          \tprint output      \t(optional)
+                -match      \tmatch score       \t(has defualt, expects int)
+                -mismatch   \tmismatch score    \t(has defualt, expects int)
+                -gap        \tgap score         \t(has default, expects int)
+
+                """)
+                return
+    except:
+        print('Failure: invalid argument(s)')
+        return
+
+    sw(s1, s2, printing=printing, match=match, mismatch=mismatch, gap=gap)
+
 if __name__ == '__main__':
-    seq1 = 'AGCACACA'
-    seq2 = 'ACACACTA'
-    sw(seq1, seq2, printing=True, match=2, mismatch=-1, gap=-1)
+    #seq1 = 'AGCACACA'
+    #seq2 = 'ACACACTA'
+    #sw(seq1, seq2, printing=True, match=2, mismatch=-1, gap=-1)
+
+    parse_sw()
