@@ -47,6 +47,12 @@ def match(query: dict, data: dict) -> dict:
 
     return exact_matches
 
+"""
+
+Test
+
+"""
+
 if __name__ == '__main__':
     with open('Gn-SRR7236689_contigs.fasta.json', 'r') as d_json:
         data = json.load(d_json)

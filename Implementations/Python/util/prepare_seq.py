@@ -3,7 +3,7 @@ import os, tqdm, json
 from copy import copy
 from collections import defaultdict
 
-from split import split
+from .split import split
 
 thisfilepath = os.path.dirname(os.path.abspath(__file__))
 
@@ -69,6 +69,12 @@ def setup_data(path: str, length: int=11, sep: str='>') -> None:
     data_file = thisfilepath + os.sep + path + '.json'
     with open(data_file, 'w') as d_json:
         json.dump(split_seq, d_json, indent=0, separators=(',', ': '))
+
+"""
+
+Test
+
+"""
 
 if __name__ == '__main__':
     #f_in = 'SRR7236689--ARG830.fa'

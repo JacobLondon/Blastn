@@ -123,6 +123,12 @@ def sw(seq1: str, seq2: str, printing: bool=False, match: int=2, mismatch: int=-
 
     return max_score
 
+"""
+
+Test
+
+"""
+
 if __name__ == '__main__':
     seq1 = 'AGCACACA'
     seq2 = 'ACACACTA'
