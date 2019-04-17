@@ -23,11 +23,11 @@ def determine_match(query, d_word_dict, data, d_name, matches):
         for q_word, q_indice_list in q_word_dict.items():
             # the current word in the query is also in the data set
             if q_word in d_word_dict.keys():
-                matches[q_name] = Match(word=q_word, dindices=data[d_name][q_word], qindices=q_indice_list)
+                matches[q_name] = Match(word=q_word, dindices=d_word_dict[q_word], qindices=q_indice_list)
 
 """
-query -> names : {word : [indices], word : [indices], ...}
-data ->  names : {word : [indices], word : [indices], ...}
+query -> {qname : {word : [indices], word : [indices], ...}, qname : ..., }
+data ->  {dname : {word : [indices], word : [indices], ...}, dname : ..., }
 
 return exact_matches -> {dname : {qname : Match(word, dindices, qindices), ...}, ...}
 """
@@ -55,6 +55,6 @@ if __name__ == '__main__':
 
     matches = match(query, data)
     
-    for ds, quers in matches.items():
-        for q, match in quers.items():
-            print(ds, q, match)
+    for dataset, quers in matches.items():
+        for quer, match in quers.items():
+            print('data:', dataset, 'query:', quer, match)
