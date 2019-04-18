@@ -1,4 +1,5 @@
 import os, sys, json, tqdm
+from collections import defaultdict
 
 thisfilepath = os.path.dirname(os.path.abspath(__file__))
 
@@ -15,7 +16,7 @@ class Match:
         self.query_indices = qindices
     
     def __str__(self):
-        return self.word + ', data_indices: ' + str(self.data_indices) + ', query_indices: ' + str(self.query_indices)
+        return "'" + self.word + "' @ query_indices = " + str(self.query_indices) + ' and data_indices = ' + str(self.data_indices)
 
 """Extracted function"""
 def determine_match(query, d_word_dict, data, d_name, matches):
@@ -25,7 +26,7 @@ def determine_match(query, d_word_dict, data, d_name, matches):
         for q_word, q_indice_list in q_word_dict.items():
             # the current word in the query is also in the data set
             if q_word in d_word_dict.keys():
-                matches[q_name] = Match(word=q_word, dindices=d_word_dict[q_word], qindices=q_indice_list)
+                matches[q_name].append(Match(word=q_word, dindices=d_word_dict[q_word], qindices=q_indice_list))
 
 """
 query -> {qname : {word : [indices], word : [indices], ...}, qname : ..., }
@@ -40,12 +41,12 @@ def match(query: dict, data: dict) -> dict:
     # traverse each data set
     for d_name, d_word_dict in tqdm.tqdm(data.items()):
 
-        matches = {}
+        matches = defaultdict(list)
         # extracted function
         determine_match(query, d_word_dict, data, d_name, matches)
         # record if there were matches found
         if matches:
-            exact_matches[d_name] = matches 
+            exact_matches[d_name] = dict(matches) 
 
     return exact_matches
 
@@ -90,5 +91,8 @@ if __name__ == '__main__':
     matches = parse_match()
     if matches is not None:
         for dataset, quers in matches.items():
-            for quer, match in quers.items():
-                print('data:', dataset, 'query:', quer, match)
+            print(dataset, ':', sep='')
+            for quer, matches in quers.items():
+                print('\t', quer, ':', sep='')
+                for match in matches:
+                    print('\t', match)
