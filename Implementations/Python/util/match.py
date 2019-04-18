@@ -11,12 +11,13 @@ Find exact matches in the database given a sequence
 """
 class Match:
     def __init__(self, word: str=None, dindices: list=None, qindices: list=None):
-        self.word = word
-        self.data_indices = dindices
-        self.query_indices = qindices
+        self.word: str = word
+        self.data_indices: list = dindices
+        self.query_indices: list = qindices
     
     def __str__(self):
-        return "'" + self.word + "' @ query_indices = " + str(self.query_indices) + ' and data_indices = ' + str(self.data_indices)
+        return "'" + self.word + "' @ query_indices = " + str(self.query_indices) + \
+            ' and data_indices = ' + str(self.data_indices)
 
 """Extracted function"""
 def determine_match(query, d_word_dict, data, d_name, matches):

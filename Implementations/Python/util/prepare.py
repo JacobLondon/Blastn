@@ -26,11 +26,12 @@ def build_sequence(path: str, sep: str='>') -> dict:
         # sequence letters are found
         else:
             # remove newlines and append
+            #print(line)
             result[name].append(line.rstrip('\n\r'))
 
     # change ['sequence'] -> 'sequence'
     for name, sequence in result.items():
-        result[name] = sequence[0]
+        result[name] = ''.join(sequence)
 
     return result
 
@@ -59,7 +60,7 @@ def split_sequence(data: dict, length: int=11) -> dict:
 """Read in a .fa or .fasta file, split it by sequence
 name and split the sequence into words of a given length
 """
-def setup_data(path: str, length: int=11, sep: str='>') -> None:
+def setup_data(path: str, length: int=11, sep: str='>', formatted: bool=False) -> None:
     # read data to a dict 'name' : 'sequence'
     string_seq = build_sequence(path=path, sep=sep)
     # data -> 'name' : {'word' : [indices], 'word' : [indices], ...}
@@ -68,7 +69,10 @@ def setup_data(path: str, length: int=11, sep: str='>') -> None:
     # write to .json file
     data_file = path + '.json'
     with open(data_file, 'w') as d_json:
-        json.dump(split_seq, d_json, indent=0, separators=(',', ': '))
+        if formatted:
+            json.dump(split_seq, d_json, indent=4, separators=(',', ': '))
+        else:
+            json.dump(split_seq, d_json)
 
 """
 
@@ -80,6 +84,7 @@ def parse_prepare():
     path = None
     length = 11
     sep = '>'
+    formatted = False
 
     args = iter(sys.argv)
 
@@ -91,19 +96,22 @@ def parse_prepare():
                 length = int(next(args))
             elif arg == '-s':
                 sep = next(args)
+            elif arg == '-f':
+                formatted = True
             elif arg == 'help':
                 print(
                 """
                 -p  \tfile path \t(expects *.fa or *.fasta)
                 -l  \tlength    \t(has default)
                 -s  \tseperator \t(has default)
+                -f  \tformatted \t(has default)
                 """)
                 return
     except:
         print('Failure: invalid argument(s)')
         return
 
-    setup_data(path=thisfilepath + path, length=length, sep=sep)
+    setup_data(path=thisfilepath + path, length=length, sep=sep, formatted=formatted)
 
 
 if __name__ == '__main__':
