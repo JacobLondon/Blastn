@@ -20,6 +20,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="split.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smithwaterman_c.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="smithwaterman.h">
       <Filter>Header Files</Filter>
     </ClInclude>
