@@ -2,6 +2,9 @@
 .vs
 .vscode
 Implementations/.DS_Store
+Implementations/C++/Blastn/Debug
+Implementations/C++/Blastn/Release
+Implementations/C++/Blastn/x64
 Implementations/Python/.vscode
 Implementations/Python/util/data/Gn-SRR7236689_contigs.fasta.json
 Implementations/Python/util/data/SRR7236689--ARG830.fa.json
