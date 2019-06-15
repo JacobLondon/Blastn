@@ -22,6 +22,9 @@ standard built in Python libraries.
 
 # To Do
 * Python finish implementation
+  * Word scoring
+  * Score while extending
+  * Sort extended matches
 * Need to make a JSON file with options for each file
 * Create Dockerfile for the Python environment
 * Create a Python test file using subprocess.call to automatically call command line programs for testing
