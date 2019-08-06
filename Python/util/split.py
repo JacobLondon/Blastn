@@ -15,7 +15,8 @@ Test
 
 """
 
-def parse_split():
+if __name__ == '__main__':
+    
     iterable = 'ACGTACGTACGTACGTACGTACGT'
     length = 5
 
@@ -33,18 +34,13 @@ def parse_split():
                 -i  \tinput sequence\t(has default)
                 -l  \tsplit length  \t(has default)
                 """)
-                return
     except:
         print('Failure: invalid argument(s)')
-        return
+        exit(-1)
 
     print(iterable)
-    return split(iterable=iterable, length=length)
+    output = split(iterable=iterable, length=length)
 
-
-if __name__ == '__main__':
-    
-    output = parse_split()
     if output is not None:
         # pretty print the kmers
         for i, letter in enumerate(output):

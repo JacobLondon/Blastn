@@ -19,16 +19,6 @@ class Match:
         return "'" + self.word + "' @ query_indices = " + str(self.query_indices) + \
             ' and data_indices = ' + str(self.data_indices)
 
-"""Extracted function"""
-def determine_match(query, d_word_dict, data, d_name, matches):
-    # traverse each query set
-    for q_name, q_word_dict in query.items():
-        # traverse each word in the query set
-        for q_word, q_indice_list in q_word_dict.items():
-            # the current word in the query is also in the data set
-            if q_word in d_word_dict.keys():
-                matches[q_name].append(Match(word=q_word, dindices=d_word_dict[q_word], qindices=q_indice_list))
-
 """
 query -> {qname : {word : [indices], word : [indices], ...}, qname : ..., }
 data ->  {dname : {word : [indices], word : [indices], ...}, dname : ..., }
@@ -43,8 +33,15 @@ def match(query: dict, data: dict) -> dict:
     for d_name, d_word_dict in tqdm.tqdm(data.items()):
 
         matches = defaultdict(list)
-        # extracted function
-        determine_match(query, d_word_dict, data, d_name, matches)
+
+        # traverse each query set
+        for q_name, q_word_dict in query.items():
+            # traverse each word in the query set
+            for q_word, q_indice_list in q_word_dict.items():
+                # the current word in the query is also in the data set
+                if q_word in d_word_dict.keys():
+                    matches[q_name].append(Match(word=q_word, dindices=d_word_dict[q_word], qindices=q_indice_list))
+        
         # record if there were matches found
         if matches:
             exact_matches[d_name] = dict(matches) 
@@ -57,7 +54,8 @@ Test
 
 """
 
-def parse_match():
+if __name__ == '__main__':
+    
     dpath = '/data/data_small.fasta.json'
     qpath = '/data/query_small.fa.json'
 
@@ -75,21 +73,18 @@ def parse_match():
                 -d  \tjson dataset  \t(has default)
                 -q  \tjson queries  \t(has default)
                 """)
-                return
     except:
         print('Failure: invalid argument(s)')
-        return
+        exit(-1)
     
     with open(thisfilepath + dpath, 'r') as d_json:
         data = json.load(d_json)
     with open(thisfilepath + qpath, 'r') as q_json:
         query = json.load(q_json)
 
-    return match(query, data)
+    matches = match(query, data)
 
-if __name__ == '__main__':
-    
-    matches = parse_match()
+    # print the matches
     if matches is not None:
         for dataset, quers in matches.items():
             print(dataset, ':', sep='')

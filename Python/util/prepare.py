@@ -67,13 +67,14 @@ def setup_data(path: str, length: int=11, sep: str='>', formatted: bool=False, w
     split_seq = split_sequence(data=string_seq, length=length)
 
     # write to .json file
-    data_file = path + '.json'
-    with open(data_file, 'w') as d_json:
-        if formatted:
-            json.dump(split_seq, d_json, indent=4, separators=(',', ': '))
-        else:
-            json.dump(split_seq, d_json)
-    
+    if write:
+        data_file = path + '.json'
+        with open(data_file, 'w') as d_json:
+            if formatted:
+                json.dump(split_seq, d_json, indent=4, separators=(',', ': '))
+            else:
+                json.dump(split_seq, d_json)
+        
     return split_seq
 
 """
@@ -82,7 +83,7 @@ Test
 
 """
 
-def parse_prepare():
+if __name__ == '__main__':
     path = None
     length = 11
     sep = '>'
@@ -114,7 +115,3 @@ def parse_prepare():
         return
 
     setup_data(path=thisfilepath + path, length=length, sep=sep, formatted=formatted, write=True)
-
-
-if __name__ == '__main__':
-    parse_prepare()

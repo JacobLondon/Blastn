@@ -1,17 +1,16 @@
 .DS_Store
+._.DS_Store
 .vs
 .vscode
 
-C++/Blastn/Debug
-C++/Blastn/Release
-C++/Blastn/x64
-C++/a.out
+__pycache__/
 
-Python/.vscode
-Python/util/__pycache__/*
-Python/util/data/Gn-SRR7236689_contigs.fasta.json
-Python/util/data/SRR7236689--ARG830.fa.json
-Python/util/data/packing_table.json
-Python/util/data/unpacking_table.json
-Python/util/packing_table.json
-Python/util/unpacking_table.json
+Debug/
+Release/
+x64/
+a.out
+
+Gn-SRR7236689_contigs.fasta.json
+SRR7236689--ARG830.fa.json
+packing_table.json
+unpacking_table.json

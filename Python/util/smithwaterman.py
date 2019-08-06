@@ -130,7 +130,8 @@ Test
 
 """
 
-def parse_sw():
+if __name__ == '__main__':
+
     s1 = None
     s2 = None
     printing = False
@@ -165,16 +166,12 @@ def parse_sw():
                 -gap        \tgap score         \t(has default, expects int)
 
                 """)
-                return
     except:
         print('Failure: invalid argument(s)')
-        return
+        exit(-1)
 
     sw(s1, s2, printing=printing, match=match, mismatch=mismatch, gap=gap)
 
-if __name__ == '__main__':
     #seq1 = 'AGCACACA'
     #seq2 = 'ACACACTA'
     #sw(seq1, seq2, printing=True, match=2, mismatch=-1, gap=-1)
-
-    parse_sw()
