@@ -3,7 +3,7 @@ import os, sys, tqdm, json
 from copy import copy
 from collections import defaultdict
 
-from split import split
+from .split import split
 
 thisfilepath = os.path.dirname(os.path.abspath(__file__))
 
@@ -60,7 +60,7 @@ def split_sequence(data: dict, length: int=11) -> dict:
 """Read in a .fa or .fasta file, split it by sequence
 name and split the sequence into words of a given length
 """
-def setup_data(path: str, length: int=11, sep: str='>', formatted: bool=False) -> None:
+def setup_data(path: str, length: int=11, sep: str='>', formatted: bool=False, write: bool=False) -> None:
     # read data to a dict 'name' : 'sequence'
     string_seq = build_sequence(path=path, sep=sep)
     # data -> 'name' : {'word' : [indices], 'word' : [indices], ...}
@@ -73,6 +73,8 @@ def setup_data(path: str, length: int=11, sep: str='>', formatted: bool=False) -
             json.dump(split_seq, d_json, indent=4, separators=(',', ': '))
         else:
             json.dump(split_seq, d_json)
+    
+    return split_seq
 
 """
 
@@ -111,7 +113,7 @@ def parse_prepare():
         print('Failure: invalid argument(s)')
         return
 
-    setup_data(path=thisfilepath + path, length=length, sep=sep, formatted=formatted)
+    setup_data(path=thisfilepath + path, length=length, sep=sep, formatted=formatted, write=True)
 
 
 if __name__ == '__main__':

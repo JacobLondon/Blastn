@@ -51,4 +51,3 @@ if __name__ == '__main__':
             print(' ' * i, end='')
             print(letter, end='')
             print()
-
