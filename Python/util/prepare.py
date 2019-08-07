@@ -9,7 +9,7 @@ from typing import DefaultDict, Dict, List
 from .split import split
 
 """
-Internals
+Internal
 """
 
 def _build_sequence(path: str, sep: str='>') -> Dict[str, str]:

@@ -1,4 +1,4 @@
-from .smithwaterman import sw
+from .smithwaterman import smith_waterman
 from .prepare import prepare_sequence
 from .pack import *
 from .split import split
