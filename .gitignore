@@ -14,3 +14,5 @@ Gn-SRR7236689_contigs.fasta.json
 SRR7236689--ARG830.fa.json
 packing_table.json
 unpacking_table.json
+
+blastn_out.txt

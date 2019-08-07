@@ -36,12 +36,15 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
     if exact_matches is None:
         return
 
+    builder = ''
     for data_name, query_names in exact_matches.items():
         for query_name, match_structs in query_names.items():
             for match_struct in match_structs:
-                print(f"'{match_struct.word}'\t"
-                    + f"from data: '{data_name}'' at {match_struct.data_indices}\t"
-                    + f"with query: '{query_name}'' at {match_struct.query_indices}")
+                builder += f"'{match_struct.word}'\t" \
+                        + f"from data: '{data_name}' at {match_struct.data_indices}\t\t" \
+                        + f"with query: '{query_name}' at {match_struct.query_indices}\n"
+    with open('blastn_out.txt', 'w') as blastn_out:
+        blastn_out.write(builder)
 
 """
 input arg example:
