@@ -5,8 +5,8 @@ from util import *
 def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match, sw_mismatch, sw_gap):
     # format data into a dictionary
     # {name : {word : [indices], word : [indices], ...}}
-    formatted_query = setup_data(path=query_file, length=split_len)
-    formatted_data  = setup_data(path=data_file, length=split_len)
+    formatted_query = prepare_sequence(path=query_file, length=split_len)
+    formatted_data  = prepare_sequence(path=data_file, length=split_len)
 
     # remove low scoring query words
     scored_query = \

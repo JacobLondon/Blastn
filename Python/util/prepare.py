@@ -1,20 +1,31 @@
-
-import os, sys, tqdm, json
-from copy import copy
 from collections import defaultdict
+from copy import copy
+import json
+import os
+import sys
+import tqdm
+from typing import DefaultDict, Dict, List
 
 from .split import split
 
-thisfilepath = os.path.dirname(os.path.abspath(__file__))
-
-"""Given a .fa or .fasta file, turn it into .json format
-where each sequence name maps to its sequence
 """
-def build_sequence(path: str, sep: str='>') -> dict:
+Internals
+"""
+
+def _build_sequence(path: str, sep: str='>') -> Dict[str, str]:
+    """
+    @brief: Given a *.fa or *.fasta file, turn it into *.json format \\
+            where each sequence name maps to its sequence \\
+    @param path: The *.fa or *.fasta file path \\
+    @param sep:  The seperator character which denotes a different sequence \\
+    @return: A dictionary where each sequence name is mapped to its sequence \\
+             {'sequence name' : 'sequence'}
+    """
     seq_file = open(path, 'r')
 
-    result = {} # {'sequence name' : 'sequence letters'}
-    name = ''
+    # {'sequence name' : 'sequence letters'}
+    result: Dict[str, str] = {}
+    name: str = ''
 
     # put all sequence letters into a single string for each sequence
     for line in tqdm.tqdm(seq_file.readlines()):
@@ -26,7 +37,6 @@ def build_sequence(path: str, sep: str='>') -> dict:
         # sequence letters are found
         else:
             # remove newlines and append
-            #print(line)
             result[name].append(line.rstrip('\n\r'))
 
     # change ['sequence'] -> 'sequence'
@@ -35,52 +45,66 @@ def build_sequence(path: str, sep: str='>') -> dict:
 
     return result
 
-"""Given a dictionary of 'name' : 'sequence', split
-the sequence into words of a given length
-
-Return {name : {word : [indices], word : [indices], ...}}
-"""
-def split_sequence(data: dict, length: int=11) -> dict:
-    result = {}
+def _split_sequence(data: Dict[str, str], length: int=11) -> Dict[str, Dict[str, List[int]]]:
+    """
+    @brief: Given a dictionary of {'name' : 'sequence'}, split \\
+            the sequence into words of a given length \\
+    @param data:   A dictionary of {'sequence name': 'sequence string', ...} \\
+    @param length: The length of words to split each sequence string into \\
+    @return: A dictionary where all sequences are mapped to all of their split words and the corresponding \\
+             indices where each word appears in the sequence \\
+             {'sequence name': {'split word': [indices], 'split word': [indices], ...}, ...}
+    """
+    result: Dict[str, Dict[str, List[int]]] = {}
     
     # traverse the sequence
     for name, sequence in data.items():
         # get all the words and find their indices in that data set
-        words_with_indices = defaultdict(list)
-        words = split(iterable=sequence, length=length)
+        words_with_indices: DefaultDict[str, List[int]] = defaultdict(List[int])
+        words: list = split(iterable=sequence, length=length)
         
         # map each word to all of their indices each time the word appears
         for i, word in enumerate(words):
             words_with_indices[word].append(i)
         
+        # cast each DefaultDict to a standard Dict to ensure proper return type
         result[name] = dict(words_with_indices)
 
     return result
 
-"""Read in a .fa or .fasta file, split it by sequence
-name and split the sequence into words of a given length
 """
-def setup_data(path: str, length: int=11, sep: str='>', formatted: bool=False, write: bool=False) -> None:
-    # read data to a dict 'name' : 'sequence'
-    string_seq = build_sequence(path=path, sep=sep)
-    # data -> 'name' : {'word' : [indices], 'word' : [indices], ...}
-    split_seq = split_sequence(data=string_seq, length=length)
+External
+"""
 
-    # write to .json file
+def prepare_sequence(path: str, length: int=11, sep: str='>', write: bool=False, formatted: bool=False) -> Dict[str, Dict[str, List[int]]]:
+    """
+    @brief: Read in a *.fa or *.fasta file, split it by sequence \\
+            name and split the sequence into words of a given length \\
+    @param path:      The *.fa or *.fasta file path \\
+    @param length:    The word length to split the sequences into \\
+    @param sep:       The seperator character which denotes a different sequence \\
+    @param write:     Write the output dictionary to a *.json file
+    @param formatted: If write is true, write the *.json on many lines with indentation, else one line \\
+    @return: The *.fa or *.fasta file formatted into all of its unique words matched with all indices the word appears at \\
+             {'sequence name': {'split word': [indices], 'split word': [indices], ...}, ...}
+    """
+    # read data to a dict {'name' : 'sequence'}
+    built_data: Dict[str, str] = _build_sequence(path=path, sep=sep)
+    # {'sequence name': {'split word': [indices], 'split word': [indices], ...}, ...}
+    split_data: Dict[str, Dict[str, List[int]]] = _split_sequence(data=built_data, length=length)
+
+    # write to *.json file
     if write:
-        data_file = path + '.json'
-        with open(data_file, 'w') as d_json:
+        with open(path + '.json', 'w') as d_json:
             if formatted:
-                json.dump(split_seq, d_json, indent=4, separators=(',', ': '))
+                json.dump(split_data, d_json, indent=4, separators=(',', ': '))
             else:
-                json.dump(split_seq, d_json)
+                json.dump(split_data, d_json)
         
-    return split_seq
+    return split_data
 
 """
-
 Test
-
 """
 
 if __name__ == '__main__':
@@ -109,9 +133,9 @@ if __name__ == '__main__':
                 -s  \tseperator \t(has default)
                 -f  \tformatted \t(has default)
                 """)
-                return
     except:
         print('Failure: invalid argument(s)')
-        return
+        exit(-1)
 
-    setup_data(path=thisfilepath + path, length=length, sep=sep, formatted=formatted, write=True)
+    thisfilepath = os.path.dirname(os.path.abspath(__file__))
+    prepare_sequence(path=thisfilepath + path, length=length, sep=sep, formatted=formatted, write=True)
