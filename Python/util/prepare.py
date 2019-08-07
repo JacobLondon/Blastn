@@ -60,7 +60,7 @@ def _split_sequence(data: Dict[str, str], length: int=11) -> Dict[str, Dict[str,
     # traverse the sequence
     for name, sequence in data.items():
         # get all the words and find their indices in that data set
-        words_with_indices: DefaultDict[str, List[int]] = defaultdict(List[int])
+        words_with_indices: DefaultDict[str, List[int]] = defaultdict(list)
         words: list = split_to_words(iterable=sequence, length=length)
         
         # map each word to all of their indices each time the word appears

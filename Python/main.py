@@ -1,7 +1,8 @@
 from sys import argv
+from typing import Dict, List
 
 from util import dust, \
-                 get_exact_matches, \
+                 get_exact_matches, MatchStruct, \
                  prepare_sequence, \
                  smith_waterman_filter, \
                  split_to_words
@@ -9,37 +10,43 @@ from util import dust, \
 def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match, sw_mismatch, sw_gap):
     # format data into a dictionary
     # {name : {word : [indices], word : [indices], ...}}
-    formatted_query = prepare_sequence(path=query_file, length=split_len)
-    formatted_data  = prepare_sequence(path=data_file, length=split_len)
+    print('Formatting...')
+    prepared_query: Dict[str, Dict[str, List[int]]] = prepare_sequence(path=query_file, length=split_len)
+    prepared_data: Dict[str, Dict[str, List[int]]]  = prepare_sequence(path=data_file, length=split_len)
 
     # remove low scoring query words
-    scored_query = \
-        smith_waterman_filter(data=formatted_query,
+    print('Smith Waterman...')
+    scored_query: Dict[str, Dict[str, List[int]]] = \
+        smith_waterman_filter(data=prepared_query,
                               minscore=minscore,
                               match=sw_match,
                               mismatch=sw_mismatch,
                               gap=sw_gap)
     
     # dust filter out words below the threshold
-    filtered_query = dust(data=scored_query, threshold=dust_threshold)
+    print('Dust...')
+    filtered_query: Dict[str, Dict[str, List[int]]] = dust(data=scored_query, threshold=dust_threshold)
 
     # find all exact matches of every filtered_query in formatted_data
     # {dname : {qname : [Match(word, dindices, qindices), ...], ...}, ...}
-    exact_matches = get_exact_matches(query=filtered_query, data=formatted_data)
+    print('Exact matches...')
+    exact_matches: Dict[str, Dict[str, List[MatchStruct]]] = get_exact_matches(query=filtered_query, data=prepared_data)
     
-    # print the matches
-    if exact_matches is not None:
-        for dataset, quers in exact_matches.items():
-            print(dataset, ':', sep='')
-            for quer, matches in quers.items():
-                print('\t', quer, ':', sep='')
-                for m in matches:
-                    print('\t', m)
+    # print the exact matches
+    if exact_matches is None:
+        return
+
+    for data_name, query_names in exact_matches.items():
+        for query_name, match_structs in query_names.items():
+            for match_struct in match_structs:
+                print(f"'{match_struct.word}'\t"
+                    + f"from data: '{data_name}'' at {match_struct.data_indices}\t"
+                    + f"with query: '{query_name}'' at {match_struct.query_indices}")
 
 """
 input arg example:
--q util/data/query_small.fa -db util/data/data_small.fasta -l 3 -m 5 -dt 2 -ma 2 -mi -1 -g -1
--q util/data/SRR7236689--ARG830.fa -db util/data/Gn-SRR7236689_contigs.fasta -l 11 -m 5 -dt 2 -ma 2 -mi -1 -g -1
+python main.py -q util/data/query_small.fa -db util/data/data_small.fasta -l 3 -m 5 -dt 2 -ma 2 -mi -1 -g -1
+python main.py -q util/data/SRR7236689--ARG830.fa -db util/data/Gn-SRR7236689_contigs.fasta -l 11 -m 5 -dt 2 -ma 2 -mi -1 -g -1
 """
 if __name__ == '__main__':
     query_file = None

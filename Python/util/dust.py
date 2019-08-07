@@ -1,5 +1,7 @@
 import json
 import os
+import tqdm
+
 from .split import split_to_words
 
 # getting the file path for the json file
@@ -22,7 +24,7 @@ def dust(data, threshold):
     # triplet tuple breaks words of 11 into subsequences of triplets(length 3)
     triplet = ()
     total_score = 0
-    for key, values in data.items():
+    for key, values in tqdm.tqdm(data.items()):
         for word, v in values.items():
             total_score = 0
             # triplet is a tuple of the 11-letter words split into subsequences of length 3 (triplet)

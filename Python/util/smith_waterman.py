@@ -160,7 +160,11 @@ def _smith_waterman(seq1: str,
 External
 """
 
-def smith_waterman_filter(data: Dict[str, Dict[str, List[int]]], minscore: int, match: int, mismatch: int, gap: int):
+def smith_waterman_filter(data: Dict[str, Dict[str, List[int]]],
+                          minscore: int,
+                          match: int,
+                          mismatch: int,
+                          gap: int) -> Dict[str, Dict[str, List[int]]]:
     """
     @brief: Perform the Smith-Waterman algorithm on every sequence with itself, and delete it if it scores below the minscore \\
     @param data:     Data to use with format {'sequence name': {'split word': [indices], 'split word': [indices], ...}, ...} \\
