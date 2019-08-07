@@ -1,29 +1,27 @@
 import json
 import os
 import tqdm
+from typing import Dict, List
 
 from .split import split_to_words
 
-# getting the file path for the json file
-# change dusttestdata.txt to desired input json file
-thisfilepath = os.path.dirname(os.path.abspath(__file__))
+"""
+External
+"""
 
-# opening the file
-#with open (file_path) as json_file:
-#    data = json.load(json_file)
+def dust(data: Dict[str, Dict[str, List[int]]], threshold: int) -> Dict[str, Dict[str, List[int]]]:
+    """
+    @brief: Perform the DUST algorithm on formatted data, and remove words which score below the threshold. \\
+            It scores using a self similarity equation (refer to SDUST paper) and removes words under threshold. \\
+    @param data:      The formatted data to perform DUST on \\
+    @param threshold: The DUST score threshold to remove words at \\
+    @return: The input dictionary without words which scored below the threshold
+    """
+    filtered_dictionary: Dict[str, Dict[str, List[int]]] = {}
+    triplet: tuple = ()
+    total_score: int = 0
 
-##filtered_dictionary = {}
-# return {name : {word : [indices], word : [indices], ...}}
-
-#threshold_score = 2
-# change value to filter words above score
-
-#scores using a self similarity equation (refer to SDUST paper) and removes words under threshold
-def dust(data, threshold):
-    filtered_dictionary = {}
-    # triplet tuple breaks words of 11 into subsequences of triplets(length 3)
-    triplet = ()
-    total_score = 0
+    # breaks words of 11 into subsequences of tuple triplets (length 3)
     for key, values in tqdm.tqdm(data.items()):
         for word, v in values.items():
             total_score = 0
@@ -31,7 +29,7 @@ def dust(data, threshold):
             triplet= tuple(split_to_words(word, 3))
             # ignore_list is used to avoid processing the same triplet twice in one word
             ignore_list = []
-            for i, value in enumerate(triplet):
+            for value in triplet:
                 if (value not in ignore_list):
                     occurrance = triplet.count(value)
                     occurrance_score = occurrance * (occurrance - 1) / 2
@@ -40,15 +38,28 @@ def dust(data, threshold):
             total_score = total_score / 8
             # words that score above the threshold will not be added to the filtered list
             if (total_score < threshold):
-                filtered_dictionary[key] = {word : v}
-    return (filtered_dictionary)
+                filtered_dictionary[key] = {word: v}
+    return filtered_dictionary
 
-#dust(data, threshold_score)
+"""
+Test
+"""
 
 if __name__ == '__main__':
-    file_path = os.path.join(thisfilepath, 'data\dusttestdata.txt')
+    thisfilepath = os.path.dirname(os.path.abspath(__file__))
 
-    # making filtered_dictionary a JSON file
-    file_path_filtered = os.path.join(thisfilepath, 'data\\filtereddictionary.txt')
-    with open (file_path_filtered, 'w') as filtered_json:
+    test_data_path: str = 'data/dusttestdata.json'
+    filtered_data_path: str = 'data/filtereddictionary.json'
+
+    # opening the file
+    with open(test_data_path) as json_file:
+        data = json.load(json_file)
+
+    # {name : {word : [indices], word : [indices], ...}}
+    filtered_dictionary: Dict[str, Dict[str, List[int]]] = {}
+    threshold_score = 2
+    dust(data, threshold_score)
+
+    # making filtered_dictionary a *.json file
+    with open(filtered_data_path, 'w') as filtered_json:
         json.dump(filtered_dictionary, filtered_json)
