@@ -1,5 +1,6 @@
 import numpy as np
 import sys
+from typing import Dict, List
 
 """
 Internal
@@ -14,11 +15,7 @@ def _score_alignment(alpha: str, beta: str, match: int, mismatch: int, gap: int)
     else:
         return mismatch
 
-"""
-External
-"""
-
-def smith_waterman(seq1: str,
+def _smith_waterman(seq1: str,
                    seq2: str,
                    match: int=2,
                    mismatch: int=-1,
@@ -160,6 +157,28 @@ def smith_waterman(seq1: str,
     return max_score
 
 """
+External
+"""
+
+def smith_waterman_filter(data: Dict[str, Dict[str, List[int]]], minscore: int, match: int, mismatch: int, gap: int):
+    """
+    @brief: Perform the Smith-Waterman algorithm on every sequence with itself, and delete it if it scores below the minscore \\
+    @param data:     Data to use with format {'sequence name': {'split word': [indices], 'split word': [indices], ...}, ...} \\
+    @param match:    The score gained when two characters are a match \\
+    @param mismatch: The score gained when two characters are a mismatch \\
+    @param gap:      The score gained when two characters need to be gapped \\
+    Return the dict with low scoring words removed
+    """
+    # traverse each sequence
+    for name, sequence in data.items():
+        # get the words from each element in each sequence
+        for word in sequence.keys():
+            # delete the sequence if it scored too low
+            if _smith_waterman(seq1=word, seq2=word, match=match, mismatch=mismatch, gap=gap, just_score=True) < minscore:
+                del data[name][word]
+    return data
+
+"""
 Test
 """
 
@@ -203,4 +222,4 @@ if __name__ == '__main__':
         print('Failure: invalid argument(s)')
         exit(-1)
 
-    smith_waterman(s1, s2, printing=printing, match=match, mismatch=mismatch, gap=gap)
+    _smith_waterman(s1, s2, printing=printing, match=match, mismatch=mismatch, gap=gap)

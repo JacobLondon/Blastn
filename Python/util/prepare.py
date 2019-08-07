@@ -6,7 +6,7 @@ import sys
 import tqdm
 from typing import DefaultDict, Dict, List
 
-from .split import split
+from .split import split_to_words
 
 """
 Internal
@@ -61,7 +61,7 @@ def _split_sequence(data: Dict[str, str], length: int=11) -> Dict[str, Dict[str,
     for name, sequence in data.items():
         # get all the words and find their indices in that data set
         words_with_indices: DefaultDict[str, List[int]] = defaultdict(List[int])
-        words: list = split(iterable=sequence, length=length)
+        words: list = split_to_words(iterable=sequence, length=length)
         
         # map each word to all of their indices each time the word appears
         for i, word in enumerate(words):

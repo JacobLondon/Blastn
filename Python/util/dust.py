@@ -1,6 +1,6 @@
 import json
 import os
-from .split import split
+from .split import split_to_words
 
 # getting the file path for the json file
 # change dusttestdata.txt to desired input json file
@@ -26,7 +26,7 @@ def dust(data, threshold):
         for word, v in values.items():
             total_score = 0
             # triplet is a tuple of the 11-letter words split into subsequences of length 3 (triplet)
-            triplet= tuple(split(word, 3))
+            triplet= tuple(split_to_words(word, 3))
             # ignore_list is used to avoid processing the same triplet twice in one word
             ignore_list = []
             for i, value in enumerate(triplet):

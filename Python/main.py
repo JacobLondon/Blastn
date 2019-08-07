@@ -1,6 +1,10 @@
 from sys import argv
 
-from util import *
+from util import dust, \
+                 get_exact_matches, \
+                 prepare_sequence, \
+                 smith_waterman_filter, \
+                 split_to_words
 
 def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match, sw_mismatch, sw_gap):
     # format data into a dictionary
@@ -10,18 +14,20 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
 
     # remove low scoring query words
     scored_query = \
-        remove_low_sw(data=formatted_query,
-                      minscore=minscore,
-                      match=sw_match,
-                      mismatch=sw_mismatch,
-                      gap=sw_gap)
+        smith_waterman_filter(data=formatted_query,
+                              minscore=minscore,
+                              match=sw_match,
+                              mismatch=sw_mismatch,
+                              gap=sw_gap)
+    
     # dust filter out words below the threshold
     filtered_query = dust(data=scored_query, threshold=dust_threshold)
 
     # find all exact matches of every filtered_query in formatted_data
-    # {dname : {qname : Match(word, dindices, qindices), ...}, ...}
-    exact_matches = match(query=filtered_query, data=formatted_data)
+    # {dname : {qname : [Match(word, dindices, qindices), ...], ...}, ...}
+    exact_matches = get_exact_matches(query=filtered_query, data=formatted_data)
     
+    # print the matches
     if exact_matches is not None:
         for dataset, quers in exact_matches.items():
             print(dataset, ':', sep='')
@@ -29,7 +35,6 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
                 print('\t', quer, ':', sep='')
                 for m in matches:
                     print('\t', m)
-
 
 """
 input arg example:

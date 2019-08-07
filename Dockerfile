@@ -1,5 +1,5 @@
 # 
-# Build the Docker container to run the Python implementation.
+# Build the Docker container to run the implementations with all dependencies.
 # 
 # Puts all files for the project under `/root`
 # 
