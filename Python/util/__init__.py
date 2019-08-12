@@ -1,4 +1,4 @@
-from .dust import dust
+from .dust import dust_filter
 from .match import get_exact_matches, MatchStruct
 from .prepare import prepare_sequence
 from .smith_waterman import smith_waterman_filter
