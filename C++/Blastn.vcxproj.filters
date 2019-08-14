@@ -18,15 +18,18 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="smith_waterman.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="split.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="split.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="smithwaterman_c.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="smithwaterman.h">
+    <ClInclude Include="smith_waterman.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -116,10 +116,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="smith_waterman.cpp" />
+    <ClCompile Include="split.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="smithwaterman.h" />
-    <ClInclude Include="smithwaterman_c.h" />
+    <ClInclude Include="smith_waterman.hpp" />
     <ClInclude Include="split.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
