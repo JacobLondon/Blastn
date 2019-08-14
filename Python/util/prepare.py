@@ -43,6 +43,8 @@ def _build_sequence(path: str, sep: str='>') -> Dict[str, str]:
     for name, sequence in result.items():
         result[name] = ''.join(sequence)
 
+    seq_file.close()
+
     return result
 
 def _split_sequence(data: Dict[str, str], length: int=11) -> Dict[str, Dict[str, List[int]]]:

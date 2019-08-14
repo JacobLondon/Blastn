@@ -116,12 +116,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="prepare.cpp" />
     <ClCompile Include="smith_waterman.cpp" />
     <ClCompile Include="split.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="prepare.hpp" />
     <ClInclude Include="smith_waterman.hpp" />
-    <ClInclude Include="split.h" />
+    <ClInclude Include="split.hpp" />
+    <ClInclude Include="types.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

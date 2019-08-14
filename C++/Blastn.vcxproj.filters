@@ -24,12 +24,21 @@
     <ClCompile Include="split.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="prepare.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="split.h">
+    <ClInclude Include="smith_waterman.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="smith_waterman.hpp">
+    <ClInclude Include="types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prepare.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="split.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
