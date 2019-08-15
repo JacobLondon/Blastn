@@ -11,4 +11,4 @@
 Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap query, Blastn::IndexedSequenceMap data);
 
 void print(Blastn::MatchedSequenceMap);
-//void test_match();
+void test_match();

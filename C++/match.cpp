@@ -43,7 +43,9 @@ Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap query, Blastn
 void print(Blastn::MatchedSequenceMap m)
 {
 	for (auto d_name_quermap = m.begin(); d_name_quermap != m.end(); ++d_name_quermap) {
-		for (auto q_name_matchvec = d_name_quermap->second.begin(); q_name_matchvec != d_name_quermap->second.end(); ++q_name_matchvec) {
+		for (auto q_name_matchvec = d_name_quermap->second.begin();
+				  q_name_matchvec != d_name_quermap->second.end();
+				  ++q_name_matchvec) {
 			for (int i = 0; i < q_name_matchvec->second.size(); i++) {
 				std::cout << q_name_matchvec->second[i].word << "\t";
 				std::cout << d_name_quermap->first << "[";
@@ -58,7 +60,7 @@ void print(Blastn::MatchedSequenceMap m)
 		}
 	}
 }
-/*
+
 void test_match()
 {
 	Blastn::IndexedSequenceMap query = prepare_sequence("query_small.fa", 3, '>');
@@ -66,4 +68,4 @@ void test_match()
 
 	Blastn::MatchedSequenceMap m = match_filter(query, data);
 	print(m);
-}*/
+}
