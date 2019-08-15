@@ -119,12 +119,19 @@
     <ClCompile Include="prepare.cpp" />
     <ClCompile Include="smith_waterman.cpp" />
     <ClCompile Include="split.cpp" />
+    <ClCompile Include="types.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="match.cpp" />
+    <ClInclude Include="match.hpp" />
     <ClInclude Include="prepare.hpp" />
     <ClInclude Include="smith_waterman.hpp" />
     <ClInclude Include="split.hpp" />
     <ClInclude Include="types.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data_small.fasta" />
+    <None Include="query_small.fa" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

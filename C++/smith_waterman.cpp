@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include "smith_waterman.hpp"
 
@@ -55,7 +56,7 @@ int smith_waterman(std::string seq1,
 	int j = 0;
 
 	// initialize empty matrices
-	Matrix score_matrix, point_matrix;
+	Blastn::Matrix score_matrix, point_matrix;
 	score_matrix.reserve(cols);
 	point_matrix.reserve(cols);
 
@@ -158,9 +159,9 @@ int smith_waterman(std::string seq1,
 	similarity_percent = similarity_percent / (double)aligned1.length() * 100.0;
 
 	std::cout << "\nScore matrix:" << std::endl;
-	_print_matrix(score_matrix);
+	print(score_matrix);
 	std::cout << "\nPoint matrix" << std::endl;
-	_print_matrix(point_matrix);
+	print(point_matrix);
 
 	std::cout << "Sequence A:\n" << seq1 << std::endl;
 	std::cout << "Sequence B:\n" << seq2 << std::endl;
@@ -175,7 +176,7 @@ int smith_waterman(std::string seq1,
 	return max_score;
 }
 
-void _print_matrix(Matrix m) {
+void print(Blastn::Matrix m) {
 	for (auto v : m) {
 		for (auto score : v) {
 			std::cout << score << ". ";

@@ -1,9 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <string>
-#include <assert.h>
 #include <iostream>
+#include <string>
+#include <vector>
 
 std::vector<std::string> split_to_words(std::string input, int word_len);
 

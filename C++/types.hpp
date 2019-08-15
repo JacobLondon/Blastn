@@ -5,14 +5,41 @@
 #include <vector>
 
 /**
- * \brief Used in Smith Waterman for the matrices
+ * \brief The details for what a match has, a word, data indices, query indices.
  */
-using Matrix = std::vector<std::vector<int>>;
-/**
- * \brief Map sequence names to their sequence
- */
-using SequenceMap = std::unordered_map<std::string, std::string>;
-/**
- * \brief Map sequence names to all words mapped to a vector or indices where each word appears in its sequence
- */
-using IndexedSequenceMap = std::unordered_map<std::string, std::unordered_map<std::string, std::vector<int>>>;
+class Match {
+public:
+	Match(std::string word, std::vector<int> data_indices, std::vector<int> query_indices);
+	std::string word;
+	std::vector<int> data_indices;
+	std::vector<int> query_indices;
+};
+
+namespace Blastn {
+	/**
+	 * \brief Used in Smith Waterman for the matrices
+	 */
+	using Matrix = std::vector<std::vector<int>>;
+	/**
+	 * \brief Map sequence names to their sequence.
+	 */
+	using SequenceMap = std::unordered_map<std::string, std::string>;
+	/**
+	 * \brief Intermediate, map a word to its indices.
+	 */
+	using IndexedWordMap = std::unordered_map<std::string, std::vector<int>>;
+	/**
+	 * \brief Map sequence names to all words mapped to a vector or indices where each word appears in its sequence.
+	 */
+	using IndexedSequenceMap = std::unordered_map<std::string, IndexedWordMap>;
+	/**
+	 * \brief Intermediate, map a word to its Match objects
+	 */
+	using MatchedMatchesMap = std::unordered_map<std::string, std::vector<Match>>;
+	/**
+	 * \brief Data name mapped to a query name mapped to a vector of Match objects
+	 */
+	using MatchedSequenceMap = std::unordered_map<std::string, MatchedMatchesMap>;
+
+}
+

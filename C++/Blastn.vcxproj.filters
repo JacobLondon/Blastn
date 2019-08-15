@@ -27,6 +27,9 @@
     <ClCompile Include="prepare.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="types.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="smith_waterman.hpp">
@@ -41,5 +44,15 @@
     <ClInclude Include="split.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="match.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="match.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="query_small.fa" />
+    <None Include="data_small.fasta" />
   </ItemGroup>
 </Project>

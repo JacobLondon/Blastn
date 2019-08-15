@@ -1,11 +1,11 @@
 #include <fstream>
 #include <iostream>
 #include "prepare.hpp"
+#include "split.hpp"
 
-
-SequenceMap _build_sequence(std::string path, char sep)
+Blastn::SequenceMap _build_sequence(std::string path, char sep)
 {
-	SequenceMap result;
+	Blastn::SequenceMap result;
 	std::string name, line;
 	std::ifstream sequence_file{ path };
 
@@ -28,16 +28,16 @@ SequenceMap _build_sequence(std::string path, char sep)
 	return result;
 }
 
-IndexedSequenceMap _split_sequence(SequenceMap data, int length)
+Blastn::IndexedSequenceMap _split_sequence(Blastn::SequenceMap data, int length)
 {
-	IndexedSequenceMap result;
+	Blastn::IndexedSequenceMap result;
 	int i;
 
 	// traverse the sequence
-	for (auto iter = data.begin(); iter != data.end(); ++iter) {
+	for (auto name_seq = data.begin(); name_seq != data.end(); ++name_seq) {
 		// get all words and find their indices in that data set
-		std::unordered_map<std::string, std::vector<int>> indexed_words;
-		std::vector<std::string> words = split_to_words(iter->second, length);
+		Blastn::IndexedWordMap indexed_words;
+		std::vector<std::string> words = split_to_words(name_seq->second, length);
 
 		// map each word to all of their indices each time the word appears
 		for (i = 0; i < words.size(); i++) {
@@ -50,39 +50,40 @@ IndexedSequenceMap _split_sequence(SequenceMap data, int length)
 				indexed_words.at(words[i]).push_back(i);
 			}
 		}
+		result.insert(std::pair<std::string, Blastn::IndexedWordMap>{ name_seq->first, indexed_words });
 	}
 
 	return result;
 }
 
-IndexedSequenceMap prepare_sequence(std::string path, int length, char sep)
+Blastn::IndexedSequenceMap prepare_sequence(std::string path, int length, char sep)
 {
-	SequenceMap built_data = _build_sequence(path, sep);
-	IndexedSequenceMap indexed_data = _split_sequence(built_data, length);
+	Blastn::SequenceMap built_data = _build_sequence(path, sep);
+	Blastn::IndexedSequenceMap indexed_data = _split_sequence(built_data, length);
 
 	return indexed_data;
 }
 
-void print_sequence_map(SequenceMap s)
+void print(Blastn::SequenceMap s)
 {
 	for (auto iter = s.begin(); iter != s.end(); ++iter) {
 		std::cout << iter->first << ": " << iter->second << std::endl;
 	}
 }
 
-void print_indexed_sequence_map(IndexedSequenceMap s)
+void print(Blastn::IndexedSequenceMap s)
 {
 	// traverse names mapped to words
 	for (auto name_data = s.begin(); name_data != s.end(); ++name_data) {
-		std::cout << "\n" << name_data->first << ": ";
+		std::cout << "\n" << name_data->first << ":\n";
 		// traverse words mapped to indices
 		for (auto words_indices = name_data->second.begin(); words_indices != name_data->second.end(); ++words_indices) {
-			std::cout << words_indices->first << ": {";
+			std::cout << "\t" << words_indices->first << ": [";
 			// traverse vector of indices
 			for (int i = 0; i < words_indices->second.size(); i++) {
 				std::cout << words_indices->second[i] << ". ";
 			}
-			std::cout << "}";
+			std::cout << "]\n";
 		}
 	}
 	std::cout << std::endl;
@@ -90,6 +91,6 @@ void print_indexed_sequence_map(IndexedSequenceMap s)
 
 void test_sequence()
 {
-	IndexedSequenceMap s = prepare_sequence("data_small.fasta", 5, '>');
-	print_indexed_sequence_map(s);
+	Blastn::IndexedSequenceMap s = prepare_sequence("data_small.fasta", 5, '>');
+	print(s);
 }
