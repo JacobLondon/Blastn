@@ -19,16 +19,16 @@ Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap query, Blastn
 					matches.insert(std::pair<std::string, std::vector<Match>> {
 						q_name_wordmap->first,
 						std::vector<Match> { Match { q_word_indices->first,
-													 d_name_wordmap->second.at(q_word_indices->first),
+													 d_name_wordmap->second[q_word_indices->first],
 													 q_word_indices->second } // end of Match initializer
 						} // end of vector<Match> initializer
 					}); // end of pair initializer
 				}
 				// the current word in the query is also in data, and has already been inserted
 				else {
-					matches.at(q_name_wordmap->first)
+					matches[q_name_wordmap->first]
 						   .emplace_back(q_word_indices->first,
-										 d_name_wordmap->second.at(q_word_indices->first),
+										 d_name_wordmap->second[q_word_indices->first],
 										 q_word_indices->second);
 				}
 			}

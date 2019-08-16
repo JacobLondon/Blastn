@@ -1,5 +1,4 @@
-#pragma once
-
+#include <algorithm>
 #include <iostream>
 #include "smith_waterman.hpp"
 

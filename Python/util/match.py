@@ -52,7 +52,9 @@ def get_exact_matches(query: Dict[str, Dict[str, List[int]]],
             for q_word, q_indice_list in q_word_dict.items():
                 # the current word in the query is also in the data set
                 if q_word in d_word_dict.keys():
-                    matches[q_name].append(MatchStruct(word=q_word, dindices=d_word_dict[q_word], qindices=q_indice_list))
+                    matches[q_name].append(MatchStruct(word=q_word,
+                                                       dindices=d_word_dict[q_word],
+                                                       qindices=q_indice_list))
         
         # record if there were matches are found (not empty)
         if matches:
