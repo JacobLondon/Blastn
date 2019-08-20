@@ -1,6 +1,6 @@
 CC=g++
 
-TARGET=blastn.out
+TARGET=blastn
 # dependency order
 TYPESF=types
 SMTHWF=smith_waterman
@@ -20,4 +20,4 @@ all: $(OBJS)
 	$(CC) $(OBJS) -o $(TARGET)
 	rm $(OBJS)
 clean:
-	rm $(TARGET)
+	rm $(TARGET) $(OBJS) core

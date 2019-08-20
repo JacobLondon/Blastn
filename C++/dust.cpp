@@ -11,8 +11,8 @@ double _dust(std::string word, int pattern_len)
 	double total_score = 0;
 	int occurrance;
 	std::vector<std::string> triplets = split_to_words(word, pattern_len);
-	std::unordered_map<std::string, double> record;
-	// reserve twice needed capacity for hash table to minimize collisions
+	std::unordered_map<std::string, int> record;
+	// reserve double necessary capacity for hash table to minimize collisions
 	record.reserve(triplets.size() * 2);
 
 	for (auto triplet : triplets) {
@@ -20,14 +20,13 @@ double _dust(std::string word, int pattern_len)
 		if (record.find(triplet) == record.end()) {
 			// count occurrances
 			occurrance = std::count(triplets.begin(), triplets.end(), triplet);
-			record[triplet] = occurrance * (occurrance - 1) / 2.0;
+			record[triplet] = occurrance * (occurrance - 1) / 2;
 		}
 	}
 	// sum the scores
-	for (auto iter = record.begin(); iter != record.end(); ++iter) {
+	for (auto iter = record.begin(); iter != record.end(); ++iter)
 		total_score += iter->second;
-	}
-	return total_score / ((double)word.length() / (double)pattern_len);
+	return total_score / (word.length() - pattern_len);
 }
 
 Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap data, double threshold, int word_len, int triplet_len)
