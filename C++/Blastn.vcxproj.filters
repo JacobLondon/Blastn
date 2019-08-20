@@ -58,7 +58,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="query_small.fa" />
-    <None Include="data_small.fasta" />
+    <None Include="data_small.fasta">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="query_small.fa">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
