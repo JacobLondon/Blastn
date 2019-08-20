@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdio>	// printf
 #include "match.hpp"
 #include "prepare.hpp"
 
@@ -47,15 +48,16 @@ void print(Blastn::MatchedSequenceMap m)
 				  q_name_matchvec != d_name_quermap->second.end();
 				  ++q_name_matchvec) {
 			for (int i = 0; i < q_name_matchvec->second.size(); i++) {
-				std::cout << q_name_matchvec->second[i].word << "\t";
-				std::cout << d_name_quermap->first << "[";
-				for (int j = 0; j < q_name_matchvec->second[i].data_indices.size(); j++)
-					std::cout << q_name_matchvec->second[i].data_indices[j] << ". ";
-				std::cout << "]\t";
-				std::cout << q_name_matchvec->first << "[";
-				for (int j = 0; j < q_name_matchvec->second[i].query_indices.size(); j++)
-					std::cout << q_name_matchvec->second[i].query_indices[j] << ". ";
-				std::cout << "]" << std::endl;
+				printf("%s\t%s[", q_name_matchvec->second[i].word.c_str(), d_name_quermap->first.c_str());
+				//printf("%s", q_name_matchvec->second[i].word.c_str());
+				for (int j = 0; j < q_name_matchvec->second[i].data_indices.size(); j++) {
+					//printf("%d. ", q_name_matchvec->second[i].data_indices[j]);
+				}
+				//printf("]\t%s[", q_name_matchvec->first.c_str());
+				for (int j = 0; j < q_name_matchvec->second[i].query_indices.size(); j++) {
+					//printf("%d. ", q_name_matchvec->second[i].query_indices[j]);
+				}
+				//printf("]\n");
 			}
 		}
 	}

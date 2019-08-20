@@ -8,6 +8,6 @@ int main(int argc, char** argv)
 	//test_sequence();
 	test_match();
 
-	std::cin.get();
+	//std::cin.get();
 	return 0;
 }
