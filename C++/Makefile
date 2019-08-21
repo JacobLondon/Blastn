@@ -6,12 +6,13 @@ TYPESF=types
 SMTHWF=smith_waterman
 SPLITF=split
 PREPAREF=prepare
+DUSTF=dust
 MATCHF=match
 MAINF=main
 
 OBJS=$(TYPESF).o \
 	$(SMTHWF).o $(SPLITF).o \
-	$(PREPAREF).o $(MATCHF).o \
+	$(PREPAREF).o $(DUSTF).o $(MATCHF).o \
 	$(MAINF).o
 
 %.o: %.cpp

@@ -33,6 +33,9 @@
     <ClCompile Include="dust.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="match.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="smith_waterman.hpp">
@@ -47,13 +50,10 @@
     <ClInclude Include="split.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="match.hpp">
+    <ClInclude Include="dust.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="match.cpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dust.hpp">
+    <ClInclude Include="match.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

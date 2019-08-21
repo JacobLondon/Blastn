@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="dust.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="match.cpp" />
     <ClCompile Include="prepare.cpp" />
     <ClCompile Include="smith_waterman.cpp" />
     <ClCompile Include="split.cpp" />
@@ -124,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dust.hpp" />
-    <ClInclude Include="match.cpp" />
     <ClInclude Include="match.hpp" />
     <ClInclude Include="prepare.hpp" />
     <ClInclude Include="smith_waterman.hpp" />
