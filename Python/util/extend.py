@@ -4,7 +4,15 @@ from copy import copy
 
 def extend_and_score() -> None:
     pass
-
+"""
+2 adjacent pairs
+LEFT (lesser index)
+    extend leftward one at a time and score
+RIGHT (greater index)
+    extend rightward one at a time and score
+MIDDLE
+    fill with gap characters
+"""
 
 if __name__ == '__main__':
     # inputs
