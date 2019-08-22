@@ -1,58 +1,119 @@
 from copy import copy
+from typing import Dict, List
 
-#from smith_waterman import _smith_waterman
+from smith_waterman import _smith_waterman
+from pairs import AdjacentPair
 
-def extend_and_score() -> None:
+def extend_and_score(pair: AdjacentPair,
+                     query: str,
+                     data: str,
+                     match: int,
+                     mismatch: int,
+                     gap: int,
+                     minscore: int,
+                     score=False,
+                     format=True) -> str:
+    # find left-most indices
+    dleftindex = min([pair.dindex1, pair.dindex2])
+    qleftindex = min([pair.qindex1, pair.qindex2])
+    drightindex = max([pair.dindex1, pair.dindex2])
+    qrightindex = max([pair.qindex1, pair.qindex2])
+
+    # build string
+    extended = query[qleftindex:qleftindex + pair.length]
+
+    # extend left
+    qexindex = copy(qleftindex)
+    dexindex = copy(dleftindex)
+    while qexindex - 1 >= 0 and dexindex - 1 >= 0:
+        qexindex -= 1
+        dexindex -= 1
+        extended = data[dexindex] + extended
+        if score:
+            # score with itself
+            s = _smith_waterman(extended, extended, match=match, mismatch=mismatch, gap=gap, just_score=True)
+            if s < minscore:
+                return None
+
+    # pad left with spaces for pretty printing
+    if format:
+        extended = (' ' * dexindex) + extended
+    
+    # extend left pair to the right
+    qexindex = qleftindex + pair.length - 1
+    dexindex = dleftindex + pair.length - 1
+    while qexindex + 1 < qrightindex:
+        qexindex += 1
+        dexindex += 1
+        extended = extended + data[dexindex]
+    
+    # extend right with gaps until extended aligns with data
+    while dexindex + 1 < drightindex:
+        qexindex += 1
+        dexindex += 1
+        extended = extended + '-'
+    
+    # append the right pair
+    extended = extended + query[qrightindex:qrightindex + pair.length]
+    
+    # extend right
+    qexindex = qrightindex + pair.length - 1
+    dexindex = drightindex + pair.length - 1
+    while qexindex + 1 < len(query) and dexindex + 1 < len(data):
+        qexindex += 1
+        dexindex += 1
+        extended = extended + data[dexindex]
+        if score:
+            # score with itself
+            s = _smith_waterman(extended, extended, match=match, mismatch=mismatch, gap=gap, just_score=True)
+            if s < minscore:
+                return None
+    
+    return extended
+
+def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
+                  minscore: int,
+                  match: int,
+                  mismatch: int,
+                  gap: int) -> Dict[str, Dict[str, List[str]]]:
     pass
+
 """
 2 adjacent pairs
 LEFT (lesser index)
     extend leftward one at a time and score
-RIGHT (greater index)
-    extend rightward one at a time and score
 MIDDLE
     fill with gap characters
+RIGHT (greater index)
+    extend rightward one at a time and score
 """
 
 if __name__ == '__main__':
     # inputs
-    query = 'GTCTCAACTG'
-    qindexl = 5
-    data  = 'GTCTCAACTG'
-    dindexl = 5
-    match = 'AAC'
-    # helper
-    qindexr = qindexl + len(match)
-    dindexr = dindexl + len(match)
-    qlen = len(query)
-    dlen = len(data)
-    extended_match = copy(match)
-
-    assert len(data) >= len(query)
-    assert len(extended_match) < len(query)
-
-    # right and left extension amount
-    rext = 0
-    lext = 1
-    rsuccess = False
-    lsuccess = False
-
-    # extend the match right then left until it is the length of its query
-    while len(extended_match) != qlen:
-        lsuccess = False
-        rsuccess = False
-        # extend right, check OOB
-        if qindexr + rext < qlen and dindexr + rext < dlen:
-            extended_match = extended_match + data[qindexr + rext]
-            rext += 1
-            rsuccess = True
-        # extend left, check OOB
-        if qindexl - lext >= 0 and dindexl - lext >= 0:
-            extended_match = data[qindexl - lext] + extended_match
-            lext += 1
-            lsuccess = True
-        # neither left nor right extended
-        if not any([lsuccess, rsuccess]):
-            break
+    query = 'GTCTGAACTGAGC'
+    data  = 'AGTCTGATGACTGGGGAACTCGA'
+    word1 = 'TC'
+    word2 = 'CT'
+    qindex1 = query.find(word1)
+    dindex1 = data.find(word1)
+    qindex2 = query.find(word2, qindex1 + len(word1))
+    dindex2 = data.find(word2, dindex1 + len(word1))
+    pair = AdjacentPair(word1=word1,
+                        word2=word2,
+                        qindex1=qindex1,
+                        dindex1=dindex1,
+                        qindex2=qindex2,
+                        dindex2=dindex2)
     
-    print(extended_match)
+    result = extend_and_score(pair,
+                             query,
+                             data,
+                             match=2,
+                             mismatch=-1,
+                             gap=-1,
+                             minscore=6,
+                             score=True)
+
+    print(f"Query:  {query}")
+    print(f"Data:   {data}")
+    print(f"Extend: {result}")

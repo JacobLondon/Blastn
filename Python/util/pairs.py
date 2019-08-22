@@ -1,9 +1,6 @@
 from typing import Dict, List
 
-if __name__ == '__main__':
-    from match import MatchStruct
-else:
-    from .match import MatchStruct
+from match import MatchStruct
 
 """
 Internal
@@ -13,6 +10,7 @@ class AdjacentPair:
     def __init__(self, word1: str, word2: str, dindex1: int, qindex1: int, dindex2: int, qindex2: int):
         self.word1: str = word1
         self.word2: str = word2
+        self.length = len(self.word1)
         self.dindex1: int = dindex1
         self.qindex1: int = qindex1
         self.dindex2: int = dindex2
