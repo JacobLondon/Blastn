@@ -188,8 +188,8 @@ Test
 
 if __name__ == '__main__':
 
-    s1 = None
-    s2 = None
+    s1 = 'ATCGAC'
+    s2 = 'ACCGAC'
     printing = False
     match = 2
     mismatch = -1
@@ -226,4 +226,4 @@ if __name__ == '__main__':
         print('Failure: invalid argument(s)')
         exit(-1)
 
-    _smith_waterman(s1, s2, printing=printing, match=match, mismatch=mismatch, gap=gap)
+    _smith_waterman(s1, s2, match=match, mismatch=mismatch, gap=gap, just_score=False, printing=True)

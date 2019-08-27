@@ -15,6 +15,15 @@ public:
 	std::vector<int> query_indices;
 };
 
+class AdjacentPair {
+public:
+	AdjacentPair(std::string word1, std::string word2, int dindex1, int qindex1, int dindex2, int qindex2);
+	std::string word1, word2;
+	int length;
+	int dindex1, dindex2;
+	int qindex1, qindex2;
+};
+
 namespace Blastn {
 	/**
 	 * \brief Used in Smith Waterman for the matrices

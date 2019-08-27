@@ -8,11 +8,12 @@ SPLITF=split
 PREPAREF=prepare
 DUSTF=dust
 MATCHF=match
+EXTENDF=extend
 MAINF=main
 
 OBJS=$(TYPESF).o \
 	$(SMTHWF).o $(SPLITF).o \
-	$(PREPAREF).o $(DUSTF).o $(MATCHF).o \
+	$(PREPAREF).o $(DUSTF).o $(MATCHF).o $(EXTENDF).o \
 	$(MAINF).o
 
 %.o: %.cpp
