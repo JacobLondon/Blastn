@@ -4,6 +4,11 @@ from typing import Dict, List
 from smith_waterman import _smith_waterman
 from pairs import AdjacentPair
 
+class Extended:
+    def __init__(self, dindex, extended_pair):
+        self.dindex = dindex
+        self.extended_pair = extended_pair
+
 def extend_and_score(pair: AdjacentPair,
                      query: str,
                      data: str,
@@ -12,7 +17,7 @@ def extend_and_score(pair: AdjacentPair,
                      gap: int,
                      minscore: int,
                      score=False,
-                     format=True) -> str:
+                     printing=True) -> str:
     # find left-most indices
     dleftindex = min([pair.dindex1, pair.dindex2])
     qleftindex = min([pair.qindex1, pair.qindex2])
@@ -20,7 +25,8 @@ def extend_and_score(pair: AdjacentPair,
     qrightindex = max([pair.qindex1, pair.qindex2])
 
     # build string
-    extended = query[qleftindex:qleftindex + pair.length]
+    qextended = query[qleftindex:qleftindex + pair.length]
+    dextended = data[dleftindex:dleftindex + pair.length]
 
     # extend left
     qexindex = copy(qleftindex)
@@ -28,16 +34,13 @@ def extend_and_score(pair: AdjacentPair,
     while qexindex - 1 >= 0 and dexindex - 1 >= 0:
         qexindex -= 1
         dexindex -= 1
-        extended = data[dexindex] + extended
+        qextended = query[qexindex] + qextended
+        dextended = data[dexindex] + dextended
         if score:
             # score with itself
-            s = _smith_waterman(extended, extended, match=match, mismatch=mismatch, gap=gap, just_score=True)
+            s = _smith_waterman(qextended, dextended, match=match, mismatch=mismatch, gap=gap, just_score=True)
             if s < minscore:
                 return None
-
-    # pad left with spaces for pretty printing
-    if format:
-        extended = (' ' * dexindex) + extended
     
     # extend left pair to the right
     qexindex = qleftindex + pair.length - 1
@@ -45,16 +48,19 @@ def extend_and_score(pair: AdjacentPair,
     while qexindex + 1 < qrightindex:
         qexindex += 1
         dexindex += 1
-        extended = extended + data[dexindex]
+        qextended = qextended + query[qexindex]
+        dextended = dextended + data[dexindex]
     
-    # extend right with gaps until extended aligns with data
+    # extend right with gaps until qextended aligns with data
     while dexindex + 1 < drightindex:
         qexindex += 1
         dexindex += 1
-        extended = extended + '-'
+        qextended = qextended + '-'
+        dextended = dextended + data[dexindex]
     
     # append the right pair
-    extended = extended + query[qrightindex:qrightindex + pair.length]
+    qextended = qextended + query[qrightindex:qrightindex + pair.length]
+    dextended = dextended + data[drightindex:drightindex + pair.length]
     
     # extend right
     qexindex = qrightindex + pair.length - 1
@@ -62,20 +68,25 @@ def extend_and_score(pair: AdjacentPair,
     while qexindex + 1 < len(query) and dexindex + 1 < len(data):
         qexindex += 1
         dexindex += 1
-        extended = extended + data[dexindex]
+        qextended = qextended + query[qexindex]
+        dextended = dextended + data[dexindex]
         if score:
             # score with itself
-            s = _smith_waterman(extended, extended, match=match, mismatch=mismatch, gap=gap, just_score=True)
+            s = _smith_waterman(qextended, dextended, match=match, mismatch=mismatch, gap=gap, just_score=True)
             if s < minscore:
                 return None
     
-    return extended
+    if printing:
+        print(f"Data Ext:\t{dextended}")
+        print(f"Quer Ext:\t{qextended}")
+
+    return qextended
 
 def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
                   minscore: int,
                   match: int,
                   mismatch: int,
-                  gap: int) -> Dict[str, Dict[str, List[str]]]:
+                  gap: int) -> Dict[str, Dict[str, List[Extended]]]:
     pass
 
 """
@@ -105,6 +116,8 @@ if __name__ == '__main__':
                         qindex2=qindex2,
                         dindex2=dindex2)
     
+    print(f"Query:\t\t{query}")
+    print(f"Data:\t\t{data}")
     result = extend_and_score(pair,
                              query,
                              data,
@@ -112,8 +125,6 @@ if __name__ == '__main__':
                              mismatch=-1,
                              gap=-1,
                              minscore=6,
-                             score=True)
+                             score=True,
+                             printing=True)
 
-    print(f"Query:  {query}")
-    print(f"Data:   {data}")
-    print(f"Extend: {result}")
