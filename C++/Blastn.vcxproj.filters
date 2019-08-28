@@ -36,6 +36,9 @@
     <ClCompile Include="match.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="extend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="smith_waterman.hpp">
@@ -56,6 +59,9 @@
     <ClInclude Include="match.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="extend.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data_small.fasta">
@@ -64,5 +70,6 @@
     <None Include="query_small.fa">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Makefile" />
   </ItemGroup>
 </Project>

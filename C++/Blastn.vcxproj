@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dust.cpp" />
+    <ClCompile Include="extend.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="match.cpp" />
     <ClCompile Include="prepare.cpp" />
@@ -125,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dust.hpp" />
+    <ClInclude Include="extend.hpp" />
     <ClInclude Include="match.hpp" />
     <ClInclude Include="prepare.hpp" />
     <ClInclude Include="smith_waterman.hpp" />
@@ -133,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="data_small.fasta" />
+    <None Include="Makefile" />
     <None Include="query_small.fa" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

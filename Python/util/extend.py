@@ -37,7 +37,6 @@ def extend_and_score(pair: AdjacentPair,
         qextended = query[qexindex] + qextended
         dextended = data[dexindex] + dextended
         if score:
-            # score with itself
             s = _smith_waterman(qextended, dextended, match=match, mismatch=mismatch, gap=gap, just_score=True)
             if s < minscore:
                 return None
@@ -71,7 +70,6 @@ def extend_and_score(pair: AdjacentPair,
         qextended = qextended + query[qexindex]
         dextended = dextended + data[dexindex]
         if score:
-            # score with itself
             s = _smith_waterman(qextended, dextended, match=match, mismatch=mismatch, gap=gap, just_score=True)
             if s < minscore:
                 return None
@@ -79,7 +77,7 @@ def extend_and_score(pair: AdjacentPair,
     if printing:
         print(f"Data Ext:\t{dextended}")
         print(f"Quer Ext:\t{qextended}")
-
+    
     return qextended
 
 def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
@@ -115,7 +113,7 @@ if __name__ == '__main__':
                         dindex1=dindex1,
                         qindex2=qindex2,
                         dindex2=dindex2)
-    
+    print(qindex1, dindex1, qindex2, dindex2)
     print(f"Query:\t\t{query}")
     print(f"Data:\t\t{data}")
     result = extend_and_score(pair,

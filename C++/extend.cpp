@@ -2,8 +2,8 @@
 #include "extend.hpp"
 #include "smith_waterman.hpp"
 
-#define MIN(v1, v2) ((v1) > (v2) ? (v2) : (v1))
-#define MAX(v1, v2) ((v1) < (v2) ? (v2) : (v1))
+#define MIN(v1, v2) (((v1) > (v2)) ? (v2) : (v1))
+#define MAX(v1, v2) (((v1) < (v2)) ? (v2) : (v1))
 
 std::string _extend_and_score(AdjacentPair pair,
                              std::string query,
@@ -29,27 +29,30 @@ std::string _extend_and_score(AdjacentPair pair,
     int qexindex = qleftindex;
     int dexindex = dleftindex;
     while (qexindex - 1 >= 0 && dexindex - 1 >= 0) {
-        qextended = query[qexindex--] + qextended;
-        dextended = data[dexindex--] + dextended;
+		qexindex--; dexindex--;
+        qextended = query[qexindex] + qextended;
+        dextended = data[dexindex] + dextended;
         if (score
             && minscore > smith_waterman(qextended, dextended, match, mismatch, gap, true))
         {
             return "NULL";
         }
     }
-
+	
     // extend left pair to the right
     qexindex = qleftindex + pair.length - 1;
     dexindex = dleftindex + pair.length - 1;
     while (qexindex + 1 < qrightindex) {
-        qextended = qextended + query[qexindex++];
-        dextended = dextended + data[dexindex++];
+		qexindex++; dexindex++;
+        qextended = qextended + query[qexindex];
+        dextended = dextended + data[dexindex];
     }
 
     // extend right with gaps until qextended aligns with data
     while (dexindex + 1 < drightindex) {
-        qextended = qextended + "-"; qexindex++;
-        dextended = dextended + data[dexindex++];
+		qexindex++; dexindex++;
+        qextended = qextended + "-";
+        dextended = dextended + data[dexindex];
     }
 
     // append the right pair
@@ -60,8 +63,9 @@ std::string _extend_and_score(AdjacentPair pair,
     qexindex = qrightindex + pair.length - 1;
     dexindex = drightindex + pair.length - 1;
     while (qexindex + 1 < query.size() && dexindex + 1 < data.size()) {
-        qextended = qextended + query[qexindex++];
-        dextended = dextended + data[dexindex++];
+		qexindex++; dexindex++;
+        qextended = qextended + query[qexindex];
+        dextended = dextended + data[dexindex];
         if (score
             && minscore < smith_waterman(qextended, dextended, match, mismatch, gap, true))
         {
@@ -78,19 +82,17 @@ std::string _extend_and_score(AdjacentPair pair,
 
 void test_extend()
 {
-    int found;
-
     std::string query = "GTCTGAACTGAGC";
     std::string data  = "AGTCTGATGACTGGGGAACTCGA";
     std::string word1 = "TC";
     std::string word2 = "CT";
 
-    int qindex1 = query.find_first_of(word1);
-    int dindex1 = data.find_first_of(word1);
-    int qindex2 = query.find_first_of(word2, qindex1 + word1.size());
-    int dindex2 = data.find_first_of(word2, dindex1 + word1.size());
+    int qindex1 = query.find(word1);
+    int dindex1 = data.find(word1);
+    int qindex2 = query.find(word2, qindex1 + word1.size());
+    int dindex2 = data.find(word2, dindex1 + word1.size());
 
-    AdjacentPair pair(word1, word2, qindex1, dindex1, qindex2, dindex2);
+    AdjacentPair pair(word1, word2, dindex1, qindex1, dindex2, qindex2);
 
     std::cout << "Query:\t\t" << query << std::endl;
     std::cout << "Data:\t\t" << data << std::endl;
@@ -98,8 +100,8 @@ void test_extend()
     int match = 2;
     int mismatch = -1;
     int gap = -1;
-    int minscore = -1;
-    bool score = false;
+    int minscore = 6;
+    bool score = true;
     bool printing = true;
     std::string result = _extend_and_score(pair,
                                            query,
