@@ -1,5 +1,3 @@
-#include <iostream>
-#include <cstdio>	// printf
 #include "match.hpp"
 #include "prepare.hpp"
 
@@ -39,34 +37,4 @@ Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap query, Blastn
 			exact_matches.insert(std::pair<std::string, Blastn::MatchedMatchesMap>{ d_name_wordmap->first, matches });
 	}
 	return exact_matches;
-}
-
-void print(Blastn::MatchedSequenceMap m)
-{
-	for (auto d_name_quermap = m.begin(); d_name_quermap != m.end(); ++d_name_quermap) {
-		for (auto q_name_matchvec = d_name_quermap->second.begin();
-				  q_name_matchvec != d_name_quermap->second.end();
-				  ++q_name_matchvec) {
-			for (int i = 0; i < q_name_matchvec->second.size(); i++) {
-				std::cout << q_name_matchvec->second[i].word << "\t" << d_name_quermap->first << "[";
-				for (int j = 0; j < q_name_matchvec->second[i].data_indices.size(); j++) {
-					std::cout << q_name_matchvec->second[i].data_indices[j] << ". ";
-				}
-				std::cout << "]\t" << q_name_matchvec->first << "[";
-				for (int j = 0; j < q_name_matchvec->second[i].query_indices.size(); j++) {
-					std::cout << q_name_matchvec->second[i].query_indices[j] << ". ";
-				}
-				std::cout << "]" << std::endl;
-			}
-		}
-	}
-}
-
-void test_match()
-{
-	Blastn::IndexedSequenceMap query = prepare_sequence("query_small.fa", 3, '>');
-	Blastn::IndexedSequenceMap data = prepare_sequence("data_small.fasta", 3, '>');
-
-	Blastn::MatchedSequenceMap m = match_filter(query, data);
-	print(m);
 }

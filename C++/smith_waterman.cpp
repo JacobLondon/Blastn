@@ -1,6 +1,4 @@
 #include <algorithm>
-#include <iostream>
-//#include <unordered_map>
 #include "smith_waterman.hpp"
 
 enum Direction {
@@ -10,50 +8,49 @@ enum Direction {
 	DIAG
 };
 
-const std::string GAP_CHAR = "-";
+const std::string sGAP = "-";
+const char cGAP = '-';
 
 // return the maximum of three values or zero
-inline std::tuple<int, int> _max(int left, int up, int diag) {
-	int greatest = 0;
-	int index = 0;
+inline IValueTuple _max(int32_t left, int32_t up, int32_t diag) {
+	IValueTuple max = { 0, 0 };
 
 	if (left > 0) {
-		greatest = left;
-		index = LEFT;
+		max.value = left;
+		max.index = LEFT;
 	}
-	if (up > greatest) {
-		greatest = up;
-		index = UP;
+	if (up > max.value) {
+		max.value = up;
+		max.index = UP;
 	}
-	if (diag > greatest) {
-		greatest = diag;
-		index = DIAG;
+	if (diag > max.value) {
+		max.value = diag;
+		max.index = DIAG;
 	}
 
-	std::tuple<int, int> result = { index, greatest };
-	return result;
+	return max;
 }
 
-inline int _score_alignment(char alpha, char beta, int match, int mismatch, int gap) {
+inline int32_t _score_alignment(char alpha, char beta, int32_t match, int32_t mismatch, int32_t gap) {
 	if (alpha == beta)
 		return match;
-	else if ('-' == alpha || '-' == beta)
+	else if (cGAP == alpha || cGAP == beta)
 		return gap;
 	else
 		return mismatch;
 }
 
-int smith_waterman(std::string seq1,
+int32_t smith_waterman(std::string seq1,
 				   std::string seq2,
-				   int match,
-				   int mismatch,
-				   int gap,
+				   int32_t match,
+				   int32_t mismatch,
+				   int32_t gap,
 				   bool just_score) {
 
-	int rows = seq1.length();
-	int cols = seq2.length();
-	int i = 0;
-	int j = 0;
+	int32_t rows = seq1.length();
+	int32_t cols = seq2.length();
+	int32_t i = 0;
+	int32_t j = 0;
 
 	// initialize empty matrices
 	Blastn::Matrix score_matrix, point_matrix;
@@ -68,11 +65,11 @@ int smith_waterman(std::string seq1,
 	}
 
 	// to fill the matrices
-	int max_score = 0;
-	int max_i = 1;
-	int max_j = 1;
-	int left, up, diag;
-	std::tuple<int, int> greatest;
+	int32_t max_score = 0;
+	int32_t max_i = 1;
+	int32_t max_j = 1;
+	int32_t left, up, diag;
+	IValueTuple greatest;
 
 	// fill score matrix
 	for (i = 1; i <= cols; i++) {
@@ -85,8 +82,8 @@ int smith_waterman(std::string seq1,
 
 			// find greatest: load direction into point_matrix, score into score_matrix
 			greatest = _max(left, up, diag);
-			point_matrix[i][j] = std::get<0>(greatest);
-			score_matrix[i][j] = std::get<1>(greatest);
+			point_matrix[i][j] = greatest.index;
+			score_matrix[i][j] = greatest.value;
 
 			// record high score
 			if (score_matrix[i][j] >= max_score) {
@@ -114,13 +111,13 @@ int smith_waterman(std::string seq1,
 		}
 		// upwards movement
 		else if (point_matrix[i][j] == UP) {
-			temp1 = GAP_CHAR;
+			temp1 = sGAP;
 			temp2 = seq2[--j];
 		}
 		// left movement
 		else if (point_matrix[i][j] == LEFT) {
 			temp1 = seq1[--i];
-			temp2 = GAP_CHAR;
+			temp2 = sGAP;
 		}
 
 		// append the chars to the aligned build string
@@ -134,9 +131,9 @@ int smith_waterman(std::string seq1,
 
 	// accumulator strings for the output
 	std::string output_alignment = "";
-	double similarity_percent = 0.0;
+	float64_t similarity_percent = 0.0;
 
-	for (int x = 0; x < rows; x++) {
+	for (int32_t x = 0; x < rows; x++) {
 		std::string a1{ aligned1[x] };
 		std::string a2{ aligned2[x] };
 
@@ -146,22 +143,22 @@ int smith_waterman(std::string seq1,
 			similarity_percent += 1.0;
 		}
 		// no match, gap append to output string
-		else if (a1 != a2 && a1 != GAP_CHAR && a2 != GAP_CHAR) {
-			output_alignment.append(GAP_CHAR);
+		else if (a1 != a2 && a1 != sGAP && a2 != sGAP) {
+			output_alignment.append(sGAP);
 		}
 		// gap in both
-		else if (a1 == GAP_CHAR || a2 == GAP_CHAR) {
-			output_alignment.append(GAP_CHAR);
+		else if (a1 == sGAP || a2 == sGAP) {
+			output_alignment.append(sGAP);
 		}
 	}
 
 	// similarity number to percent
-	similarity_percent = similarity_percent / (double)aligned1.length() * 100.0;
+	similarity_percent = similarity_percent / (float64_t)aligned1.length() * 100.0;
 
 	std::cout << "\nScore matrix:" << std::endl;
-	print(score_matrix);
+	Blastn::print(score_matrix);
 	std::cout << "\nPoint matrix" << std::endl;
-	print(point_matrix);
+	Blastn::print(point_matrix);
 
 	std::cout << "Sequence A:\n" << seq1 << std::endl;
 	std::cout << "Sequence B:\n" << seq2 << std::endl;
@@ -176,7 +173,7 @@ int smith_waterman(std::string seq1,
 	return max_score;
 }
 
-Blastn::IndexedSequenceMap smith_waterman_filter(Blastn::IndexedSequenceMap data, int minscore, int match, int mismatch, int gap)
+Blastn::IndexedSequenceMap smith_waterman_filter(Blastn::IndexedSequenceMap data, int32_t minscore, int32_t match, int32_t mismatch, int32_t gap)
 {
 	// traverse each sequence
 	for (auto name_seqmap = data.begin(); name_seqmap != data.end(); ++name_seqmap) {
@@ -187,25 +184,4 @@ Blastn::IndexedSequenceMap smith_waterman_filter(Blastn::IndexedSequenceMap data
 		}
 	}
 	return data;
-}
-
-void print(Blastn::Matrix m) {
-	for (auto v : m) {
-		for (auto score : v) {
-			std::cout << score << ". ";
-		}
-		std::cout << "\n";
-	}
-	std::cout << std::endl;
-}
-
-void test_smith_waterman() {
-	std::string seq1 = "ATCGAC";
-	std::string seq2 = "ACCGAC";
-
-	int match = 2;
-	int mismatch = -1;
-	int gap = -1;
-
-	int result = smith_waterman(seq1, seq2, match, mismatch, gap, false);
 }

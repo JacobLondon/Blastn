@@ -122,15 +122,19 @@
     <ClCompile Include="prepare.cpp" />
     <ClCompile Include="smith_waterman.cpp" />
     <ClCompile Include="split.cpp" />
+    <ClCompile Include="test.cpp" />
     <ClCompile Include="types.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="blastn.hpp" />
     <ClInclude Include="dust.hpp" />
     <ClInclude Include="extend.hpp" />
+    <ClInclude Include="globals.hpp" />
     <ClInclude Include="match.hpp" />
     <ClInclude Include="prepare.hpp" />
     <ClInclude Include="smith_waterman.hpp" />
     <ClInclude Include="split.hpp" />
+    <ClInclude Include="test.hpp" />
     <ClInclude Include="types.hpp" />
   </ItemGroup>
   <ItemGroup>

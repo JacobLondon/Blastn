@@ -1,4 +1,3 @@
-#include <iostream>
 #include "extend.hpp"
 #include "smith_waterman.hpp"
 
@@ -8,26 +7,26 @@
 std::string _extend_and_score(AdjacentPair pair,
                              std::string query,
                              std::string data,
-                             int match,
-                             int mismatch,
-                             int gap,
-                             int minscore,
+                             int32_t match,
+                             int32_t mismatch,
+                             int32_t gap,
+                             int32_t minscore,
                              bool score,
                              bool printing)
 {
     // find left most indices
-    int dleftindex  = MIN(pair.dindex1, pair.dindex2);
-    int qleftindex  = MIN(pair.qindex1, pair.qindex2);
-    int drightindex = MAX(pair.dindex1, pair.dindex2);
-    int qrightindex = MAX(pair.qindex1, pair.qindex2);
+	int32_t dleftindex  = MIN(pair.dindex1, pair.dindex2);
+	int32_t qleftindex  = MIN(pair.qindex1, pair.qindex2);
+	int32_t drightindex = MAX(pair.dindex1, pair.dindex2);
+	int32_t qrightindex = MAX(pair.qindex1, pair.qindex2);
 
     // build string
     std::string qextended = query.substr(qleftindex, pair.length);
     std::string dextended = data.substr(dleftindex, pair.length);
 
     // extend left
-    int qexindex = qleftindex;
-    int dexindex = dleftindex;
+	int32_t qexindex = qleftindex;
+	int32_t dexindex = dleftindex;
     while (qexindex - 1 >= 0 && dexindex - 1 >= 0) {
 		qexindex--; dexindex--;
         qextended = query[qexindex] + qextended;
@@ -78,36 +77,4 @@ std::string _extend_and_score(AdjacentPair pair,
         std::cout << "Quer Ext:\t" << qextended << std::endl;
     }
     return qextended;
-}
-
-void test_extend()
-{
-    std::string query = "GTCTGAACTGAGC";
-    std::string data  = "AGTCTGATGACTGGGGAACTCGA";
-    std::string word1 = "TC";
-    std::string word2 = "CT";
-
-    int qindex1 = query.find(word1);
-    int dindex1 = data.find(word1);
-    int qindex2 = query.find(word2, qindex1 + word1.size());
-    int dindex2 = data.find(word2, dindex1 + word1.size());
-
-    AdjacentPair pair(word1, word2, dindex1, qindex1, dindex2, qindex2);
-
-    std::cout << "Query:\t\t" << query << std::endl;
-    std::cout << "Data:\t\t" << data << std::endl;
-
-    int match = 2;
-    int mismatch = -1;
-    int gap = -1;
-    int minscore = 6;
-    bool score = true;
-    bool printing = true;
-    std::string result = _extend_and_score(pair,
-                                           query,
-                                           data,
-                                           match, mismatch, gap,
-                                           minscore,
-                                           score,
-                                           printing);
 }
