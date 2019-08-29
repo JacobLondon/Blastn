@@ -2,6 +2,8 @@
 An implementation of the basic local alignment search tool
 (BLAST) algorithm on an FPGA to hardware accelerate the process.
 
+![Blastn Process](Blastn_Flowchart.png)
+
 ## Members
 Electrical and Computer Engineering Senior Project
 at California State Polytechnic University, Pomona
