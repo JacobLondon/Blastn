@@ -5,14 +5,14 @@
 #define MAX(v1, v2) (((v1) < (v2)) ? (v2) : (v1))
 
 std::string _extend_and_score(AdjacentPair pair,
-                             std::string query,
-                             std::string data,
-                             int32_t match,
-                             int32_t mismatch,
-                             int32_t gap,
-                             int32_t minscore,
-                             bool score,
-                             bool printing)
+                              std::string query,
+                              std::string data,
+                              int32_t match,
+                              int32_t mismatch,
+                              int32_t gap,
+                              int32_t minscore,
+                              bool score,
+                              bool printing)
 {
     // find left most indices
 	int32_t dleftindex  = MIN(pair.dindex1, pair.dindex2);
@@ -31,10 +31,9 @@ std::string _extend_and_score(AdjacentPair pair,
 		qexindex--; dexindex--;
         qextended = query[qexindex] + qextended;
         dextended = data[dexindex] + dextended;
-        if (score
-            && minscore > smith_waterman(qextended, dextended, match, mismatch, gap, true))
+        if (score && smith_waterman(qextended, dextended, match, mismatch, gap, true) < minscore)
         {
-            return "NULL";
+			return Blastn::Invalid;
         }
     }
 	
@@ -50,7 +49,7 @@ std::string _extend_and_score(AdjacentPair pair,
     // extend right with gaps until qextended aligns with data
     while (dexindex + 1 < drightindex) {
 		qexindex++; dexindex++;
-        qextended = qextended + "-";
+        qextended = qextended + Blastn::SGap;
         dextended = dextended + data[dexindex];
     }
 
@@ -65,10 +64,9 @@ std::string _extend_and_score(AdjacentPair pair,
 		qexindex++; dexindex++;
         qextended = qextended + query[qexindex];
         dextended = dextended + data[dexindex];
-        if (score
-            && minscore < smith_waterman(qextended, dextended, match, mismatch, gap, true))
+        if (score && smith_waterman(qextended, dextended, match, mismatch, gap, true) < minscore)
         {
-            return "NULL";
+			return Blastn::Invalid;
         }
     }
 

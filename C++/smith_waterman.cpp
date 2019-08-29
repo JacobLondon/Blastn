@@ -8,11 +8,9 @@ enum Direction {
 	DIAG
 };
 
-const std::string sGAP = "-";
-const char cGAP = '-';
-
 // return the maximum of three values or zero
-inline IValueTuple _max(int32_t left, int32_t up, int32_t diag) {
+inline IValueTuple _max(int32_t left, int32_t up, int32_t diag)
+{
 	IValueTuple max = { 0, 0 };
 
 	if (left > 0) {
@@ -31,21 +29,23 @@ inline IValueTuple _max(int32_t left, int32_t up, int32_t diag) {
 	return max;
 }
 
-inline int32_t _score_alignment(char alpha, char beta, int32_t match, int32_t mismatch, int32_t gap) {
+inline int32_t _score_alignment(char alpha, char beta, int32_t match, int32_t mismatch, int32_t gap)
+{
 	if (alpha == beta)
 		return match;
-	else if (cGAP == alpha || cGAP == beta)
+	else if (Blastn::CGap == alpha || Blastn::CGap == beta)
 		return gap;
 	else
 		return mismatch;
 }
 
 int32_t smith_waterman(std::string seq1,
-				   std::string seq2,
-				   int32_t match,
-				   int32_t mismatch,
-				   int32_t gap,
-				   bool just_score) {
+					   std::string seq2,
+					   int32_t match,
+					   int32_t mismatch,
+					   int32_t gap,
+					   bool just_score)
+{
 
 	int32_t rows = seq1.length();
 	int32_t cols = seq2.length();
@@ -111,13 +111,13 @@ int32_t smith_waterman(std::string seq1,
 		}
 		// upwards movement
 		else if (point_matrix[i][j] == UP) {
-			temp1 = sGAP;
+			temp1 = Blastn::SGap;
 			temp2 = seq2[--j];
 		}
 		// left movement
 		else if (point_matrix[i][j] == LEFT) {
 			temp1 = seq1[--i];
-			temp2 = sGAP;
+			temp2 = Blastn::SGap;
 		}
 
 		// append the chars to the aligned build string
@@ -143,12 +143,12 @@ int32_t smith_waterman(std::string seq1,
 			similarity_percent += 1.0;
 		}
 		// no match, gap append to output string
-		else if (a1 != a2 && a1 != sGAP && a2 != sGAP) {
-			output_alignment.append(sGAP);
+		else if (a1 != a2 && a1 != Blastn::SGap && a2 != Blastn::SGap) {
+			output_alignment.append(Blastn::SGap);
 		}
 		// gap in both
-		else if (a1 == sGAP || a2 == sGAP) {
-			output_alignment.append(sGAP);
+		else if (a1 == Blastn::SGap || a2 == Blastn::SGap) {
+			output_alignment.append(Blastn::SGap);
 		}
 	}
 

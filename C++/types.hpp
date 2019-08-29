@@ -30,6 +30,9 @@ public:
 };
 
 namespace Blastn {
+	const std::string SGap = "-";
+	const char CGap = '-';
+	const std::string Invalid = "\0";
 	/**
 	 * @brief Used in Smith Waterman for the matrices
 	 */

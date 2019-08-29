@@ -35,7 +35,7 @@ void textend()
 	Blastn::SwMatch = 2;
 	Blastn::SwMismatch = -1;
 	Blastn::SwGap = -1;
-	Blastn::SwMinscore = 2;
+	Blastn::SwMinscore = 0;
 	bool score = true;
 	bool printing = true;
 	std::string result = _extend_and_score(
@@ -49,6 +49,8 @@ void textend()
 		score,
 		printing
 	);
+
+	std::cout << result << std::endl;
 }
 
 void tmatch()

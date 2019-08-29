@@ -1,6 +1,7 @@
 #define TEST true
 
 #if TEST == false
+
 #include "blastn.hpp"
 int main(int argc, char** argv)
 {
@@ -8,6 +9,7 @@ int main(int argc, char** argv)
 }
 
 #else
+
 #include "test.hpp"
 int main(int argc, char** argv)
 {
