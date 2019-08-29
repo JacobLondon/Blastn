@@ -1,5 +1,5 @@
 #pragma once
-#include "blastn.hpp"
+#include "../lib/blastn.hpp"
 
 void tdust();
 void textend();

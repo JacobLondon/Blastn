@@ -1,5 +1,5 @@
 #pragma once
-#include "types.hpp"
+#include "../util/types.hpp"
 
 // smith waterman
 struct IValueTuple {

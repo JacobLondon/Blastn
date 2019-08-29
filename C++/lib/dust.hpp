@@ -1,5 +1,5 @@
 #pragma once
-#include "types.hpp"
+#include "../util/types.hpp"
 
 float64_t _dust(std::string word, int32_t pattern_len);
 

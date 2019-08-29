@@ -1,5 +1,5 @@
 #pragma once
-#include "types.hpp"
+#include "../util/types.hpp"
 
 Blastn::SequenceMap _build_sequence(std::string path, char sep);
 

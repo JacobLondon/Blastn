@@ -2,7 +2,7 @@
 
 #if TEST == false
 
-#include "blastn.hpp"
+#include "lib/blastn.hpp"
 int main(int argc, char** argv)
 {
 	return 0;
@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 
 #else
 
-#include "test.hpp"
+#include "util/test.hpp"
 int main(int argc, char** argv)
 {
 	//tsplit_to_words();

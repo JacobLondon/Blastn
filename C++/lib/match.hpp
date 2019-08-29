@@ -1,5 +1,5 @@
 #pragma once
-#include "types.hpp"
+#include "../util/types.hpp"
 
 /**
  * \brief Find all the exact matches of each query word in all data bases
