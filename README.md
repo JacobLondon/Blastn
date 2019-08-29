@@ -21,14 +21,9 @@ The first implementation will be in Python 3 and uses the
 standard built in Python libraries.
 
 # To Do
-* Python finish implementation
-  * Word scoring
-  * Score while extending
+* Python
+  * Pair adjacent matches
   * Sort extended matches
-* Need to make a JSON file with options for each file
-* Create Dockerfile for the Python environment
-* Create a Python test file using subprocess.call to automatically call command line programs for testing
-* Save C++ files as STL/JSON for steps
-  * For testing
-  * The end-goal is to have a main file which calls and passes the objects directly instead of saving to a file
-* Create a file with an explanation for the steps needed to run the Python program
+* C++
+  * Implement Python to C++
+  * Implement OpenCL
