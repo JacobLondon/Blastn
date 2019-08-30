@@ -1,8 +1,8 @@
 from copy import copy
 from typing import Dict, List
 
-from smith_waterman import _smith_waterman
-from pairs import AdjacentPair
+from .smith_waterman import smith_waterman
+from .pairs import AdjacentPair
 
 """
 Internal

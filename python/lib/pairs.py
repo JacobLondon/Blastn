@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from match import MatchStruct
+from .match import MatchStruct
 
 """
 Internal

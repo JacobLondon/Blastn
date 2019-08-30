@@ -60,23 +60,28 @@ def textend():
 
 def tmatch():
     
-    dpath = 'data_small.fasta.json'
-    qpath = 'query_small.fa.json'
+    dpath = '../data/data_small.fasta'
+    qpath = '../data/query_small.fa'
     length = 3
 
     data =  prepare_sequence(path=dpath, length=length)
     query = prepare_sequence(path=qpath, length=length)
-    
+
     matches = get_exact_matches(query, data)
 
     # print the matches
-    if matches is not None:
-        for dataset, quers in matches.items():
-            print(dataset, ':', sep='')
-            for quer, matches in quers.items():
-                print('\t', quer, ':', sep='')
-                for match in matches:
-                    print('\t', match)
+    if matches is None:
+        print("Match error")
+        return
+
+    builder = ''
+    for data_name, queries in matches.items():
+        for query_name, match_structs in queries.items():
+            for match_struct in match_structs:
+                builder += f"'{match_struct.word}'\t" \
+                        + f"{data_name}{match_struct.data_indices}\t" \
+                        + f"{query_name}{match_struct.query_indices}\n"
+    print(builder)
 
 def tpair():
     """a = [10, 5]
@@ -89,7 +94,7 @@ def tpair():
     pass
 
 def tprepare():
-    path = '../../data/data_small.fasta'
+    path = '../data/data_small.fasta'
     length = 11
     sep = '>'
     formatted = False
