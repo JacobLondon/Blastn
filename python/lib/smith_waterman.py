@@ -7,7 +7,7 @@ Internal
 """
 GAP_CHAR = '-'
 
-def _score_alignment(alpha: str, beta: str, match: int, mismatch: int, gap: int) -> int:
+def score_alignment(alpha: str, beta: str, match: int, mismatch: int, gap: int) -> int:
     if alpha == beta:
         return match
     elif alpha == GAP_CHAR or beta == GAP_CHAR:
@@ -15,7 +15,7 @@ def _score_alignment(alpha: str, beta: str, match: int, mismatch: int, gap: int)
     else:
         return mismatch
 
-def _smith_waterman(seq1: str,
+def smith_waterman(seq1: str,
                    seq2: str,
                    match: int=2,
                    mismatch: int=-1,
@@ -61,7 +61,7 @@ def _smith_waterman(seq1: str,
                 # up score
                 score_mat[i][j - 1] + gap,
                 # diagnal score
-                score_mat[i - 1][j - 1] + _score_alignment(seq1[i - 1], seq2[j - 1], match, mismatch, gap)
+                score_mat[i - 1][j - 1] + score_alignment(seq1[i - 1], seq2[j - 1], match, mismatch, gap)
             ]
 
             # index (point mat) corresponds to dir
@@ -178,21 +178,6 @@ def smith_waterman_filter(data: Dict[str, Dict[str, List[int]]],
         # get the words from each element in each sequence
         for word in sequence.keys():
             # delete the sequence if it scored too low
-            if _smith_waterman(seq1=word, seq2=word, match=match, mismatch=mismatch, gap=gap, just_score=True) < minscore:
+            if smith_waterman(seq1=word, seq2=word, match=match, mismatch=mismatch, gap=gap, just_score=True) < minscore:
                 del data[name][word]
     return data
-
-"""
-Test
-"""
-
-if __name__ == '__main__':
-
-    s1 = 'ATCGAC'
-    s2 = 'ACCGAC'
-    printing = False
-    match = 2
-    mismatch = -1
-    gap = -1
-
-    _smith_waterman(s1, s2, match=match, mismatch=mismatch, gap=gap, just_score=False, printing=True)

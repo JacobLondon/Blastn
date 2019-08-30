@@ -16,6 +16,16 @@ class Extended:
         self.dindex = dindex
         self.extended_pair = extended_pair
 
+"""
+2 adjacent pairs
+LEFT (lesser index)
+    extend leftward one at a time and score
+MIDDLE
+    fill with gap characters
+RIGHT (greater index)
+    extend rightward one at a time and score
+"""
+
 def extend_and_score(pair: AdjacentPair,
                      query: str,
                      data: str,
@@ -111,44 +121,3 @@ def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
                   mismatch: int,
                   gap: int) -> Dict[str, Dict[str, List[Extended]]]:
     pass
-
-"""
-Test
-
-2 adjacent pairs
-LEFT (lesser index)
-    extend leftward one at a time and score
-MIDDLE
-    fill with gap characters
-RIGHT (greater index)
-    extend rightward one at a time and score
-"""
-
-if __name__ == '__main__':
-    # inputs
-    query = 'GTCTGAACTGAGC'
-    data  = 'AGTCTGATGACTGGGGAACTCGA'
-    word1 = 'TC'
-    word2 = 'CT'
-    qindex1 = query.find(word1)
-    dindex1 = data.find(word1)
-    qindex2 = query.find(word2, qindex1 + len(word1))
-    dindex2 = data.find(word2, dindex1 + len(word1))
-    pair = AdjacentPair(word1=word1,
-                        word2=word2,
-                        qindex1=qindex1,
-                        dindex1=dindex1,
-                        qindex2=qindex2,
-                        dindex2=dindex2)
-    print(qindex1, dindex1, qindex2, dindex2)
-    print(f"Query:\t\t{query}")
-    print(f"Data:\t\t{data}")
-    result = extend_and_score(pair,
-                             query,
-                             data,
-                             match=2,
-                             mismatch=-1,
-                             gap=-1,
-                             minscore=6,
-                             score=True,
-                             printing=True)

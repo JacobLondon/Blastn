@@ -17,22 +17,3 @@ def split_to_words(iterable: iter, length: int) -> list:
         words.append(iterable[i:i + length])
     
     return words
-
-"""
-Test
-"""
-
-if __name__ == '__main__':
-    
-    sequence = 'ACGTACGTACGTACGTACGTACGT'
-    length = 5
-
-    print(sequence)
-    output = split_to_words(iterable=sequence, length=length)
-
-    if output is not None:
-        # pretty print the kmers
-        for i, letter in enumerate(output):
-            print(' ' * i, end='')
-            print(letter, end='')
-            print()

@@ -30,7 +30,7 @@ def pair(matches: List[MatchStruct]) -> List[AdjacentPair]:
 External
 """
 
-def filter_pairs(matches: Dict[str, Dict[str, List[MatchStruct]]], query_len: int) -> Dict[str, Dict[str, List[AdjacentPair]]]:
+def pair_filter(matches: Dict[str, Dict[str, List[MatchStruct]]], query_len: int) -> Dict[str, Dict[str, List[AdjacentPair]]]:
     # close in the database (within query length of each other) and both in the same query
     # look into collections.OrderedDict -> convert 'dict' to 'OrderedDict' then sort
     result = {}
@@ -39,13 +39,3 @@ def filter_pairs(matches: Dict[str, Dict[str, List[MatchStruct]]], query_len: in
         for qname, matches in queries.items():
             # two items: same data base, same query
             result[qname] = pair(matches)
-    
-
-if __name__ == '__main__':
-    """a = [10, 5]
-    i = 0
-    while i < len(a):
-        if condition:
-            del a[i]
-        else:
-            i += 1"""

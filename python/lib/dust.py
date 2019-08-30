@@ -4,10 +4,7 @@ import os
 import tqdm
 from typing import Dict, List
 
-if __name__ == '__main__':
-    from split import split_to_words
-else:
-    from .split import split_to_words
+from .split import split_to_words
 
 """
 Internal
@@ -55,36 +52,3 @@ def dust_filter(data: Dict[str, Dict[str, List[int]]], threshold: float, word_le
             if (total_score < threshold):
                 filtered_dictionary[key] = {word: v}
     return filtered_dictionary
-
-"""
-Test
-"""
-
-if __name__ == '__main__':
-    """
-    thisfilepath = os.path.dirname(os.path.abspath(__file__))
-
-    test_data_path: str = '../data/dusttestdata.json'
-    filtered_data_path: str = '../data/filtereddictionary.json'
-
-    # opening the file
-    with open(test_data_path) as json_file:
-        data = json.load(json_file)
-
-    # {name : {word : [indices], word : [indices], ...}, ...}
-    filtered_dictionary: Dict[str, Dict[str, List[int]]] = {}
-    threshold_score = 2
-    dust(data, threshold_score)
-
-    # making filtered_dictionary a *.json file
-    with open(filtered_data_path, 'w') as filtered_json:
-        json.dump(filtered_dictionary, filtered_json)
-    """
-    words = [
-        'AACAACAACAAA',
-        'AAAAAAAAAAAA',
-        'AGCTCGATGTAG',
-    ]
-    results = [dust(word) for word in words]
-    for result in results:
-        print(result)

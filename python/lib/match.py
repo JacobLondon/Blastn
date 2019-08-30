@@ -61,28 +61,3 @@ def get_exact_matches(query: Dict[str, Dict[str, List[int]]],
             exact_matches[d_name] = dict(matches) 
 
     return exact_matches
-
-"""
-Test
-"""
-
-if __name__ == '__main__':
-    
-    from prepare import prepare_sequence
-    dpath = 'data_small.fasta.json'
-    qpath = 'query_small.fa.json'
-    length = 3
-
-    data =  prepare_sequence(path=dpath, length=length)
-    query = prepare_sequence(path=qpath, length=length)
-    
-    matches = get_exact_matches(query, data)
-
-    # print the matches
-    if matches is not None:
-        for dataset, quers in matches.items():
-            print(dataset, ':', sep='')
-            for quer, matches in quers.items():
-                print('\t', quer, ':', sep='')
-                for match in matches:
-                    print('\t', match)

@@ -12,7 +12,7 @@ from .split import split_to_words
 Internal
 """
 
-def _build_sequence(path: str, sep: str='>') -> Dict[str, str]:
+def build_sequence(path: str, sep: str='>') -> Dict[str, str]:
     """
     @brief: Given a *.fa or *.fasta file, turn it into *.json format \\
             where each sequence name maps to its sequence \\
@@ -47,7 +47,7 @@ def _build_sequence(path: str, sep: str='>') -> Dict[str, str]:
 
     return result
 
-def _split_sequence(data: Dict[str, str], length: int=11) -> Dict[str, Dict[str, List[int]]]:
+def split_sequence(data: Dict[str, str], length: int=11) -> Dict[str, Dict[str, List[int]]]:
     """
     @brief: Given a dictionary of {'name' : 'sequence'}, split \\
             the sequence into words of a given length \\
@@ -91,9 +91,9 @@ def prepare_sequence(path: str, length: int=11, sep: str='>', write: bool=False,
              {'sequence name': {'split word': [indices], 'split word': [indices], ...}, ...}
     """
     # read data to a dict {'name' : 'sequence'}
-    built_data: Dict[str, str] = _build_sequence(path=path, sep=sep)
+    built_data: Dict[str, str] = build_sequence(path=path, sep=sep)
     # {'sequence name': {'split word': [indices], 'split word': [indices], ...}, ...}
-    split_data: Dict[str, Dict[str, List[int]]] = _split_sequence(data=built_data, length=length)
+    split_data: Dict[str, Dict[str, List[int]]] = split_sequence(data=built_data, length=length)
 
     # write to *.json file
     if write:
@@ -104,15 +104,3 @@ def prepare_sequence(path: str, length: int=11, sep: str='>', write: bool=False,
                 json.dump(split_data, d_json)
         
     return split_data
-
-"""
-Test
-"""
-
-if __name__ == '__main__':
-    path = '../../data/data_small.fasta'
-    length = 11
-    sep = '>'
-    formatted = False
-
-    prepare_sequence(path=path, length=length, sep=sep, formatted=formatted, write=True)
