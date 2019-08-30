@@ -56,8 +56,8 @@ void textend()
 void tmatch()
 {
 	Blastn::SplitLength = 3;
-	Blastn::IndexedSequenceMap query = prepare_sequence("../Data/query_small.fa", Blastn::SplitLength, Blastn::Seperator);
-	Blastn::IndexedSequenceMap data = prepare_sequence("../Data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
+	Blastn::IndexedSequenceMap query = prepare_sequence("../data/query_small.fa", Blastn::SplitLength, Blastn::Seperator);
+	Blastn::IndexedSequenceMap data = prepare_sequence("../data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
 
 	Blastn::MatchedSequenceMap m = match_filter(query, data);
 	Blastn::print(m);
@@ -66,7 +66,7 @@ void tmatch()
 void tsequence()
 {
 	Blastn::SplitLength = 5;
-	Blastn::IndexedSequenceMap s = prepare_sequence("../Data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
+	Blastn::IndexedSequenceMap s = prepare_sequence("../data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
 	Blastn::print(s);
 }
 
@@ -95,6 +95,5 @@ void tsplit() {
 	};
 
 	if (words == result)
-		std::cout << "split.h test passed." << std::endl;
+		std::cout << "split test passed." << std::endl;
 }
-

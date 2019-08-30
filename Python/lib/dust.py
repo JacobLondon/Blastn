@@ -64,8 +64,8 @@ if __name__ == '__main__':
     """
     thisfilepath = os.path.dirname(os.path.abspath(__file__))
 
-    test_data_path: str = '../Data/dusttestdata.json'
-    filtered_data_path: str = '../Data/filtereddictionary.json'
+    test_data_path: str = '../data/dusttestdata.json'
+    filtered_data_path: str = '../data/filtereddictionary.json'
 
     # opening the file
     with open(test_data_path) as json_file:
