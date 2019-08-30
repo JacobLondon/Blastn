@@ -9,11 +9,11 @@ from lib import dust_filter, \
 
 def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match, sw_mismatch, sw_gap):
     # format data into a dictionary
-    # {name : {word : [indices], word : [indices], ...}}
+    # {name : {word : [indices], word : [indices], ...}, ...}
     print('Formatting...')
     prepared_query: Dict[str, Dict[str, List[int]]] = prepare_sequence(path=query_file, length=split_len)
     prepared_data: Dict[str, Dict[str, List[int]]]  = prepare_sequence(path=data_file, length=split_len)
-    
+
     # remove low scoring query words
     print('Smith Waterman...')
     scored_query: Dict[str, Dict[str, List[int]]] = \
@@ -22,11 +22,11 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
                               match=sw_match,
                               mismatch=sw_mismatch,
                               gap=sw_gap)
-    
+
     # dust filter out words below the threshold
     print('Dust...')
     filtered_query: Dict[str, Dict[str, List[int]]] = dust_filter(data=scored_query, threshold=dust_threshold, word_len=split_len)
-    
+
     # find all exact matches of every filtered_query in formatted_data
     # {dname : {qname : [Match(word, dindices, qindices), ...], ...}, ...}
     print('Exact matches...')
@@ -50,8 +50,8 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
 
 """
 input arg example:
-python main.py -q util/data/query_small.fa -db util/data/data_small.fasta -l 4 -m 5 -dt .5 -ma 2 -mi -1 -g -1
-python main.py -q util/data/SRR7236689--ARG830.fa -db util/data/Gn-SRR7236689_contigs.fasta -l 11 -m 2 -dt .2 -ma 2 -mi -1 -g -1
+python main.py -q ../Data/query_small.fa -db ../Data/data_small.fasta -l 4 -m 5 -dt .5 -ma 2 -mi -1 -g -1
+python main.py -q ../Data/SRR7236689--ARG830.fa -db ../Data/Gn-SRR7236689_contigs.fasta -l 11 -m 2 -dt .2 -ma 2 -mi -1 -g -1
 """
 if __name__ == '__main__':
     query_file = None
