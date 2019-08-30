@@ -4,8 +4,15 @@ from typing import Dict, List
 from smith_waterman import _smith_waterman
 from pairs import AdjacentPair
 
+"""
+Internal
+"""
+
 class Extended:
     def __init__(self, dindex, extended_pair):
+        """
+        @brief: Hold the extended pair and where it was found in the database.
+        """
         self.dindex = dindex
         self.extended_pair = extended_pair
 
@@ -18,6 +25,20 @@ def extend_and_score(pair: AdjacentPair,
                      minscore: int,
                      score=False,
                      printing=True) -> str:
+    """
+    @brief: Extend an adjacent pair while scoring each extension. Stop extending if the extended word \\
+            scores too low. \\
+    @param pair:     The adjacent pair of words and their indices. \\
+    @param query:    The section the adjacent pair is from. \\
+    @param data:     The section the adjacent pair is going to be extended to. \\
+    @param match:    Smith Waterman score for a match. \\
+    @param mismatch: Smith Waterman score for a mismatch. \\
+    @param gap:      Smith Waterman score for a gap. \\
+    @param minscore: Minimum Smith Waterman score before the extending stops. \\
+    @param score:    Perform Smith Waterman scoring on true. \\
+    @param printing: Print the data after extending on true. \\
+    @return: The string containing both pairs extended to the query from the database. \\
+    """
     # find left-most indices
     dleftindex = min([pair.dindex1, pair.dindex2])
     qleftindex = min([pair.qindex1, pair.qindex2])
@@ -80,6 +101,10 @@ def extend_and_score(pair: AdjacentPair,
     
     return qextended
 
+"""
+External
+"""
+
 def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
                   minscore: int,
                   match: int,
@@ -88,6 +113,8 @@ def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
     pass
 
 """
+Test
+
 2 adjacent pairs
 LEFT (lesser index)
     extend leftward one at a time and score

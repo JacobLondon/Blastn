@@ -8,6 +8,9 @@ Internal
 
 class AdjacentPair:
     def __init__(self, word1: str, word2: str, dindex1: int, qindex1: int, dindex2: int, qindex2: int):
+        """
+        @brief: Hold both words from the pair, how long they are, and where they both are in the query and database.
+        """
         self.word1: str = word1
         self.word2: str = word2
         self.length = len(self.word1)
@@ -16,7 +19,7 @@ class AdjacentPair:
         self.dindex2: int = dindex2
         self.qindex2: int = qindex2
 
-def _pair(matches: List[MatchStruct]) -> List[AdjacentPair]:
+def pair(matches: List[MatchStruct]) -> List[AdjacentPair]:
     result: List[AdjacentPair] = []
 
     # ...
@@ -35,7 +38,7 @@ def filter_pairs(matches: Dict[str, Dict[str, List[MatchStruct]]], query_len: in
         result[dname] = {}
         for qname, matches in queries.items():
             # two items: same data base, same query
-            result[qname] = _pair(matches)
+            result[qname] = pair(matches)
     
 
 if __name__ == '__main__':

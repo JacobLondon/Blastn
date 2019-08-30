@@ -1,5 +1,9 @@
 import sys
 
+"""
+External
+"""
+
 def split_to_words(iterable: iter, length: int) -> list:
     """
     @brief: Split an iterable into all possible slices of given length \\
