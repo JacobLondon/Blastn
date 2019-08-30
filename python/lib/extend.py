@@ -1,3 +1,4 @@
+from collections import defaultdict
 from copy import copy
 from typing import Dict, List
 
@@ -9,12 +10,12 @@ Internal
 """
 
 class Extended:
-    def __init__(self, dindex, extended_pair):
+    def __init__(self, extended_pair, dindex):
         """
         @brief: Hold the extended pair and where it was found in the database.
         """
-        self.dindex = dindex
         self.extended_pair = extended_pair
+        self.dindex = dindex
 
 """
 2 adjacent pairs
@@ -34,7 +35,7 @@ def extend_and_score(pair: AdjacentPair,
                      gap: int,
                      minscore: int,
                      score=False,
-                     printing=True) -> str:
+                     printing=True) -> (str, int):
     """
     @brief: Extend an adjacent pair while scoring each extension. Stop extending if the extended word \\
             scores too low. \\
@@ -47,7 +48,7 @@ def extend_and_score(pair: AdjacentPair,
     @param minscore: Minimum Smith Waterman score before the extending stops. \\
     @param score:    Perform Smith Waterman scoring on true. \\
     @param printing: Print the data after extending on true. \\
-    @return: The string containing both pairs extended to the query from the database. \\
+    @return: The string containing both pairs extended to the query from the database and the database index. \\
     """
     # find left-most indices
     dleftindex = min([pair.dindex1, pair.dindex2])
@@ -68,9 +69,12 @@ def extend_and_score(pair: AdjacentPair,
         qextended = query[qexindex] + qextended
         dextended = data[dexindex] + dextended
         if score:
-            s = _smith_waterman(qextended, dextended, match=match, mismatch=mismatch, gap=gap, just_score=True)
+            s = smith_waterman(qextended, dextended, match=match, mismatch=mismatch, gap=gap, just_score=True)
             if s < minscore:
                 return None
+
+    # the left-most index in the database
+    dindex: int = copy(dexindex)
     
     # extend left pair to the right
     qexindex = qleftindex + pair.length - 1
@@ -101,7 +105,7 @@ def extend_and_score(pair: AdjacentPair,
         qextended = qextended + query[qexindex]
         dextended = dextended + data[dexindex]
         if score:
-            s = _smith_waterman(qextended, dextended, match=match, mismatch=mismatch, gap=gap, just_score=True)
+            s = smith_waterman(qextended, dextended, match=match, mismatch=mismatch, gap=gap, just_score=True)
             if s < minscore:
                 return None
     
@@ -109,15 +113,52 @@ def extend_and_score(pair: AdjacentPair,
         print(f"Data Ext:\t{dextended}")
         print(f"Quer Ext:\t{qextended}")
     
-    return qextended
+    return qextended, dindex
 
 """
 External
 """
 
 def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
+                  query: Dict[str, str],
+                  data: Dict[str, str],
                   minscore: int,
                   match: int,
                   mismatch: int,
                   gap: int) -> Dict[str, Dict[str, List[Extended]]]:
-    pass
+    """
+    @brief: Given adjacent pairs, the database and query, extend the pairs from the query to the database.
+    @param pairs:    The mapped data of adjacent pairs to extend and filter while extending.
+    @param query:    The map of query names to their entire query sequence.
+    @param data:     The map of data names to their entire data sequence.
+    @param minscore: The minimum smith waterman score allowed before needing to remove the word.
+    @param match:    The smith waterman score when two characters are the same.
+    @param mismatch: The smith waterman score when two characters are not the same.
+    @param gap:      The smith waterman score when there is a gap character.
+    @return A map of data names to query names to a list of extended matches with their data base index.
+    """
+    result: Dict[str, Dict[str, List[Extended]]] = {}
+
+    for dname, queries in pairs.items():
+        temp = defaultdict(list)
+        for qname, adjacent_pairs in queries.items():
+            for adjacent_pair in adjacent_pairs:
+                extended_pair, dindex = extend_and_score(
+                    pair=adjacent_pair,
+                    query=query[qname],
+                    data=data[dname],
+                    match=match,
+                    mismatch=mismatch,
+                    gap=gap,
+                    minscore=minscore,
+                    score=True,
+                    printing=False
+                )
+                # the word scored above minscore
+                if extended_pair:
+                    temp[qname].append(Extended(extended_pair, dindex))
+        # temp has items in it, so record it
+        if temp:
+            result[dname] = temp
+    
+    return result

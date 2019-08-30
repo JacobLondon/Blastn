@@ -48,7 +48,8 @@ def textend():
     print(qindex1, dindex1, qindex2, dindex2)
     print(f"Query:\t\t{query}")
     print(f"Data:\t\t{data}")
-    result = extend_and_score(pair,
+    result, index = extend_and_score(
+                             pair,
                              query,
                              data,
                              match=2,
@@ -57,6 +58,7 @@ def textend():
                              minscore=6,
                              score=True,
                              printing=True)
+    print(f"Data Index: {index}")
 
 def tmatch():
     
@@ -131,6 +133,6 @@ if __name__ == '__main__':
     #tsplit_to_words()
     #tsmith_waterman()
     #tsequence()
-    tmatch()
+    #tmatch()
     #tdust()
-    #textend()
+    textend()
