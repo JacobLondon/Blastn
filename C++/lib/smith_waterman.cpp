@@ -9,7 +9,7 @@ enum Direction {
 };
 
 // return the maximum of three values or zero
-inline IValueTuple _max(int32_t left, int32_t up, int32_t diag)
+inline IValueTuple max(int32_t left, int32_t up, int32_t diag)
 {
 	IValueTuple max = { 0, 0 };
 
@@ -29,7 +29,7 @@ inline IValueTuple _max(int32_t left, int32_t up, int32_t diag)
 	return max;
 }
 
-inline int32_t _score_alignment(char alpha, char beta, int32_t match, int32_t mismatch, int32_t gap)
+inline int32_t score_alignment(char alpha, char beta, int32_t match, int32_t mismatch, int32_t gap)
 {
 	if (alpha == beta)
 		return match;
@@ -78,10 +78,10 @@ int32_t smith_waterman(std::string seq1,
 			// determine possible scores of the current cell
 			left = score_matrix[i - 1][j] + gap;
 			up = score_matrix[i][j - 1] + gap;
-			diag = score_matrix[i - 1][j - 1] + _score_alignment(seq1[i - 1], seq2[j - 1], match, mismatch, gap);
+			diag = score_matrix[i - 1][j - 1] + score_alignment(seq1[i - 1], seq2[j - 1], match, mismatch, gap);
 
 			// find greatest: load direction into point_matrix, score into score_matrix
-			greatest = _max(left, up, diag);
+			greatest = max(left, up, diag);
 			point_matrix[i][j] = greatest.index;
 			score_matrix[i][j] = greatest.value;
 

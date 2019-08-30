@@ -12,7 +12,7 @@ void tdust()
 	Blastn::DustPatternLength = 3;
 
 	for (auto word : words)
-		std::cout << _dust(word, Blastn::DustPatternLength) << std::endl;
+		std::cout << dust(word, Blastn::DustPatternLength) << std::endl;
 }
 
 void textend()
@@ -38,7 +38,7 @@ void textend()
 	Blastn::SwMinscore = 0;
 	bool score = true;
 	bool printing = true;
-	std::string result = _extend_and_score(
+	std::string result = extend_and_score(
 		pair,
 		query,
 		data,
@@ -56,8 +56,8 @@ void textend()
 void tmatch()
 {
 	Blastn::SplitLength = 3;
-	Blastn::IndexedSequenceMap query = prepare_sequence("query_small.fa", Blastn::SplitLength, Blastn::Seperator);
-	Blastn::IndexedSequenceMap data = prepare_sequence("data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
+	Blastn::IndexedSequenceMap query = prepare_sequence("../Data/query_small.fa", Blastn::SplitLength, Blastn::Seperator);
+	Blastn::IndexedSequenceMap data = prepare_sequence("../Data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
 
 	Blastn::MatchedSequenceMap m = match_filter(query, data);
 	Blastn::print(m);
@@ -66,7 +66,7 @@ void tmatch()
 void tsequence()
 {
 	Blastn::SplitLength = 5;
-	Blastn::IndexedSequenceMap s = prepare_sequence("data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
+	Blastn::IndexedSequenceMap s = prepare_sequence("../Data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
 	Blastn::print(s);
 }
 

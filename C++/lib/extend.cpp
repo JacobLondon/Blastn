@@ -4,7 +4,29 @@
 #define MIN(v1, v2) (((v1) > (v2)) ? (v2) : (v1))
 #define MAX(v1, v2) (((v1) < (v2)) ? (v2) : (v1))
 
-std::string _extend_and_score(AdjacentPair pair,
+/* 
+ *        ex) Query: G'TC'TGAA'CT'GAGC
+ *            Data:  AG'TC'TGATGA'CT'GGGGAACTCGA
+ *            Left Word:  'TC'
+ *            Right Word: 'CT'
+ * 
+ *            Steps:
+ *          1. Query: G'TC'                 -> score high enough? (extend left)
+ *             Data:  G'TC'
+ *          2. Query: G'TC'T                -> score high enough? (extend right)
+ *             Data: G'TC'T
+ *          3. Query: G'TC'TGAA             -> score high enough? (extend right more...)
+ *             Data:  G'TC'TGAT
+ *          4. Query: G'TC'TGAA--           -> score high enough? (add gaps)
+ *             Data:  G'TC'TGATGA
+ *          5. Query: G'TC'TGAA--'CT'       -> score high enough? (add right word)
+ *             Data:  G'TC'TGATGA'CT'
+ *          6. Query: G'TC'TGAA--'CT'GAGC   -> score high enough? (extend right more...)
+ *             Data:  G'TC'TGATGA'CT'GGGG
+ *          7. Done!
+ */
+
+std::string extend_and_score(AdjacentPair pair,
                               std::string query,
                               std::string data,
                               int32_t match,

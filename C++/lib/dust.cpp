@@ -2,7 +2,7 @@
 #include "split.hpp"	// split_to_words
 #include <algorithm>	// count
 
-float64_t _dust(std::string word, int32_t pattern_len)
+float64_t dust(std::string word, int32_t pattern_len)
 {
 	float64_t total_score = 0;
 	int32_t occurrance;
@@ -34,7 +34,7 @@ Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap data, float64_
 	for (auto name_seqmap = data.begin(); name_seqmap != data.end(); ++name_seqmap) {
 		for (auto word_indices = name_seqmap->second.begin(); word_indices != name_seqmap->second.end(); ++word_indices) {
 			// words that score above the threshold will not be added to the filtered result
-			if (_dust(word_indices->first, pattern_len) < threshold) {
+			if (dust(word_indices->first, pattern_len) < threshold) {
 				filtered_result[name_seqmap->first] = Blastn::IndexedWordMap {
 					std::pair<std::string, std::vector<int32_t>>{ word_indices->first, word_indices->second }
 				};

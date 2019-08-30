@@ -68,8 +68,8 @@ Test
 
 if __name__ == '__main__':
     
-    dpath = '/data/data_small.fasta.json'
-    qpath = '/data/query_small.fa.json'
+    dpath = 'data_small.fasta.json'
+    qpath = 'query_small.fa.json'
 
     args = iter(sys.argv)
 

@@ -1,25 +1,25 @@
-CC=g++
-
 TARGET=blastn
-# dependency order
-TYPESF=types
-SMTHWF=smith_waterman
-SPLITF=split
-PREPAREF=prepare
-DUSTF=dust
-MATCHF=match
-EXTENDF=extend
+CC=g++
+CPPFLAGS=-std=c++11
+
+TYPESF=util/types
+SMTHWF=lib/smith_waterman
+SPLITF=lib/split
+PREPAREF=lib/prepare
+DUSTF=lib/dust
+MATCHF=lib/match
+EXTENDF=lib/extend
+TESTF=util/test
 MAINF=main
 
-OBJS=$(TYPESF).o \
-	$(SMTHWF).o $(SPLITF).o \
-	$(PREPAREF).o $(DUSTF).o $(MATCHF).o $(EXTENDF).o \
-	$(MAINF).o
+FILES=$(TYPESF).cpp \
+	$(SMTHWF).cpp $(SPLITF).cpp \
+	$(PREPAREF).cpp $(DUSTF).cpp $(MATCHF).cpp $(EXTENDF).cpp \
+	$(TESTF).cpp $(MAINF).cpp
 
-%.o: %.cpp
-	$(CC) -c $< -o $@
-all: $(OBJS)
-	$(CC) $(OBJS) -o $(TARGET)
-	rm $(OBJS)
+.PHONY: all clean
+
+all:
+	$(CC) -o $(TARGET) $(FILES) $(CPPFLAGS)
 clean:
 	rm $(TARGET) $(OBJS) core

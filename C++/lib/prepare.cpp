@@ -2,7 +2,7 @@
 #include "prepare.hpp"
 #include "split.hpp"
 
-Blastn::SequenceMap _build_sequence(std::string path, char sep)
+Blastn::SequenceMap build_sequence(std::string path, char sep)
 {
 	Blastn::SequenceMap result;
 	std::string name, line;
@@ -27,7 +27,7 @@ Blastn::SequenceMap _build_sequence(std::string path, char sep)
 	return result;
 }
 
-Blastn::IndexedSequenceMap _split_sequence(Blastn::SequenceMap data, int32_t length)
+Blastn::IndexedSequenceMap split_sequence(Blastn::SequenceMap data, int32_t length)
 {
 	Blastn::IndexedSequenceMap result;
 
@@ -56,8 +56,8 @@ Blastn::IndexedSequenceMap _split_sequence(Blastn::SequenceMap data, int32_t len
 
 Blastn::IndexedSequenceMap prepare_sequence(std::string path, int32_t length, char sep)
 {
-	Blastn::SequenceMap built_data = _build_sequence(path, sep);
-	Blastn::IndexedSequenceMap indexed_data = _split_sequence(built_data, length);
+	Blastn::SequenceMap built_data = build_sequence(path, sep);
+	Blastn::IndexedSequenceMap indexed_data = split_sequence(built_data, length);
 
 	return indexed_data;
 }

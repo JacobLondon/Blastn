@@ -1,4 +1,9 @@
 #pragma once
+
+/**
+ * Blastn include file
+ */
+
 #include "dust.hpp"
 #include "extend.hpp"
 #include "prepare.hpp"

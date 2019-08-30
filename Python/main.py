@@ -1,11 +1,11 @@
 from sys import argv
 from typing import Dict, List
 
-from util import dust_filter, \
-                 get_exact_matches, MatchStruct, \
-                 prepare_sequence, \
-                 smith_waterman_filter, \
-                 split_to_words
+from lib import dust_filter, \
+                get_exact_matches, MatchStruct, \
+                prepare_sequence, \
+                smith_waterman_filter, \
+                split_to_words
 
 def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match, sw_mismatch, sw_gap):
     # format data into a dictionary

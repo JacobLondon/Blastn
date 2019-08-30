@@ -7,13 +7,13 @@ PYBIN=python3
 if [ "$TEST" = true ]; then
     WORDLEN=4
     
-    QUERY=util/data/query_small.fa
-    DATABASE=util/data/data_small.fasta
+    QUERY=../Data/query_small.fa
+    DATABASE=../Data/data_small.fasta
 else
     WORDLEN=11
 
-    QUERY=util/data/SRR7236689--ARG830.fa
-    DATABASE=util/data/Gn-SRR7236689_contigs.fasta
+    QUERY=../Data/SRR7236689--ARG830.fa
+    DATABASE=../Data/Gn-SRR7236689_contigs.fasta
 fi
 
 
