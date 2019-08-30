@@ -68,33 +68,14 @@ Test
 
 if __name__ == '__main__':
     
+    from prepare import prepare_sequence
     dpath = 'data_small.fasta.json'
     qpath = 'query_small.fa.json'
+    length = 3
 
-    args = iter(sys.argv)
-
-    try:
-        for arg in args:
-            if arg == '-d':
-                dpath = next(args)
-            elif arg == '-q':
-                qpath = next(args)
-            elif arg == 'help':
-                print(
-                """
-                -d  \tjson dataset  \t(has default)
-                -q  \tjson queries  \t(has default)
-                """)
-    except:
-        print('Failure: invalid argument(s)')
-        exit(-1)
+    data =  prepare_sequence(path=dpath, length=length)
+    query = prepare_sequence(path=qpath, length=length)
     
-    thisfilepath = os.path.dirname(os.path.abspath(__file__))
-    with open(thisfilepath + dpath, 'r') as d_json:
-        data = json.load(d_json)
-    with open(thisfilepath + qpath, 'r') as q_json:
-        query = json.load(q_json)
-
     matches = get_exact_matches(query, data)
 
     # print the matches

@@ -195,35 +195,4 @@ if __name__ == '__main__':
     mismatch = -1
     gap = -1
 
-    args = iter(sys.argv)
-
-    try:
-        for arg in args:
-            if arg == '-s1':
-                s1 = next(args)
-            elif arg == '-s2':
-                s2 = next(args)
-            elif arg == '-p':
-                printing = True
-            elif arg == '-match':
-                match = int(next(args))
-            elif arg == '-mismatch':
-                mismatch = int(next(args))
-            elif arg == '-gap':
-                gap = int(next(args))
-            elif arg == 'help':
-                print(
-                """
-                -s1         \tsequence 1        \t(expects string)
-                -s2         \tsequence 2        \t(expects string)
-                -p          \tprint output      \t(optional)
-                -match      \tmatch score       \t(has defualt, expects int)
-                -mismatch   \tmismatch score    \t(has defualt, expects int)
-                -gap        \tgap score         \t(has default, expects int)
-
-                """)
-    except:
-        print('Failure: invalid argument(s)')
-        exit(-1)
-
     _smith_waterman(s1, s2, match=match, mismatch=mismatch, gap=gap, just_score=False, printing=True)

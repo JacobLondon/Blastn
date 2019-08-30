@@ -152,4 +152,3 @@ if __name__ == '__main__':
                              minscore=6,
                              score=True,
                              printing=True)
-

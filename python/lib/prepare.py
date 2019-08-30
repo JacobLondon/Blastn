@@ -110,34 +110,9 @@ Test
 """
 
 if __name__ == '__main__':
-    path = None
+    path = '../../data/data_small.fasta'
     length = 11
     sep = '>'
     formatted = False
 
-    args = iter(sys.argv)
-
-    try:
-        for arg in args:
-            if arg == '-p':
-                path = next(args)
-            elif arg == '-l':
-                length = int(next(args))
-            elif arg == '-s':
-                sep = next(args)
-            elif arg == '-f':
-                formatted = True
-            elif arg == 'help':
-                print(
-                """
-                -p  \tfile path \t(expects *.fa or *.fasta)
-                -l  \tlength    \t(has default)
-                -s  \tseperator \t(has default)
-                -f  \tformatted \t(has default)
-                """)
-    except:
-        print('Failure: invalid argument(s)')
-        exit(-1)
-
-    thisfilepath = os.path.dirname(os.path.abspath(__file__))
-    prepare_sequence(path=thisfilepath + path, length=length, sep=sep, formatted=formatted, write=True)
+    prepare_sequence(path=path, length=length, sep=sep, formatted=formatted, write=True)

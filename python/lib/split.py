@@ -24,29 +24,11 @@ Test
 
 if __name__ == '__main__':
     
-    iterable = 'ACGTACGTACGTACGTACGTACGT'
+    sequence = 'ACGTACGTACGTACGTACGTACGT'
     length = 5
 
-    args = iter(sys.argv)
-
-    try:
-        for arg in args:
-            if arg == '-i':
-                iterable = next(args)
-            elif arg == '-l':
-                length = int(next(args))
-            elif arg == 'help':
-                print(
-                """
-                -i  \tinput sequence\t(has default)
-                -l  \tsplit length  \t(has default)
-                """)
-    except:
-        print('Failure: invalid argument(s)')
-        exit(-1)
-
-    print(iterable)
-    output = split_to_words(iterable=iterable, length=length)
+    print(sequence)
+    output = split_to_words(iterable=sequence, length=length)
 
     if output is not None:
         # pretty print the kmers
