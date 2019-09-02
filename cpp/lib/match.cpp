@@ -18,7 +18,7 @@ Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap query, Blastn
 				if (d_name_wordmap->second.find(q_word_indices->first) != d_name_wordmap->second.end()) {
 					// the current word in the query is also in data but not inserted yet
 					if (d_name_wordmap->second.find(q_word_indices->first) == d_name_wordmap->second.end()) {
-						matches[q_name_wordmap->first] = std::vector<Match> {
+						matches[q_name_wordmap->first] = vector<Match> {
 							Match {
 								q_word_indices->first,
 								d_name_wordmap->second[q_word_indices->first],
@@ -40,7 +40,7 @@ Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap query, Blastn
 
 		// record if there were matches found
 		if (!matches.empty())
-			exact_matches.insert(std::pair<std::string, Blastn::MatchedMatchesMap>{ d_name_wordmap->first, matches });
+			exact_matches.insert(std::pair<string, Blastn::MatchedMatchesMap>{ d_name_wordmap->first, matches });
 	} // end data map
 
 	return exact_matches;

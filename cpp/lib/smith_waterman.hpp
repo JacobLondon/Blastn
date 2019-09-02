@@ -3,18 +3,18 @@
 
 // smith waterman
 struct IValueTuple {
-	int32_t index;
-	int32_t value;
+	u32 index;
+	s32 value;
 };
 
 /**
  * @brief Return the greatest value and its number based on direction.
  */
-inline IValueTuple max(int32_t left, int32_t up, int32_t diag);
+inline IValueTuple max(s32 left, s32 up, s32 diag);
 /**
  * @brief given two different characters, pick a score depending on how they match.
  */
-inline int32_t score_alignment(char alpha, char beta, int32_t match, int32_t mismatch, int32_t gap);
+inline s32 score_alignment(char alpha, char beta, s32 match, s32 mismatch, s32 gap);
 /**
  * @brief The smith waterman algorithm for aligning two sequences.
  * @param seq1 The first sequence to align.
@@ -25,7 +25,7 @@ inline int32_t score_alignment(char alpha, char beta, int32_t match, int32_t mis
  * @param just_score Indicate to exit the function early to only calculate the score.
  * @return The smith waterman score.
  */
-int32_t smith_waterman(std::string seq1, std::string seq2, int32_t match, int32_t mismatch, int32_t gap, bool just_score);
+s32 smith_waterman(string seq1, string seq2, s32 match, s32 mismatch, s32 gap, bool just_score);
 /**
  * @brief Filter an IndexedSequenceMap with the smith waterman algorithm.
  * @param data The IndexedSequenceMap to filter.
@@ -34,4 +34,4 @@ int32_t smith_waterman(std::string seq1, std::string seq2, int32_t match, int32_
  * @param mismatch The score when two characters are not the same.
  * @param gap The score when there is a gap character.
  */
-Blastn::IndexedSequenceMap smith_waterman_filter(Blastn::IndexedSequenceMap data, int32_t minscore, int32_t match, int32_t mismatch, int32_t gap);
+Blastn::IndexedSequenceMap smith_waterman_filter(Blastn::IndexedSequenceMap data, s32 minscore, s32 match, s32 mismatch, s32 gap);

@@ -3,7 +3,7 @@
 
 void tdust()
 {
-	std::string words[3] = {
+	string words[3] = {
 		"AACAACAACAAA",
 		"AAAAAAAAAAAA",
 		"AGCTCGATGTAG",
@@ -17,15 +17,15 @@ void tdust()
 
 void textend()
 {
-	std::string query = "GTCTGAACTGAGC";
-	std::string data = "AGTCTGATGACTGGGGAACTCGA";
-	std::string word1 = "TC";
-	std::string word2 = "CT";
+	string query = "GTCTGAACTGAGC";
+	string data = "AGTCTGATGACTGGGGAACTCGA";
+	string word1 = "TC";
+	string word2 = "CT";
 
-	int32_t qindex1 = query.find(word1);
-	int32_t dindex1 = data.find(word1);
-	int32_t qindex2 = query.find(word2, qindex1 + word1.size());
-	int32_t dindex2 = data.find(word2, dindex1 + word1.size());
+	u32 qindex1 = (u32)query.find(word1);
+	u32 dindex1 = (u32)data.find(word1);
+	u32 qindex2 = (u32)query.find(word2, qindex1 + word1.size());
+	u32 dindex2 = (u32)data.find(word2, dindex1 + word1.size());
 
 	AdjacentPair pair(word1, word2, dindex1, qindex1, dindex2, qindex2);
 
@@ -71,23 +71,23 @@ void tsequence()
 }
 
 void tsmith_waterman() {
-	std::string seq1 = "ATCGAC";
-	std::string seq2 = "ACCGAC";
+	string seq1 = "ATCGAC";
+	string seq2 = "ACCGAC";
 
 	Blastn::SwMatch = 2;
 	Blastn::SwMismatch = -1;
 	Blastn::SwGap = -1;
 
-	int32_t result = smith_waterman(seq1, seq2, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, false);
+	u32 result = smith_waterman(seq1, seq2, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, false);
 }
 
 void tsplit() {
-	std::string input = "ATCGAC";
-	int32_t length = 3;
+	string input = "ATCGAC";
+	u32 length = 3;
 
 	std::vector<std::string> words = split_to_words(input, length);
 
-	std::vector<std::string> result = {
+	vector<string> result = {
 		"ATC",
 		"TCG",
 		"CGA",

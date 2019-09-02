@@ -1,17 +1,17 @@
 #include "types.hpp"
 
-Match::Match(std::string word, std::vector<int32_t> data_indices, std::vector<int32_t> query_indices)
+Match::Match(string word, vector<u32> data_indices, vector<u32> query_indices)
 	: word{ word }, data_indices{ data_indices }, query_indices{ query_indices }
 {
 	// pass
 }
-AdjacentPair::AdjacentPair(std::string word1, std::string word2, int32_t dindex1, int32_t qindex1, int32_t dindex2, int32_t qindex2)
+AdjacentPair::AdjacentPair(string word1, string word2, u32 dindex1, u32 qindex1, u32 dindex2, u32 qindex2)
 	: word1{ word1 }, word2{ word2 }, dindex1{ dindex1 }, qindex1{ qindex1 }, dindex2{ dindex2 }, qindex2{ qindex2 }
 {
-	length = word1.size();
+	length = (u32)word1.size();
 }
 
-Extended::Extended(std::string extended_pair, int32_t dindex)
+Extended::Extended(string extended_pair, s32 dindex)
 	: extended_pair{ extended_pair }, dindex{ dindex }
 {
 	// pass
@@ -46,7 +46,7 @@ namespace Blastn {
 			for (auto words_indices = name_data->second.begin(); words_indices != name_data->second.end(); ++words_indices) {
 				std::cout << "\t" << words_indices->first << ": [";
 				// traverse vector of indices
-				for (int32_t i = 0; i < words_indices->second.size(); i++) {
+				for (u32 i = 0; i < words_indices->second.size(); i++) {
 					std::cout << words_indices->second[i] << ". ";
 				}
 				std::cout << "]\n";
@@ -61,13 +61,13 @@ namespace Blastn {
 			for (auto q_name_matchvec = d_name_quermap->second.begin();
 				q_name_matchvec != d_name_quermap->second.end();
 				++q_name_matchvec) {
-				for (int32_t i = 0; i < q_name_matchvec->second.size(); i++) {
+				for (u32 i = 0; i < q_name_matchvec->second.size(); i++) {
 					std::cout << q_name_matchvec->second[i].word << "\t" << d_name_quermap->first << "[";
-					for (int32_t j = 0; j < q_name_matchvec->second[i].data_indices.size(); j++) {
+					for (u32 j = 0; j < q_name_matchvec->second[i].data_indices.size(); j++) {
 						std::cout << q_name_matchvec->second[i].data_indices[j] << ". ";
 					}
 					std::cout << "]\t" << q_name_matchvec->first << "[";
-					for (int32_t j = 0; j < q_name_matchvec->second[i].query_indices.size(); j++) {
+					for (u32 j = 0; j < q_name_matchvec->second[i].query_indices.size(); j++) {
 						std::cout << q_name_matchvec->second[i].query_indices[j] << ". ";
 					}
 					std::cout << "]" << std::endl;

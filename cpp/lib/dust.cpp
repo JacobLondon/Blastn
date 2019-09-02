@@ -2,12 +2,12 @@
 #include "split.hpp"	// split_to_words
 #include <algorithm>	// count
 
-float64_t dust(std::string word, int32_t pattern_len)
+f64 dust(string word, u32 pattern_len)
 {
-	float64_t total_score = 0;
-	int32_t occurrance;
-	std::vector<std::string> triplets = split_to_words(word, pattern_len);
-	std::unordered_map<std::string, int32_t> record;
+	f64 total_score = 0;
+	u32 occurrance;
+	vector<string> triplets = split_to_words(word, pattern_len);
+	dict<string, u32> record;
 	// reserve double necessary capacity for hash table to minimize collisions
 	record.reserve(triplets.size() * 2);
 
@@ -15,7 +15,7 @@ float64_t dust(std::string word, int32_t pattern_len)
 		// triplet not recorded yet
 		if (record.find(triplet) == record.end()) {
 			// count occurrances
-			occurrance = std::count(triplets.begin(), triplets.end(), triplet);
+			occurrance = (u32)std::count(triplets.begin(), triplets.end(), triplet);
 			record[triplet] = occurrance * (occurrance - 1) / 2;
 		}
 	}
@@ -25,7 +25,7 @@ float64_t dust(std::string word, int32_t pattern_len)
 	return total_score / (word.length() - pattern_len);
 }
 
-Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap data, float64_t threshold, int32_t pattern_len, int32_t word_len)
+Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap data, f64 threshold, u32 pattern_len, u32 word_len)
 {
 	Blastn::IndexedSequenceMap filtered_result;
 	threshold = threshold * (word_len - pattern_len - 1) / 2;
@@ -36,7 +36,7 @@ Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap data, float64_
 			// words that score above the threshold will not be added to the filtered result
 			if (dust(word_indices->first, pattern_len) < threshold) {
 				filtered_result[name_seqmap->first] = Blastn::IndexedWordMap {
-					std::pair<std::string, std::vector<int32_t>>{ word_indices->first, word_indices->second }
+					std::pair<string, vector<u32>>{ word_indices->first, word_indices->second }
 				};
 			}
 		}

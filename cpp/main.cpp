@@ -91,12 +91,12 @@ int main(int argc, char **argv)
 #include "util/test.hpp"
 int main(int argc, char** argv)
 {
-	//tsplit_to_words();
+	//tsplit();
 	//tsmith_waterman();
 	//tsequence();
 	//tmatch();
 	//tdust();
-	//textend();
+	textend();
 
 	std::cin.get();
 	return 0;

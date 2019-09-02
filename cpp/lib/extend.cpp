@@ -27,28 +27,28 @@
  */
 
 Extended extend_and_score(AdjacentPair pair,
-                          std::string query,
-                          std::string data,
-                          int32_t match,
-                          int32_t mismatch,
-                          int32_t gap,
-                          int32_t minscore,
+                          string query,
+                          string data,
+                          s32 match,
+                          s32 mismatch,
+                          s32 gap,
+                          s32 minscore,
                           bool score,
                           bool printing)
 {
     // find left most indices
-	int32_t dleftindex  = MIN(pair.dindex1, pair.dindex2);
-	int32_t qleftindex  = MIN(pair.qindex1, pair.qindex2);
-	int32_t drightindex = MAX(pair.dindex1, pair.dindex2);
-	int32_t qrightindex = MAX(pair.qindex1, pair.qindex2);
+	u32 dleftindex  = MIN(pair.dindex1, pair.dindex2);
+	u32 qleftindex  = MIN(pair.qindex1, pair.qindex2);
+	u32 drightindex = MAX(pair.dindex1, pair.dindex2);
+	u32 qrightindex = MAX(pair.qindex1, pair.qindex2);
 
     // build string
-    std::string qextended = query.substr(qleftindex, pair.length);
-    std::string dextended = data.substr(dleftindex, pair.length);
+    string qextended = query.substr(qleftindex, pair.length);
+    string dextended = data.substr(dleftindex, pair.length);
 
     // extend left
-	int32_t qexindex = qleftindex;
-	int32_t dexindex = dleftindex;
+	s32 qexindex = qleftindex;
+	s32 dexindex = dleftindex;
     while (qexindex - 1 >= 0 && dexindex - 1 >= 0) {
 		qexindex--; dexindex--;
         qextended = query[qexindex] + qextended;
@@ -65,14 +65,14 @@ Extended extend_and_score(AdjacentPair pair,
     // extend left pair to the right
     qexindex = qleftindex + pair.length - 1;
     dexindex = dleftindex + pair.length - 1;
-    while (qexindex + 1 < qrightindex) {
+    while ((u32)qexindex + 1 < qrightindex) {
 		qexindex++; dexindex++;
         qextended = qextended + query[qexindex];
         dextended = dextended + data[dexindex];
     }
 
     // extend right with gaps until qextended aligns with data
-    while (dexindex + 1 < drightindex) {
+    while ((u32)dexindex + 1 < drightindex) {
 		qexindex++; dexindex++;
         qextended = qextended + Blastn::SGap;
         dextended = dextended + data[dexindex];
@@ -105,10 +105,10 @@ Extended extend_and_score(AdjacentPair pair,
 Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedSequenceMap pairs,
 										  Blastn::SequenceMap query,
 										  Blastn::SequenceMap data,
-										  int32_t minscore,
-										  int32_t match,
-										  int32_t mismatch,
-										  int32_t gap)
+										  s32 minscore,
+										  s32 match,
+										  s32 mismatch,
+										  s32 gap)
 {
 	Blastn::ExtendedSequenceMap result;
 	for (auto dname_quermap = pairs.begin(); dname_quermap != pairs.end(); ++dname_quermap) {
@@ -127,7 +127,7 @@ Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedSequenceMap pairs,
 				if (ext.extended_pair != Blastn::Invalid) {
 					// no items in the vector of Extended pairs
 					if (temp.find(qname_pairvec->first) == temp.end()) {
-						temp[qname_pairvec->first] = std::vector<Extended>{ ext };
+						temp[qname_pairvec->first] = vector<Extended>{ ext };
 					}
 					// at least one item in the vector of Extended pairs
 					else {
