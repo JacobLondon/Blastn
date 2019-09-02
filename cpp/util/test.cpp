@@ -38,7 +38,7 @@ void textend()
 	Blastn::SwMinscore = 0;
 	bool score = true;
 	bool printing = true;
-	std::string result = extend_and_score(
+	Extended result = extend_and_score(
 		pair,
 		query,
 		data,
@@ -50,7 +50,7 @@ void textend()
 		printing
 	);
 
-	std::cout << result << std::endl;
+	std::cout << result.extended_pair << std::endl;
 }
 
 void tmatch()

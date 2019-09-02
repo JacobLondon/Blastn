@@ -12,8 +12,8 @@ Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap query, Blastn
 		for (auto q_name_wordmap = query.begin(); q_name_wordmap != query.end(); ++q_name_wordmap) {
 			for (auto q_word_indices = q_name_wordmap->second.begin();
 					  q_word_indices != q_name_wordmap->second.end();
-					  ++q_word_indices) {
-
+					  ++q_word_indices)
+			{
 				// ensure data has the query word
 				if (d_name_wordmap->second.find(q_word_indices->first) != d_name_wordmap->second.end()) {
 					// the current word in the query is also in data but not inserted yet

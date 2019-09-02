@@ -19,12 +19,31 @@
  * @param printing Indicate to print the values at the end of the function.
  * @return The extended, aligned match.
  */
-std::string extend_and_score(AdjacentPair pair,
-							 std::string query,
-							 std::string data,
-							 int32_t match,
-							 int32_t mismatch,
-							 int32_t gap,
-							 int32_t minscore,
-							 bool score,
-							 bool printing);
+Extended extend_and_score(AdjacentPair pair,
+						  std::string query,
+						  std::string data,
+						  int32_t match,
+						  int32_t mismatch,
+						  int32_t gap,
+						  int32_t minscore,
+						  bool score,
+						  bool printing);
+
+/*
+ * @brief: Given adjacent pairs, the database and query, extend the pairs from the query to the database.
+ * @param pairs:    The mapped data of adjacent pairs to extend and filter while extending.
+ * @param query : The map of query names to their entire query sequence.
+ * @param data : The map of data names to their entire data sequence.
+ * @param minscore : The minimum smith waterman score allowed before needing to remove the word.
+ * @param match : The smith waterman score when two characters are the same.
+ * @param mismatch : The smith waterman score when two characters are not the same.
+ * @param gap : The smith waterman score when there is a gap character.
+ * @return A map of data names to query names to a list of extended matches with their data base index.
+ */
+Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedMatchesMap pairs,
+										  Blastn::SequenceMap query,
+										  Blastn::SequenceMap data,
+										  int32_t minscore,
+										  int32_t match,
+										  int32_t mismatch,
+										  int32_t gap);

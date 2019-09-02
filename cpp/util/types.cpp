@@ -1,14 +1,20 @@
 #include "types.hpp"
 
 Match::Match(std::string word, std::vector<int32_t> data_indices, std::vector<int32_t> query_indices)
-	: word{word}, data_indices{data_indices}, query_indices{query_indices}
+	: word{ word }, data_indices{ data_indices }, query_indices{ query_indices }
 {
 	// pass
 }
 AdjacentPair::AdjacentPair(std::string word1, std::string word2, int32_t dindex1, int32_t qindex1, int32_t dindex2, int32_t qindex2)
-	: word1{word1}, word2{word2}, dindex1{dindex1}, qindex1{qindex1}, dindex2{dindex2}, qindex2{qindex2}
+	: word1{ word1 }, word2{ word2 }, dindex1{ dindex1 }, qindex1{ qindex1 }, dindex2{ dindex2 }, qindex2{ qindex2 }
 {
 	length = word1.size();
+}
+
+Extended::Extended(std::string extended_pair, int32_t dindex)
+	: extended_pair{ extended_pair }, dindex{ dindex }
+{
+	// pass
 }
 
 namespace Blastn {
