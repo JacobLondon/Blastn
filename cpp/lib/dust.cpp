@@ -25,7 +25,7 @@ float64_t dust(std::string word, int32_t pattern_len)
 	return total_score / (word.length() - pattern_len);
 }
 
-Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap data, float64_t threshold, int32_t word_len, int32_t pattern_len)
+Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap data, float64_t threshold, int32_t pattern_len, int32_t word_len)
 {
 	Blastn::IndexedSequenceMap filtered_result;
 	threshold = threshold * (word_len - pattern_len - 1) / 2;

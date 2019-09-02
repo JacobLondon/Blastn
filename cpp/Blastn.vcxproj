@@ -127,6 +127,7 @@
     <ClCompile Include="lib\smith_waterman.cpp" />
     <ClCompile Include="lib\split.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="util\globals.cpp" />
     <ClCompile Include="util\test.cpp" />
     <ClCompile Include="util\types.cpp" />
   </ItemGroup>

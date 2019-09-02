@@ -51,11 +51,11 @@
     <ClCompile Include="lib\split.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="util\globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lib\dust.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="lib\blastn.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="util\types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\dust.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

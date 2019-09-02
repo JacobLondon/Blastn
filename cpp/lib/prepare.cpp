@@ -8,6 +8,11 @@ Blastn::SequenceMap build_sequence(std::string path, char sep)
 	std::string name, line;
 	std::ifstream sequence_file{ path };
 
+	if (!sequence_file.is_open()) {
+		std::cout << "Failure: Coult not open: " << path << std::endl;
+		exit(-1);
+	}
+
 	while (std::getline(sequence_file, line)) {
 		// a new sequence name is found
 		if (line[0] == sep) {
