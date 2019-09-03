@@ -22,13 +22,14 @@ f64 dust(string word, u32 pattern_len)
 	// sum the scores
 	for (auto iter = record.begin(); iter != record.end(); ++iter)
 		total_score += iter->second;
+
 	return total_score / (word.length() - pattern_len);
 }
 
 Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap data, f64 threshold, u32 pattern_len, u32 word_len)
 {
 	Blastn::IndexedSequenceMap filtered_result;
-	threshold = threshold * (word_len - pattern_len - 1) / 2;
+	threshold = threshold * (word_len - pattern_len + 1) / 2;
 
 	// breaks words into subsequences of triplets
 	for (auto name_seqmap = data.begin(); name_seqmap != data.end(); ++name_seqmap) {

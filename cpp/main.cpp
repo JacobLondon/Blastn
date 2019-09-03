@@ -29,14 +29,15 @@ static void blastn(std::string query_file, std::string data_file)
 
 	std::cout << "Smith Waterman..." << std::endl;
 	auto query_swfiltered = smith_waterman_filter(query_prepared, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
+	//Blastn::print(query_swfiltered);
 
-	//std::cout << "Dust..." << std::endl;
-	//auto query_dustfiltered = dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength, Blastn::SplitLength);
+	std::cout << "Dust..." << std::endl;
+	auto query_dustfiltered = dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength, Blastn::SplitLength);
 	//Blastn::print(query_dustfiltered);
 
 	std::cout << "Exact matches..." << std::endl;
-	//auto exact_matches = match_filter(query_dustfiltered, data_prepared);
-	auto exact_matches = match_filter(query_swfiltered, data_prepared);
+	auto exact_matches = match_filter(query_dustfiltered, data_prepared);
+	//auto exact_matches = match_filter(query_swfiltered, data_prepared);
 
 	std::cout << "Printing output..." << std::endl;
 	Blastn::print(exact_matches);

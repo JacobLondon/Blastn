@@ -14,7 +14,7 @@ namespace Blastn {
 	extern s32 SwMismatch;			// smith waterman mismatch score
 	extern s32 SwGap;				// smith waterman gap score
 
-	extern f32 DustThreshold;		// dust threshold score before filtering out
+	extern f64 DustThreshold;		// dust threshold score before filtering out
 	extern u32 DustPatternLength;	// length of patterns for dust to look for
 
 	extern std::string Output;

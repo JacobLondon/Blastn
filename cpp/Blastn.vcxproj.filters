@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="data_small.fasta">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="query_small.fa">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Makefile" />
+    <None Include="..\data\data_small.fasta">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\data\query_small.fa">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

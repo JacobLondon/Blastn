@@ -115,9 +115,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="data_small.fasta" />
+    <None Include="..\data\data_small.fasta" />
+    <None Include="..\data\query_small.fa" />
     <None Include="Makefile" />
-    <None Include="query_small.fa" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lib\dust.cpp" />
