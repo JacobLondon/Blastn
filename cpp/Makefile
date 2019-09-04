@@ -2,20 +2,24 @@ TARGET=blastn
 CC=g++
 CPPFLAGS=-std=c++17
 
-TYPESF=util/types
+DUSTF=lib/dust
+EXTENDF=lib/extend
+MATCHF=lib/match
+PREPAREF=lib/prepare
 SMTHWF=lib/smith_waterman
 SPLITF=lib/split
-PREPAREF=lib/prepare
-DUSTF=lib/dust
-MATCHF=lib/match
-EXTENDF=lib/extend
+
+GLOBALSF=util/globals
+TYPESF=util/types
 TESTF=util/test
+
 MAINF=main
 
 FILES=$(TYPESF).cpp \
 	$(SMTHWF).cpp $(SPLITF).cpp \
 	$(PREPAREF).cpp $(DUSTF).cpp $(MATCHF).cpp $(EXTENDF).cpp \
-	$(TESTF).cpp $(MAINF).cpp
+	$(TESTF).cpp $(GLOBALSF).cpp \
+	$(MAINF).cpp
 
 .PHONY: all clean
 

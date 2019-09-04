@@ -17,5 +17,5 @@ namespace Blastn {
 	extern f64 DustThreshold;		// dust threshold score before filtering out
 	extern u32 DustPatternLength;	// length of patterns for dust to look for
 
-	extern std::string Output;
+	extern string Output;
 }

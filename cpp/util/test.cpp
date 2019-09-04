@@ -18,7 +18,7 @@ void tdust()
 void textend()
 {
 	string query = "GTCTGAACTGAGC";
-	string data = "AGTCTGATGACTGGGGAACTCGA";
+	string data  = "AGTCTGATGACTGGGGAACTCGA";
 	string word1 = "TC";
 	string word2 = "CT";
 
@@ -85,7 +85,7 @@ void tsplit() {
 	string input = "ATCGAC";
 	u32 length = 3;
 
-	std::vector<std::string> words = split_to_words(input, length);
+	vector<string> words = split_to_words(input, length);
 
 	vector<string> result = {
 		"ATC",
