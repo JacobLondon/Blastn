@@ -1,6 +1,6 @@
 TARGET=blastn
 CC=g++
-CPPFLAGS=-std=c++11
+CPPFLAGS=-std=c++17
 
 TYPESF=util/types
 SMTHWF=lib/smith_waterman
