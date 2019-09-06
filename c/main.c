@@ -1,32 +1,15 @@
 #include <stdio.h>
-#include "util/string.h"
-
-static void teststr()
-{
-    str *mystring = string("wow super cool");
-    printf("CSTR: %s\n", mystring->c_str);
-    for (int i = 0; i < mystring->size; i++)
-        printf("%d\n", mystring->c_str[i]);
-
-    string_append(mystring, ", really!");
-    printf("CSTR: %s\n", mystring->c_str);
-    for (int i = 0; i < mystring->size; i++)
-        printf("%d\n", mystring->c_str[i]);
-
-    printf("CSTR: %s\n", mystring->c_str);
-    string_set(mystring, "new string!");
-    for (int i = 0; i < mystring->size; i++)
-        printf("%d\n", mystring->c_str[i]);
-
-    
-    printf("CSTR: %s\n", mystring->c_str);
-    for (int i = 0; i < mystring->size; i++)
-        printf("%d\n", mystring->c_str[i]);
-}
+#include "util/vector.h"
 
 int main()
 {
-    teststr();
+    vec *myvec = vector(U32);
+    for (int i = 0; i < 12; i++) {
+        vector_append(myvec, &i);
+    }
+    for (int i = 0; i < myvec->end; i++) {
+        printf("%d\n", ((u32 *)myvec->buf)[i]);
+    }
 
     return 0;
 }

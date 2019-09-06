@@ -6,15 +6,16 @@
 // default number of items to reserve space for
 #define VECTOR_DEFAULT_SIZE 8
 
-typedef struct _vector_u32_tab {
-    u32 *arr;
+typedef struct _vector_tab {
+    void *buf;
+    u32 type;
     u32 size;
     u32 end;
-} vec_u32;
+} vec;
 
-vec_u32 *vector_u32();
-void vector_append(vec_u32 *self, u32 value);
-void vector_reserve(vec_u32 *self, u32 size);
-void vector_free(vec_u32 *self);
+vec *vector(u32 type);
+void vector_append(vec *self, void *value);
+void vector_reserve(vec *self, u32 size);
+void vector_free(vec *self);
 
 #endif // _BLASTN_VECTOR_H

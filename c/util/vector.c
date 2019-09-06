@@ -1,17 +1,31 @@
 #include <stdlib.h>
 #include "vector.h"
+#include "dict.h"
 
-vec_u32 *vector_u32()
+vec *vector(u32 type)
 {
-    vec_u32 *self = malloc(sizeof(vec_u32));
+    vec *self = malloc(sizeof(vec));
+    self->type = type;
+    // reserve based on type
+    switch (self->type) {
+    case U32:
+        self->buf = malloc(VECTOR_DEFAULT_SIZE * sizeof(u32));
+        break;
+    case DICT:
+        self->buf = malloc(VECTOR_DEFAULT_SIZE * sizeof(dict));
+        break;
+    case NODE:
+        self->buf = malloc(VECTOR_DEFAULT_SIZE * sizeof(node));
+        break;
+    }
     self->size = VECTOR_DEFAULT_SIZE;
-    self->arr = malloc(VECTOR_DEFAULT_SIZE * sizeof(u32));
+
     self->end = 0;
 
     return self;
 }
 
-void vector_append(vec_u32 *self, u32 value)
+void vector_append(vec *self, void *value)
 {
     // need to reserve more space?
     if (self->end == self->size) {
@@ -19,16 +33,38 @@ void vector_append(vec_u32 *self, u32 value)
         vector_reserve(self, self->size * 2);
     }
 
-    self->arr[self->end++] = value;
+    // set the value based on type
+    switch (self->type) {
+    case U32:
+        ((u32 *)self->buf)[self->end++] = *((u32 *)value);
+        break;
+    case DICT:
+        ((dict *)self->buf)[self->end++] = *((dict *)value);
+        break;
+    case NODE:
+        ((node *)self->buf)[self->end++] = *((node *)value);
+        break;
+    }
 }
 
-void vector_reserve(vec_u32 *self, u32 size)
+void vector_reserve(vec *self, u32 size)
 {
-    self->arr = realloc(self->arr, size * sizeof(u32));
+    // reserve based on type
+    switch (self->type) {
+    case U32:
+        self->buf = realloc(self->buf, size * sizeof(u32));
+        break;
+    case DICT:
+        self->buf = realloc(self->buf, size * sizeof(dict));
+        break;
+    case NODE:
+        self->buf = realloc(self->buf, size * sizeof(node));
+        break;
+    }
 }
 
-void vector_free(vec_u32 *self)
+void vector_free(vec *self)
 {
-    free(self->arr);
+    free(self->buf);
     free(self);
 }
