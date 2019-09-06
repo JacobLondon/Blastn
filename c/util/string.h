@@ -11,7 +11,7 @@ typedef struct _string_tab {
 } str;
 
 str *string(const char *value);
-void string_append(str *self, char *s);
+void string_append(str *self, const char *s);
 void string_set(str *self, const char *s);
 void string_free(str *self);
 

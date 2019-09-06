@@ -21,7 +21,7 @@ str *string(const char *value)
     return self;
 }
 
-void string_append(str *self, char *s)
+void string_append(str *self, const char *s)
 {
     int size = 0;
     int i = 0;
