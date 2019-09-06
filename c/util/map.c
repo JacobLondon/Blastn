@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "map.h"
 
 /**
@@ -22,6 +23,11 @@ void node_free(node *self)
     free(self);
 }
 
+void node_print(node *self)
+{
+    printf("(%s, %d)\n", self->key, *((u32 *)self->value));
+}
+
 /**
  * bucket
  */
@@ -37,11 +43,19 @@ bucket *bucket_init(node *value)
 
 void bucket_append(bucket *self, node *value)
 {
-    bucket *i = self->next;
-    while (i != NULL)
-        i = i->next;
-    
-    i->next = bucket_init(value);
+    bucket *b = self;
+
+    // there is only one item in the list
+    if (b->next == NULL)
+        goto init;
+
+    // traverse the linked list until the last item is hit
+    while (b->next != NULL) {
+        b = b->next;
+    }
+
+init:
+    b->next = bucket_init(value);
 }
 
 /**
@@ -50,10 +64,19 @@ void bucket_append(bucket *self, node *value)
 bucket *bucket_free(bucket *self)
 {
     bucket *b;
-    node_free(self->item);
     b = self->next;
+    node_free(self->item);
     free(self);
     return b;
+}
+
+void bucket_print(bucket *self)
+{
+    if (self == NULL)
+        return;
+    
+    node_print(self->item);
+    bucket_print(self->next);
 }
 
 /**
@@ -74,12 +97,10 @@ map *map_init(u32 type)
     return self;
 }
 
-void map_insert(map *self, char *key, void *value)
+void map_insert(map *self, node *n)
 {
-    u64 index = fnv1a(key, self->size);
+    u64 index = fnv1a(n->key, self->size);
     bucket *b = self->buckets[index];
-    node *n = node_init(key, value);
-
     // the bucket hasn't been created yet
     if (b == NULL) {
         self->buckets[index] = bucket_init(n);
@@ -88,7 +109,15 @@ void map_insert(map *self, char *key, void *value)
     else {
         bucket_append(self->buckets[index], n);
     }
+
+    // track the inserted item
     self->capacity++;
+
+    // check the capacity to size ratio
+    if (self->capacity >= self->size * MAP_RESIZE_RATIO) {
+        // double the size when the ratio is surpassed
+        map_resize(self, self->size * 2);
+    }
 }
 
 node *map_at(map *self, char *key)
@@ -111,10 +140,50 @@ node *map_at(map *self, char *key)
     return b->item;
 }
 
-// TODO
 void map_resize(map *self, u32 size)
 {
+    // temporarily hold the nodes
+    node **temp = malloc(self->capacity * sizeof(node *));
+    bucket *b;
+    u32 i, j;
+
+    // fill temp
+    for (i = 0, j = 0; i < self->size; i++) {
+        // no bucket at the index
+        if (self->buckets[i] == NULL)
+            continue;
+
+        // bucket's item into temp
+        do {
+            // hold the current bucket
+            b = self->buckets[i];
+
+            // record the bucket's item into temp
+            temp[j++] = b->item;
+
+            // go to the next bucket
+            self->buckets[i] = self->buckets[i]->next;
+
+            // free the bucket, item stays in temp
+            free(b);
+        } while (self->buckets[i] != NULL);
+    }
+
+    // reallocate the buckets
     self->buckets = realloc(self->buckets, size * sizeof(bucket));
+    self->size = size;
+
+    // fill with NULL
+    for (i = 0; i < self->size; i++) {
+        self->buckets[i] = NULL;
+    }
+
+    // fill self from temp
+    for (i = 0; i < self->capacity; i++) {
+        map_insert(self, temp[i]);
+    }
+    // no longer record node pointers
+    free(temp);
 }
 
 void map_del(map *self, char *key)
@@ -175,10 +244,16 @@ void map_free(map *self)
  * hash
  */
 
+// https://create.stephan-brumme.com/fnv-hash/
+const u64 Prime = 0x01000193; //   16777619
+const u64 Seed  = 0x811C9DC5; // 2166136261
+
 u64 fnv1a(const char *text, u32 bytes)
 {
     u64 hash = Seed;
     while (*text)
         hash = (*text++ ^ hash) * Prime;
-    return (hash >> (64 - (bytes * 4)));
+    hash = (hash >> (64 - (bytes >> 2)));
+    //printf("Hash: %ld\n", hash);
+    return hash;
 }

@@ -1,14 +1,22 @@
 #include <stdio.h>
-#include "util/vector.h"
+#include "util/map.h"
 
 int main()
 {
-    vector *myvec = vector_init(U32);
-    for (int i = 0; i < 12; i++) {
-        vector_append(myvec, &i);
-    }
-    for (int i = 0; i < myvec->end; i++) {
-        printf("%d\n", ((u32 *)myvec->buf)[i]);
+    map *m = map_init(U32);
+    u32 a = 'a';
+    u32 b = 'b';
+    u32 c = 'b';
+    u32 d = 'c';
+    map_insert(m, node_init("test", (void *)&a));
+    map_insert(m, node_init("different", (void *)&b));
+    map_insert(m, node_init("ldq", (void *)&c));
+
+    for (int i = 0; i < m->size; i++) {
+        if (m->buckets[i] == NULL)
+            printf("NULL\n");
+        else
+            bucket_print(m->buckets[i]);
     }
 
     return 0;
