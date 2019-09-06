@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include "string.h"
 
-str *string(const char *value)
+string *string_init(const char *value)
 {
     int i;
 
-    str *self = malloc(sizeof(str));
+    string *self = malloc(sizeof(string));
     self->size = 0;
     while (*value++)
         self->size++;
@@ -21,7 +21,7 @@ str *string(const char *value)
     return self;
 }
 
-void string_append(str *self, const char *s)
+void string_append(string *self, const char *s)
 {
     int size = 0;
     int i = 0;
@@ -37,7 +37,7 @@ void string_append(str *self, const char *s)
     self->size = self->size + size - 1;
 }
 
-void string_set(str *self, const char *s)
+void string_set(string *self, const char *s)
 {
     int size = 0;
     int i = 0;
@@ -57,7 +57,7 @@ void string_set(str *self, const char *s)
         self->c_str[i++] = *s++;
 }
 
-void string_free(str *self)
+void string_free(string *self)
 {
     free(self->c_str);
     free(self);
@@ -65,7 +65,7 @@ void string_free(str *self)
 
 static void teststr()
 {
-    str *mystring = string("wow super cool");
+    string *mystring = string_init("wow super cool");
     printf("CSTR: %s\n", mystring->c_str);
     for (int i = 0; i < mystring->size; i++)
         printf("%d\n", mystring->c_str[i]);

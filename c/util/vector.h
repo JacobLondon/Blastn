@@ -11,11 +11,11 @@ typedef struct _vector_tab {
     u32 type;
     u32 size;
     u32 end;
-} vec;
+} vector;
 
-vec *vector(u32 type);
-void vector_append(vec *self, void *value);
-void vector_reserve(vec *self, u32 size);
-void vector_free(vec *self);
+vector *vector_init(u32 type);
+void vector_append(vector *self, void *value);
+void vector_reserve(vector *self, u32 size);
+void vector_free(vector *self);
 
 #endif // _BLASTN_VECTOR_H

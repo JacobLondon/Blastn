@@ -8,11 +8,11 @@
 typedef struct _string_tab {
     char *c_str;
     u32 size;
-} str;
+} string;
 
-str *string(const char *value);
-void string_append(str *self, const char *s);
-void string_set(str *self, const char *s);
-void string_free(str *self);
+string *string_init(const char *value);
+void string_append(string *self, const char *s);
+void string_set(string *self, const char *s);
+void string_free(string *self);
 
 #endif // _BLASTN_STRING_H

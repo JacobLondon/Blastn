@@ -3,7 +3,7 @@
 
 int main()
 {
-    vec *myvec = vector(U32);
+    vector *myvec = vector_init(U32);
     for (int i = 0; i < 12; i++) {
         vector_append(myvec, &i);
     }
