@@ -115,6 +115,7 @@ void map_insert(map *self, node *n)
 
     // check the capacity to size ratio
     if (self->capacity >= self->size * MAP_RESIZE_RATIO) {
+        printf("Resize, %d >= %f\n", self->capacity, self->size * MAP_RESIZE_RATIO);
         // double the size when the ratio is surpassed
         map_resize(self, self->size * 2);
     }
@@ -180,6 +181,8 @@ void map_resize(map *self, u32 size)
 
     // fill self from temp
     for (i = 0; i < self->capacity; i++) {
+        // correct for capacity
+        self->capacity--;
         map_insert(self, temp[i]);
     }
     // no longer record node pointers
