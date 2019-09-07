@@ -28,20 +28,6 @@ int main()
 
     printf("capacity: %d\nsize: %d\n", m->capacity, m->size);
 
-    // traverse the map
-    /*for (u32 i = 0; i < m->size; i++) {
-        // the bucket is empty
-        if (bucket_at(m, i) == NULL) {
-            continue;
-        }
-        printf("Bucket %d:\n", i);
-        // traverse the bucket, free every node
-        for (u32 j = 0; j < bucket_at(m, i)->end; j++) {
-            printf("\t");
-            node_print(node_at(m, i, j));
-        }
-    }*/
-
     node *n;
     map_for_each(m, n) {
         node_print(n);
