@@ -1,17 +1,23 @@
 #include <stdlib.h>
 #include "vector.h"
 
-vector *vector_init(u32 type)
+vector *vector_init(u32 type, u32 size)
 {
     vector *self = malloc(sizeof(vector));
     self->type = type;
     // reserve based on type
     switch (self->type) {
     case U32:
-        self->buf = malloc(VECTOR_DEFAULT_SIZE * sizeof(u32));
+        self->vec = calloc(size, sizeof(u32));
+        break;
+    case NODE:
+        self->vec = calloc(size, sizeof(node *));
+        break;
+    case VECTOR:
+        self->vec = calloc(size, sizeof(vector *));
         break;
     }
-    self->size = VECTOR_DEFAULT_SIZE;
+    self->size = size;
     self->end = 0;
 
     return self;
@@ -28,7 +34,13 @@ void vector_append(vector *self, void *value)
     // set the value based on type
     switch (self->type) {
     case U32:
-        ((u32 *)self->buf)[self->end++] = *((u32 *)value);
+        ((u32 *)self->vec)[self->end++] = *((u32 *)value);
+        break;
+    case NODE:
+        ((node **)self->vec)[self->end++] = (node *)value;
+        break;
+    case VECTOR:
+        ((vector **)self->vec)[self->end++] = (vector *)value;
         break;
     }
 }
@@ -38,13 +50,19 @@ void vector_reserve(vector *self, u32 size)
     // reserve based on type
     switch (self->type) {
     case U32:
-        self->buf = realloc(self->buf, size * sizeof(u32));
+        self->vec = realloc(self->vec, size * sizeof(u32));
+        break;
+    case NODE:
+        self->vec = realloc(self->vec, size * sizeof(node *));
+        break;
+    case VECTOR:
+        self->vec = realloc(self->vec, size * sizeof(vector *));
         break;
     }
 }
 
 void vector_free(vector *self)
 {
-    free(self->buf);
+    free(self->vec);
     free(self);
 }

@@ -27,7 +27,7 @@ char **split_to_words(char *input, int split_length)
     return words;
 }
 
-int main()
+static int tsplit()
 {
     int split_length = 4;
     int word_length = 10;

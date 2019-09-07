@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "map.h"
+#include "vector.h"
 
 /**
  * node
@@ -12,7 +13,7 @@ node *node_init(char *key, void *value)
     node *self = malloc(sizeof(node));
     self->key = key;
     self->value = value;
-
+    
     return self;
 }
 
@@ -29,70 +30,22 @@ void node_print(node *self)
 }
 
 /**
- * bucket
- */
-
-bucket *bucket_init(node *value)
-{
-    bucket *self = malloc(sizeof(bucket));
-    self->next = NULL;
-    self->item = value;
-
-    return self;
-}
-
-void bucket_append(bucket *self, node *value)
-{
-    bucket *b = self;
-
-    // there is only one item in the list
-    if (b->next == NULL)
-        goto init;
-
-    // traverse the linked list until the last item is hit
-    while (b->next != NULL) {
-        b = b->next;
-    }
-
-init:
-    b->next = bucket_init(value);
-}
-
-/**
- * USAGE: Frees itself and returns a pointer to next
- */
-bucket *bucket_free(bucket *self)
-{
-    bucket *b;
-    b = self->next;
-    node_free(self->item);
-    free(self);
-    return b;
-}
-
-void bucket_print(bucket *self)
-{
-    if (self == NULL)
-        return;
-    
-    node_print(self->item);
-    bucket_print(self->next);
-}
-
-/**
  * map
  */
 
 map *map_init(u32 type)
 {
     map *self = malloc(sizeof(map));
-    self->buckets = malloc(MAP_DEFAULT_SIZE * sizeof(bucket *));
-    for (int i = 0; i < MAP_DEFAULT_SIZE; i++) {
-        self->buckets[i] = NULL;
-    }
-    self->type = type;
+
     self->size = MAP_DEFAULT_SIZE;
     self->capacity = 0;
+    self->type = type;
+    self->buckets = vector_init(NODE, MAP_DEFAULT_SIZE);
+
+    // vector to track an array of vector pointers
+    for (int i = 0; i < MAP_DEFAULT_SIZE; i++)
+        ((vector **)self->buckets->vec)[i] = NULL;
+    
 
     return self;
 }
@@ -100,16 +53,14 @@ map *map_init(u32 type)
 void map_insert(map *self, node *n)
 {
     u64 index = fnv1a(n->key, self->size);
-    bucket *b = self->buckets[index];
-    // the bucket hasn't been created yet
-    if (b == NULL) {
-        self->buckets[index] = bucket_init(n);
-    }
-    // collision
-    else {
-        bucket_append(self->buckets[index], n);
-    }
 
+    // the bucket hasn't been created yet
+    if (((vector **)self->buckets->vec)[index] == NULL)
+        ((vector **)self->buckets->vec)[index] = vector_init(NODE, 1);
+    // collision
+    else
+        vector_append(((vector **)self->buckets->vec)[index], n);
+    
     // track the inserted item
     self->capacity++;
 
@@ -124,122 +75,75 @@ void map_insert(map *self, node *n)
 node *map_at(map *self, char *key)
 {
     u64 index = fnv1a(key, self->size);
-    bucket *b = self->buckets[index];
+    // the bucket the key is in
+    vector *bkt = &self->buckets[index];
 
-    // while keys are not equal
-    while (strcmp(b->item->key, key) != 0) {
-        // next has a value
-        if (b->next != NULL) {
-            b = b->next;
-        }
-        // there is no next item, key not found
-        else {
-            return NULL;
-        }
+    // look for the key in the bucket vector
+    for (u32 i = 0; i < bkt->size; i++) {
+        if (strcmp(((node **)bkt->vec)[i]->key, key))
+            return ((node **)bkt->vec)[i];
     }
-    // found the bucket
-    return b->item;
+
+    // key not found
+    return NULL;
 }
 
 void map_resize(map *self, u32 size)
 {
     // temporarily hold the nodes
-    node **temp = malloc(self->capacity * sizeof(node *));
-    bucket *b;
+    vector *temp = vector_init(NODE, self->capacity);
+    //bucket *b;
     u32 i, j;
 
-    // fill temp
-    for (i = 0, j = 0; i < self->size; i++) {
-        // no bucket at the index
-        if (self->buckets[i] == NULL)
+    // traverse the map
+    for (i = 0; i < self->size; i++) {
+        // the bucket is empty
+        if (((vector **)self->buckets->vec)[i] == NULL)
             continue;
 
-        // bucket's item into temp
-        do {
-            // hold the current bucket
-            b = self->buckets[i];
-
-            // record the bucket's item into temp
-            temp[j++] = b->item;
-
-            // go to the next bucket
-            self->buckets[i] = self->buckets[i]->next;
-
-            // free the bucket, item stays in temp
-            free(b);
-        } while (self->buckets[i] != NULL);
+        // traverse the bucket, record nodes
+        for (j = 0; j < ((vector **)self->buckets)[i]->size; j++)
+            vector_append(temp, ((vector **)self->buckets->vec)[i]);
+        
+        // free the bucket, nodes stay in temp
+        vector_free(((vector **)self->buckets->vec)[i]);
     }
 
     // reallocate the buckets
-    self->buckets = realloc(self->buckets, size * sizeof(bucket));
+    vector_reserve(self->buckets, size);
     self->size = size;
 
     // fill with NULL
-    for (i = 0; i < self->size; i++) {
-        self->buckets[i] = NULL;
-    }
+    for (i = 0; i < self->size; i++)
+        ((vector **)self->buckets->vec)[i] = NULL;
 
     // fill self from temp
-    for (i = 0; i < self->capacity; i++) {
-        // correct for capacity
+    for (i = 0; i < temp->size; i++) {
+        // correct for capacity++ in insert
         self->capacity--;
-        map_insert(self, temp[i]);
-    }
-    // no longer record node pointers
-    free(temp);
-}
-
-void map_del(map *self, char *key)
-{
-    u64 index = fnv1a(key, self->size);
-    bucket *b = self->buckets[index];
-    bucket *prev = NULL;
-
-    // while keys are not equal
-    while (strcmp(b->item->key, key) != 0) {
-        // next has a value
-        if (b->next != NULL) {
-            prev = b;
-            b = b->next;
-        }
-        // there is no next item, key not found
-        else {
-            return;
-        }
+        map_insert(self, ((node **)temp->vec)[i]);
     }
 
-    // previous was never assigned
-    if (prev == NULL) {
-        // bucket was the first item found
-        self->buckets[index] = bucket_free(b);
-    }
-    // previous was assigned, bucket is nested
-    else {
-        // change prev's next to b's next
-        prev->next = bucket_free(b);
-    }
+    vector_free(temp);
 }
 
 void map_free(map *self)
 {
-    bucket *b;
-
-    // free all the buckets
+    // traverse the map
     for (u32 i = 0; i < self->size; i++) {
-        // no bucket at the index
-        if (self->buckets[i] == NULL)
+        // the bucket is empty
+        if (((vector **)self->buckets->vec)[i] == NULL)
             continue;
-        
-        // a bucket must have been found
-        b = self->buckets[i];
-        // free everything in the bucket
-        do {
-            b = bucket_free(b);
-        } while (b->next != NULL);
+        // traverse the bucket, free every node
+        for (u32 j = 0; j < ((vector **)self->buckets)[i]->size; j++) {
+            // array pointer of array pointers of node pointer to node pointers
+            node_free(((node **)((vector **)self->buckets->vec)[i]->vec)[j]);
+        }
+        // free each bucket
+        vector_free(((vector **)self->buckets->vec)[i]);
     }
-
-    // free self
-    free(self->buckets);
+    // free the map array and the map
+    vector_free(self->buckets);
     free(self);
 }
 
