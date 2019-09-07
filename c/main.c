@@ -18,27 +18,34 @@ static char *rand_string(char *str, size_t size)
 
 int main()
 {
+    
     map *m = map_init(U32);
     u32 a = 'a';
     for (int i = 0; i < 22; i++) {
         char *test = malloc(sizeof(char) * 10);
-        printf("%d\n", i);
         map_insert(m, node_init(rand_string(test, 10), (void *)&a));
     }
 
+    printf("capacity: %d\nsize: %d\n", m->capacity, m->size);
+
     // traverse the map
-    for (u32 i = 0; i < m->size; i++) {
+    /*for (u32 i = 0; i < m->size; i++) {
         // the bucket is empty
-        if (((vector **)m->buckets->vec)[i] == NULL) {
-            printf("NULL\n");
+        if (bucket_at(m, i) == NULL) {
             continue;
         }
+        printf("Bucket %d:\n", i);
         // traverse the bucket, free every node
-        for (u32 j = 0; j < ((vector **)m->buckets)[i]->size; j++) {
-            // array pointer of array pointers of node pointer to node pointers
-            node_print(((node **)((vector **)m->buckets->vec)[i]->vec)[j]);
+        for (u32 j = 0; j < bucket_at(m, i)->end; j++) {
+            printf("\t");
+            node_print(node_at(m, i, j));
         }
-    }
+    }*/
 
+    node *n;
+    map_for_each(m, n) {
+        node_print(n);
+    }
+    
     return 0;
 }

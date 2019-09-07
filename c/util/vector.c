@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "vector.h"
 
 vector *vector_init(u32 type, u32 size)
@@ -26,6 +27,8 @@ vector *vector_init(u32 type, u32 size)
 void vector_append(vector *self, void *value)
 {
     // need to reserve more space?
+    if (self == NULL)
+        printf("NULL\n");
     if (self->end == self->size) {
         // double the capacity
         vector_reserve(self, self->size * 2);
@@ -59,6 +62,7 @@ void vector_reserve(vector *self, u32 size)
         self->vec = realloc(self->vec, size * sizeof(vector *));
         break;
     }
+    self->size = size;
 }
 
 void vector_free(vector *self)

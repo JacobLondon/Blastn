@@ -44,8 +44,7 @@ map *map_init(u32 type)
 
     // vector to track an array of vector pointers
     for (int i = 0; i < MAP_DEFAULT_SIZE; i++)
-        ((vector **)self->buckets->vec)[i] = NULL;
-    
+        bucket_at(self, i) = NULL;
 
     return self;
 }
@@ -55,18 +54,18 @@ void map_insert(map *self, node *n)
     u64 index = fnv1a(n->key, self->size);
 
     // the bucket hasn't been created yet
-    if (((vector **)self->buckets->vec)[index] == NULL)
-        ((vector **)self->buckets->vec)[index] = vector_init(NODE, 1);
-    // collision
-    else
-        vector_append(((vector **)self->buckets->vec)[index], n);
+    if (bucket_at(self, index) == NULL)
+        bucket_at(self, index) = vector_init(NODE, 1);
+    
+    // append the node, a bucket must be there
+    vector_append(bucket_at(self, index), n);
     
     // track the inserted item
     self->capacity++;
 
     // check the capacity to size ratio
     if (self->capacity >= self->size * MAP_RESIZE_RATIO) {
-        printf("Resize, %d >= %f\n", self->capacity, self->size * MAP_RESIZE_RATIO);
+        //printf("Resize, %d >= %f\n", self->capacity, self->size * MAP_RESIZE_RATIO);
         // double the size when the ratio is surpassed
         map_resize(self, self->size * 2);
     }
@@ -76,10 +75,10 @@ node *map_at(map *self, char *key)
 {
     u64 index = fnv1a(key, self->size);
     // the bucket the key is in
-    vector *bkt = &self->buckets[index];
+    vector *bkt = bucket_at(self, index);
 
     // look for the key in the bucket vector
-    for (u32 i = 0; i < bkt->size; i++) {
+    for (u32 i = 0; i < bkt->end; i++) {
         if (strcmp(((node **)bkt->vec)[i]->key, key))
             return ((node **)bkt->vec)[i];
     }
@@ -96,17 +95,18 @@ void map_resize(map *self, u32 size)
     u32 i, j;
 
     // traverse the map
-    for (i = 0; i < self->size; i++) {
+    for (i = 0; i < self->buckets->size; i++) {
         // the bucket is empty
-        if (((vector **)self->buckets->vec)[i] == NULL)
+        if (bucket_at(self, i) == NULL)
             continue;
 
         // traverse the bucket, record nodes
-        for (j = 0; j < ((vector **)self->buckets)[i]->size; j++)
-            vector_append(temp, ((vector **)self->buckets->vec)[i]);
+        for (j = 0; j < bucket_at(self, i)->end; j++) {
+            vector_append(temp, node_at(self, i, j));
+        }
         
         // free the bucket, nodes stay in temp
-        vector_free(((vector **)self->buckets->vec)[i]);
+        vector_free(bucket_at(self, i));
     }
 
     // reallocate the buckets
@@ -115,10 +115,10 @@ void map_resize(map *self, u32 size)
 
     // fill with NULL
     for (i = 0; i < self->size; i++)
-        ((vector **)self->buckets->vec)[i] = NULL;
+        bucket_at(self, i) = NULL;
 
     // fill self from temp
-    for (i = 0; i < temp->size; i++) {
+    for (i = 0; i < temp->end; i++) {
         // correct for capacity++ in insert
         self->capacity--;
         map_insert(self, ((node **)temp->vec)[i]);
@@ -132,15 +132,14 @@ void map_free(map *self)
     // traverse the map
     for (u32 i = 0; i < self->size; i++) {
         // the bucket is empty
-        if (((vector **)self->buckets->vec)[i] == NULL)
+        if (bucket_at(self, i) == NULL)
             continue;
         // traverse the bucket, free every node
-        for (u32 j = 0; j < ((vector **)self->buckets)[i]->size; j++) {
-            // array pointer of array pointers of node pointer to node pointers
-            node_free(((node **)((vector **)self->buckets->vec)[i]->vec)[j]);
+        for (u32 j = 0; j < bucket_at(self, i)->end; j++) {
+            node_free(node_at(self, i, j));
         }
         // free each bucket
-        vector_free(((vector **)self->buckets->vec)[i]);
+        vector_free(bucket_at(self, i));
     }
     // free the map array and the map
     vector_free(self->buckets);
@@ -155,12 +154,17 @@ void map_free(map *self)
 const u64 Prime = 0x01000193; //   16777619
 const u64 Seed  = 0x811C9DC5; // 2166136261
 
-u64 fnv1a(const char *text, u32 bytes)
+/**
+ * @max MUST BE A POWER OF 2
+ */
+u64 fnv1a(const char *text, u32 max)
 {
     u64 hash = Seed;
     while (*text)
         hash = (*text++ ^ hash) * Prime;
-    hash = (hash >> (64 - (bytes >> 2)));
+    
+    // 64 bit number into the range defined by max
+    hash = hash % max;
     //printf("Hash: %ld\n", hash);
     return hash;
 }
