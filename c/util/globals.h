@@ -5,17 +5,20 @@
 
 void init_globals();
 
-extern char Seperator;          // .fa and .fasta line seperator
-extern u32 SplitLength;         // word length
+extern const char BlastnGap;
+extern const char BlastnInvalid;
 
-extern s32 SwMinscore;          // min smith waterman score before filtering out
-extern s32 SwMatch;             // smith waterman match score
-extern s32 SwMismatch;          // smith waterman mismatch score
-extern s32 SwGap;               // smith waterman gap score
+extern char BlastnSeperator;          // .fa and .fasta line seperator
+extern u32 BlastnSplitLength;         // word length
 
-extern f64 DustThreshold;       // dust threshold score before filtering out
-extern u32 DustPatternLength;   // length of patterns for dust to look for
+extern s32 BlastnSwMinscore;          // min smith waterman score before filtering out
+extern s32 BlastnSwMatch;             // smith waterman match score
+extern s32 BlastnSwMismatch;          // smith waterman mismatch score
+extern s32 BlastnSwGap;               // smith waterman gap score
 
-extern string *Output;
+extern f64 BlastnDustThreshold;       // dust threshold score before filtering out
+extern u32 BlastnDustPatternLength;   // length of patterns for dust to look for
+
+extern string *BlastnOutput;
 
 #endif // _BLASTN_GLOBALS_H

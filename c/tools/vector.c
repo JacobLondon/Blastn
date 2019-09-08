@@ -8,8 +8,11 @@ vector *vector_init(u32 type, u32 size)
     self->type = type;
     // reserve based on type
     switch (self->type) {
-    case U32:
+    case I32:
         self->vec = calloc(size, sizeof(u32));
+        break;
+    case STRING:
+        self->vec = calloc(size, sizeof(string *));
         break;
     case NODE:
         self->vec = calloc(size, sizeof(node *));
@@ -39,8 +42,11 @@ void vector_append(vector *self, void *value)
 
     // set the value based on type
     switch (self->type) {
-    case U32:
+    case I32:
         ((u32 *)self->vec)[self->end++] = *((u32 *)value);
+        break;
+    case STRING:
+        ((string **)self->vec)[self->end++] = (string *)value;
         break;
     case NODE:
         ((node **)self->vec)[self->end++] = (node *)value;
@@ -58,8 +64,11 @@ void vector_reserve(vector *self, u32 size)
 {
     // reserve based on type
     switch (self->type) {
-    case U32:
+    case I32:
         self->vec = realloc(self->vec, size * sizeof(u32));
+        break;
+    case STRING:
+        self->vec = realloc(self->vec, size * sizeof(string *));
         break;
     case NODE:
         self->vec = realloc(self->vec, size * sizeof(node *));

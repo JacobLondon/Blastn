@@ -200,13 +200,13 @@ static char *rand_string(char *str, size_t size)
 
 static map_test()
 {
-    map *m = map_init(U32);
+    map *m = map_init(I32);
     u32 a = 'a';
     for (int i = 0; i < 22; i++) {
         char *test = malloc(sizeof(char) * 10);
-        map_insert(m, node_init(rand_string(test, 10), pointer(i)));
+        map_insert(m, node_init(rand_string(test, 10), pointer_to(i)));
     }
-    map_insert(m, node_init("aaaa", pointer(a)));
+    map_insert(m, node_init("aaaa", pointer_to(a)));
 
     printf("capacity: %d\nsize: %d\n", m->capacity, m->size);
 

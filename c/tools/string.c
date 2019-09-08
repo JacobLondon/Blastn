@@ -2,21 +2,17 @@
 #include <stdio.h>
 #include "string.h"
 
-string *string_init(const char *value)
+string *string_init(u32 size)
 {
     int i;
 
     string *self = malloc(sizeof(string));
     self->size = 0;
-    while (*value++)
-        self->size++;
-    value -= self->size + 1;
-    self->c_str = malloc(self->size * sizeof(char));
+    self->size = size;
+    self->c_str = malloc((size + 1) * sizeof(char));
 
-    for (i = 0; i < self->size; i++)
-        self->c_str[i] = value[i];
-    
-    self->c_str[i] = '\0';
+    for (i = 0; i < self->size + 1; i++)
+        self->c_str[i] = '\0';
     
     return self;
 }
@@ -53,6 +49,7 @@ void string_set(string *self, const char *s)
         self->size = size - 1;
     }
 
+    // set the string
     while (*s)
         self->c_str[i++] = *s++;
 }

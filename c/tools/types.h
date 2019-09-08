@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
 
 typedef uint32_t u32;
 typedef uint64_t u64;
@@ -10,20 +12,25 @@ typedef int32_t s32;
 typedef float f32;
 typedef double f64;
 
-#define pointer(id) (void *)&(id)
-#define ref(type, id) *(type *)(id)
-
+#define pointer_to(id) ((void *)&(id))
+#define ref(type, id) (*(type*)(id))
+#define pointer_of(type, id) ((type*)(id))
 
 extern const char GAP;
 extern const char INVALID;
 
 enum iterable_types {
-    U32,
+    I32,
+    STRING,
     NODE,
     VECTOR,
     MAP,
+
+    // UNIMPLEMENTED
+    MATCH,
+    ADJACENT_PAIR,
+    EXTENDED,
 };
-// TODO add STRING, MATCH, ADJACENT_PAIR, EXTENDED
 
 typedef struct _string {
     char *c_str;
@@ -37,6 +44,9 @@ typedef struct _vector {
     u32 end;
 } vector;
 
+// vector data type hint
+#define vector(type) vector
+
 typedef struct _node {
     char *key;
     void *value;
@@ -48,6 +58,9 @@ typedef struct _map {
     u32 size;       // number of buckets
     u32 capacity;   // number of buckets with items
 } map;
+
+// map key (MUST be char *), and value type hint
+#define map(charstar, type)
 
 /**
  * 
@@ -87,34 +100,46 @@ extended extended_init(string extended_pair, s32 dindex);
  * 
  */
 
-typedef vector matrix; // vector<vector<u32>>
+// vector<vector<s32>>
+typedef vector(vector(s32)) matrix;
 matrix matrix_init();
+#define matrix_at(matid, i, j) \
+    pointer_of(s32, pointer_of(vector *, (matid)->vec)[(i)])[(j)]
 
-typedef map sequence_map; // map<string, string>
+// map<char *, string>
+typedef map(char *, string) sequence_map;
 sequence_map sequence_map_init();
 
-typedef map indexed_word_map; // map<string, vector<u32>
+// map<char *, vector<u32>
+typedef map(char *, vector(u32)) indexed_word_map;
 indexed_word_map indexed_word_map_init();
 
-typedef map indexed_sequence_map; // map<string, indexed_word_map>
+// map<char *, indexed_word_map>
+typedef map(char *, indexed_word_map) indexed_sequence_map; 
 indexed_sequence_map indexed_sequence_map_init();
 
-typedef map matched_matches_map; // map<string, vector<Match>>
+// map<char *, vector<Match>>
+typedef map(char *, vector(match)) matched_matches_map;
 matched_matches_map matched_matches_map_init();
 
-typedef map matched_sequence_map; // map<string, matched_matches_map>
+// map<char *, matched_matches_map>
+typedef map(char *, matched_matches_map) matched_sequence_map;
 matched_sequence_map matched_sequence_map_init();
 
-typedef map paired_matches_map; // map<string, vector<adjacent_pair>>
+// map<char *, vector<adjacent_pair>>
+typedef map(char *, vector(adjacent_pair)) paired_matches_map;
 paired_matches_map paired_matches_map_init();
 
-typedef map paired_sequence_map; // map<string, paired_matches_map>
+// map<char *, paired_matches_map>
+typedef map(char *, paired_matches_map) paired_sequence_map;
 paired_sequence_map paired_sequence_map_init();
 
-typedef map extended_pairs_map; // map<string, vector<extended>>
+// map<char *, vector<extended>>
+typedef map(char *, vector(extended)) extended_pairs_map;
 extended_pairs_map extended_pairs_map_init();
 
-typedef map extended_sequence_map; // map<string, extended_pairs_map>
+// map<char *, extended_pairs_map>
+typedef map(char *, extended_pairs_map) extended_sequence_map;
 extended_sequence_map extended_sequence_map_init();
 
 #endif // _BLASTN_TYPES_H

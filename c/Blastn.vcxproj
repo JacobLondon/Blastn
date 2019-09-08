@@ -127,17 +127,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lib\split.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="util\map.c" />
-    <ClCompile Include="util\string.c" />
-    <ClCompile Include="util\vector.c" />
+    <ClInclude Include="lib\blastn.h" />
+    <ClInclude Include="lib\split.h" />
+    <ClInclude Include="tools\map.h" />
+    <ClInclude Include="tools\string.h" />
+    <ClInclude Include="tools\types.h" />
+    <ClInclude Include="tools\vector.h" />
+    <ClInclude Include="util\globals.h" />
+    <ClInclude Include="util\test.h" />
+    <ClInclude Include="util\types.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="util\map.h" />
-    <ClInclude Include="util\string.h" />
-    <ClInclude Include="util\types.h" />
-    <ClInclude Include="util\vector.h" />
+    <ClCompile Include="lib\split.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="tools\map.c" />
+    <ClCompile Include="tools\string.c" />
+    <ClCompile Include="tools\types.c" />
+    <ClCompile Include="tools\vector.c" />
+    <ClCompile Include="util\globals.c" />
+    <ClCompile Include="util\test.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

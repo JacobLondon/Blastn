@@ -13,39 +13,63 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Util">
+    <Filter Include="Tools">
       <UniqueIdentifier>{5b92e2fc-14eb-439b-8095-a0e19ea6ce40}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lib\split.c">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="util\globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\map.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\string.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\types.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\vector.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="util\test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\types.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\blastn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\split.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tools\map.c">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="util\map.c">
-      <Filter>Util</Filter>
+    <ClCompile Include="tools\string.c">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="util\string.c">
-      <Filter>Util</Filter>
+    <ClCompile Include="tools\types.c">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="util\vector.c">
-      <Filter>Util</Filter>
+    <ClCompile Include="tools\vector.c">
+      <Filter>Tools</Filter>
     </ClCompile>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="util\map.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="util\string.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="util\vector.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="util\types.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="util\globals.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\split.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
