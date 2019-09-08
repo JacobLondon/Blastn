@@ -18,11 +18,11 @@ void node_print(node *self);
 #define MAP_DEFAULT_SIZE 8      /* must be power of 2 */
 #define MAP_RESIZE_RATIO 0.67f
 
-#define bucket_at(mapid, index) \
-    ((vector **)(mapid)->buckets->vec)[(index)]
-
 #define node_at(mapid, bindex, nindex) \
     ((node **)bucket_at((mapid), (bindex))->vec)[(nindex)]
+
+#define bucket_at(mapid, index) \
+    ((vector **)(mapid)->buckets->vec)[(index)]
 
 #define map_for_each(mapid, nodep) \
     for (u32 __b = 0; __b < (mapid)->size; __b++) \

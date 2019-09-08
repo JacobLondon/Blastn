@@ -19,14 +19,13 @@ node *node_init(char *key, void *value)
 
 void node_free(node *self)
 {
-    free(self->key);
-    free(self->value);
-    free(self);
+    if (self != NULL)
+        free(self);
 }
 
 void node_print(node *self)
 {
-    printf("(%s, %d)\n", self->key, *((u32 *)self->value));
+    printf("(%s, %d)\n", self->key, ref(u32, self->value));
 }
 
 /**
@@ -57,6 +56,16 @@ void map_insert(map *self, node *n)
     if (bucket_at(self, index) == NULL)
         bucket_at(self, index) = vector_init(NODE, 1);
     
+    // check if the key is in the bucket
+    for (u32 i = 0; i < bucket_at(self, index)->end; i++) {
+        // the key exists, replace it with the new node and exit
+        if (strcmp(n->key, node_at(self, index, i)->key) == 0) {
+            node_free(node_at(self, index, i));
+            node_at(self, index, i) = n;
+            return;
+        }
+    }
+
     // append the node, a bucket must be there
     vector_append(bucket_at(self, index), n);
     
@@ -65,7 +74,6 @@ void map_insert(map *self, node *n)
 
     // check the capacity to size ratio
     if (self->capacity >= self->size * MAP_RESIZE_RATIO) {
-        //printf("Resize, %d >= %f\n", self->capacity, self->size * MAP_RESIZE_RATIO);
         // double the size when the ratio is surpassed
         map_resize(self, self->size * 2);
     }
@@ -78,9 +86,9 @@ node *map_at(map *self, char *key)
     vector *bkt = bucket_at(self, index);
 
     // look for the key in the bucket vector
-    for (u32 i = 0; i < bkt->end; i++) {
-        if (strcmp(((node **)bkt->vec)[i]->key, key))
-            return ((node **)bkt->vec)[i];
+    for (u32 i = 0; i < bucket_at(self, index)->end; i++) {
+        if (strcmp(node_at(self, index, i)->key, key) == 0)
+            return node_at(self, index, i);
     }
 
     // key not found
@@ -129,6 +137,9 @@ void map_resize(map *self, u32 size)
 
 void map_free(map *self)
 {
+    if (self == NULL)
+        return;
+
     // traverse the map
     for (u32 i = 0; i < self->size; i++) {
         // the bucket is empty
@@ -167,4 +178,46 @@ u64 fnv1a(const char *text, u32 max)
     hash = hash % max;
     //printf("Hash: %ld\n", hash);
     return hash;
+}
+
+/**
+ * test
+ */
+
+static char *rand_string(char *str, size_t size)
+{
+    const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJK";
+    if (size) {
+        --size;
+        for (size_t n = 0; n < size; n++) {
+            int key = rand() % (int) (sizeof charset - 1);
+            str[n] = charset[key];
+        }
+        str[size] = '\0';
+    }
+    return str;
+}
+
+static map_test()
+{
+    map *m = map_init(U32);
+    u32 a = 'a';
+    for (int i = 0; i < 22; i++) {
+        char *test = malloc(sizeof(char) * 10);
+        map_insert(m, node_init(rand_string(test, 10), pointer(i)));
+    }
+    map_insert(m, node_init("aaaa", pointer(a)));
+
+    printf("capacity: %d\nsize: %d\n", m->capacity, m->size);
+
+    node *n;
+    map_for_each(m, n) {
+        printf("Bucket %d:", __b);
+        node_print(n);
+    }
+
+    printf("aaaa: ");
+    printf("%d\n", ref(u32, map_at(m, "aaaa")->value));
+
+    map_free(m);
 }

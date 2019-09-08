@@ -17,6 +17,9 @@ vector *vector_init(u32 type, u32 size)
     case VECTOR:
         self->vec = calloc(size, sizeof(vector *));
         break;
+    case MAP:
+        self->vec = calloc(size, sizeof(map *));
+        break;
     }
     self->size = size;
     self->end = 0;
@@ -45,6 +48,9 @@ void vector_append(vector *self, void *value)
     case VECTOR:
         ((vector **)self->vec)[self->end++] = (vector *)value;
         break;
+    case MAP:
+        ((map **)self->vec)[self->end++] = (map *)value;
+        break;
     }
 }
 
@@ -61,12 +67,20 @@ void vector_reserve(vector *self, u32 size)
     case VECTOR:
         self->vec = realloc(self->vec, size * sizeof(vector *));
         break;
+    case MAP:
+        self->vec = realloc(self->vec, size * sizeof(map *));
+        break;
     }
     self->size = size;
 }
 
 void vector_free(vector *self)
 {
-    free(self->vec);
+    if (self == NULL)
+        return;
+
+    if (self->vec != NULL)
+        free(self->vec);
+    
     free(self);
 }

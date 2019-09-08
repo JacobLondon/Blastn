@@ -63,7 +63,11 @@ void string_free(string *self)
     free(self);
 }
 
-static void teststr()
+/**
+ * test
+ */
+
+static void string_test()
 {
     string *mystring = string_init("wow super cool");
     printf("CSTR: %s\n", mystring->c_str);
