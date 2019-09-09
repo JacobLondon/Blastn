@@ -60,7 +60,7 @@ typedef struct _map {
 } map;
 
 // map key (MUST be char *), and value type hint
-#define map(charstar, type)
+#define map(charstar, type) map
 
 /**
  * 
@@ -104,7 +104,7 @@ extended extended_init(string extended_pair, s32 dindex);
 typedef vector(vector(s32)) matrix;
 matrix matrix_init();
 #define matrix_at(matid, i, j) \
-    pointer_of(s32, pointer_of(vector *, (matid)->vec)[(i)])[(j)]
+    pointer_of(s32, pointer_of(vector *, (matid).vec)[(i)])[(j)]
 
 // map<char *, string>
 typedef map(char *, string) sequence_map;

@@ -87,6 +87,8 @@ node *map_at(map *self, char *key)
 
     // look for the key in the bucket vector
     for (u32 i = 0; i < bucket_at(self, index)->end; i++) {
+        if (bucket_at(self, index) == NULL)
+            continue;
         if (strcmp(node_at(self, index, i)->key, key) == 0)
             return node_at(self, index, i);
     }

@@ -5,7 +5,7 @@
 f64 dust(string word, u32 pattern_len)
 {
 	f64 total_score = 0;
-	u32 occurrance;
+	u32 occurrence;
 	vector<string> triplets = split_to_words(word, pattern_len);
 	dict<string, u32> record;
 	// reserve double necessary capacity for hash table to minimize collisions
@@ -14,9 +14,9 @@ f64 dust(string word, u32 pattern_len)
 	for (auto triplet : triplets) {
 		// triplet not recorded yet
 		if (record.find(triplet) == record.end()) {
-			// count occurrances
-			occurrance = (u32)std::count(triplets.begin(), triplets.end(), triplet);
-			record[triplet] = occurrance * (occurrance - 1) / 2;
+			// count occurrences
+			occurrence = (u32)std::count(triplets.begin(), triplets.end(), triplet);
+			record[triplet] = occurrence * (occurrence - 1) / 2;
 		}
 	}
 	// sum the scores

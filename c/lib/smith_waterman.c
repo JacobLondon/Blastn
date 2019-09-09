@@ -44,23 +44,23 @@ static inline s32 score_alignment(char alpha, char beta, s32 match, s32 mismatch
         return mismatch;
 }
 
-s32 smith_waterman(string *seq1,
-                   string *seq2,
+s32 smith_waterman(string seq1,
+                   string seq2,
                    s32 match,
                    s32 mismatch,
                    s32 gap)
 {
-    u32 rows = seq1->size;
-    u32 cols = seq2->size;
+    u32 rows = seq1.size;
+    u32 cols = seq2.size;
     u32 i = 0;
     u32 j = 0;
 
-    matrix *score_matrix;
-    matrix *point_matrix;
+    matrix score_matrix = *vector_init(VECTOR, cols);
+    matrix point_matrix = *vector_init(VECTOR, cols);
 
     for (i = 0; i <= cols; i++) {
-        vector_append(score_matrix, vector_init(I32, rows + 1));
-        vector_append(point_matrix, vector_init(I32, rows + 1));
+        vector_append(&score_matrix, vector_init(I32, rows + 1));
+        vector_append(&point_matrix, vector_init(I32, rows + 1));
     }
 
     s32 max_score = 0;
@@ -77,7 +77,7 @@ s32 smith_waterman(string *seq1,
             left = matrix_at(score_matrix, i - 1, j) + gap;
             up   = matrix_at(score_matrix, i, j - 1) + gap;
             diag = matrix_at(score_matrix, i - 1, j - 1)
-                 + score_alignment(seq1->c_str[i - 1], seq2->c_str[j - 1], match, mismatch, gap);
+                 + score_alignment(seq1.c_str[i - 1], seq2.c_str[j - 1], match, mismatch, gap);
 
             // find greatest
             greatest = max(left, up, diag);
@@ -92,6 +92,9 @@ s32 smith_waterman(string *seq1,
             }
         }
     }
+
+    vector_free(&score_matrix);
+    vector_free(&point_matrix);
 
     return max_score;
 }
