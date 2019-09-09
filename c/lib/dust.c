@@ -1,14 +1,27 @@
-#include <string.h>
 #include "dust.h"
 #include "split.h"
 #include "../tools/vector.h"
 #include "../tools/map.h"
 
+/**
+ * return false as soon as the strings are not the same
+ * will return true if one string is longer, but they were equal until the end
+ *      ie. ABCD123 will equal ABCD, this should not happen in the use case
+ */
+static inline bool same(const char *s1, const char *s2)
+{
+    for (; s1 && s2; s1++, s2++) {
+        if (*s1 != *s2)
+            return false;
+    }
+    return true;
+}
+
 static u32 count(const string *begin, const string *end, string *value)
 {
     u32 count = 0;
     for (string *iter = begin; iter != end; iter++) {
-        if (strcmp(iter->c_str, value->c_str) == 0) {
+        if (same(iter->c_str, value->c_str)) {
             count++;
         }
     }
