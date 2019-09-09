@@ -86,14 +86,31 @@ def tmatch():
     print(builder)
 
 def tpair():
-    """a = [10, 5]
-    i = 0
-    while i < len(a):
-        if condition:
-            del a[i]
-        else:
-            i += 1"""
-    pass
+    dpath = '../data/data_small.fasta'
+    qpath = '../data/query_small.fa'
+    length = 3
+
+    data =  prepare_sequence(path=dpath, length=length)
+    query = prepare_sequence(path=qpath, length=length)
+
+    matches = get_exact_matches(query, data)
+
+    # print the matches
+    if matches is None:
+        print("Match error")
+        return
+
+    builder = ''
+    for data_name, queries in matches.items():
+        for query_name, match_structs in queries.items():
+            for match_struct in match_structs:
+                builder += f"'{match_struct.word}'\t" \
+                        + f"{data_name}{match_struct.data_indices}\t" \
+                        + f"{query_name}{match_struct.query_indices}\n"
+    print(builder)
+    pair_filter(matches, 2, 30)
+
+    
 
 def tprepare():
     path = '../data/data_small.fasta'
@@ -136,5 +153,6 @@ if __name__ == '__main__':
     #tsmith_waterman()
     #tsequence()
     #tmatch()
+    tpair()
     #tdust()
-    textend()
+    #textend()
