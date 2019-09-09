@@ -54,14 +54,14 @@ python main.py -q ../data/query_small.fa -db ../data/data_small.fasta -l 4 -m 5 
 python main.py -q ../data/SRR7236689--ARG830.fa -db ../data/Gn-SRR7236689_contigs.fasta -l 11 -m 2 -dt .2 -ma 2 -mi -1 -g -1
 """
 if __name__ == '__main__':
-    query_file = None
-    data_file = None
-    split_len = None
-    minscore = None
-    dust_threshold = None
-    sw_match = None
-    sw_mismatch = None
-    sw_gap = None
+    query_file = "../data/query_small.fa"
+    data_file = "../data/data_small.fasta"
+    split_len = 4
+    minscore = 2
+    dust_threshold = 0.2
+    sw_match = 2
+    sw_mismatch = -1
+    sw_gap = -1
 
     args = iter(argv)
     try:

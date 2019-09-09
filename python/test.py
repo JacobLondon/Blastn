@@ -113,6 +113,8 @@ def tsmith_waterman():
 
     smith_waterman(s1, s2, match=match, mismatch=mismatch, gap=gap, just_score=False, printing=True)
 
+def tsort():
+    pass
 
 def tsplit_to_words():
     
