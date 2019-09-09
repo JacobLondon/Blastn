@@ -102,7 +102,6 @@ extended extended_init(string extended_pair, s32 dindex);
 
 // vector<vector<s32>>
 typedef vector(vector(s32)) matrix;
-matrix matrix_init();
 #define matrix_at(matid, i, j) \
     pointer_of(s32, pointer_of(vector *, (matid).vec)[(i)])[(j)]
 
