@@ -11,7 +11,8 @@
 node *node_init(char *key, void *value)
 {
     node *self = malloc(sizeof(node));
-    self->key = key;
+    self->key = malloc((1 + strlen(key)) * sizeof(char));
+    strcpy(self->key, key);
     self->value = value;
     
     return self;
@@ -19,8 +20,10 @@ node *node_init(char *key, void *value)
 
 void node_free(node *self)
 {
-    if (self != NULL)
+    if (self != NULL) {
+        free(self->key);
         free(self);
+    }
 }
 
 void node_print(node *self)
@@ -200,15 +203,23 @@ static char *rand_string(char *str, size_t size)
     return str;
 }
 
-static map_test()
+//static map_test()
+void main()
 {
     map *m = map_init(I32);
     u32 a = 'a';
-    for (int i = 0; i < 22; i++) {
-        char *test = malloc(sizeof(char) * 10);
-        map_insert(m, node_init(rand_string(test, 10), pointer_to(i)));
-    }
+
     map_insert(m, node_init("aaaa", pointer_to(a)));
+    map_insert(m, node_init("aa2a", pointer_to(a)));
+    map_insert(m, node_init("aa12a", pointer_to(a)));
+    map_insert(m, node_init("aaaa", pointer_to(a)));
+    map_insert(m, node_init("a43aaa", pointer_to(a)));
+    map_insert(m, node_init("aaaa", pointer_to(a)));
+    map_insert(m, node_init("aafasdaa", pointer_to(a)));
+    map_insert(m, node_init("aaaa", pointer_to(a)));
+    map_insert(m, node_init("aaadsaa", pointer_to(a)));
+    map_insert(m, node_init("afaaa", pointer_to(a)));
+    map_insert(m, node_init("adaadaaa", pointer_to(a)));
 
     printf("capacity: %d\nsize: %d\n", m->capacity, m->size);
 

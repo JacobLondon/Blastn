@@ -1,4 +1,5 @@
 CC=gcc
+CFLAGS=-ggdb
 TARGET=blastn
 
 SPLIT=lib/split.c
@@ -16,6 +17,6 @@ FILES= $(SPLIT) \
 .PHONY: all clean
 
 all:
-	$(CC) -o $(TARGET) $(FILES)
+	$(CC) -o $(TARGET) $(FILES) $(CFLAGS)
 clean:
 	rm $(TARGET) core
