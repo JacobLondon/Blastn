@@ -203,8 +203,8 @@ static char *rand_string(char *str, size_t size)
     return str;
 }
 
-//static map_test()
-void main()
+static map_test()
+//void main()
 {
     map *m = map_init(I32);
     u32 a = 'a';
