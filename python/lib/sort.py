@@ -3,6 +3,13 @@ from typing import Dict, List
 from .extend import Extended
 from .smith_waterman import smith_waterman
 
+class Sorted:
+    def __init__(self):
+        self.extended_pair
+        self.query_name
+        self.query_seq
+        self.data_name
+
 def sort_filter(extended_pairs: Dict[str, Dict[str, List[Extended]]],
                 query: Dict[str, str],
                 match: int,

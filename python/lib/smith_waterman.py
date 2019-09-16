@@ -154,7 +154,7 @@ def smith_waterman(seq1: str,
         print()
         print('  Output: ', output_alignment)
 
-    return max_score
+    return similarity_percent
 
 """
 External

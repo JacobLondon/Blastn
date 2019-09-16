@@ -1,6 +1,7 @@
 from collections import defaultdict
 from copy import copy
 from typing import Dict, List
+import tqdm
 
 from .smith_waterman import smith_waterman
 from .pairs import AdjacentPair
@@ -16,6 +17,11 @@ class Extended:
         """
         self.extended_pair = extended_pair
         self.dindex = dindex
+    
+    def __str__(self):
+        return str(self.__dict__)
+    def __repr__(self):
+        return self.__str__()
 
 """
 2 adjacent pairs
@@ -139,7 +145,7 @@ def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
     """
     result: Dict[str, Dict[str, List[Extended]]] = {}
 
-    for dname, queries in pairs.items():
+    for dname, queries in tqdm.tqdm(pairs.items()):
         temp = defaultdict(list)
         for qname, adjacent_pairs in queries.items():
             for adjacent_pair in adjacent_pairs:
