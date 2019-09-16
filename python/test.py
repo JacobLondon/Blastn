@@ -108,7 +108,7 @@ def tpair():
                         + f"{data_name}{match_struct.data_indices}\t" \
                         + f"{query_name}{match_struct.query_indices}\n"
     print(builder)
-    pair_filter(matches, 2, 30)
+    pair_filter(matches, query = build_sequence(path = qpath))
 
     
 

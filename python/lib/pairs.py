@@ -40,7 +40,7 @@ def sort_and_append(result: list, data_index: list, query_index: list, db_name: 
         if index not in ignore_list:
             for index2 in range(len(data_index)):
                 if index2 not in ignore_list:
-                    if (abs(index2-index) >= len(word[index])):
+                    if (abs(data_index[index2]-data_index[index]) >= len(word[index])):
                         result.append(AdjacentPair(word1 = word[index], 
                                                     word2 = word[index2], 
                                                     dindex1 = data_index[index], 
