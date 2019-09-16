@@ -1,4 +1,5 @@
 from sys import argv
+import pprint
 from typing import Dict, List
 
 from lib import dust_filter, \
@@ -73,24 +74,23 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
                       mismatch=sw_match,
                       gap=sw_gap)
     
-    
-
     print('filtered_query\n', filtered_query)
     print('Exact matches\n', exact_matches)
     print('Adjacent pairs\n', adjacent_pairs)
     print('Extended\n', extended_pairs)
     print('Sorted\n', sorted_epairs)
 
-    """print('Writing output...')
-    builder = ''
-    for data_name, queries in exact_matches.items():
-        for query_name, match_structs in queries.items():
-            for match_struct in match_structs:
-                builder += f"'{match_struct.word}'\t" \
-                        + f"{data_name}{match_struct.data_indices}\t" \
-                        + f"{query_name}{match_struct.query_indices}\n"
+    print('Writing output...')
+    builder = ""
+    for data_name, queries in sorted_epairs.items():
+        for query_name, epairs in queries.items():
+            for epair in epairs:
+                builder += f"Hit: {data[data_name][epair.dindex:len(epair.extended_pair)]} in {data_name}[{epair.dindex}]\n" \
+                        +  f"{epair.extended_pair}\n" \
+                        +  f"{query_name}: {query[query_name]}\n" \
+                        +  f"Smith-Waterman Score: {epair.score}\n"
     with open('blastn_out.txt', 'w') as blastn_out:
-        blastn_out.write(builder)"""
+        blastn_out.write(builder)
     
     print('...done')
 

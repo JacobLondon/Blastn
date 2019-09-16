@@ -165,6 +165,6 @@ def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
                     temp[qname].append(Extended(extended_pair, dindex))
         # temp has items in it, so record it
         if temp:
-            result[dname] = temp
+            result[dname] = dict(temp)
     
     return result
