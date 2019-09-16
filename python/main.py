@@ -3,7 +3,8 @@ from typing import Dict, List
 
 from lib import dust_filter, \
                 get_exact_matches, MatchStruct, \
-                prepare_sequence, \
+                pair_filter, AdjacentPair, \
+                prepare_sequence, build_sequence, \
                 smith_waterman_filter, \
                 split_to_words
 
@@ -11,31 +12,47 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
     # format data into a dictionary
     # {name : {word : [indices], word : [indices], ...}, ...}
     print('Formatting...')
-    prepared_query: Dict[str, Dict[str, List[int]]] = prepare_sequence(path=query_file, length=split_len)
-    prepared_data: Dict[str, Dict[str, List[int]]]  = prepare_sequence(path=data_file, length=split_len)
+    query: Dict[str, str] \
+        = build_sequence(path=query_file)
+    prepared_query: Dict[str, Dict[str, List[int]]] \
+        = prepare_sequence(path=query_file,
+                           length=split_len)
+    prepared_data: Dict[str, Dict[str, List[int]]] \
+        = prepare_sequence(path=data_file,
+                           length=split_len)
 
     # remove low scoring query words
     print('Smith Waterman...')
-    scored_query: Dict[str, Dict[str, List[int]]] = \
-        smith_waterman_filter(data=prepared_query,
-                              minscore=minscore,
-                              match=sw_match,
-                              mismatch=sw_mismatch,
-                              gap=sw_gap)
+    scored_query: Dict[str, Dict[str, List[int]]] \
+        = smith_waterman_filter(data=prepared_query,
+                                minscore=minscore,
+                                match=sw_match,
+                                mismatch=sw_mismatch,
+                                gap=sw_gap)
 
     # dust filter out words below the threshold
     print('Dust...')
-    filtered_query: Dict[str, Dict[str, List[int]]] = dust_filter(data=scored_query, threshold=dust_threshold, word_len=split_len)
+    filtered_query: Dict[str, Dict[str, List[int]]] \
+        = dust_filter(data=scored_query,
+                      threshold=dust_threshold,
+                      word_len=split_len)
 
     # find all exact matches of every filtered_query in formatted_data
     # {dname : {qname : [Match(word, dindices, qindices), ...], ...}, ...}
     print('Exact matches...')
-    exact_matches: Dict[str, Dict[str, List[MatchStruct]]] = get_exact_matches(query=filtered_query, data=prepared_data)
+    exact_matches: Dict[str, Dict[str, List[MatchStruct]]] \
+        = get_exact_matches(query=filtered_query,
+                            data=prepared_data)
     # print the exact matches
     if exact_matches is None:
+        print('No results.')
         return
 
-    print('Writing output...')
+    adjacent_pairs: Dict[str, Dict[str, List[AdjacentPair]]] \
+        = pair_filter(matches=exact_matches,
+                      query=query)
+    print(adjacent_pairs)
+    """print('Writing output...')
     builder = ''
     for data_name, queries in exact_matches.items():
         for query_name, match_structs in queries.items():
@@ -44,7 +61,7 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
                         + f"{data_name}{match_struct.data_indices}\t" \
                         + f"{query_name}{match_struct.query_indices}\n"
     with open('blastn_out.txt', 'w') as blastn_out:
-        blastn_out.write(builder)
+        blastn_out.write(builder)"""
     
     print('...done')
 

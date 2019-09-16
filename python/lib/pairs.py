@@ -118,18 +118,12 @@ def make_adjacent_pair(match_structs: List[MatchStruct], dname: str, qname: str)
 
     return result
 
-def pair(matches: List[MatchStruct]) -> List[AdjacentPair]:
-    result: List[AdjacentPair] = []
-
-    # ...
-
-    return result
-
 """
 External
 """
 
-def pair_filter(matches: Dict[str, Dict[str, List[MatchStruct]]], query_len: int, distance_threshold: int) -> Dict[str, Dict[str, List[AdjacentPair]]]:
+def pair_filter(matches: Dict[str, Dict[str, List[MatchStruct]]],
+                query: Dict[str, str]) -> Dict[str, Dict[str, List[AdjacentPair]]]:
     filtered_pairs: Dict[str, Dict[str, List[AdjacentPair]]] = {}
     result = []
     for dname, queries in matches.items():
@@ -137,14 +131,13 @@ def pair_filter(matches: Dict[str, Dict[str, List[MatchStruct]]], query_len: int
         for qname, match_structs in queries.items():
             result = make_adjacent_pair(match_structs, dname, qname)
             for pair in result:
-                if (abs(pair.dindex1-pair.dindex2) > distance_threshold or abs(pair.dindex1-pair.dindex2) < pair.length or abs(pair.dindex1-pair.dindex2) > query_len or abs(pair.dindex1-pair.dindex2) < pair.length):
+                #                                    distance threshold
+                if (abs(pair.dindex1-pair.dindex2) > len(query[qname]) - pair.length \
+                    or abs(pair.qindex1-pair.qindex2) < pair.length \
+                    or abs(pair.dindex1-pair.dindex2) < pair.length):
                     pass
                 else:
                     pairs[qname].append(pair)
         if pairs:
             filtered_pairs[dname] = dict(pairs)
-    print(filtered_pairs)
     return filtered_pairs
-       
-
-    
