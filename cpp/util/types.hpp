@@ -45,6 +45,14 @@ public:
 	s32 dindex;
 };
 
+class Sorted {
+public:
+	Sorted(string extended_pair, s32 dindex, s32 score);
+	string extended_pair;
+	s32 dindex;
+	s32 score;
+};
+
 namespace Blastn {
 	const string SGap = "-";
 	const char CGap = '-';
@@ -97,5 +105,14 @@ namespace Blastn {
 	 * @brief Data name mapped to a query name mapped to a vector of Extended pair objects
 	 */
 	using ExtendedSequenceMap = dict<string, ExtendedPairsMap>;
+
+	/**
+	 * @brief Intermediate, map a query to its Sorted/Extended object
+	 */
+	using SortedPairsMap = dict<string, vector<Sorted>>;
+	/**
+	 * @brief Data name mapped to a query name mapped to a vector of Sorted objects
+	 */
+	using SortedSequenceMap = dict<string, SortedPairsMap>;
 
 }

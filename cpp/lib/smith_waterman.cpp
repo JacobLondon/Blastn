@@ -173,7 +173,7 @@ s32 smith_waterman(string seq1,
 	return max_score;
 }
 
-Blastn::IndexedSequenceMap smith_waterman_filter(Blastn::IndexedSequenceMap data, s32 minscore, s32 match, s32 mismatch, s32 gap)
+Blastn::IndexedSequenceMap smith_waterman_filter(Blastn::IndexedSequenceMap& data, s32 minscore, s32 match, s32 mismatch, s32 gap)
 {
 	// traverse each sequence
 	for (auto name_seqmap = data.begin(); name_seqmap != data.end(); ++name_seqmap) {

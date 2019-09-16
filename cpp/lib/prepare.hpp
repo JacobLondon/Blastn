@@ -15,7 +15,7 @@ Blastn::SequenceMap build_sequence(string path, char sep);
  * @param length The size each word should be split at.
  * @return The data names mapped to split words mapped to their indices.
  */
-Blastn::IndexedSequenceMap split_sequence(Blastn::SequenceMap data, u32 length);
+Blastn::IndexedSequenceMap split_sequence(Blastn::SequenceMap& data, u32 length);
 /**
  * @brief Build and split a .fa or .fasta sequence.
  * @param path The path to a .fa or .fasta file to build from.

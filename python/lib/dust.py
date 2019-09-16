@@ -42,7 +42,9 @@ def dust_filter(data: Dict[str, Dict[str, List[int]]], threshold: float, word_le
     """
     filtered_dictionary: Dict[str, Dict[str, List[int]]] = {}
     total_score: int = 0
+    print(threshold)
     threshold = threshold * (word_len - 2) / 2
+    print(threshold)
 
     # breaks words of 11 into subsequences of tuple triplets (length 3)
     for key, values in tqdm.tqdm(data.items()):

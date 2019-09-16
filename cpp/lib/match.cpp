@@ -1,7 +1,7 @@
 #include "match.hpp"
 #include "prepare.hpp"
 
-Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap query, Blastn::IndexedSequenceMap data)
+Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap& query, Blastn::IndexedSequenceMap& data)
 {
 	Blastn::MatchedSequenceMap exact_matches;
 

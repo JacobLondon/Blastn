@@ -24,8 +24,10 @@ static std::string argparse(int argc, char **argv, std::string arg)
 static void blastn(std::string query_file, std::string data_file)
 {
 	std::cout << "Formatting..." << std::endl;
-	auto query_prepared = prepare_sequence(query_file, Blastn::SplitLength, Blastn::Seperator);
-	auto data_prepared = prepare_sequence(data_file, Blastn::SplitLength, Blastn::Seperator);
+	auto query = build_sequence(query_file, Blastn::Seperator);
+	auto data = build_sequence(data_file, Blastn::Seperator);
+	auto query_prepared = split_sequence(query, Blastn::SplitLength);
+	auto data_prepared = split_sequence(data, Blastn::SplitLength);
 
 	std::cout << "Smith Waterman..." << std::endl;
 	auto query_swfiltered = smith_waterman_filter(query_prepared, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
@@ -38,6 +40,12 @@ static void blastn(std::string query_file, std::string data_file)
 	std::cout << "Exact matches..." << std::endl;
 	auto exact_matches = match_filter(query_dustfiltered, data_prepared);
 	//auto exact_matches = match_filter(query_swfiltered, data_prepared);
+
+	// adjacent_pairs
+
+	// extended_pairs
+
+	// sorted_epairs
 
 	std::cout << "Printing output..." << std::endl;
 	Blastn::print(exact_matches);

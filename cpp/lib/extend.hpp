@@ -40,9 +40,9 @@ Extended extend_and_score(AdjacentPair pair,
  * @param gap : The smith waterman score when there is a gap character.
  * @return A map of data names to query names to a list of extended matches with their data base index.
  */
-Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedMatchesMap pairs,
-										  Blastn::SequenceMap query,
-										  Blastn::SequenceMap data,
+Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedMatchesMap& pairs,
+										  Blastn::SequenceMap& query,
+										  Blastn::SequenceMap& data,
 										  s32 minscore,
 										  s32 match,
 										  s32 mismatch,

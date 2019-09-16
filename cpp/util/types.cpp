@@ -17,6 +17,12 @@ Extended::Extended(string extended_pair, s32 dindex)
 	// pass
 }
 
+Sorted::Sorted(string extended_pair, s32 dindex, s32 score)
+	: extended_pair{ extended_pair }, dindex{ dindex }, score{ score }
+{
+	// pass
+}
+
 namespace Blastn {
 
 	void print(Matrix m) {
@@ -71,6 +77,53 @@ namespace Blastn {
 						std::cout << q_name_matchvec->second[i].query_indices[j] << ". ";
 					}
 					std::cout << "]" << std::endl;
+				}
+			}
+		}
+	}
+
+	void print(PairedSequenceMap m)
+	{
+		for (auto d_name_quermap = m.begin(); d_name_quermap != m.end(); ++d_name_quermap) {
+			for (auto q_name_pairvec = d_name_quermap->second.begin();
+				q_name_pairvec != d_name_quermap->second.end();
+				++q_name_pairvec) {
+				for (u32 i = 0; i < q_name_pairvec->second.size(); i++) {
+					std::cout << "Word 1: " << q_name_pairvec->second[i].word1 << "\t";
+					std::cout << "Word 2: " << q_name_pairvec->second[i].word2 << "\t";
+					std::cout << "Length: " << q_name_pairvec->second[i].length << "\t";
+					std::cout << std::endl;
+				}
+			}
+		}
+	}
+
+	void print(ExtendedSequenceMap m)
+	{
+		for (auto d_name_quermap = m.begin(); d_name_quermap != m.end(); ++d_name_quermap) {
+			for (auto q_name_extendedvec = d_name_quermap->second.begin();
+				q_name_extendedvec != d_name_quermap->second.end();
+				++q_name_extendedvec) {
+				for (u32 i = 0; i < q_name_extendedvec->second.size(); i++) {
+					std::cout << "Extended Pair: " << q_name_extendedvec->second[i].extended_pair << "\t";
+					std::cout << "Data Index: " << q_name_extendedvec->second[i].dindex << "\t";
+					std::cout << std::endl;
+				}
+			}
+		}
+	}
+	
+	void print(SortedSequenceMap m)
+	{
+		for (auto d_name_quermap = m.begin(); d_name_quermap != m.end(); ++d_name_quermap) {
+			for (auto q_name_sortedvec = d_name_quermap->second.begin();
+				q_name_sortedvec != d_name_quermap->second.end();
+				++q_name_sortedvec) {
+				for (u32 i = 0; i < q_name_sortedvec->second.size(); i++) {
+					std::cout << "Extended Pair: " << q_name_sortedvec->second[i].extended_pair << "\t";
+					std::cout << "Data Index: " << q_name_sortedvec->second[i].dindex << "\t";
+					std::cout << "SW Score: " << q_name_sortedvec->second[i].score << "\t";
+					std::cout << std::endl;
 				}
 			}
 		}

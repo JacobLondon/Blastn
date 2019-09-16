@@ -9,7 +9,7 @@ Blastn::SequenceMap build_sequence(string path, char sep)
 	std::ifstream sequence_file{ path };
 
 	if (!sequence_file.is_open()) {
-		std::cout << "Failure: Coult not open: " << path << std::endl;
+		std::cout << "Failure: Could not open: " << path << std::endl;
 		exit(-1);
 	}
 
@@ -32,7 +32,7 @@ Blastn::SequenceMap build_sequence(string path, char sep)
 	return result;
 }
 
-Blastn::IndexedSequenceMap split_sequence(Blastn::SequenceMap data, u32 length)
+Blastn::IndexedSequenceMap split_sequence(Blastn::SequenceMap& data, u32 length)
 {
 	Blastn::IndexedSequenceMap result;
 

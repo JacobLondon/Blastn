@@ -102,9 +102,9 @@ Extended extend_and_score(AdjacentPair pair,
 	return Extended{ qextended, dindex };
 }
 
-Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedSequenceMap pairs,
-										  Blastn::SequenceMap query,
-										  Blastn::SequenceMap data,
+Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedSequenceMap& pairs,
+										  Blastn::SequenceMap& query,
+										  Blastn::SequenceMap& data,
 										  s32 minscore,
 										  s32 match,
 										  s32 mismatch,
