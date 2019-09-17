@@ -153,6 +153,6 @@ if __name__ == '__main__':
     #tsmith_waterman()
     #tsequence()
     #tmatch()
-    tpair()
-    #tdust()
+    #tpair()
+    tdust()
     #textend()

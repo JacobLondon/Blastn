@@ -28,7 +28,7 @@ def build_sequence(path: str, sep: str='>') -> Dict[str, str]:
     name: str = ''
 
     # put all sequence letters into a single string for each sequence
-    for line in tqdm.tqdm(seq_file.readlines()):
+    for line in seq_file.readlines():
         # a sequence name is found
         if line[0] == sep:
             # start after the seperator and remove newlines
@@ -60,7 +60,7 @@ def split_sequence(data: Dict[str, str], length: int=11) -> Dict[str, Dict[str, 
     result: Dict[str, Dict[str, List[int]]] = {}
     
     # traverse the sequence
-    for name, sequence in data.items():
+    for name, sequence in tqdm.tqdm(data.items()):
         # get all the words and find their indices in that data set
         words_with_indices: DefaultDict[str, List[int]] = defaultdict(list)
         words: list = split_to_words(iterable=sequence, length=length)

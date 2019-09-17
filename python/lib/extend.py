@@ -41,7 +41,7 @@ def extend_and_score(pair: AdjacentPair,
                      gap: int,
                      minscore: int,
                      score=False,
-                     printing=True) -> (str, int):
+                     printing=True) -> Extended:
     """
     @brief: Extend an adjacent pair while scoring each extension. Stop extending if the extended word \\
             scores too low. \\
@@ -119,7 +119,7 @@ def extend_and_score(pair: AdjacentPair,
         print(f"Data Ext:\t{dextended}")
         print(f"Quer Ext:\t{qextended}")
     
-    return qextended, dindex
+    return Extended(qextended, dindex)
 
 """
 External
@@ -144,25 +144,28 @@ def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
     @return A map of data names to query names to a list of extended matches with their data base index.
     """
     result: Dict[str, Dict[str, List[Extended]]] = {}
-
+    
     for dname, queries in tqdm.tqdm(pairs.items()):
         temp = defaultdict(list)
         for qname, adjacent_pairs in queries.items():
             for adjacent_pair in adjacent_pairs:
-                extended_pair, dindex = extend_and_score(
-                    pair=adjacent_pair,
-                    query=query[qname],
-                    data=data[dname],
-                    match=match,
-                    mismatch=mismatch,
-                    gap=gap,
-                    minscore=minscore,
-                    score=True,
-                    printing=False
-                )
-                # the word scored above minscore
+                try:
+                    extended_pair = extend_and_score(
+                        adjacent_pair,
+                        query[qname],
+                        data[dname],
+                        match,
+                        mismatch,
+                        gap,
+                        minscore,
+                        score=False,
+                        printing=False
+                    )
+                except:
+                    pass
+                # the word scored above minscore and is not None
                 if extended_pair:
-                    temp[qname].append(Extended(extended_pair, dindex))
+                    temp[qname].append(extended_pair)
         # temp has items in it, so record it
         if temp:
             result[dname] = dict(temp)

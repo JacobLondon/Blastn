@@ -1,4 +1,5 @@
 from typing import Dict, List, DefaultDict
+import tqdm
 from collections import defaultdict
 from .match import MatchStruct
 

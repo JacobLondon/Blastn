@@ -25,7 +25,7 @@ def dust(word: str, pattern_len: int=3):
         if triplet not in record:
             occurrance = triplets.count(triplet)
             record[triplet] = occurrance * (occurrance - 1) / 2
-    total_score = sum(record.values()) / (len(word) - pattern_len)
+    total_score = sum(record.values())
     return total_score
 
 """
@@ -38,19 +38,19 @@ def dust_filter(data: Dict[str, Dict[str, List[int]]], threshold: float, word_le
             It scores using a self similarity equation (refer to SDUST paper) and removes words under threshold. \\
     @param data:      The formatted data to perform DUST on \\
     @param threshold: The DUST score threshold in percent to remove words at \\
-    @return: The input dictionary without words which scored below the threshold..
+    @return: The input dictionary without words which scored below the threshold.
     """
-    filtered_dictionary: Dict[str, Dict[str, List[int]]] = {}
+    result: Dict[str, Dict[str, List[int]]] = {}
     total_score: int = 0
-    print(threshold)
-    threshold = threshold * (word_len - 2) / 2
-    print(threshold)
 
     # breaks words of 11 into subsequences of tuple triplets (length 3)
-    for key, values in tqdm.tqdm(data.items()):
-        for word, v in values.items():
+    for qname, words in tqdm.tqdm(data.items()):
+        temp: Dict[str, List[int]] = {}
+        for word, indices in words.items():
             total_score = dust(word)
             # words that score above the threshold will not be added to the filtered list
             if (total_score < threshold):
-                filtered_dictionary[key] = {word: v}
-    return filtered_dictionary
+                temp[word] = indices
+        if temp:
+            result[qname] = temp
+    return result

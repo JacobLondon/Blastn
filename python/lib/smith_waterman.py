@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 from typing import Dict, List
+import tqdm
 
 """
 Internal
@@ -174,7 +175,7 @@ def smith_waterman_filter(data: Dict[str, Dict[str, List[int]]],
     Return the dict with low scoring words removed
     """
     # traverse each sequence
-    for name, sequence in data.items():
+    for name, sequence in tqdm.tqdm(data.items()):
         # get the words from each element in each sequence
         for word in sequence.keys():
             # delete the sequence if it scored too low
