@@ -25,7 +25,7 @@ def dust(word: str, pattern_len: int=3):
         if triplet not in record:
             occurrance = triplets.count(triplet)
             record[triplet] = occurrance * (occurrance - 1) / 2
-    total_score = sum(record.values())
+    total_score = sum(record.values()) / (len(word) - pattern_len)
     return total_score
 
 """

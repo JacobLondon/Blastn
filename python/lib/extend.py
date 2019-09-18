@@ -89,7 +89,7 @@ def extend_and_score(pair: AdjacentPair,
         qexindex += 1
         dexindex += 1
         qextended = qextended + query[qexindex]
-        dextended = dextended + data[dexindex]
+        dextended = dextended + data[dexindex] # OOB issue
     
     # extend right with gaps until qextended aligns with data
     while dexindex + 1 < drightindex:
@@ -162,7 +162,7 @@ def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
                         printing=False
                     )
                 except:
-                    pass
+                    continue
                 # the word scored above minscore and is not None
                 if extended_pair:
                     temp[qname].append(extended_pair)
