@@ -77,7 +77,7 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
     for data_name, queries in tqdm.tqdm(sorted_epairs.items()):
         for query_name, epairs in queries.items():
             for epair in epairs:
-                builder += ("-" * 50) + "\n" \
+                builder += "\n" \
                         +  f"Smith-Waterman Score: {epair.score}\n" \
                         +  f"Hit at {data_name}[{epair.dindex}]:\n\t{data[data_name][epair.dindex:len(epair.extended_pair)]}\n" \
                         +  f"Matched with {query_name}\n" \
@@ -99,7 +99,7 @@ if __name__ == '__main__':
     data_file = "../data/Gn-SRR7236689_contigs.fasta"
     split_len = 11
     # if below, sw removes
-    minscore = 20
+    minscore = 22
     # if above, dust removes
     dust_threshold = 1
     sw_match = 2

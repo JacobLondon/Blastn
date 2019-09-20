@@ -12,6 +12,12 @@ class Sorted:
         self.extended_pair = extended_pair
         self.dindex = dindex
         self.score = score
+    
+    def __str__(self):
+        return str(self.__dict__)
+    
+    def __repr__(self):
+        return self.__str__()
 
 def sort_filter(extended_pairs: Dict[str, Dict[str, List[Extended]]],
                 query: Dict[str, str],
@@ -35,5 +41,5 @@ def sort_filter(extended_pairs: Dict[str, Dict[str, List[Extended]]],
                                 just_score=True)))"""
             temp[qname].sort(key=lambda scored: scored.score)
         if temp:
-            result[dname] = temp
+            result[dname] = dict(temp)
     return result

@@ -88,7 +88,9 @@ def pair_filter(matches: Dict[str, Dict[str, List[MatchStruct]]],
                 if abs(pair.dindex1 - pair.dindex2) <= len(query[qname]) - pair.length \
                     or abs(pair.qindex1 - pair.qindex2) >= pair.length \
                     or abs(pair.dindex1 - pair.dindex2) >= pair.length:
-                    pairs[qname].append(pair)
+                    # only append if the pair isn't already recorded
+                    if not any(pair.dindex1 == p.dindex1 for p in pairs[qname]):
+                        pairs[qname].append(pair)
         if pairs:
             filtered_pairs[dname] = dict(pairs)
     return filtered_pairs

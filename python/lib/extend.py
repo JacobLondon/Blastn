@@ -85,7 +85,7 @@ def extend_and_score(pair: AdjacentPair,
     # extend left pair to the right
     qexindex = qleftindex + pair.length - 1
     dexindex = dleftindex + pair.length - 1
-    while qexindex + 1 < qrightindex:
+    while qexindex + 1 < qrightindex and dexindex + 1 < len(data):
         qexindex += 1
         dexindex += 1
         qextended = qextended + query[qexindex]
@@ -149,23 +149,22 @@ def extend_filter(pairs: Dict[str, Dict[str, List[AdjacentPair]]],
         temp = defaultdict(list)
         for qname, adjacent_pairs in queries.items():
             for adjacent_pair in adjacent_pairs:
-                try:
-                    extended_pair = extend_and_score(
-                        adjacent_pair,
-                        query[qname],
-                        data[dname],
-                        match,
-                        mismatch,
-                        gap,
-                        minscore,
-                        score=False,
-                        printing=False
-                    )
-                except:
-                    continue
+                extended_pair = extend_and_score(
+                    adjacent_pair,
+                    query[qname],
+                    data[dname],
+                    match,
+                    mismatch,
+                    gap,
+                    minscore,
+                    score=False,
+                    printing=False
+                )
                 # the word scored above minscore and is not None
                 if extended_pair:
-                    temp[qname].append(extended_pair)
+                    # don't add repeat extended_pairs
+                    if not any(extended_pair.dindex == ep.dindex for ep in temp[qname]):
+                        temp[qname].append(extended_pair)
         # temp has items in it, so record it
         if temp:
             result[dname] = dict(temp)
