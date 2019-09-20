@@ -16,6 +16,7 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
     print('Formatting Data...')
     data: Dict[str, str] \
         = build_sequence(path=data_file)
+    #data = filter_short(query, data)
     prepared_data: Dict[str, Dict[str, List[int]]] \
         = split_sequence(data=data,
                          length=split_len)
