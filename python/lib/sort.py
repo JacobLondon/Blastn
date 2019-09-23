@@ -8,9 +8,10 @@ from .extend import Extended
 from .smith_waterman import smith_waterman
 
 class Sorted:
-    def __init__(self, extended_pair, dindex, score):
+    def __init__(self, extended_pair, dindex, qindex, score):
         self.extended_pair = extended_pair
         self.dindex = dindex
+        self.qindex = qindex
         self.score = score
     
     def __str__(self):
@@ -32,6 +33,7 @@ def sort_filter(extended_pairs: Dict[str, Dict[str, List[Extended]]],
                 temp[qname].append(Sorted(
                     epair.extended_pair,
                     epair.dindex,
+                    epair.qindex,
                     random.randint(0, 100)))
                 """smith_waterman(seq1=epair.extended_pair,
                                 seq2=query[qname],

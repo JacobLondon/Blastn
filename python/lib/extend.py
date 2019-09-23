@@ -11,12 +11,13 @@ Internal
 """
 
 class Extended:
-    def __init__(self, extended_pair, dindex):
+    def __init__(self, extended_pair, dindex, qindex):
         """
         @brief: Hold the extended pair and where it was found in the database.
         """
         self.extended_pair = extended_pair
         self.dindex = dindex
+        self.qindex = qindex
     
     def __str__(self):
         return str(self.__dict__)
@@ -81,11 +82,12 @@ def extend_and_score(pair: AdjacentPair,
 
     # the left-most index in the database
     dindex: int = copy(dexindex)
+    qindex: int = copy(qexindex)
     
     # extend left pair to the right
     qexindex = qleftindex + pair.length - 1
     dexindex = dleftindex + pair.length - 1
-    while qexindex + 1 < qrightindex and dexindex + 1 < len(data):
+    while qexindex + 1 < qrightindex and dexindex + 1 < drightindex:
         qexindex += 1
         dexindex += 1
         qextended = qextended + query[qexindex]
@@ -119,7 +121,7 @@ def extend_and_score(pair: AdjacentPair,
         print(f"Data Ext:\t{dextended}")
         print(f"Quer Ext:\t{qextended}")
     
-    return Extended(qextended, dindex)
+    return Extended(qextended, dindex, qindex)
 
 """
 External

@@ -31,8 +31,8 @@ def tdust():
 
 def textend():
     # inputs
-    query = 'GTCTGAACTGAGC'
-    data  = 'AGTCTGATGACTGGGGAACTCGA'
+    query = 'AAAAAAAATCCT'
+    data  = 'AAATCAAAAAAAAAAACT'
     word1 = 'TC'
     word2 = 'CT'
     qindex1 = query.find(word1)
@@ -48,17 +48,16 @@ def textend():
     print(qindex1, dindex1, qindex2, dindex2)
     print(f"Query:\t\t{query}")
     print(f"Data:\t\t{data}")
-    result, index = extend_and_score(
-                             pair,
-                             query,
-                             data,
-                             match=2,
-                             mismatch=-1,
-                             gap=-1,
-                             minscore=6,
-                             score=True,
-                             printing=True)
-    print(f"Data Index: {index}")
+    extended = extend_and_score(pair,
+                                query,
+                                data,
+                                match=2,
+                                mismatch=-1,
+                                gap=-1,
+                                minscore=6,
+                                score=True,
+                                printing=True)
+    print(f"Extended: {extended}")
 
 def tmatch():
     
@@ -154,5 +153,5 @@ if __name__ == '__main__':
     #tsequence()
     #tmatch()
     #tpair()
-    tdust()
-    #textend()
+    #tdust()
+    textend()
