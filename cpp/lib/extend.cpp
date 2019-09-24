@@ -55,7 +55,7 @@ Extended extend_and_score(AdjacentPair pair,
         dextended = data[dexindex] + dextended;
         if (score && smith_waterman(qextended, dextended, match, mismatch, gap, true) < minscore)
         {
-			return Extended{ Blastn::Invalid, -1 };
+			return Extended{ Blastn::Invalid, -1, -1 };
         }
     }
 
@@ -92,7 +92,7 @@ Extended extend_and_score(AdjacentPair pair,
         dextended = dextended + data[dexindex];
         if (score && smith_waterman(qextended, dextended, match, mismatch, gap, true) < minscore)
         {
-			return Extended{ Blastn::Invalid, -1 };
+			return Extended{ Blastn::Invalid, -1, -1 };
         }
     }
 
