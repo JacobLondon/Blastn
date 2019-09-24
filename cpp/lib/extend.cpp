@@ -60,12 +60,13 @@ Extended extend_and_score(AdjacentPair pair,
     }
 
 	// the left-most index in the database
-	int dindex = dexindex;
+	u32 dindex = dexindex;
+    u32 qindex = qexindex;
 	
     // extend left pair to the right
     qexindex = qleftindex + pair.length - 1;
     dexindex = dleftindex + pair.length - 1;
-    while ((u32)qexindex + 1 < qrightindex) {
+    while ((u32)qexindex + 1 < qrightindex && (u32)dexindex + 1 < drightindex) {
 		qexindex++; dexindex++;
         qextended = qextended + query[qexindex];
         dextended = dextended + data[dexindex];
@@ -99,7 +100,7 @@ Extended extend_and_score(AdjacentPair pair,
         std::cout << "Data Ext:\t" << dextended << std::endl;
         std::cout << "Quer Ext:\t" << qextended << std::endl;
     }
-	return Extended{ qextended, dindex };
+	return Extended{ qextended, dindex, qindex };
 }
 
 Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedSequenceMap& pairs,
@@ -111,33 +112,28 @@ Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedSequenceMap& pairs,
 										  s32 gap)
 {
 	Blastn::ExtendedSequenceMap result;
-	for (auto dname_quermap = pairs.begin(); dname_quermap != pairs.end(); ++dname_quermap) {
+    for (auto& dname_quermap : pairs) {
 		Blastn::ExtendedPairsMap temp;
-		for (auto qname_pairvec = dname_quermap->second.begin();
-				  qname_pairvec != dname_quermap->second.end();
-			    ++qname_pairvec)
-		{
-			for (auto adjacent_pair : qname_pairvec->second) {
+		for (auto& qname_pairvec : dname_quermap.second) {
+			for (auto adjacent_pair : qname_pairvec.second) {
 
 				Extended ext = extend_and_score(adjacent_pair,
-												query[qname_pairvec->first],
-												data[dname_quermap->first],
+												query[qname_pairvec.first],
+												data[dname_quermap.first],
 												match, mismatch, gap, minscore, true, false);
 				// the word scored above the minscore
 				if (ext.extended_pair != Blastn::Invalid) {
 					// no items in the vector of Extended pairs
-					if (temp.find(qname_pairvec->first) == temp.end()) {
-						temp[qname_pairvec->first] = vector<Extended>{ ext };
-					}
+					if (temp.find(qname_pairvec.first) == temp.end())
+						temp[qname_pairvec.first] = vector<Extended>{ ext };
 					// at least one item in the vector of Extended pairs
-					else {
-						temp[qname_pairvec->first].push_back(ext);
-					}
+					else
+						temp[qname_pairvec.first].push_back(ext);
 				}
 			}
 		}
 		if (!temp.empty())
-			result[dname_quermap->first] = temp;
+			result[dname_quermap.first] = temp;
 	}
 	return result;
 }

@@ -180,6 +180,7 @@ Blastn::IndexedSequenceMap smith_waterman_filter(Blastn::IndexedSequenceMap& dat
 		// get the word from each element in each sequence
 		for (auto word_indices = name_seqmap->second.begin(); word_indices != name_seqmap->second.end(); ++word_indices) {
 			if (smith_waterman(word_indices->first, word_indices->first, match, mismatch, gap, true) < minscore)
+                // TODO: does this work as intended?
 				data[name_seqmap->first].erase(word_indices);
 		}
 	}

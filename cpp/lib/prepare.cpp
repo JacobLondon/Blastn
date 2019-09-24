@@ -20,12 +20,12 @@ Blastn::SequenceMap build_sequence(string path, char sep)
 			name = line.substr(1, line.length());
 			
 			// pair the sequence name with an empty build string
-			result.insert(std::pair<string, string>{ name, "" });
+            result[name] = "";
 		}
 		// the if statement MUST have been entered first
 		else {
 			// append the next line of sequence data to the build string
-			result.at(name).append(line);
+			result[name].append(line);
 		}
 	}
 
@@ -37,23 +37,21 @@ Blastn::IndexedSequenceMap split_sequence(Blastn::SequenceMap& data, u32 length)
 	Blastn::IndexedSequenceMap result;
 
 	// traverse the sequence
-	for (auto name_seq = data.begin(); name_seq != data.end(); ++name_seq) {
+	for (auto& name_seqmap : data) {
 		// get all words and find their indices in that data set
 		Blastn::IndexedWordMap indexed_words;
-		vector<string> words = split_to_words(name_seq->second, length);
+		vector<string> words = split_to_words(name_seqmap.second, length);
 
 		// map each word to all of their indices each time the word appears
 		for (u32 i = 0; i < words.size(); i++) {
 			// insert the index if the item doesn't exist
-			if (indexed_words.find(words[i]) == indexed_words.end()) {
+			if (indexed_words.find(words[i]) == indexed_words.end())
 				indexed_words.insert(std::pair<string, vector<u32>>{ words[i], vector<u32>{ i } });
-			}
 			// append the index if the item already exists
-			else {
+			else
 				indexed_words.at(words[i]).push_back(i);
-			}
 		}
-		result.insert(std::pair<string, Blastn::IndexedWordMap>{ name_seq->first, indexed_words });
+        result[name_seqmap.first] = indexed_words;
 	}
 
 	return result;

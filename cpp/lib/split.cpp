@@ -6,9 +6,8 @@ vector<string> split_to_words(string input, u32 word_len) {
 	words.reserve(num_words);
 
 	// get all substrings of the same length in the input
-	for (u32 i = 0; i < num_words; i++) {
+	for (u32 i = 0; i < num_words; i++)
 		words.push_back(input.substr(i, word_len));
-	}
 
 	return words;
 }
