@@ -40,18 +40,18 @@ public:
 
 class Extended {
 public:
-	Extended(string extended_pair, s32 dindex, s32 qindex);
+	Extended(string extended_pair, u32 dindex, u32 qindex);
 	string extended_pair;
-	s32 dindex;
-    s32 qindex;
+	u32 dindex;
+    u32 qindex;
 };
 
 class Sorted {
 public:
-	Sorted(string extended_pair, s32 dindex, s32 qindex, s32 score);
+	Sorted(string extended_pair, u32 dindex, u32 qindex, s32 score);
 	string extended_pair;
-	s32 dindex;
-    s32 qindex;
+	u32 dindex;
+    u32 qindex;
 	s32 score;
 };
 

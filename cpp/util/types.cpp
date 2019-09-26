@@ -12,13 +12,13 @@ AdjacentPair::AdjacentPair(string word1, string word2, u32 dindex1, u32 qindex1,
 	length = (u32)word1.size();
 }
 
-Extended::Extended(string extended_pair, s32 dindex, s32 qindex)
+Extended::Extended(string extended_pair, u32 dindex, u32 qindex)
     : extended_pair{ extended_pair }, dindex{ dindex }, qindex{ qindex }
 {
 	// pass
 }
 
-Sorted::Sorted(string extended_pair, s32 dindex, s32 qindex, s32 score)
+Sorted::Sorted(string extended_pair, u32 dindex, u32 qindex, s32 score)
     : extended_pair{ extended_pair }, dindex{ dindex }, qindex{ qindex }, score{ score }
 {
 	// pass
