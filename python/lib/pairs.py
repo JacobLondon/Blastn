@@ -50,25 +50,23 @@ def sort_and_append(result: list, data_index: list, query_index: list, word: lis
             else:
                 ignore.append(index2)
             ignore.append(index1)
-            
-    return result
 
 def make_adjacent_pair(match_structs: List[MatchStruct]) -> List[AdjacentPair]:
 
     # initialize the lists we will use to store pertinent information
     result: List[AdjacentPair] = []
-    data_index = []
-    query_index = []
-    word = []
-
+    
     # loop through matches 
     for match in match_structs:
+        data_index = []
+        query_index = []
+        word = []
         for d_index in match.data_indices:
                 for q_index in match.query_indices:
                     data_index.append(d_index)
                     query_index.append(q_index)
                     word.append(match.word)
-        result = sort_and_append(result, data_index, query_index, word)
+        sort_and_append(result, data_index, query_index, word)
     return result
 
 """
