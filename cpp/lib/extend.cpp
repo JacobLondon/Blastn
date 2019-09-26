@@ -60,8 +60,8 @@ Extended extend_and_score(AdjacentPair pair,
     }
 
 	// the left-most index in the database
-	u32 dindex = dexindex;
-    u32 qindex = qexindex;
+	s32 dindex = dexindex;
+    s32 qindex = qexindex;
 	
     // extend left pair to the right
     qexindex = qleftindex + pair.length - 1;

@@ -25,7 +25,11 @@ Blastn::SortedSequenceMap sort_filter(Blastn::ExtendedSequenceMap extended_pairs
                         //smith_waterman(epair.extended_pair, query[qname_epairs.first], match, mismatch, gap, true);
                     });
             }
-            std::sort(temp[qname_epairs.first].begin(), temp[qname_epairs.first].end());
+            // sort by score
+            std::sort(temp[qname_epairs.first].begin(), temp[qname_epairs.first].end(), [&](const Sorted lhs, const Sorted rhs)
+            {
+                return lhs.score < rhs.score;
+            });
         }
         if (!temp.empty())
             result[dname_queries.first] = temp;

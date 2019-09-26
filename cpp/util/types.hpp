@@ -88,7 +88,7 @@ namespace Blastn {
 	 * @brief Data name mapped to a query name mapped to a vector of Match objects
 	 */
 	using MatchedSequenceMap = dict<string, MatchedMatchesMap>;
-	void print(MatchedSequenceMap);
+	void print(MatchedSequenceMap s);
 
 	/**
 	 * @brief Intermediate, map a query name to its AdjacentPair objects
@@ -98,6 +98,7 @@ namespace Blastn {
 	 * @brief Data name mapped to a query name mapped to a vector of AdjacentPair objects 
 	 */
 	using PairedSequenceMap = dict<string, PairedMatchesMap>;
+	void print(PairedSequenceMap s);
 
 	/**
 	 * @brief Intermediate, map a query name to its Extended pair objects
@@ -107,6 +108,7 @@ namespace Blastn {
 	 * @brief Data name mapped to a query name mapped to a vector of Extended pair objects
 	 */
 	using ExtendedSequenceMap = dict<string, ExtendedPairsMap>;
+	void print(ExtendedSequenceMap s);
 
 	/**
 	 * @brief Intermediate, map a query to its Sorted/Extended object
@@ -116,5 +118,6 @@ namespace Blastn {
 	 * @brief Data name mapped to a query name mapped to a vector of Sorted objects
 	 */
 	using SortedSequenceMap = dict<string, SortedPairsMap>;
+	void print(SortedSequenceMap s);
 
 }

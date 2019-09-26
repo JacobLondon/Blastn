@@ -5,6 +5,7 @@ Match::Match(string word, vector<u32> data_indices, vector<u32> query_indices)
 {
 	// pass
 }
+
 AdjacentPair::AdjacentPair(string word1, string word2, u32 dindex1, u32 qindex1, u32 dindex2, u32 qindex2)
 	: word1{ word1 }, word2{ word2 }, dindex1{ dindex1 }, qindex1{ qindex1 }, dindex2{ dindex2 }, qindex2{ qindex2 }
 {
