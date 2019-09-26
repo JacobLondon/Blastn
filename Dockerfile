@@ -4,7 +4,7 @@
 # Puts all files for the project under `/root`
 # 
 # For building:
-#   docker build -t pyblastn .
+#   docker build -t blastn .
 # 
 
 FROM ubuntu:18.04
@@ -14,6 +14,9 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
     git python3 python3-pip gcc make \
     vim wget
+
+# add python dependencies
+RUN pip3 install numpy tqdm
 
 # ensure proper ssl certificate for git
 RUN apt-get install -y --reinstall --no-install-recommends ca-certificates 
@@ -25,7 +28,7 @@ RUN git config --global http.sslCAinfo /etc/ssl/certs/ca-certificates.crt
 # get repository
 WORKDIR /root
 
-RUN git clone https://github.com/JacobLondon/SeniorProject.git
+RUN git clone https://github.com/JacobLondon/Blastn.git
 
 # done
 CMD ["/bin/bash"]
