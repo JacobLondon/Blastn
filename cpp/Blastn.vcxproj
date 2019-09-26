@@ -125,6 +125,7 @@
     <ClCompile Include="lib\match.cpp" />
     <ClCompile Include="lib\prepare.cpp" />
     <ClCompile Include="lib\smith_waterman.cpp" />
+    <ClCompile Include="lib\sort.cpp" />
     <ClCompile Include="lib\split.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="util\globals.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="lib\match.hpp" />
     <ClInclude Include="lib\prepare.hpp" />
     <ClInclude Include="lib\smith_waterman.hpp" />
+    <ClInclude Include="lib\sort.hpp" />
     <ClInclude Include="lib\split.hpp" />
     <ClInclude Include="util\globals.hpp" />
     <ClInclude Include="util\test.hpp" />
