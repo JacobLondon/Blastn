@@ -74,7 +74,8 @@ def make_adjacent_pair(match_structs: List[MatchStruct]) -> List[AdjacentPair]:
     for match in match_structs:
         for dindex in match.data_indices:
             for qindex in match.query_indices:
-                flat.append(MatchSingleton(match.word, match.dindex, match.qindex))
+                if dindex not in ignore:
+                    flat.append(MatchSingleton(match.word, match.dindex, match.qindex))
     flat.sort(key=lambda m: m.dindex)
 
     for f in flat:
