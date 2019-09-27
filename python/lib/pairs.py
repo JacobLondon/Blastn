@@ -62,12 +62,23 @@ def make_adjacent_pair(match_structs: List[MatchStruct]) -> List[AdjacentPair]:
         query_index = []
         word = []
         for d_index in match.data_indices:
-                for q_index in match.query_indices:
-                    data_index.append(d_index)
-                    query_index.append(q_index)
-                    word.append(match.word)
+            for q_index in match.query_indices:
+                data_index.append(d_index)
+                query_index.append(q_index)
+                word.append(match.word)
         sort_and_append(result, data_index, query_index, word)
     return result
+
+"""def flatten(match_structs: List[MatchStruct]):
+    flat = []
+    for match in match_structs:
+        for dindex in match.data_indices:
+            for qindex in match.query_indices:
+                flat.append(MatchSingleton(match.word, match.dindex, match.qindex))
+    flat.sort(key=lambda m: m.dindex)
+
+    for f in flat:
+        if abs(1 - 2) >"""
 
 """
 External
