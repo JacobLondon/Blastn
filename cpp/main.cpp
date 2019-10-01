@@ -11,7 +11,7 @@ static std::string argparse(int argc, char **argv, std::string arg)
 	for (int i = 0; i < arguments.size(); i++) {
 		if (arg == arguments[i]) {
 			if (i + 1 >= arguments.size()) {
-				std::cout << "Failure: Invalid argument usage: " << arg << std::endl;
+				std::fprintf(stderr, "Failure: Invalid argument usage: %s\n", arg);
 				exit(-1);
 			}
 			else
@@ -23,21 +23,21 @@ static std::string argparse(int argc, char **argv, std::string arg)
 
 static void blastn(std::string query_file, std::string data_file)
 {
-	std::cout << "Formatting..." << std::endl;
+	std::printf("Formatting...\n");
 	auto query = build_sequence(query_file, Blastn::Seperator);
 	auto data = build_sequence(data_file, Blastn::Seperator);
 	auto query_prepared = split_sequence(query, Blastn::SplitLength);
 	auto data_prepared = split_sequence(data, Blastn::SplitLength);
 
-	std::cout << "Smith Waterman..." << std::endl;
+	std::printf("Smith Waterman...\n");
 	auto query_swfiltered = smith_waterman_filter(query_prepared, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
 	//Blastn::print(query_swfiltered);
 
-	std::cout << "Dust..." << std::endl;
+	std::printf("Dust...\n");
 	auto query_dustfiltered = dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength, Blastn::SplitLength);
 	//Blastn::print(query_dustfiltered);
 
-	std::cout << "Exact matches..." << std::endl;
+	std::printf("Exact Matches...\n");
 	auto exact_matches = match_filter(query_dustfiltered, data_prepared);
 	//auto exact_matches = match_filter(query_swfiltered, data_prepared);
 
@@ -47,10 +47,10 @@ static void blastn(std::string query_file, std::string data_file)
 
 	// sorted_epairs
 
-	std::cout << "Printing output..." << std::endl;
+	std::printf("Printing output...\n");
 	Blastn::print(exact_matches);
 
-	std::cout << "...Done" << std::endl;
+	std::printf("...Done\n");
 }
 
 int main(int argc, char **argv)
@@ -62,12 +62,12 @@ int main(int argc, char **argv)
 	// required arguments (no defaults)
 	query_file = argparse(argc, argv, "-q");
 	if (query_file == Blastn::Invalid) {
-		std::cout << "Failure: Invalid query file: " << query_file << std::endl;
+		std::fprintf(stderr, "Failure: Invalid query file: %s\n", query_file);
 		exit(-1);
 	}
 	data_file = argparse(argc, argv, "-db");
 	if (data_file == Blastn::Invalid) {
-		std::cout << "Failure: Invalid data file: " << data_file << std::endl;
+		std::fprintf(stderr, "Failure: Invalid data file: %s\n", data_file);
 		exit(-1);
 	}
 

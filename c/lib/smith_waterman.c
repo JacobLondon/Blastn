@@ -55,12 +55,12 @@ s32 smith_waterman(string seq1,
     u32 i = 0;
     u32 j = 0;
 
-    matrix score_matrix = *vector_init(VECTOR, cols);
-    matrix point_matrix = *vector_init(VECTOR, cols);
+    matrix *score_matrix = vector_init(VECTOR, cols);
+    matrix *point_matrix = vector_init(VECTOR, cols);
 
     for (i = 0; i <= cols; i++) {
-        vector_append(&score_matrix, vector_init(I32, rows + 1));
-        vector_append(&point_matrix, vector_init(I32, rows + 1));
+        vector_append(score_matrix, vector_init(I32, rows + 1));
+        vector_append(point_matrix, vector_init(I32, rows + 1));
     }
 
     s32 max_score = 0;
@@ -93,8 +93,8 @@ s32 smith_waterman(string seq1,
         }
     }
 
-    vector_free(&score_matrix);
-    vector_free(&point_matrix);
+    vector_free(score_matrix);
+    vector_free(point_matrix);
 
     return max_score;
 }

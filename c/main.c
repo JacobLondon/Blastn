@@ -7,7 +7,7 @@
 
 int main()
 {
-
+    init_globals();
     return 0;
 }
 
@@ -17,6 +17,7 @@ int main()
 
 int main()
 {
+    init_globals();
     tsplit();
     //tsmith_waterman();
     //tsequence();
