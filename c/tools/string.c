@@ -1,18 +1,17 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "string.h"
 
-string *string_init(u32 size)
+string *string_init(char *value)
 {
     int i;
 
     string *self = malloc(sizeof(string));
     self->size = 0;
-    self->size = size;
-    self->c_str = malloc((size + 1) * sizeof(char));
-
-    for (i = 0; i < self->size + 1; i++)
-        self->c_str[i] = '\0';
+    self->size = strlen(value);
+    self->c_str = malloc((self->size) * sizeof(char));
+    strcpy(self->c_str, value);
     
     return self;
 }

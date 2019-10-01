@@ -33,8 +33,13 @@ static void blastn(char *query_file, char *data_file)
     indexed_sequence_map *data_prepared  = split_sequence(data, BlastnSplitLength);
 
     printf("Smith Waterman...\n");
-    
+    indexed_sequence_map *query_swfiltered = smith_waterman_filter(query_prepared, BlastnSwMinscore, BlastnSwMatch, BlastnSwMismatch, BlastnSwGap);
 
+    printf("Dust...\n");
+    indexed_sequence_map *query_dustfiltered = dust_filter(query_swfiltered, BlastnDustThreshold, BlastnDustPatternLength, BlastnSplitLength);
+
+    printf("Exact Matches...\n");
+    
 }
 
 int main(int argc, char **argv)

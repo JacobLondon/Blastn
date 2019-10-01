@@ -28,7 +28,7 @@ static u32 count(const string *begin, const string *end, string *value)
     return count;
 }
 
-f32 dust(string *word, u32 pattern_len)
+f32 dust(char *word, u32 pattern_len)
 {
     f32 total_score = 0;
     u32 occurrence;
@@ -54,5 +54,26 @@ f32 dust(string *word, u32 pattern_len)
     vector_free(triplets);
     map_free(record);
 
-    return total_score / (word->size - pattern_len);
+    return total_score / (strlen(word) - pattern_len);
+}
+
+indexed_sequence_map *dust_filter(indexed_sequence_map *data, f32 threshold, u32 pattern_len, u32 word_len)
+{
+    indexed_sequence_map *result = map_init(MAP);
+
+    // breaks words into subsequences of triplets
+    node *qname_seqmap;
+    map_for_each(data, qname_seqmap) {
+        indexed_word_map *temp = map_init(VECTOR);
+        node *word_indices;
+        map_for_each((map *)qname_seqmap->value, word_indices) {
+            if (dust(word_indices->key, pattern_len))
+                map_insert(temp, node_init(word_indices->key, word_indices->value));
+        }
+        if (temp->capacity > 0)
+            map_insert(result, node_init(qname_seqmap->key, temp));
+        else
+            map_free(temp);
+    }
+    return result;
 }

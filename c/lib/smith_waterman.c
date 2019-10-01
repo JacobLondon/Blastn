@@ -1,6 +1,8 @@
 #include "smith_waterman.h"
 #include "../util/globals.h"
 #include "../tools/vector.h"
+#include "../tools/map.h"
+#include "../tools/string.h"
 
 enum direction {
     _INVALID,
@@ -44,14 +46,14 @@ static inline s32 score_alignment(char alpha, char beta, s32 match, s32 mismatch
         return mismatch;
 }
 
-s32 smith_waterman(string seq1,
-                   string seq2,
+s32 smith_waterman(string *seq1,
+                   string *seq2,
                    s32 match,
                    s32 mismatch,
                    s32 gap)
 {
-    u32 rows = seq1.size;
-    u32 cols = seq2.size;
+    u32 rows = seq1->size;
+    u32 cols = seq2->size;
     u32 i = 0;
     u32 j = 0;
 
@@ -77,7 +79,7 @@ s32 smith_waterman(string seq1,
             left = matrix_at(score_matrix, i - 1, j) + gap;
             up   = matrix_at(score_matrix, i, j - 1) + gap;
             diag = matrix_at(score_matrix, i - 1, j - 1)
-                 + score_alignment(seq1.c_str[i - 1], seq2.c_str[j - 1], match, mismatch, gap);
+                 + score_alignment(seq1->c_str[i - 1], seq2->c_str[j - 1], match, mismatch, gap);
 
             // find greatest
             greatest = max(left, up, diag);
@@ -97,4 +99,25 @@ s32 smith_waterman(string seq1,
     vector_free(point_matrix);
 
     return max_score;
+}
+
+indexed_sequence_map *smith_waterman_filter(indexed_sequence_map *data, s32 minscore, s32 match, s32 mismatch, s32 gap)
+{
+    indexed_sequence_map *result = map_init(MAP);
+
+    node *name_seqmap;
+    map_for_each(data, name_seqmap) {
+        node *word_indices;
+        indexed_word_map *temp = map_init(VECTOR);
+        map_for_each((map(char *, sequence_map) *)name_seqmap->value, word_indices) {
+            string *word = string_init(word_indices->key);
+            if (smith_waterman(word, word, match, mismatch, gap, true) >= minscore) {
+                // TODO: does this work properly?
+                map_insert(temp, node_init(name_seqmap->key, word_indices->value));
+            }
+        }
+        map_insert(result, node_init(name_seqmap->key, temp));
+    }
+    //free(data)?
+    return result;
 }
