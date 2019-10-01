@@ -1,5 +1,5 @@
-#ifndef _BLASTN_STRING_H
-#define _BLASTN_STRING_H
+#ifndef BLASTN_STRING_H
+#define BLASTN_STRING_H
 
 #include "types.h"
 
@@ -10,4 +10,4 @@ void string_append(string *self, const char *s);
 void string_set(string *self, const char *s);
 void string_free(string *self);
 
-#endif // _BLASTN_STRING_H
+#endif // BLASTN_STRING_H

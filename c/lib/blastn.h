@@ -1,6 +1,8 @@
-#ifndef _BLASTN_BLASTN_H
-#define _BLASTN_BLASTN_H
+#ifndef BLASTNBLASTN_H
+#define BLASTNBLASTN_H
 
+#include "dust.h"
+#include "smith_waterman.h"
 #include "split.h"
 
-#endif // _BLASTN_BLASTN_H
+#endif // BLASTNBLASTN_H

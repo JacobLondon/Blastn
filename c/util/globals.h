@@ -1,5 +1,5 @@
-#ifndef _BLASTN_GLOBALS_H
-#define _BLASTN_GLOBALS_H
+#ifndef BLASTN_GLOBALS_H
+#define BLASTN_GLOBALS_H
 
 #include "../tools/types.h"
 
@@ -20,5 +20,6 @@ extern f64 BlastnDustThreshold;       // dust threshold score before filtering o
 extern u32 BlastnDustPatternLength;   // length of patterns for dust to look for
 
 extern string *BlastnOutput;
+extern unsigned int BlastnMaxLineWidth;
 
-#endif // _BLASTN_GLOBALS_H
+#endif // BLASTN_GLOBALS_H

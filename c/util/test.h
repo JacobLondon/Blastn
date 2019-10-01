@@ -1,5 +1,5 @@
-#ifndef _BLASTN_TEST_H
-#define _BLASTN_TEST_H
+#ifndef BLASTN_TEST_H
+#define BLASTN_TEST_H
 
 #include "../lib/blastn.h"
 
@@ -10,4 +10,4 @@ void tsequence();
 void tsmith_waterman();
 void tsplit();
 
-#endif // _BLASTN_TEST_H
+#endif // BLASTN_TEST_H

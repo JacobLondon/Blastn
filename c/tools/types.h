@@ -1,5 +1,5 @@
-#ifndef _BLASTN_TYPES_H
-#define _BLASTN_TYPES_H
+#ifndef BLASTN_TYPES_H
+#define BLASTN_TYPES_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -32,12 +32,12 @@ enum iterable_types {
     EXTENDED,
 };
 
-typedef struct _string {
+typedef struct string_tag {
     char *c_str;
     u32 size;
 } string;
 
-typedef struct _vector {
+typedef struct vector_tag {
     void *vec;
     u32 type;
     u32 size;
@@ -47,12 +47,12 @@ typedef struct _vector {
 // vector data type hint
 #define vector(type) vector
 
-typedef struct _node {
+typedef struct node_tag {
     char *key;
     void *value;
 } node;
 
-typedef struct _map {
+typedef struct map_tag {
     vector *buckets;
     u32 type;       // iterable type enum
     u32 size;       // number of buckets
@@ -141,4 +141,4 @@ extended_pairs_map extended_pairs_map_init();
 typedef map(char *, extended_pairs_map) extended_sequence_map;
 extended_sequence_map extended_sequence_map_init();
 
-#endif // _BLASTN_TYPES_H
+#endif // BLASTN_TYPES_H

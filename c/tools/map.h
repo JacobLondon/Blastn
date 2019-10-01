@@ -1,5 +1,5 @@
-#ifndef _BLASTN_MAP_H
-#define _BLASTN_MAP_H
+#ifndef BLASTN_MAP_H
+#define BLASTN_MAP_H
 
 #include "types.h"
 
@@ -45,4 +45,4 @@ void map_free(map *self);
 
 u64 fnv1a(const char *text, u32 max);
 
-#endif // _BLASTN_MAP_H
+#endif // BLASTN_MAP_H

@@ -1,5 +1,5 @@
-#ifndef _BLASTN_VECTOR_H
-#define _BLASTN_VECTOR_H
+#ifndef BLASTN_VECTOR_H
+#define BLASTN_VECTOR_H
 
 #include "types.h"
 
@@ -14,4 +14,4 @@ void vector_append(vector *self, void *value);
 void vector_reserve(vector *self, u32 size);
 void vector_free(vector *self);
 
-#endif // _BLASTN_VECTOR_H
+#endif // BLASTN_VECTOR_H
