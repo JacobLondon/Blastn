@@ -19,5 +19,5 @@ void init_globals()
     u32 BlastnDustPatternLength = 3;  // length of patterns for dust to look for
 
     string *BlastnOutput = string_init("blastn_out.txt");
-    unsigned int BlastnMaxLineWidth = 256;
+    unsigned int BlastnMaxWidth = 256;
 }

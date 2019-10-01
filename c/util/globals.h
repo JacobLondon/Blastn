@@ -20,6 +20,6 @@ extern f64 BlastnDustThreshold;       // dust threshold score before filtering o
 extern u32 BlastnDustPatternLength;   // length of patterns for dust to look for
 
 extern string *BlastnOutput;
-extern unsigned int BlastnMaxLineWidth;
+extern unsigned int BlastnMaxWidth;
 
 #endif // BLASTN_GLOBALS_H
