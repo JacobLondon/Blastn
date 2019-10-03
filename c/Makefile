@@ -1,6 +1,6 @@
 TARGET=blastn
 CC=gcc
-CFLAGS=-ggdb -Wall -std=c11
+CFLAGS=-ggdb -Wall -std=c11 -ICollections-C/src/include
 OBJ_FILES=lib/dust.o lib/prepare.o lib/smith_waterman.o lib/split.o \
 		 tools/map.o tools/string.o tools/types.o tools/vector.o \
 		 util/globals.o util/test.o \

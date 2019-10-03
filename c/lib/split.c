@@ -1,17 +1,16 @@
 #include "split.h"
-#include "../tools/vector.h"
 
-vector(char *) *split_to_words(char *input, u32 split_length)
+Array(char *) *split_to_words(char *input, uint32_t split_length)
 {
-    u32 num_words = strlen(input) - split_length + 1;
+    uint32_t num_words = strlen(input) - split_length + 1;
     vector(string) *words = vector_init(STRING, num_words);
 
     // reserve space, then load each split word
-    for (u32 i = 0; i < num_words; i++) {
+    for (uint32_t i = 0; i < num_words; i++) {
 
         string *word = string_init(split_length);
 
-        for (u32 j = 0; j < split_length; j++)
+        for (uint32_t j = 0; j < split_length; j++)
             word->c_str[j] = input->c_str[i + j];
         
         // add the end of string char

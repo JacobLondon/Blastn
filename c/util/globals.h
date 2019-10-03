@@ -1,23 +1,23 @@
 #ifndef BLASTN_GLOBALS_H
 #define BLASTN_GLOBALS_H
 
-#include "../tools/types.h"
+#include "../util/types.h"
 
 extern const char BlastnGap;
 extern const char BlastnInvalid;
 
 extern char BlastnSeperator;          // .fa and .fasta line seperator
-extern u32 BlastnSplitLength;         // word length
+extern uint32_t BlastnSplitLength;         // word length
 
-extern s32 BlastnSwMinscore;          // min smith waterman score before filtering out
-extern s32 BlastnSwMatch;             // smith waterman match score
-extern s32 BlastnSwMismatch;          // smith waterman mismatch score
-extern s32 BlastnSwGap;               // smith waterman gap score
+extern int32_t BlastnSwMinscore;          // min smith waterman score before filtering out
+extern int32_t BlastnSwMatch;             // smith waterman match score
+extern int32_t BlastnSwMismatch;          // smith waterman mismatch score
+extern int32_t BlastnSwGap;               // smith waterman gap score
 
-extern f32 BlastnDustThreshold;       // dust threshold score before filtering out
-extern u32 BlastnDustPatternLength;   // length of patterns for dust to look for
+extern float BlastnDustThreshold;       // dust threshold score before filtering out
+extern uint32_t BlastnDustPatternLength;   // length of patterns for dust to look for
 
 extern char *BlastnOutput;
-extern unsigned int BlastnMaxWidth;
+extern uint32_t BlastnMaxWidth;
 
 #endif // BLASTN_GLOBALS_H

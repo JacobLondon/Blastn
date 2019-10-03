@@ -1,10 +1,10 @@
 #ifndef BLASTN_DUST_H
 #define BLASTN_DUST_H
 
-#include "../tools/types.h"
+#include "../util/types.h"
 
-f32 dust(char *word, u32 pattern_len);
+float dust(char *word, uint32_t pattern_len);
 
-indexed_sequence_map *dust_filter(indexed_sequence_map *data, f32 threshold, u32 pattern_len, u32 word_len);
+IndexedSequenceMap *dust_filter(IndexedSequenceMap *data, float threshold, uint32_t pattern_len, uint32_t word_len);
 
 #endif // BLASTN_DUST_H

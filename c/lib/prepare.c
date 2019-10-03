@@ -1,9 +1,6 @@
 #include <stdlib.h>  // calloc, free
 #include <string.h>  // memcpy
 #include "prepare.h"
-#include "../tools/map.h"
-#include "../tools/string.h"
-#include "../tools/vector.h"
 #include "../util/globals.h"
 #include "split.h"
 
