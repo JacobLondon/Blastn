@@ -17,10 +17,10 @@ static inline bool same(const char *s1, const char *s2)
     return true;
 }
 
-static u32 count(const string *begin, const string *end, string *value)
+static u32 count(const char *begin, const char *end, char *value)
 {
     u32 count = 0;
-    for (string *iter = begin; iter != end; iter++) {
+    for (char *iter = begin; iter != end; iter++) {
         if (same(iter->c_str, value->c_str)) {
             count++;
         }
@@ -42,7 +42,7 @@ f32 dust(char *word, u32 pattern_len)
             // count occurrences
             occurrence = count(vector_begin(triplets), vector_end(string, triplets), triplet);
             occurrence = occurrence * (occurrence - 1) / 2;
-            map_insert(record, node_init(triplet->c_str, pointer_to(occurrence)));
+            map_insert(record, node_init(triplet->c_str, voidptr(occurrence)));
         }
     }
     // sum the scores

@@ -30,7 +30,7 @@ sequence_map *build_sequence(char *path, char sep)
             // pair the sequence name iwth an empty build string
             string *value = string_init(1);
             string_set(value, "");
-            map_insert(result, node_init(name, pointer_to(value)));
+            map_insert(result, node_init(name, voidptr(value)));
         }
         // the if statement MUST have been entered first
         else {

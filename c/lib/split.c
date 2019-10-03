@@ -1,10 +1,9 @@
 #include "split.h"
 #include "../tools/vector.h"
-#include "../tools/string.h"
 
-vector(string) *split_to_words(string *input, u32 split_length)
+vector(char *) *split_to_words(char *input, u32 split_length)
 {
-    u32 num_words = input->size - split_length + 1;
+    u32 num_words = strlen(input) - split_length + 1;
     vector(string) *words = vector_init(STRING, num_words);
 
     // reserve space, then load each split word

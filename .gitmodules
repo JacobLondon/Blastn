@@ -1,0 +1,3 @@
+[submodule "c/Collections-C"]
+	path = c/Collections-C
+	url = https://github.com/srdja/Collections-C

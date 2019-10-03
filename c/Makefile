@@ -1,22 +1,15 @@
-CC=gcc
-CFLAGS=-ggdb
 TARGET=blastn
+CC=gcc
+CFLAGS=-ggdb -Wall -std=c11
+OBJ_FILES=lib/dust.o lib/prepare.o lib/smith_waterman.o lib/split.o \
+		 tools/map.o tools/string.o tools/types.o tools/vector.o \
+		 util/globals.o util/test.o \
+		 main.o
 
-SPLIT=lib/split.c
-MAP=tools/map.c
-STRING=tools/string.c
-TYPES=tools/types.c
-VECTOR=tools/vector.c
-GLOBALS=util/globals.c
-MAIN=main.c
+.PHONY: clean
 
-FILES= $(SPLIT) \
-	$(TYPES) $(STRING) $(VECTOR) $(MAP) $(GLOBALS) \
-	$(MAIN)
+$(TARGET) : $(OBJ_FILES)
+	$(CC) -o $(TARGET) $(OBJ_FILES)
 
-.PHONY: all clean
-
-all:
-	$(CC) -o $(TARGET) $(FILES) $(CFLAGS)
 clean:
-	rm $(TARGET) core
+	rm -rf $(TARGET) $(OBJ_FILES)

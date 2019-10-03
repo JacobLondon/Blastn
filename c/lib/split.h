@@ -3,6 +3,6 @@
 
 #include "../tools/types.h"
 
-vector(string) *split_to_words(string *input, u32 split_length);
+vector(char *) *split_to_words(char *input, u32 split_length);
 
 #endif // BLASTN_SPLIT_H

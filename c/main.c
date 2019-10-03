@@ -7,7 +7,6 @@
 #include "util/globals.h"
 #include "lib/blastn.h"
 #include "tools/vector.h"
-#include "tools/string.h"
 
 static char *argparse(int argc, char **argv, char *arg)
 {
@@ -44,8 +43,6 @@ static void blastn(char *query_file, char *data_file)
 
 int main(int argc, char **argv)
 {
-    init_globals();
-
     char *a = calloc(BlastnMaxWidth, sizeof(char));
     char *query_file = calloc(BlastnMaxWidth, sizeof(char));
     char *data_file = calloc(BlastnMaxWidth, sizeof(char));
