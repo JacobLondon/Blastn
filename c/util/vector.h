@@ -1,0 +1,6 @@
+#ifndef BLASTN_VECTOR_H
+#define BLASTN_VECTOR_H
+
+
+
+#endif // BLASTN_VECTOR_H
