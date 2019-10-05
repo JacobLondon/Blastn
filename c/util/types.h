@@ -4,25 +4,52 @@
 #include <stdio.h>
 #include <string.h>
 
+enum VectorTypes {
+    UINT,
+    MATCH,
+    ADJACENT_PAIR,
+    EXTENDED,
+    SORTED,
+};
+
 typedef struct vector_s {
-    unsigned int *memory;
+    union memory_s {
+        unsigned int *unint;
+        Match *match;
+        AdjacentPair *adjacent_pair;
+        Extended *extended;
+        Sorted *sorted;
+    } memory;
     unsigned int end;
+    unsigned int size;
 } Vector;
+
+enum HashTableTypes {
+    STRING,
+    VECTOR,
+    TABLE,
+};
 
 typedef struct node_s {
     char *key;
-    void *value;
+    union value_s {
+        char *string;
+        Vector vector;
+        HashTable table;
+    } value;
 } Node;
 
 typedef struct hash_table_s {
     Node *memory;
+    unsigned int size;
 } HashTable;
 
 typedef struct match_s {
     char *word;
-    Vector *data_indices;
-    Vector *query_indices;
+    Vector data_indices;
+    Vector query_indices;
 } Match;
+
 
 typedef struct adjacent_pair_s {
     char *word1;
