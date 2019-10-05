@@ -1,7 +1,7 @@
 #ifndef BLASTN_GLOBALS_H
 #define BLASTN_GLOBALS_H
 
-#include "../util/types.h"
+#include "types.h"
 
 extern const char BlastnGap;
 extern const char BlastnInvalid;
