@@ -1,9 +1,10 @@
 from sys import argv
 from typing import Dict, List
 import tqdm
-
+from memory_profiler import profile
 from lib import *
 
+@profile
 def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match, sw_mismatch, sw_gap):
     # format data into a dictionary
     # {name : {word : [indices], word : [indices], ...}, ...}
