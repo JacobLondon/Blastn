@@ -34,14 +34,14 @@ def sort_filter(extended_pairs: Dict[str, Dict[str, List[Extended]]],
                     epair.extended_pair,
                     epair.dindex,
                     epair.qindex,
-                    random.randint(0, 100)))
-                """smith_waterman(seq1=epair.extended_pair,
+                    smith_waterman(seq1=epair.extended_pair,
                                 seq2=query[qname],
                                 match=match,
                                 mismatch=mismatch,
                                 gap=gap,
-                                just_score=True)))"""
+                                just_score=True)))
             temp[qname].sort(key=lambda scored: scored.score)
         if temp:
             result[dname] = dict(temp)
     return result
+

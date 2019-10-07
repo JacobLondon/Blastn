@@ -6,6 +6,21 @@ from .match import MatchStruct
 """
 Internal
 """
+class MatchSingleton:
+    def __init__(self, word: str, dindex: int, qindex: int):
+        """
+        @brief: Hold both words from the pair, how long they are, and where they both are in the query and database.
+        """
+        self.word: str = word
+        self.dindex: int = dindex
+        self.qindex: int = qindex
+
+    def __str__(self):
+        return str(self.__dict__)
+    
+    def __repr__(self):
+        return self.__str__()
+
 
 class AdjacentPair:
     def __init__(self, word1: str, word2: str, dindex1: int, qindex1: int, dindex2: int, qindex2: int):
@@ -26,6 +41,30 @@ class AdjacentPair:
     def __repr__(self):
         return self.__str__()
 
+
+def sort_and_append(flattened: List[MatchSingleton], result: list):
+
+    ignore = []
+    # appends to list of type adjacent pair
+
+    for index1 in flattened:
+        if index1 in ignore:
+            continue
+        for index2 in flattened:
+            if index2 in ignore:
+                continue
+            
+            if abs(index1.dindex - index2.dindex) >= len(index1.word):
+                result.append(AdjacentPair(word1   = index1.word,       word2   = index2.word,
+                                           dindex1 = index1.dindex, qindex1 = index1.qindex,
+                                           dindex2 = index2.dindex, qindex2 = index2.qindex))
+                break
+            else:
+                ignore.append(index2)
+            ignore.append(index1)
+
+
+"""
 def sort_and_append(result: list, data_index: list, query_index: list, word: list):
     
     # sorts value of adjacent pairs relative to data indices 
@@ -51,6 +90,7 @@ def sort_and_append(result: list, data_index: list, query_index: list, word: lis
                 ignore.append(index2)
             ignore.append(index1)
 
+
 def make_adjacent_pair(match_structs: List[MatchStruct]) -> List[AdjacentPair]:
 
     # initialize the lists we will use to store pertinent information
@@ -68,18 +108,21 @@ def make_adjacent_pair(match_structs: List[MatchStruct]) -> List[AdjacentPair]:
                 word.append(match.word)
         sort_and_append(result, data_index, query_index, word)
     return result
+"""
 
-"""def flatten(match_structs: List[MatchStruct]):
+def flatten(match_structs: List[MatchStruct]):
     flat = []
+    result: List[AdjacentPair] = []
     for match in match_structs:
         for dindex in match.data_indices:
             for qindex in match.query_indices:
-                if dindex not in ignore:
-                    flat.append(MatchSingleton(match.word, match.dindex, match.qindex))
+                flat.append(MatchSingleton(match.word, dindex, qindex))
     flat.sort(key=lambda m: m.dindex)
+    sort_and_append(flat, result)
+    
+    return result
 
-    for f in flat:
-        if abs(1 - 2) >"""
+
 
 """
 External
@@ -93,7 +136,7 @@ def pair_filter(matches: Dict[str, Dict[str, List[MatchStruct]]],
     for dname, queries in tqdm.tqdm(matches.items()):
         pairs = defaultdict(list)
         for qname, match_structs in queries.items():
-            for pair in make_adjacent_pair(match_structs):
+            for pair in flatten(match_structs):
                 #                                    distance threshold
                 if abs(pair.dindex1 - pair.dindex2) <= len(query[qname]) - pair.length \
                     or abs(pair.qindex1 - pair.qindex2) >= pair.length \
