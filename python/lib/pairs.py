@@ -42,75 +42,19 @@ class AdjacentPair:
         return self.__str__()
 
 
-def sort_and_append(flattened: List[MatchSingleton], result: list):
-
-    ignore = []
-    # appends to list of type adjacent pair
-
-    for index1 in flattened:
-        if index1 in ignore:
-            continue
-        for index2 in flattened:
-            if index2 in ignore:
-                continue
-            
-            if abs(index1.dindex - index2.dindex) >= len(index1.word):
-                result.append(AdjacentPair(word1   = index1.word,       word2   = index2.word,
-                                           dindex1 = index1.dindex, qindex1 = index1.qindex,
-                                           dindex2 = index2.dindex, qindex2 = index2.qindex))
+def append(flattened: List[MatchSingleton], result: list, query_len: int):
+    for index1, value1 in enumerate(flattened):
+        for index2 in range (index1 + 1, len(flattened)):
+            if abs(value1.dindex - flattened[index2].dindex) >= len(value1.word) and abs(value1.dindex - flattened[index2].dindex) <= query_len - len(value1.word):
+                result.append(AdjacentPair(word1   = value1.word,       word2   = flattened[index2].word,
+                                           dindex1 = value1.dindex, qindex1 = value1.qindex,
+                                           dindex2 = flattened[index2].dindex, qindex2 = flattened[index2].qindex))
                 break
-            else:
-                ignore.append(index2)
-            ignore.append(index1)
 
 
-"""
-def sort_and_append(result: list, data_index: list, query_index: list, word: list):
-    
-    # sorts value of adjacent pairs relative to data indices 
-    query_index = [query_index for _, query_index in sorted(zip(data_index, query_index))]
-    word        = [word        for _, word        in sorted(zip(data_index, word))]
-    data_index.sort()
-
-    ignore = []
-    # appends to list of type adjacent pair
-    for index1, value1 in enumerate(data_index):
-        if index1 in ignore:
-            continue
-        for index2, value2 in enumerate(data_index):
-            if index2 in ignore:
-                continue
-            
-            if abs(value2 - value1) >= len(word[index1]):
-                result.append(AdjacentPair(word1   = word[index1],       word2   = word[index2],
-                                           dindex1 = data_index[index1], qindex1 = query_index[index1],
-                                           dindex2 = data_index[index2], qindex2 = query_index[index2]))
-                break
-            else:
-                ignore.append(index2)
-            ignore.append(index1)
 
 
-def make_adjacent_pair(match_structs: List[MatchStruct]) -> List[AdjacentPair]:
-
-    # initialize the lists we will use to store pertinent information
-    result: List[AdjacentPair] = []
-    
-    # loop through matches 
-    for match in match_structs:
-        data_index = []
-        query_index = []
-        word = []
-        for d_index in match.data_indices:
-            for q_index in match.query_indices:
-                data_index.append(d_index)
-                query_index.append(q_index)
-                word.append(match.word)
-        sort_and_append(result, data_index, query_index, word)
-    return result
-"""
-
-def flatten(match_structs: List[MatchStruct]):
+def flatten(match_structs: List[MatchStruct], query_len: int):
     flat = []
     result: List[AdjacentPair] = []
     for match in match_structs:
@@ -118,7 +62,7 @@ def flatten(match_structs: List[MatchStruct]):
             for qindex in match.query_indices:
                 flat.append(MatchSingleton(match.word, dindex, qindex))
     flat.sort(key=lambda m: m.dindex)
-    sort_and_append(flat, result)
+    append(flat, result, query_len)
     
     return result
 
@@ -136,7 +80,7 @@ def pair_filter(matches: Dict[str, Dict[str, List[MatchStruct]]],
     for dname, queries in tqdm.tqdm(matches.items()):
         pairs = defaultdict(list)
         for qname, match_structs in queries.items():
-            for pair in flatten(match_structs):
+            for pair in flatten(match_structs, len(query[qname])):
                 #                                    distance threshold
                 if abs(pair.dindex1 - pair.dindex2) <= len(query[qname]) - pair.length \
                     or abs(pair.qindex1 - pair.qindex2) >= pair.length \
