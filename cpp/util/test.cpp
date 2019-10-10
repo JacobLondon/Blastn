@@ -1,3 +1,4 @@
+#include "../lib/blastn.hpp"
 #include "test.hpp"
 #include "globals.hpp"
 
@@ -113,4 +114,4 @@ void split()
         std::cout << "split test passed." << std::endl;
 }
 
-} // BlastnTest
+} // Blastn::Test

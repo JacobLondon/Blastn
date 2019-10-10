@@ -1,5 +1,4 @@
 #pragma once
-#include "../lib/blastn.hpp"
 
 namespace Blastn::Test {
 
@@ -12,4 +11,4 @@ void smith_waterman();
 void sort();
 void split();
 
-} // BlastnTest
+} // Blastn::Test
