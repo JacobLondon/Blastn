@@ -62,10 +62,10 @@ string str(IndexedSequenceMap s)
     return builder;
 }
 
-string str(MatchedSequenceMap m)
+string str(MatchedSequenceMap s)
 {
     string builder = "";
-    for (auto& dname_queries : m) {
+    for (auto& dname_queries : s) {
         for (auto& qname_matches : dname_queries.second) {
             for (auto& match : qname_matches.second) {
                 builder += dname_queries.first + "\t" + qname_matches.first;
@@ -90,10 +90,10 @@ static string str(vector<AdjacentPair> pairs)
     return builder;
 }
 
-string str(PairedSequenceMap m)
+string str(PairedSequenceMap s)
 {
     string builder = "";
-    for (auto& dname_queries : m) {
+    for (auto& dname_queries : s) {
         for (auto& qname_pairs : dname_queries.second) {
             builder += dname_queries.first + "\t" + qname_pairs.first;
             builder += str(qname_pairs.second) + "\n";
@@ -114,10 +114,10 @@ static string str(vector<Extended> ext)
     return builder;
 }
 
-string str(ExtendedSequenceMap m)
+string str(ExtendedSequenceMap s)
 {
     string builder = "";
-    for (auto& dname_queries : m) {
+    for (auto& dname_queries : s) {
         for (auto& qname_ext : dname_queries.second) {
             builder += dname_queries.first + "\t" + qname_ext.first;
             builder += str(qname_ext.second) + "\n";
@@ -138,13 +138,31 @@ static string str(vector<Sorted> sorted)
     return builder;
 }
 
-string str(SortedSequenceMap m)
+string str(SortedSequenceMap s)
 {
     string builder = "";
-    for (auto& dname_queries : m) {
+    for (auto& dname_queries : s) {
         for (auto& qname_sorted : dname_queries.second) {
             builder += dname_queries.first + "\t" + qname_sorted.first;
             builder += str(qname_sorted.second) + "\n";
+        }
+    }
+    return builder;
+}
+
+string output_format(SortedSequenceMap& s, SequenceMap& data)
+{
+    string builder = "";
+    for (auto& dname_queries : s) {
+        for (auto& qname_epairs : dname_queries.second) {
+            for (auto& epair : qname_epairs.second) {
+                builder += "\n";
+                builder += "Smith-Waterman Score : " + std::to_string(epair.score) + "\n";
+                builder += "Hit at " + dname_queries.first + "[" + std::to_string(epair.dindex) + "]:\n\t";
+                builder += data[dname_queries.first].substr(epair.dindex, epair.extended_pair.size()) + "\n";
+                builder += "Match at " + qname_epairs.first + "[" + std::to_string(epair.qindex) + "]\n";
+                builder += "Extended HSP:\n\t" + epair.extended_pair + "\n";
+            }
         }
     }
     return builder;

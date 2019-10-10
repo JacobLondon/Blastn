@@ -101,7 +101,7 @@ static void align(std::string query_file, std::string data_file)
 
     std::cout << "Writing to file " << Blastn::OutputFile << "..." << std::endl;
     std::ofstream output_file{ Blastn::OutputFile };
-    output_file << Blastn::str(sorted_epairs);
+    output_file << Blastn::output_format(sorted_epairs, data);
 
     std::cout << std::endl;
 

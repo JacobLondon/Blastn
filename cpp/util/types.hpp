@@ -121,4 +121,6 @@ using SortedPairsMap = dict<string, vector<Sorted>>;
 using SortedSequenceMap = dict<string, SortedPairsMap>;
 string str(SortedSequenceMap s);
 
+string output_format(SortedSequenceMap& s, SequenceMap& data);
+
 } // Blastn
