@@ -9,10 +9,10 @@ namespace Blastn {
 
 int test(int argc, char **argv)
 {
-    Test::dust();
+    //Test::dust();
     //Test::extend();
-    //Test::match();
-    //Test::pairs();
+    Test::match();
+    Test::pairs();
     //Test::sequence();
     //Test::smith_waterman();
     //Test::sort();
@@ -99,8 +99,8 @@ static void align(std::string query_file, std::string data_file)
      * Blastn finished, write to file
      */
 
-    std::cout << "Writing to file " << Blastn::Output << "..." << std::endl;
-    std::ofstream output_file{ Blastn::Output };
+    std::cout << "Writing to file " << Blastn::OutputFile << "..." << std::endl;
+    std::ofstream output_file{ Blastn::OutputFile };
     output_file << Blastn::str(sorted_epairs);
 
     std::cout << std::endl;
@@ -143,7 +143,7 @@ int blastn(int argc, char **argv)
     a = argparse(argc, argv, "-dl");
     if (a != Blastn::Invalid) Blastn::DustPatternLength = atoi(a.c_str());
     a = argparse(argc, argv, "-o");
-    if (a != Blastn::Invalid) Blastn::Output            = a;
+    if (a != Blastn::Invalid) Blastn::OutputFile        = a;
 
     align(Blastn::QueryFile, Blastn::DataFile);
     return 0;

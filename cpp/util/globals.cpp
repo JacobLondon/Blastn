@@ -23,7 +23,7 @@ u32 DustPatternLength = 3;
 
 string QueryFile = "../data/SRR7236689--ARG830.fa";
 string DataFile  = "../data/Gn-SRR7236689_contigs.fasta";
-string Output = "blastn_out.txt";
+string OutputFile = "blastn_out.txt";
 
 string TestQuery = "../data/small_query.fa";
 string TestData  = "../data/small_data.fasta";

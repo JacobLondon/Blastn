@@ -68,7 +68,24 @@ void match()
 
 void pairs()
 {
+    string qpath = "../data/query_small.fa";
+    string dpath = "../data/data_small.fasta";
+    u32 length = 3;
 
+    auto query = prepare_sequence(qpath, length, Seperator);
+    auto data = prepare_sequence(dpath, length, Seperator);
+
+    auto matches = match_filter(query, data);
+
+    if (matches.empty()) {
+        std::cout << "No matches found" << std::endl;
+        return;
+    }
+
+    std::cout << str(matches) << std::endl;
+
+    auto pairs = pair_filter(matches, build_sequence(qpath, Seperator));
+    std::cout << str(pairs) << std::endl;
 }
 
 void sequence()

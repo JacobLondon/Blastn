@@ -20,7 +20,7 @@ extern u32 DustPatternLength;    // length of patterns for dust to look for
 
 extern string QueryFile;
 extern string DataFile;
-extern string Output;
+extern string OutputFile;
 
 extern string LTestQuery;
 extern string STestQuery;

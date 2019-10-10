@@ -5,8 +5,10 @@ namespace Blastn {
 
 #define ABS(value) ((s32)(value) < 0 ? (value) * -1 : (value))
 
-void append(vector<MatchSingleton>& flattened, vector<AdjacentPair>& result, u32 query_len)
+vector<AdjacentPair> pair(vector<MatchSingleton>& flattened, u32 query_len)
 {
+    vector<AdjacentPair> result;
+
     for (u32 i = 0; i < flattened.size(); i++) {
         for (u32 j = i + 1; j < flattened.size(); j++) {
             // not overlapping
@@ -24,12 +26,12 @@ void append(vector<MatchSingleton>& flattened, vector<AdjacentPair>& result, u32
             }
         }
     }
+    return result;
 }
 
 vector<AdjacentPair> flatten(vector<Match> matches, u32 query_len)
 {
     vector<MatchSingleton> flattened;
-    vector<AdjacentPair> result;
 
     for (auto& match : matches) {
         for (auto& dindex : match.data_indices) {
@@ -44,8 +46,7 @@ vector<AdjacentPair> flatten(vector<Match> matches, u32 query_len)
         return lhs.dindex < rhs.dindex;
     });
 
-    // result -> out argument
-    append(flattened, result, query_len);
+    vector<AdjacentPair> result = pair(flattened, query_len);
     return result;
 }
 
@@ -58,9 +59,9 @@ PairedSequenceMap pair_filter(MatchedSequenceMap matches, SequenceMap query)
         PairedMatchesMap pairs;
         for (auto& qname_matches : dname_queries.second) {
             for (auto& pair : flatten(qname_matches.second, query[qname_matches.first].size())) {
-                if (ABS(((s32)pair.dindex1 - (s32)pair.dindex2)) <= (s32)query[qname_matches.first].size() - (s32)pair.length
+                if (ABS((s32)pair.dindex1 - (s32)pair.dindex2) <= (s32)query[qname_matches.first].size() - (s32)pair.length
                     || ABS((s32)pair.qindex1 - (s32)pair.qindex2) >= (s32)pair.length
-                    || ABS((s32)pair.dindex1 - (s32)pair.dindex2 >= (s32)pair.length))
+                    || ABS((s32)pair.dindex1 - (s32)pair.dindex2) >= (s32)pair.length)
                 {
                     // qname not created yet in pairs
                     if (pairs.find(qname_matches.first) == pairs.end())
