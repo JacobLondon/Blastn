@@ -41,7 +41,6 @@ class AdjacentPair:
     def __repr__(self):
         return self.__str__()
 
-
 def append(flattened: List[MatchSingleton], result: list, query_len: int):
     for index1, value1 in enumerate(flattened):
         for index2 in range (index1 + 1, len(flattened)):
@@ -52,9 +51,6 @@ def append(flattened: List[MatchSingleton], result: list, query_len: int):
                                            dindex1 = value1.dindex, qindex1 = value1.qindex,
                                            dindex2 = flattened[index2].dindex, qindex2 = flattened[index2].qindex))
                 break
-
-
-
 
 def flatten(match_structs: List[MatchStruct], query_len: int):
     flat = []
@@ -67,8 +63,6 @@ def flatten(match_structs: List[MatchStruct], query_len: int):
     append(flat, result, query_len)
     
     return result
-
-
 
 """
 External
