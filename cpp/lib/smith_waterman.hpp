@@ -3,8 +3,8 @@
 
 // smith waterman
 struct Greatest {
-	u32 index;
-	s32 value;
+    u32 index;
+    s32 value;
 };
 
 /**

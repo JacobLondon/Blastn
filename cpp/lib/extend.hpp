@@ -20,14 +20,14 @@
  * @return The extended, aligned match.
  */
 Extended extend_and_score(AdjacentPair pair,
-						  string query,
-						  string data,
-						  s32 match,
-						  s32 mismatch,
-						  s32 gap,
-						  s32 minscore,
-						  bool score,
-						  bool printing);
+                          string query,
+                          string data,
+                          s32 match,
+                          s32 mismatch,
+                          s32 gap,
+                          s32 minscore,
+                          bool score,
+                          bool printing);
 
 /*
  * @brief: Given adjacent pairs, the database and query, extend the pairs from the query to the database.
@@ -41,9 +41,9 @@ Extended extend_and_score(AdjacentPair pair,
  * @return A map of data names to query names to a list of extended matches with their data base index.
  */
 Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedMatchesMap& pairs,
-										  Blastn::SequenceMap& query,
-										  Blastn::SequenceMap& data,
-										  s32 minscore,
-										  s32 match,
-										  s32 mismatch,
-										  s32 gap);
+                                          Blastn::SequenceMap& query,
+                                          Blastn::SequenceMap& data,
+                                          s32 minscore,
+                                          s32 match,
+                                          s32 mismatch,
+                                          s32 gap);
