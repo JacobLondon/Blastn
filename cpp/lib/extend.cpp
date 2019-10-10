@@ -106,12 +106,12 @@ Extended extend_and_score(AdjacentPair pair,
 }
 
 ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
-                                          SequenceMap& query,
-                                          SequenceMap& data,
-                                          s32 minscore,
-                                          s32 match,
-                                          s32 mismatch,
-                                          s32 gap)
+                                  SequenceMap& query,
+                                  SequenceMap& data,
+                                  s32 minscore,
+                                  s32 match,
+                                  s32 mismatch,
+                                  s32 gap)
 {
     ExtendedSequenceMap result;
     for (auto& dname_quermap : pairs) {

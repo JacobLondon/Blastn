@@ -6,10 +6,10 @@
 namespace Blastn {
 
 SortedSequenceMap sort_filter(ExtendedSequenceMap extended_pairs,
-                                      SequenceMap query,
-                                      s32 match,
-                                      s32 mismatch,
-                                      s32 gap)
+                              SequenceMap query,
+                              s32 match,
+                              s32 mismatch,
+                              s32 gap)
 {
     SortedSequenceMap result;
     for (auto& dname_queries : extended_pairs) {

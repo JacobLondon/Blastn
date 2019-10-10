@@ -43,11 +43,11 @@ Extended extend_and_score(AdjacentPair pair,
  * @return A map of data names to query names to a list of extended matches with their data base index.
  */
 ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
-                                          SequenceMap& query,
-                                          SequenceMap& data,
-                                          s32 minscore,
-                                          s32 match,
-                                          s32 mismatch,
-                                          s32 gap);
+                                  SequenceMap& query,
+                                  SequenceMap& data,
+                                  s32 minscore,
+                                  s32 match,
+                                  s32 mismatch,
+                                  s32 gap);
 
 } // Blastn
