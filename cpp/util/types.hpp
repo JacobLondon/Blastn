@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <vector>
 
+namespace Blastn {
+
 // type redefinitions
 
 using s32 = signed int;
@@ -17,10 +19,6 @@ using dict = std::unordered_map<T, U>;
 
 template<typename T>
 using vector = std::vector<T>;
-
-// blastn specific types
-
-namespace Blastn {
 
 /**
  * @brief The details for what a match has, a word, data indices, query indices.

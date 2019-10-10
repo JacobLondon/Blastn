@@ -17,30 +17,22 @@ MatchedSequenceMap match_filter(IndexedSequenceMap& query, IndexedSequenceMap& d
                 if (dname_wordmap.second.find(qword_indices.first) == dname_wordmap.second.end())
                     continue;
                 // the current word in the query is also in data but not inserted yet
-                if (dname_wordmap.second.find(qword_indices.first) == dname_wordmap.second.end()) {
-                    matches[qname_wordmap.first] = vector<Match> {
-                        Match {
-                            qword_indices.first,
-                            dname_wordmap.second[qword_indices.first],
-                            qword_indices.second
-                        } // end of Match initializer
-                    }; // end of vector<Match> initializer
-                }
-                // the current word in the query is also in data, and has already been inserted
-                else {
-                    matches[qname_wordmap.first].emplace_back(
-                        qword_indices.first,
-                        dname_wordmap.second[qword_indices.first],
-                        qword_indices.second
-                    );
-                }
-            } // end word_indices
-        } // end query map
+                if (dname_wordmap.second.find(qword_indices.first) == dname_wordmap.second.end())
+                    matches[qname_wordmap.first] = vector<Match> {};
+                
+                // the current word in the query is also in data, and the vector exists
+                matches[qname_wordmap.first].emplace_back(
+                    qword_indices.first,
+                    dname_wordmap.second[qword_indices.first],
+                    qword_indices.second
+                );
+            }
+        }
 
         // record if there were matches found
         if (!matches.empty())
             exact_matches[dname_wordmap.first] = matches;
-    } // end data map
+    }
 
     return exact_matches;
 }
