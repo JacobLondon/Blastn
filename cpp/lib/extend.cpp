@@ -121,8 +121,8 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
 
                 Extended ext = extend_and_score(adjacent_pair,
                                                 query[qname_pairvec.first],
-                                                data[dname_quermap.first],
-                                                match, mismatch, gap, minscore, true, false);
+                                                data[dname_quermap.first],   // sw?    print?
+                                                match, mismatch, gap, minscore, false, false);
                 // the word scored above the minscore
                 if (ext.extended_pair != Invalid) {
                     // no items in the vector of Extended pairs

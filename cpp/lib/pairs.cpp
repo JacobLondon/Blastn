@@ -12,7 +12,7 @@ vector<AdjacentPair> pair(vector<MatchSingleton>& flattened, u32 query_len)
     for (u32 i = 0; i < flattened.size(); i++) {
         for (u32 j = i + 1; j < flattened.size(); j++) {
             // not overlapping
-            if (ABS(((s32)flattened[i].dindex - (s32)flattened[j].dindex)) >= (s32)query_len
+            if (ABS(((s32)flattened[i].dindex - (s32)flattened[j].dindex)) >= (s32)flattened[i].word.size()
                 // not too far apart
                 && ABS(((s32)flattened[i].dindex - (s32)flattened[j].dindex)) <= (s32)query_len - (s32)flattened[i].word.size())
             {
