@@ -8,7 +8,6 @@
 using s32 = signed int;
 using u32 = unsigned int;
 using f32 = float;
-using f64 = double;
 
 using string = std::string;
 

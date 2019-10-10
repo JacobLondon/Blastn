@@ -9,7 +9,7 @@ namespace Blastn {
     s32 SwMismatch = -1;        // smith waterman mismatch score
     s32 SwGap = -1;                // smith waterman gap score
 
-    f64 DustThreshold = 0.2f;    // dust threshold score before filtering out
+    f32 DustThreshold = 0.2f;    // dust threshold score before filtering out
     u32 DustPatternLength = 3;    // length of patterns for dust to look for
 
     string Output = "blastn_out.txt";

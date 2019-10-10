@@ -2,9 +2,9 @@
 #include "split.hpp"    // split_to_words
 #include <algorithm>    // count
 
-f64 dust(string word, u32 pattern_len)
+f32 dust(string word, u32 pattern_len)
 {
-    f64 total_score = 0;
+    f32 total_score = 0;
     u32 occurrence;
     vector<string> triplets = split_to_words(word, pattern_len);
     dict<string, u32> record;
@@ -26,7 +26,7 @@ f64 dust(string word, u32 pattern_len)
     return total_score / (word.length() - pattern_len);
 }
 
-Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap& data, f64 threshold, u32 pattern_len, u32 word_len)
+Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap& data, f32 threshold, u32 pattern_len, u32 word_len)
 {
     Blastn::IndexedSequenceMap result;
 

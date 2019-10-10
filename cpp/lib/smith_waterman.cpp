@@ -131,7 +131,7 @@ s32 smith_waterman(string seq1,
 
     // accumulator strings for the output
     string output_alignment = "";
-    f64 similarity_percent = 0.0;
+    f32 similarity_percent = 0.0;
 
     for (u32 x = 0; x < rows; x++) {
         string a1{ aligned1[x] };
@@ -153,7 +153,7 @@ s32 smith_waterman(string seq1,
     }
 
     // similarity number to percent
-    similarity_percent = similarity_percent / (f64)aligned1.length() * 100.0;
+    similarity_percent = similarity_percent / (f32)aligned1.length() * 100.0;
 
     std::cout << "\nScore matrix:" << std::endl;
     Blastn::print(score_matrix);
