@@ -47,11 +47,11 @@ static void blastn(std::string query_file, std::string data_file)
      * Smith Waterman and Dust filtering
      */
 
-    std::cout << "Smith-Waterman Filtering " << query.size() << " words..." << std::endl;
+    std::cout << "Smith-Waterman Filtering " << query.size() << " query entries..." << std::endl;
     auto query_swfiltered = smith_waterman_filter(query_prepared, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
     //std::cout << Blastn::str(query_swfiltered);
 
-    std::cout << "Dust Filtering " << query.size() << " queries..." << std::endl;
+    std::cout << "Dust Filtering " << query.size() << " query entries..." << std::endl;
     auto query_dustfiltered = dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength);
     //std::cout << Blastn::str(query_dustfiltered);
 
@@ -106,9 +106,9 @@ int main(int argc, char **argv)
 
     // input files
     a = argparse(argc, argv, "-q");
-    if (a != Blastn::Invalid) Blastn::QueryFile = a;
+    if (a != Blastn::Invalid) Blastn::QueryFile         = a;
     a = argparse(argc, argv, "-db");
-    if (a != Blastn::Invalid) Blastn::DataFile  = a;
+    if (a != Blastn::Invalid) Blastn::DataFile          = a;
 
     // optional arguments (have defaults)
     a = argparse(argc, argv, "-sp");
