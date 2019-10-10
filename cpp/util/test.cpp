@@ -60,14 +60,14 @@ void tmatch()
     Blastn::IndexedSequenceMap data = prepare_sequence("../data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
 
     Blastn::MatchedSequenceMap m = match_filter(query, data);
-    Blastn::print(m);
+    std::cout << Blastn::str(m) << std::endl;
 }
 
 void tsequence()
 {
     Blastn::SplitLength = 5;
     Blastn::IndexedSequenceMap s = prepare_sequence("../data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
-    Blastn::print(s);
+    std::cout << Blastn::str(s) << std::endl;
 }
 
 void tsmith_waterman() {

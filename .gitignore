@@ -8,13 +8,15 @@ __pycache__/
 Debug/
 Release/
 x64/
+*.o
+*.obj
+
 a.out
 blastn
+blastn.out
+blastn_out.txt
 
 *.fa.json
 *.fasta.json
 packing_table.json
 unpacking_table.json
-
-blastn_out.txt
-blastn.out

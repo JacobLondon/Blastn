@@ -2,6 +2,7 @@
 
 #if TEST == false
 
+#include <fstream>
 #include "util/globals.hpp"
 #include "lib/blastn.hpp"
 
@@ -31,15 +32,12 @@ static void blastn(std::string query_file, std::string data_file)
 
     std::printf("Smith Waterman...\n");
     auto query_swfiltered = smith_waterman_filter(query_prepared, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
-    //Blastn::print(query_swfiltered);
 
     std::printf("Dust...\n");
     auto query_dustfiltered = dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength);
-    //Blastn::print(query_dustfiltered);
 
     std::printf("Exact Matches...\n");
     auto exact_matches = match_filter(query_dustfiltered, data_prepared);
-    //auto exact_matches = match_filter(query_swfiltered, data_prepared);
 
     std::printf("Adjacent Pairs...\n");
     auto adjacent_pairs = pair_filter(exact_matches, query);
@@ -47,18 +45,21 @@ static void blastn(std::string query_file, std::string data_file)
     std::printf("Extended Pairs...\n");
     auto extended_pairs = extend_filter(adjacent_pairs, query, data, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
 
-    std::printf("Sorted, Extended Pairs...\n");
+    std::printf("Sorted / Extended Pairs...\n");
     auto sorted_epairs = sort_filter(extended_pairs, query, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
 
-    std::printf("Printing output...\n");
-    Blastn::print(sorted_epairs);
+    std::printf("Writing output...\n");
+    std::ofstream output_file{ Blastn::Output };
+    output_file << Blastn::str(sorted_epairs);
 
     std::printf("...Done\n");
 }
 
 int main(int argc, char **argv)
 {
+    // arg output
     std::string a;
+    std::cout << Blastn::QueryFile << std::endl;
 
     // input files
     a = argparse(argc, argv, "-q");

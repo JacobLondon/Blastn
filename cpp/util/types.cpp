@@ -2,9 +2,7 @@
 
 Match::Match(string word, vector<u32> data_indices, vector<u32> query_indices)
     : word{ word }, data_indices{ data_indices }, query_indices{ query_indices }
-{
-    // pass
-}
+{}
 
 AdjacentPair::AdjacentPair(string word1, string word2, u32 dindex1, u32 qindex1, u32 dindex2, u32 qindex2)
     : word1{ word1 }, word2{ word2 }, dindex1{ dindex1 }, dindex2{ dindex2 }, qindex1{ qindex1 }, qindex2{ qindex2 }
@@ -14,119 +12,140 @@ AdjacentPair::AdjacentPair(string word1, string word2, u32 dindex1, u32 qindex1,
 
 Extended::Extended(string extended_pair, u32 dindex, u32 qindex)
     : extended_pair{ extended_pair }, dindex{ dindex }, qindex{ qindex }
-{
-    // pass
-}
+{}
 
 Sorted::Sorted(string extended_pair, u32 dindex, u32 qindex, s32 score)
     : extended_pair{ extended_pair }, dindex{ dindex }, qindex{ qindex }, score{ score }
-{
-    // pass
-}
+{}
 
 namespace Blastn {
 
-    void print(Matrix m) {
+    string str(Matrix m) {
+        string builder = "";
         for (auto v : m) {
             for (auto score : v) {
-                std::cout << score << ". ";
+                builder += std::to_string(score) + ". ";
             }
-            std::cout << "\n";
+            builder += "\n";
         }
-        std::cout << std::endl;
+        builder += "\n";
+        return builder;
     }
 
-
-    void print(SequenceMap s)
+    string str(SequenceMap s)
     {
-        for (auto iter = s.begin(); iter != s.end(); ++iter) {
-            std::cout << iter->first << ": " << iter->second << std::endl;
-        }
+        string builder = "";
+        for (auto& name_seq : s)
+            builder += name_seq.first + ": " + name_seq.second + "\n";
+        return builder;
     }
 
-    void print(IndexedSequenceMap s)
+    static string str(vector<u32> ints)
     {
-        // traverse names mapped to words
-        for (auto name_data = s.begin(); name_data != s.end(); ++name_data) {
-            std::cout << "\n" << name_data->first << ":\n";
-            // traverse words mapped to indices
-            for (auto words_indices = name_data->second.begin(); words_indices != name_data->second.end(); ++words_indices) {
-                std::cout << "\t" << words_indices->first << ": [";
-                // traverse vector of indices
-                for (u32 i = 0; i < words_indices->second.size(); i++) {
-                    std::cout << words_indices->second[i] << ". ";
-                }
-                std::cout << "]\n";
+        string builder = "[";
+        for (auto& i : ints)
+            builder += std::to_string(i) + ". ";
+        builder += "]";
+        return builder;
+    }
+
+    string str(IndexedSequenceMap s)
+    {
+        string builder = "";
+        for (auto& dname_queries : s) {
+            for (auto& qname_indices : dname_queries.second) {
+                builder += dname_queries.first + "\t" + qname_indices.first;
+                builder += str(qname_indices.second) + "\n";
             }
         }
-        std::cout << std::endl;
+        return builder;
     }
 
-    void print(MatchedSequenceMap m)
+    string str(MatchedSequenceMap m)
     {
-        for (auto d_name_quermap = m.begin(); d_name_quermap != m.end(); ++d_name_quermap) {
-            for (auto q_name_matchvec = d_name_quermap->second.begin();
-                q_name_matchvec != d_name_quermap->second.end();
-                ++q_name_matchvec) {
-                for (u32 i = 0; i < q_name_matchvec->second.size(); i++) {
-                    std::cout << q_name_matchvec->second[i].word << "\t" << d_name_quermap->first << "[";
-                    for (u32 j = 0; j < q_name_matchvec->second[i].data_indices.size(); j++) {
-                        std::cout << q_name_matchvec->second[i].data_indices[j] << ". ";
-                    }
-                    std::cout << "]\t" << q_name_matchvec->first << "[";
-                    for (u32 j = 0; j < q_name_matchvec->second[i].query_indices.size(); j++) {
-                        std::cout << q_name_matchvec->second[i].query_indices[j] << ". ";
-                    }
-                    std::cout << "]" << std::endl;
+        string builder = "";
+        for (auto& dname_queries : m) {
+            for (auto& qname_matches : dname_queries.second) {
+                for (auto& match : qname_matches.second) {
+                    builder += dname_queries.first + "\t" + qname_matches.first;
+                    builder += "\t" + match.word + "\n";
+                    builder += "\tData Indices:  " + str(match.data_indices) + "\n";
+                    builder += "\tMatch Indices: " + str(match.query_indices) + "\n";
                 }
             }
         }
+        return builder;
     }
 
-    void print(PairedSequenceMap m)
+    static string str(vector<AdjacentPair> pairs)
     {
-        for (auto d_name_quermap = m.begin(); d_name_quermap != m.end(); ++d_name_quermap) {
-            for (auto q_name_pairvec = d_name_quermap->second.begin();
-                q_name_pairvec != d_name_quermap->second.end();
-                ++q_name_pairvec) {
-                for (u32 i = 0; i < q_name_pairvec->second.size(); i++) {
-                    std::cout << "Word 1: " << q_name_pairvec->second[i].word1 << "\t";
-                    std::cout << "Word 2: " << q_name_pairvec->second[i].word2 << "\t";
-                    std::cout << "Length: " << q_name_pairvec->second[i].length << "\t";
-                    std::cout << std::endl;
-                }
-            }
+        string builder = "[";
+        for (auto& p : pairs) {
+            builder += "{ Word 1: " + p.word1 + ", ";
+            builder += "Word 2: " + p.word2 + ", ";
+            builder += "Length: " + std::to_string(p.length) + " }, ";
         }
+        builder += "]";
+        return builder;
     }
 
-    void print(ExtendedSequenceMap m)
+    string str(PairedSequenceMap m)
     {
-        for (auto d_name_quermap = m.begin(); d_name_quermap != m.end(); ++d_name_quermap) {
-            for (auto q_name_extendedvec = d_name_quermap->second.begin();
-                q_name_extendedvec != d_name_quermap->second.end();
-                ++q_name_extendedvec) {
-                for (u32 i = 0; i < q_name_extendedvec->second.size(); i++) {
-                    std::cout << "Extended Pair: " << q_name_extendedvec->second[i].extended_pair << "\t";
-                    std::cout << "Data Index: " << q_name_extendedvec->second[i].dindex << "\t";
-                    std::cout << std::endl;
-                }
+        string builder = "";
+        for (auto& dname_queries : m) {
+            for (auto& qname_pairs : dname_queries.second) {
+                builder += dname_queries.first + "\t" + qname_pairs.first;
+                builder += str(qname_pairs.second) + "\n";
             }
         }
+        return builder;
+    }
+
+    static string str(vector<Extended> ext)
+    {
+        string builder = "[";
+        for (auto& e : ext) {
+            builder += "{ Ext Pair: "  + e.extended_pair          + ", ";
+            builder += "Data Index: "  + std::to_string(e.dindex) + ", ";
+            builder += "Query Index: " + std::to_string(e.qindex) + " }, ";
+        }
+        builder += "]";
+        return builder;
+    }
+
+    string str(ExtendedSequenceMap m)
+    {
+        string builder = "";
+        for (auto& dname_queries : m) {
+            for (auto& qname_ext : dname_queries.second) {
+                builder += dname_queries.first + "\t" + qname_ext.first;
+                builder += str(qname_ext.second) + "\n";
+            }
+        }
+        return builder;
     }
     
-    void print(SortedSequenceMap m)
+    static string str(vector<Sorted> sorted)
     {
-        for (auto d_name_quermap = m.begin(); d_name_quermap != m.end(); ++d_name_quermap) {
-            for (auto q_name_sortedvec = d_name_quermap->second.begin();
-                q_name_sortedvec != d_name_quermap->second.end();
-                ++q_name_sortedvec) {
-                for (u32 i = 0; i < q_name_sortedvec->second.size(); i++) {
-                    std::cout << "Extended Pair: " << q_name_sortedvec->second[i].extended_pair << "\t";
-                    std::cout << "Data Index: " << q_name_sortedvec->second[i].dindex << "\t";
-                    std::cout << "SW Score: " << q_name_sortedvec->second[i].score << "\t";
-                    std::cout << std::endl;
-                }
+        string builder = "[";
+        for (auto& s : sorted) {
+            builder += "{ Extended Pair: " + s.extended_pair          + ", ";
+            builder += "Data Index: "    + std::to_string(s.dindex) + ", ";
+            builder += "SW Score: "      + std::to_string(s.score)  + " }, ";
+        }
+        builder += "]";
+        return builder;
+    }
+
+    string str(SortedSequenceMap m)
+    {
+        string builder = "";
+        for (auto& dname_queries : m) {
+            for (auto& qname_sorted : dname_queries.second) {
+                builder += dname_queries.first + "\t" + qname_sorted.first;
+                builder += str(qname_sorted.second) + "\n";
             }
         }
+        return builder;
     }
 }

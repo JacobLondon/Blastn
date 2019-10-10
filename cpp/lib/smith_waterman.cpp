@@ -156,9 +156,9 @@ s32 smith_waterman(string seq1,
     similarity_percent = similarity_percent / (f32)aligned1.length() * 100.0;
 
     std::cout << "\nScore matrix:" << std::endl;
-    Blastn::print(score_matrix);
+    std::cout << Blastn::str(score_matrix) << std::endl;
     std::cout << "\nPoint matrix" << std::endl;
-    Blastn::print(point_matrix);
+    std::cout << Blastn::str(point_matrix) << std::endl;
 
     std::cout << "Sequence A:\n" << seq1 << std::endl;
     std::cout << "Sequence B:\n" << seq2 << std::endl;

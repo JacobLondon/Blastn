@@ -20,12 +20,10 @@ namespace Blastn {
     // length of patterns for dust to look for
     u32 DustPatternLength = 3;
 
-    string QueryFile = LTestQuery;
-    string DataFile  = LTestData;
+    string QueryFile = "../data/SRR7236689--ARG830.fa";
+    string DataFile  = "../data/Gn-SRR7236689_contigs.fasta";
     string Output = "blastn_out.txt";
 
-    string LTestQuery = "../data/SRR7236689--ARG830.fa";
-    string STestQuery = "../data/small_query.fa";
-    string LTestData  = "../data/Gn-SRR7236689_contigs.fasta";
-    string STestData  = "../data/small_data.fasta";
+    string TestQuery = "../data/small_query.fa";
+    string TestData  = "../data/small_data.fasta";
 }

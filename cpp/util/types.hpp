@@ -62,12 +62,12 @@ namespace Blastn {
      * @brief Used in Smith Waterman for the matrices
      */
     using Matrix = vector<vector<u32>>;
-    void print(Matrix m);
+    string str(Matrix m);
     /**
      * @brief Map sequence names to their sequence.
      */
     using SequenceMap = dict<string, string>;
-    void print(SequenceMap s);
+    string str(SequenceMap s);
 
     /**
      * @brief Intermediate, map a word to its indices.
@@ -77,7 +77,7 @@ namespace Blastn {
      * @brief Map sequence names to all words mapped to a vector or indices where each word appears in its sequence.
      */
     using IndexedSequenceMap = dict<string, IndexedWordMap>;
-    void print(IndexedSequenceMap s);
+    string str(IndexedSequenceMap s);
 
     /**
      * @brief Intermediate, map a query name to its Match objects
@@ -87,7 +87,7 @@ namespace Blastn {
      * @brief Data name mapped to a query name mapped to a vector of Match objects
      */
     using MatchedSequenceMap = dict<string, MatchedMatchesMap>;
-    void print(MatchedSequenceMap s);
+    string str(MatchedSequenceMap s);
 
     /**
      * @brief Intermediate, map a query name to its AdjacentPair objects
@@ -97,7 +97,7 @@ namespace Blastn {
      * @brief Data name mapped to a query name mapped to a vector of AdjacentPair objects 
      */
     using PairedSequenceMap = dict<string, PairedMatchesMap>;
-    void print(PairedSequenceMap s);
+    string str(PairedSequenceMap s);
 
     /**
      * @brief Intermediate, map a query name to its Extended pair objects
@@ -107,7 +107,7 @@ namespace Blastn {
      * @brief Data name mapped to a query name mapped to a vector of Extended pair objects
      */
     using ExtendedSequenceMap = dict<string, ExtendedPairsMap>;
-    void print(ExtendedSequenceMap s);
+    string str(ExtendedSequenceMap s);
 
     /**
      * @brief Intermediate, map a query to its Sorted/Extended object
@@ -117,6 +117,6 @@ namespace Blastn {
      * @brief Data name mapped to a query name mapped to a vector of Sorted objects
      */
     using SortedSequenceMap = dict<string, SortedPairsMap>;
-    void print(SortedSequenceMap s);
+    string str(SortedSequenceMap s);
 
 }
