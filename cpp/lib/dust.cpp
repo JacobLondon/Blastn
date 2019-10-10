@@ -26,7 +26,7 @@ f32 dust(string word, u32 pattern_len)
     return total_score / (word.length() - pattern_len);
 }
 
-Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap& data, f32 threshold, u32 pattern_len, u32 word_len)
+Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap& data, f32 threshold, u32 pattern_len)
 {
     Blastn::IndexedSequenceMap result;
 

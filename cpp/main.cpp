@@ -8,10 +8,10 @@
 static std::string argparse(int argc, char **argv, std::string arg)
 {
     std::vector<std::string> arguments(argv + 1, argv + argc);
-    for (int i = 0; i < arguments.size(); i++) {
+    for (size_t i = 0; i < arguments.size(); i++) {
         if (arg == arguments[i]) {
             if (i + 1 >= arguments.size()) {
-                std::fprintf(stderr, "Failure: Invalid argument usage: %s\n", arg);
+                std::fprintf(stderr, "Failure: Invalid argument usage: %s\n", arg.c_str());
                 exit(-1);
             }
             else
@@ -34,7 +34,7 @@ static void blastn(std::string query_file, std::string data_file)
     //Blastn::print(query_swfiltered);
 
     std::printf("Dust...\n");
-    auto query_dustfiltered = dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength, Blastn::SplitLength);
+    auto query_dustfiltered = dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength);
     //Blastn::print(query_dustfiltered);
 
     std::printf("Exact Matches...\n");

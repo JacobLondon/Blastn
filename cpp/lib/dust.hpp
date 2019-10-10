@@ -17,4 +17,4 @@ f32 dust(string word, u32 pattern_len);
  * @param pattern_len The length of the patterns to look for in each word.
  * @return A copy of the IndexedSequenceMap with low scoring words removed.
  */
-Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap& data, f32 threshold, u32 pattern_len, u32 word_len);
+Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap& data, f32 threshold, u32 pattern_len);

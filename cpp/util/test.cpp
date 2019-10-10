@@ -79,6 +79,7 @@ void tsmith_waterman() {
     Blastn::SwGap = -1;
 
     u32 result = smith_waterman(seq1, seq2, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, false);
+    std::cout << result << std::endl;
 }
 
 void tsplit() {

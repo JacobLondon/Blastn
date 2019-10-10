@@ -1,14 +1,16 @@
 #include <algorithm>
 #include "pairs.hpp"
 
+#define ABS(value) ((s32)(value) < 0 ? (value) * -1 : (value))
+
 void append(vector<MatchSingleton>& flattened, vector<AdjacentPair>& result, u32 query_len)
 {
     for (u32 i = 0; i < flattened.size(); i++) {
         for (u32 j = i + 1; j < flattened.size(); j++) {
             // not overlapping
-            if (abs((int)(flattened[i].dindex - flattened[j].dindex)) >= query_len
+            if (ABS(((s32)flattened[i].dindex - (s32)flattened[j].dindex)) >= (s32)query_len
                 // not too far apart
-                && abs((int)(flattened[i].dindex - flattened[j].dindex)) <= query_len - flattened[i].word.size())
+                && ABS(((s32)flattened[i].dindex - (s32)flattened[j].dindex)) <= (s32)query_len - (s32)flattened[i].word.size())
             {
                 result.push_back(AdjacentPair {
                     flattened[i].word,   flattened[j].word,
@@ -37,7 +39,7 @@ vector<AdjacentPair> flatten(vector<Match> matches, u32 query_len)
         }
     }
     std::sort(flattened.begin(), flattened.end(), [&](const MatchSingleton lhs, const MatchSingleton rhs) {
-        lhs.dindex < rhs.dindex;
+        return lhs.dindex < rhs.dindex;
     });
 
     // result -> out argument
@@ -54,9 +56,9 @@ Blastn::PairedSequenceMap pair_filter(Blastn::MatchedSequenceMap matches, Blastn
         Blastn::PairedMatchesMap pairs;
         for (auto& qname_matches : dname_queries.second) {
             for (auto& pair : flatten(qname_matches.second, query[qname_matches.first].size())) {
-                if (abs((int)(pair.dindex1 - pair.dindex2)) <= query[qname_matches.first].size() - pair.length
-                    || abs((int)(pair.qindex1 - pair.qindex2) >= pair.length)
-                    || abs((int)(pair.dindex1 - pair.dindex2 >= pair.length)))
+                if (ABS(((s32)pair.dindex1 - (s32)pair.dindex2)) <= (s32)query[qname_matches.first].size() - (s32)pair.length
+                    || ABS((s32)pair.qindex1 - (s32)pair.qindex2) >= (s32)pair.length
+                    || ABS((s32)pair.dindex1 - (s32)pair.dindex2 >= (s32)pair.length))
                 {
                     // qname not created yet in pairs
                     if (pairs.find(qname_matches.first) == pairs.end())

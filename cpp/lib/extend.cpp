@@ -55,13 +55,13 @@ Extended extend_and_score(AdjacentPair pair,
         dextended = data[dexindex] + dextended;
         if (score && smith_waterman(qextended, dextended, match, mismatch, gap, true) < minscore)
         {
-            return Extended{ Blastn::Invalid, -1, -1 };
+            return Extended{ Blastn::Invalid, 0, 0 };
         }
     }
 
     // the left-most index in the database
-    s32 dindex = dexindex;
-    s32 qindex = qexindex;
+    u32 dindex = (u32)dexindex;
+    u32 qindex = (u32)qexindex;
     
     // extend left pair to the right
     qexindex = qleftindex + pair.length - 1;
@@ -86,13 +86,13 @@ Extended extend_and_score(AdjacentPair pair,
     // extend right
     qexindex = qrightindex + pair.length - 1;
     dexindex = drightindex + pair.length - 1;
-    while (qexindex + 1 < query.size() && dexindex + 1 < data.size()) {
+    while ((u32)qexindex + 1 < query.size() && (u32)dexindex + 1 < data.size()) {
         qexindex++; dexindex++;
         qextended = qextended + query[qexindex];
         dextended = dextended + data[dexindex];
         if (score && smith_waterman(qextended, dextended, match, mismatch, gap, true) < minscore)
         {
-            return Extended{ Blastn::Invalid, -1, -1 };
+            return Extended{ Blastn::Invalid, 0, 0 };
         }
     }
 
