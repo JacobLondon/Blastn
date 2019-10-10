@@ -41,14 +41,17 @@ static void blastn(std::string query_file, std::string data_file)
     auto exact_matches = match_filter(query_dustfiltered, data_prepared);
     //auto exact_matches = match_filter(query_swfiltered, data_prepared);
 
-    // adjacent_pairs
+    std::printf("Adjacent Pairs...\n");
+    auto adjacent_pairs = pair_filter(exact_matches, query);
 
-    // extended_pairs
+    std::printf("Extended Pairs...\n");
+    auto extended_pairs = extend_filter(adjacent_pairs, query, data, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
 
-    // sorted_epairs
+    std::printf("Sorted, Extended Pairs...\n");
+    auto sorted_epairs = sort_filter(extended_pairs, query, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
 
     std::printf("Printing output...\n");
-    Blastn::print(exact_matches);
+    Blastn::print(sorted_epairs);
 
     std::printf("...Done\n");
 }
