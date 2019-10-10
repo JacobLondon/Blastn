@@ -9,9 +9,9 @@ enum Direction {
 };
 
 // return the maximum of three values or zero
-inline IValueTuple max(s32 left, s32 up, s32 diag)
+inline Greatest max(s32 left, s32 up, s32 diag)
 {
-	IValueTuple max = { 0, 0 };
+	Greatest max = { 0, 0 };
 
 	if (left > 0) {
 		max.value = left;
@@ -69,7 +69,7 @@ s32 smith_waterman(string seq1,
 	u32 max_i = 1;
 	u32 max_j = 1;
 	s32 left, up, diag;
-	IValueTuple greatest;
+	Greatest greatest;
 
 	// fill score matrix
 	for (i = 1; i <= cols; i++) {

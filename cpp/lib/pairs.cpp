@@ -1,37 +1,47 @@
+#include <algorithm>
 #include "pairs.hpp"
 
-struct MatchSingleton {
-    string word;
-    u32 dindex;
-    u32 qindex;
-};
-
-void sort_and_append(vector<AdjacentPair>& result, vector<u32> dindices, vector<u32> qindices, string word)
+void append(vector<MatchSingleton>& flattened, vector<AdjacentPair>& result, u32 query_len)
 {
-    
+    for (u32 i = 0; i < flattened.size(); i++) {
+        for (u32 j = i + 1; j < flattened.size(); j++) {
+            // not overlapping
+            if (abs((int)(flattened[i].dindex - flattened[j].dindex)) >= query_len
+                // not too far apart
+                && abs((int)(flattened[i].dindex - flattened[j].dindex)) <= query_len - flattened[i].word.size())
+            {
+                result.push_back(AdjacentPair {
+                    flattened[i].word,   flattened[j].word,
+                    flattened[i].dindex, flattened[i].qindex,
+                    flattened[j].dindex, flattened[j].qindex
+                });
 
-    dict<u32, u32> ignore;
-    for (u32 i = 0; i < dindices.size(); i++) {
-        if (ignore.find(dindices[i]) != ignore.end())
-            continue;
-        for (u32 j = 0; j < dindices.size(); j++) {
-            if (ignore.find(dindices[j]) != ignore.end())
-                continue;
-
-            if (abs((int)(dindices[j] - dindices[i])) >= word.size()) {
-                // TODO: finish converting pairs.py
+                break;
             }
         }
     }
 }
 
-vector<AdjacentPair> make_adjacent_pair(vector<Match> matches)
+vector<AdjacentPair> flatten(vector<Match> matches, u32 query_len)
 {
+    vector<MatchSingleton> flattened;
     vector<AdjacentPair> result;
 
     for (auto& match : matches) {
-        sort_and_append(result, match.data_indices, match.query_indices, match.word);
+        for (auto& dindex : match.data_indices) {
+            for (auto& qindex : match.query_indices) {
+                flattened.push_back(MatchSingleton {
+                    match.word, dindex, qindex
+                });
+            }
+        }
     }
+    std::sort(flattened.begin(), flattened.end(), [&](const MatchSingleton lhs, const MatchSingleton rhs) {
+        lhs.dindex < rhs.dindex;
+    });
+
+    // result -> out argument
+    append(flattened, result, query_len);
     return result;
 }
 
@@ -43,7 +53,7 @@ Blastn::PairedSequenceMap pair_filter(Blastn::MatchedSequenceMap matches, Blastn
     for (auto& dname_queries : matches) {
         Blastn::PairedMatchesMap pairs;
         for (auto& qname_matches : dname_queries.second) {
-            for (auto& pair : make_adjacent_pair(qname_matches.second)) {
+            for (auto& pair : flatten(qname_matches.second, query[qname_matches.first].size())) {
                 if (abs((int)(pair.dindex1 - pair.dindex2)) <= query[qname_matches.first].size() - pair.length
                     || abs((int)(pair.qindex1 - pair.qindex2) >= pair.length)
                     || abs((int)(pair.dindex1 - pair.dindex2 >= pair.length)))

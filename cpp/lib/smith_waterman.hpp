@@ -2,7 +2,7 @@
 #include "../util/types.hpp"
 
 // smith waterman
-struct IValueTuple {
+struct Greatest {
 	u32 index;
 	s32 value;
 };
@@ -10,7 +10,7 @@ struct IValueTuple {
 /**
  * @brief Return the greatest value and its number based on direction.
  */
-inline IValueTuple max(s32 left, s32 up, s32 diag);
+inline Greatest max(s32 left, s32 up, s32 diag);
 /**
  * @brief given two different characters, pick a score depending on how they match.
  */

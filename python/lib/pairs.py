@@ -45,7 +45,9 @@ class AdjacentPair:
 def append(flattened: List[MatchSingleton], result: list, query_len: int):
     for index1, value1 in enumerate(flattened):
         for index2 in range (index1 + 1, len(flattened)):
-            if abs(value1.dindex - flattened[index2].dindex) >= len(value1.word) and abs(value1.dindex - flattened[index2].dindex) <= query_len - len(value1.word):
+            if abs(value1.dindex - flattened[index2].dindex) >= len(value1.word) \
+                and abs(value1.dindex - flattened[index2].dindex) <= query_len - len(value1.word):
+                
                 result.append(AdjacentPair(word1   = value1.word,       word2   = flattened[index2].word,
                                            dindex1 = value1.dindex, qindex1 = value1.qindex,
                                            dindex2 = flattened[index2].dindex, qindex2 = flattened[index2].qindex))
