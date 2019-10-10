@@ -1,13 +1,15 @@
 #include "match.hpp"
 #include "prepare.hpp"
 
-Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap& query, Blastn::IndexedSequenceMap& data)
+namespace Blastn {
+
+MatchedSequenceMap match_filter(IndexedSequenceMap& query, IndexedSequenceMap& data)
 {
-    Blastn::MatchedSequenceMap exact_matches;
+    MatchedSequenceMap exact_matches;
 
     // traverse the data IndexedSequenceMap
     for (auto& dname_wordmap : data) {
-        Blastn::MatchedMatchesMap matches;
+        MatchedMatchesMap matches;
         // traverse the query IndexedSequenceMap, create Match objects and insert to exact_matches
         for (auto& qname_wordmap : query) {
             for (auto& qword_indices : qname_wordmap.second) {
@@ -42,3 +44,5 @@ Blastn::MatchedSequenceMap match_filter(Blastn::IndexedSequenceMap& query, Blast
 
     return exact_matches;
 }
+
+} // Blastn

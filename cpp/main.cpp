@@ -32,15 +32,15 @@ static void blastn(std::string query_file, std::string data_file)
      */
 
     std::cout << "Reading " << query_file << "..." << std::endl;
-    auto query = build_sequence(query_file, Blastn::Seperator);
+    auto query = Blastn::build_sequence(query_file, Blastn::Seperator);
     std::cout << "Formatting " << query.size() << " query entries..." << std::endl;
-    auto query_prepared = split_sequence(query, Blastn::SplitLength);
+    auto query_prepared = Blastn::split_sequence(query, Blastn::SplitLength);
     std::cout << std::endl;
 
     std::cout << "Reading " << data_file << "..." << std::endl;
-    auto data = build_sequence(data_file, Blastn::Seperator);
+    auto data = Blastn::build_sequence(data_file, Blastn::Seperator);
     std::cout << "Formatting " << data.size() << " database entries..." << std::endl;
-    auto data_prepared = split_sequence(data, Blastn::SplitLength);
+    auto data_prepared = Blastn::split_sequence(data, Blastn::SplitLength);
     std::cout << std::endl;
 
     /**
@@ -48,11 +48,11 @@ static void blastn(std::string query_file, std::string data_file)
      */
 
     std::cout << "Smith-Waterman Filtering " << query.size() << " query entries..." << std::endl;
-    auto query_swfiltered = smith_waterman_filter(query_prepared, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
+    auto query_swfiltered = Blastn::smith_waterman_filter(query_prepared, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
     //std::cout << Blastn::str(query_swfiltered);
 
-    std::cout << "Dust Filtering " << query.size() << " query entries..." << std::endl;
-    auto query_dustfiltered = dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength);
+    std::cout << "Dust Complexity Filtering " << query.size() << " query entries..." << std::endl;
+    auto query_dustfiltered = Blastn::dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength);
     //std::cout << Blastn::str(query_dustfiltered);
 
     std::cout << std::endl;
@@ -63,19 +63,19 @@ static void blastn(std::string query_file, std::string data_file)
      */
 
     std::cout << "Matching " << query.size() << " query entries against " << data.size() << " database entries..." << std::endl;
-    auto exact_matches = match_filter(query_dustfiltered, data_prepared);
+    auto exact_matches = Blastn::match_filter(query_dustfiltered, data_prepared);
     //std::cout << Blastn::str(exact_matches);
 
     std::cout << "Pairing " << exact_matches.size() << " words with each other..." << std::endl;
-    auto adjacent_pairs = pair_filter(exact_matches, query);
+    auto adjacent_pairs = Blastn::pair_filter(exact_matches, query);
     //std::cout << Blastn::str(adjacent_pairs);
 
     std::cout << "Extending " << adjacent_pairs.size() << " pairs..." << std::endl;
-    auto extended_pairs = extend_filter(adjacent_pairs, query, data, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
+    auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, data, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
     //std::cout << Blastn::str(extended_pairs);
 
     std::cout << "Sorting " << extended_pairs.size() << " extended pairs..." << std::endl;
-    auto sorted_epairs = sort_filter(extended_pairs, query, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
+    auto sorted_epairs = Blastn::sort_filter(extended_pairs, query, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
     //std::cout << Blastn::str(sorted_epairs);
 
     std::cout << std::endl;
@@ -134,19 +134,23 @@ int main(int argc, char **argv)
     return 0;
 }
 
-#else
+#else // TEST == true
 
 #include "util/test.hpp"
-int main(int argc, char** argv)
+
+int main()
 {
-    //tsplit();
-    //tsmith_waterman();
-    //tsequence();
-    //tmatch();
-    //tdust();
-    textend();
+    Blastn::Test::dust();
+    Blastn::Test::extend();
+    Blastn::Test::match();
+    Blastn::Test::pairs();
+    Blastn::Test::sequence();
+    Blastn::Test::smith_waterman();
+    Blastn::Test::sort();
+    Blastn::Test::split();
 
     std::cin.get();
     return 0;
 }
+
 #endif

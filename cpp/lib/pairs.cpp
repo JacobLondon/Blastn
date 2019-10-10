@@ -1,6 +1,8 @@
 #include <algorithm>
 #include "pairs.hpp"
 
+namespace Blastn {
+
 #define ABS(value) ((s32)(value) < 0 ? (value) * -1 : (value))
 
 void append(vector<MatchSingleton>& flattened, vector<AdjacentPair>& result, u32 query_len)
@@ -47,13 +49,13 @@ vector<AdjacentPair> flatten(vector<Match> matches, u32 query_len)
     return result;
 }
 
-Blastn::PairedSequenceMap pair_filter(Blastn::MatchedSequenceMap matches, Blastn::SequenceMap query)
+PairedSequenceMap pair_filter(MatchedSequenceMap matches, SequenceMap query)
 {
-    Blastn::PairedSequenceMap filtered_pairs;
+    PairedSequenceMap filtered_pairs;
     bool found = false;
 
     for (auto& dname_queries : matches) {
-        Blastn::PairedMatchesMap pairs;
+        PairedMatchesMap pairs;
         for (auto& qname_matches : dname_queries.second) {
             for (auto& pair : flatten(qname_matches.second, query[qname_matches.first].size())) {
                 if (ABS(((s32)pair.dindex1 - (s32)pair.dindex2)) <= (s32)query[qname_matches.first].size() - (s32)pair.length
@@ -82,3 +84,5 @@ Blastn::PairedSequenceMap pair_filter(Blastn::MatchedSequenceMap matches, Blastn
     }
     return filtered_pairs;
 }
+
+} // Blastn

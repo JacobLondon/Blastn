@@ -2,6 +2,8 @@
 #include "split.hpp"    // split_to_words
 #include <algorithm>    // count
 
+namespace Blastn {
+
 f32 dust(string word, u32 pattern_len)
 {
     f32 total_score = 0;
@@ -26,13 +28,13 @@ f32 dust(string word, u32 pattern_len)
     return total_score / (word.length() - pattern_len);
 }
 
-Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap& data, f32 threshold, u32 pattern_len)
+IndexedSequenceMap dust_filter(IndexedSequenceMap& data, f32 threshold, u32 pattern_len)
 {
-    Blastn::IndexedSequenceMap result;
+    IndexedSequenceMap result;
 
     // breaks words into subsequences of triplets
     for (auto& qname_seqmap : data) {
-        Blastn::IndexedWordMap temp;
+        IndexedWordMap temp;
         for (auto& word_indices : qname_seqmap.second) {
             // words that score above the threshold will not be added to the filtered result
             if (dust(word_indices.first, pattern_len) < threshold)
@@ -43,3 +45,5 @@ Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap& data, f32 thr
     }
     return result;
 }
+
+} // Blastn

@@ -3,9 +3,11 @@
 #include "prepare.hpp"
 #include "split.hpp"
 
-Blastn::SequenceMap build_sequence(string path, char sep)
+namespace Blastn {
+
+SequenceMap build_sequence(string path, char sep)
 {
-    Blastn::SequenceMap result;
+    SequenceMap result;
     string name, line;
     std::ifstream sequence_file{ path };
 
@@ -38,14 +40,14 @@ Blastn::SequenceMap build_sequence(string path, char sep)
     return result;
 }
 
-Blastn::IndexedSequenceMap split_sequence(Blastn::SequenceMap& data, u32 length)
+IndexedSequenceMap split_sequence(SequenceMap& data, u32 length)
 {
-    Blastn::IndexedSequenceMap result;
+    IndexedSequenceMap result;
 
     // traverse the sequence
     for (auto& name_seqmap : data) {
         // get all words and find their indices in that data set
-        Blastn::IndexedWordMap indexed_words;
+        IndexedWordMap indexed_words;
         vector<string> words = split_to_words(name_seqmap.second, length);
 
         // map each word to all of their indices each time the word appears
@@ -71,10 +73,12 @@ Blastn::IndexedSequenceMap split_sequence(Blastn::SequenceMap& data, u32 length)
     return result;
 }
 
-Blastn::IndexedSequenceMap prepare_sequence(string path, u32 length, char sep)
+IndexedSequenceMap prepare_sequence(string path, u32 length, char sep)
 {
-    Blastn::SequenceMap built_data = build_sequence(path, sep);
-    Blastn::IndexedSequenceMap indexed_data = split_sequence(built_data, length);
+    SequenceMap built_data = build_sequence(path, sep);
+    IndexedSequenceMap indexed_data = split_sequence(built_data, length);
 
     return indexed_data;
 }
+
+} // Blastn

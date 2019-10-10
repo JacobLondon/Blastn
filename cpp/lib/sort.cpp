@@ -3,16 +3,17 @@
 #include "sort.hpp"
 #include "smith_waterman.hpp"
 
+namespace Blastn {
 
-Blastn::SortedSequenceMap sort_filter(Blastn::ExtendedSequenceMap extended_pairs,
-                                      Blastn::SequenceMap query,
+SortedSequenceMap sort_filter(ExtendedSequenceMap extended_pairs,
+                                      SequenceMap query,
                                       s32 match,
                                       s32 mismatch,
                                       s32 gap)
 {
-    Blastn::SortedSequenceMap result;
+    SortedSequenceMap result;
     for (auto& dname_queries : extended_pairs) {
-        Blastn::SortedPairsMap temp;
+        SortedPairsMap temp;
         for (auto& qname_epairs : dname_queries.second) {
             if (temp.find(qname_epairs.first) == temp.end())
                 temp[qname_epairs.first] = vector<Sorted>{};
@@ -36,3 +37,5 @@ Blastn::SortedSequenceMap sort_filter(Blastn::ExtendedSequenceMap extended_pairs
     }
     return result;
 }
+
+} // Blastn

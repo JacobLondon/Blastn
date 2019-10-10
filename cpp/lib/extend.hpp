@@ -1,6 +1,8 @@
 #pragma once
 #include "../util/types.hpp"
 
+namespace Blastn {
+
 /**
  * @brief Extend a pair of words where each word is in the same database and query. In addition,
  *        the distance between the words in the database is less than the length of the query.
@@ -40,10 +42,12 @@ Extended extend_and_score(AdjacentPair pair,
  * @param gap : The smith waterman score when there is a gap character.
  * @return A map of data names to query names to a list of extended matches with their data base index.
  */
-Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedSequenceMap& pairs,
-                                          Blastn::SequenceMap& query,
-                                          Blastn::SequenceMap& data,
+ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
+                                          SequenceMap& query,
+                                          SequenceMap& data,
                                           s32 minscore,
                                           s32 match,
                                           s32 mismatch,
                                           s32 gap);
+
+} // Blastn

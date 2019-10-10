@@ -1,6 +1,8 @@
 #include "extend.hpp"
 #include "smith_waterman.hpp"
 
+namespace Blastn {
+
 #define MIN(v1, v2) (((v1) > (v2)) ? (v2) : (v1))
 #define MAX(v1, v2) (((v1) < (v2)) ? (v2) : (v1))
 
@@ -55,7 +57,7 @@ Extended extend_and_score(AdjacentPair pair,
         dextended = data[dexindex] + dextended;
         if (score && smith_waterman(qextended, dextended, match, mismatch, gap, true) < minscore)
         {
-            return Extended{ Blastn::Invalid, 0, 0 };
+            return Extended{ Invalid, 0, 0 };
         }
     }
 
@@ -75,7 +77,7 @@ Extended extend_and_score(AdjacentPair pair,
     // extend right with gaps until qextended aligns with data
     while ((u32)dexindex + 1 < drightindex) {
         qexindex++; dexindex++;
-        qextended = qextended + Blastn::SGap;
+        qextended = qextended + SGap;
         dextended = dextended + data[dexindex];
     }
 
@@ -92,7 +94,7 @@ Extended extend_and_score(AdjacentPair pair,
         dextended = dextended + data[dexindex];
         if (score && smith_waterman(qextended, dextended, match, mismatch, gap, true) < minscore)
         {
-            return Extended{ Blastn::Invalid, 0, 0 };
+            return Extended{ Invalid, 0, 0 };
         }
     }
 
@@ -103,17 +105,17 @@ Extended extend_and_score(AdjacentPair pair,
     return Extended{ qextended, dindex, qindex };
 }
 
-Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedSequenceMap& pairs,
-                                          Blastn::SequenceMap& query,
-                                          Blastn::SequenceMap& data,
+ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
+                                          SequenceMap& query,
+                                          SequenceMap& data,
                                           s32 minscore,
                                           s32 match,
                                           s32 mismatch,
                                           s32 gap)
 {
-    Blastn::ExtendedSequenceMap result;
+    ExtendedSequenceMap result;
     for (auto& dname_quermap : pairs) {
-        Blastn::ExtendedPairsMap temp;
+        ExtendedPairsMap temp;
         for (auto& qname_pairvec : dname_quermap.second) {
             for (auto adjacent_pair : qname_pairvec.second) {
 
@@ -122,7 +124,7 @@ Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedSequenceMap& pairs,
                                                 data[dname_quermap.first],
                                                 match, mismatch, gap, minscore, true, false);
                 // the word scored above the minscore
-                if (ext.extended_pair != Blastn::Invalid) {
+                if (ext.extended_pair != Invalid) {
                     // no items in the vector of Extended pairs
                     if (temp.find(qname_pairvec.first) == temp.end())
                         temp[qname_pairvec.first] = vector<Extended>{ ext };
@@ -137,3 +139,5 @@ Blastn::ExtendedSequenceMap extend_filter(Blastn::PairedSequenceMap& pairs,
     }
     return result;
 }
+
+} // Blastn

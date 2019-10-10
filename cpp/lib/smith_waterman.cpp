@@ -1,6 +1,8 @@
 #include <algorithm>
 #include "smith_waterman.hpp"
 
+namespace Blastn {
+
 enum Direction {
     _INVALID,
     LEFT,
@@ -33,7 +35,7 @@ inline s32 score_alignment(char alpha, char beta, s32 match, s32 mismatch, s32 g
 {
     if (alpha == beta)
         return match;
-    else if (Blastn::CGap == alpha || Blastn::CGap == beta)
+    else if (CGap == alpha || CGap == beta)
         return gap;
     else
         return mismatch;
@@ -53,7 +55,7 @@ s32 smith_waterman(string seq1,
     u32 j = 0;
 
     // initialize empty matrices
-    Blastn::Matrix score_matrix, point_matrix;
+    Matrix score_matrix, point_matrix;
     score_matrix.reserve(cols);
     point_matrix.reserve(cols);
 
@@ -111,13 +113,13 @@ s32 smith_waterman(string seq1,
         }
         // upwards movement
         else if (point_matrix[i][j] == UP) {
-            temp1 = Blastn::SGap;
+            temp1 = SGap;
             temp2 = seq2[--j];
         }
         // left movement
         else if (point_matrix[i][j] == LEFT) {
             temp1 = seq1[--i];
-            temp2 = Blastn::SGap;
+            temp2 = SGap;
         }
 
         // append the chars to the aligned build string
@@ -143,12 +145,12 @@ s32 smith_waterman(string seq1,
             similarity_percent += 1.0;
         }
         // no match, gap append to output string
-        else if (a1 != a2 && a1 != Blastn::SGap && a2 != Blastn::SGap) {
-            output_alignment.append(Blastn::SGap);
+        else if (a1 != a2 && a1 != SGap && a2 != SGap) {
+            output_alignment.append(SGap);
         }
         // gap in both
-        else if (a1 == Blastn::SGap || a2 == Blastn::SGap) {
-            output_alignment.append(Blastn::SGap);
+        else if (a1 == SGap || a2 == SGap) {
+            output_alignment.append(SGap);
         }
     }
 
@@ -156,9 +158,9 @@ s32 smith_waterman(string seq1,
     similarity_percent = similarity_percent / (f32)aligned1.length() * 100.0;
 
     std::cout << "\nScore matrix:" << std::endl;
-    std::cout << Blastn::str(score_matrix) << std::endl;
+    std::cout << str(score_matrix) << std::endl;
     std::cout << "\nPoint matrix" << std::endl;
-    std::cout << Blastn::str(point_matrix) << std::endl;
+    std::cout << str(point_matrix) << std::endl;
 
     std::cout << "Sequence A:\n" << seq1 << std::endl;
     std::cout << "Sequence B:\n" << seq2 << std::endl;
@@ -173,7 +175,7 @@ s32 smith_waterman(string seq1,
     return max_score;
 }
 
-Blastn::IndexedSequenceMap smith_waterman_filter(Blastn::IndexedSequenceMap& data, s32 minscore, s32 match, s32 mismatch, s32 gap)
+IndexedSequenceMap smith_waterman_filter(IndexedSequenceMap& data, s32 minscore, s32 match, s32 mismatch, s32 gap)
 {
     // traverse each sequence using iterators as erase is used
     for (auto name_seqmap = data.begin(); name_seqmap != data.end(); ++name_seqmap) {
@@ -185,3 +187,5 @@ Blastn::IndexedSequenceMap smith_waterman_filter(Blastn::IndexedSequenceMap& dat
     }
     return data;
 }
+
+} // Blastn

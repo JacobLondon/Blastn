@@ -1,9 +1,15 @@
 #pragma once
 #include "../lib/blastn.hpp"
 
-void tdust();
-void textend();
-void tmatch();
-void tsequence();
-void tsmith_waterman();
-void tsplit();
+namespace Blastn::Test {
+
+void dust();
+void extend();
+void match();
+void pairs();
+void sequence();
+void smith_waterman();
+void sort();
+void split();
+
+} // BlastnTest

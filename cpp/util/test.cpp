@@ -1,7 +1,9 @@
 #include "test.hpp"
 #include "globals.hpp"
 
-void tdust()
+namespace Blastn::Test {
+
+void dust()
 {
     string words[3] = {
         "AACAACAACAAA",
@@ -12,10 +14,10 @@ void tdust()
     Blastn::DustPatternLength = 3;
 
     for (auto word : words)
-        std::cout << dust(word, Blastn::DustPatternLength) << std::endl;
+        std::cout << Blastn::dust(word, Blastn::DustPatternLength) << std::endl;
 }
 
-void textend()
+void extend()
 {
     string query = "GTCTGAACTGAGC";
     string data  = "AGTCTGATGACTGGGGAACTCGA";
@@ -27,7 +29,7 @@ void textend()
     u32 qindex2 = (u32)query.find(word2, qindex1 + word1.size());
     u32 dindex2 = (u32)data.find(word2, dindex1 + word1.size());
 
-    AdjacentPair pair(word1, word2, dindex1, qindex1, dindex2, qindex2);
+    Blastn::AdjacentPair pair(word1, word2, dindex1, qindex1, dindex2, qindex2);
 
     std::cout << "Query:\t\t" << query << std::endl;
     std::cout << "Data:\t\t" << data << std::endl;
@@ -38,7 +40,7 @@ void textend()
     Blastn::SwMinscore = 0;
     bool score = true;
     bool printing = true;
-    Extended result = extend_and_score(
+    Blastn::Extended result = extend_and_score(
         pair,
         query,
         data,
@@ -53,24 +55,30 @@ void textend()
     std::cout << result.extended_pair << std::endl;
 }
 
-void tmatch()
+void match()
 {
     Blastn::SplitLength = 3;
-    Blastn::IndexedSequenceMap query = prepare_sequence("../data/query_small.fa", Blastn::SplitLength, Blastn::Seperator);
-    Blastn::IndexedSequenceMap data = prepare_sequence("../data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
+    Blastn::IndexedSequenceMap query = Blastn::prepare_sequence("../data/query_small.fa", Blastn::SplitLength, Blastn::Seperator);
+    Blastn::IndexedSequenceMap data = Blastn::prepare_sequence("../data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
 
-    Blastn::MatchedSequenceMap m = match_filter(query, data);
+    Blastn::MatchedSequenceMap m = Blastn::match_filter(query, data);
     std::cout << Blastn::str(m) << std::endl;
 }
 
-void tsequence()
+void pairs()
+{
+
+}
+
+void sequence()
 {
     Blastn::SplitLength = 5;
-    Blastn::IndexedSequenceMap s = prepare_sequence("../data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
+    Blastn::IndexedSequenceMap s = Blastn::prepare_sequence("../data/data_small.fasta", Blastn::SplitLength, Blastn::Seperator);
     std::cout << Blastn::str(s) << std::endl;
 }
 
-void tsmith_waterman() {
+void smith_waterman()
+{
     string seq1 = "ATCGAC";
     string seq2 = "ACCGAC";
 
@@ -78,15 +86,21 @@ void tsmith_waterman() {
     Blastn::SwMismatch = -1;
     Blastn::SwGap = -1;
 
-    u32 result = smith_waterman(seq1, seq2, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, false);
+    u32 result = Blastn::smith_waterman(seq1, seq2, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, false);
     std::cout << result << std::endl;
 }
 
-void tsplit() {
+void sort()
+{
+
+}
+
+void split()
+{
     string input = "ATCGAC";
     u32 length = 3;
 
-    vector<string> words = split_to_words(input, length);
+    vector<string> words = Blastn::split_to_words(input, length);
 
     vector<string> result = {
         "ATC",
@@ -98,3 +112,5 @@ void tsplit() {
     if (words == result)
         std::cout << "split test passed." << std::endl;
 }
+
+} // BlastnTest

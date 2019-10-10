@@ -1,6 +1,8 @@
 #pragma once
 #include "../util/types.hpp"
 
+namespace Blastn {
+
 /**
  * @brief The Dust algorithm for scoring words based on sub patterns of self-similarity.
  * @param word The word to score based on its self-similarity.
@@ -17,4 +19,6 @@ f32 dust(string word, u32 pattern_len);
  * @param pattern_len The length of the patterns to look for in each word.
  * @return A copy of the IndexedSequenceMap with low scoring words removed.
  */
-Blastn::IndexedSequenceMap dust_filter(Blastn::IndexedSequenceMap& data, f32 threshold, u32 pattern_len);
+IndexedSequenceMap dust_filter(IndexedSequenceMap& data, f32 threshold, u32 pattern_len);
+
+} // Blastn
