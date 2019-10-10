@@ -12,5 +12,12 @@ namespace Blastn {
     f32 DustThreshold = 0.2f;    // dust threshold score before filtering out
     u32 DustPatternLength = 3;    // length of patterns for dust to look for
 
+    string QueryFile = LTestQuery;
+    string DataFile  = LTestData;
     string Output = "blastn_out.txt";
+
+    string LTestQuery = "../data/SRR7236689--ARG830.fa";
+    string STestQuery = "../data/small_query.fa";
+    string LTestData  = "../data/Gn-SRR7236689_contigs.fasta";
+    string STestData  = "../data/small_data.fasta";
 }

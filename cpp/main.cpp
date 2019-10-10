@@ -59,42 +59,34 @@ static void blastn(std::string query_file, std::string data_file)
 int main(int argc, char **argv)
 {
     std::string a;
-    std::string query_file;
-    std::string data_file;
 
-    // required arguments (no defaults)
-    query_file = argparse(argc, argv, "-q");
-    if (query_file == Blastn::Invalid) {
-        std::fprintf(stderr, "Failure: Invalid query file: %s\n", query_file);
-        exit(-1);
-    }
-    data_file = argparse(argc, argv, "-db");
-    if (data_file == Blastn::Invalid) {
-        std::fprintf(stderr, "Failure: Invalid data file: %s\n", data_file);
-        exit(-1);
-    }
+    // input files
+    a = argparse(argc, argv, "-q");
+    if (a != Blastn::Invalid) Blastn::QueryFile = a;
+    a = argparse(argc, argv, "-db");
+    if (a != Blastn::Invalid) Blastn::DataFile  = a;
 
     // optional arguments (have defaults)
     a = argparse(argc, argv, "-sp");
-    if (a != Blastn::Invalid) Blastn::Seperator = (char)a[0];
+    if (a != Blastn::Invalid) Blastn::Seperator         = (char)a[0];
     a = argparse(argc, argv, "-l");
-    if (a != Blastn::Invalid) Blastn::SplitLength = atoi(a.c_str());
+    if (a != Blastn::Invalid) Blastn::SplitLength       = atoi(a.c_str());
     a = argparse(argc, argv, "-m");
-    if (a != Blastn::Invalid) Blastn::SwMinscore = atoi(a.c_str());
+    if (a != Blastn::Invalid) Blastn::SwMinscore        = atoi(a.c_str());
     a = argparse(argc, argv, "-ma");
-    if (a != Blastn::Invalid) Blastn::SwMatch = atoi(a.c_str());
+    if (a != Blastn::Invalid) Blastn::SwMatch           = atoi(a.c_str());
     a = argparse(argc, argv, "-mi");
-    if (a != Blastn::Invalid) Blastn::SwMismatch = atoi(a.c_str());
+    if (a != Blastn::Invalid) Blastn::SwMismatch        = atoi(a.c_str());
     a = argparse(argc, argv, "-g");
-    if (a != Blastn::Invalid) Blastn::SwGap = atoi(a.c_str());
+    if (a != Blastn::Invalid) Blastn::SwGap             = atoi(a.c_str());
     a = argparse(argc, argv, "-dt");
-    if (a != Blastn::Invalid) Blastn::DustThreshold = atof(a.c_str());
+    if (a != Blastn::Invalid) Blastn::DustThreshold     = atof(a.c_str());
     a = argparse(argc, argv, "-dl");
     if (a != Blastn::Invalid) Blastn::DustPatternLength = atoi(a.c_str());
     a = argparse(argc, argv, "-o");
-    if (a != Blastn::Invalid) Blastn::Output = a;
+    if (a != Blastn::Invalid) Blastn::Output            = a;
 
-    blastn(query_file, data_file);
+    blastn(Blastn::QueryFile, Blastn::DataFile);
     return 0;
 }
 
