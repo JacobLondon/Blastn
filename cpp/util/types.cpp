@@ -68,8 +68,8 @@ namespace Blastn {
             for (auto& qname_matches : dname_queries.second) {
                 for (auto& match : qname_matches.second) {
                     builder += dname_queries.first + "\t" + qname_matches.first;
-                    builder += "\t" + match.word + "\n";
-                    builder += "\tData Indices:  " + str(match.data_indices) + "\n";
+                    builder += "\t" + match.word;
+                    builder += "\tData Indices:  " + str(match.data_indices);
                     builder += "\tMatch Indices: " + str(match.query_indices) + "\n";
                 }
             }

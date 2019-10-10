@@ -2,6 +2,7 @@
 
 #if TEST == false
 
+#include <chrono>
 #include <fstream>
 #include "util/globals.hpp"
 #include "lib/blastn.hpp"
@@ -12,8 +13,8 @@ static std::string argparse(int argc, char **argv, std::string arg)
     for (size_t i = 0; i < arguments.size(); i++) {
         if (arg == arguments[i]) {
             if (i + 1 >= arguments.size()) {
-                std::fprintf(stderr, "Failure: Invalid argument usage: %s\n", arg.c_str());
-                exit(-1);
+                std::cerr << "Failure: Invalid argument usage: " << arg << std::endl;
+                std::exit(-1);
             }
             else
                 return arguments[i + 1];
@@ -24,42 +25,84 @@ static std::string argparse(int argc, char **argv, std::string arg)
 
 static void blastn(std::string query_file, std::string data_file)
 {
-    std::printf("Formatting...\n");
+    auto start = std::chrono::high_resolution_clock::now();
+
+    /**
+     * Data formatting
+     */
+
+    std::cout << "Reading " << query_file << "..." << std::endl;
     auto query = build_sequence(query_file, Blastn::Seperator);
-    auto data = build_sequence(data_file, Blastn::Seperator);
+    std::cout << "Formatting " << query.size() << " query entries..." << std::endl;
     auto query_prepared = split_sequence(query, Blastn::SplitLength);
+    std::cout << std::endl;
+
+    std::cout << "Reading " << data_file << "..." << std::endl;
+    auto data = build_sequence(data_file, Blastn::Seperator);
+    std::cout << "Formatting " << data.size() << " database entries..." << std::endl;
     auto data_prepared = split_sequence(data, Blastn::SplitLength);
+    std::cout << std::endl;
 
-    std::printf("Smith Waterman...\n");
+    /**
+     * Smith Waterman and Dust filtering
+     */
+
+    std::cout << "Smith-Waterman Filtering " << query.size() << " words..." << std::endl;
     auto query_swfiltered = smith_waterman_filter(query_prepared, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
+    //std::cout << Blastn::str(query_swfiltered);
 
-    std::printf("Dust...\n");
+    std::cout << "Dust Filtering " << query.size() << " queries..." << std::endl;
     auto query_dustfiltered = dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength);
+    //std::cout << Blastn::str(query_dustfiltered);
 
-    std::printf("Exact Matches...\n");
+    std::cout << std::endl;
+
+    /**
+     * Exact matches, adjacent pairs, extending pairs, and sorting extended pairs
+     * all on smaller data subsets
+     */
+
+    std::cout << "Matching " << query.size() << " query entries against " << data.size() << " database entries..." << std::endl;
     auto exact_matches = match_filter(query_dustfiltered, data_prepared);
+    //std::cout << Blastn::str(exact_matches);
 
-    std::printf("Adjacent Pairs...\n");
+    std::cout << "Pairing " << exact_matches.size() << " words with each other..." << std::endl;
     auto adjacent_pairs = pair_filter(exact_matches, query);
+    //std::cout << Blastn::str(adjacent_pairs);
 
-    std::printf("Extended Pairs...\n");
+    std::cout << "Extending " << adjacent_pairs.size() << " pairs..." << std::endl;
     auto extended_pairs = extend_filter(adjacent_pairs, query, data, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
+    //std::cout << Blastn::str(extended_pairs);
 
-    std::printf("Sorted / Extended Pairs...\n");
+    std::cout << "Sorting " << extended_pairs.size() << " extended pairs..." << std::endl;
     auto sorted_epairs = sort_filter(extended_pairs, query, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
+    //std::cout << Blastn::str(sorted_epairs);
 
-    std::printf("Writing output...\n");
+    std::cout << std::endl;
+
+    /**
+     * Blastn finished, write to file
+     */
+
+    std::cout << "Writing to file " << Blastn::Output << "..." << std::endl;
     std::ofstream output_file{ Blastn::Output };
     output_file << Blastn::str(sorted_epairs);
 
-    std::printf("...Done\n");
+    std::cout << std::endl;
+
+    /**
+     * Timer stats
+     */
+
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<f32> elapsed = finish - start;
+    std::cout << "Done! In " << elapsed.count() << "s." << std::endl;
 }
 
 int main(int argc, char **argv)
 {
     // arg output
     std::string a;
-    std::cout << Blastn::QueryFile << std::endl;
 
     // input files
     a = argparse(argc, argv, "-q");

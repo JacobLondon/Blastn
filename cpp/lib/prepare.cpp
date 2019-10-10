@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include "prepare.hpp"
 #include "split.hpp"
@@ -9,15 +10,20 @@ Blastn::SequenceMap build_sequence(string path, char sep)
     std::ifstream sequence_file{ path };
 
     if (!sequence_file.is_open()) {
-        std::cout << "Failure: Could not open: " << path << std::endl;
-        exit(-1);
+        std::cerr << "Failure: Could not open: " << path << std::endl;
+        std::exit(-1);
     }
 
     while (std::getline(sequence_file, line)) {
         // a new sequence name is found
         if (line[0] == sep) {
             // set the new name (sep char is length 1)
-            name = line.substr(1, line.length());
+            name = line.substr(1, line.size());
+            // no newlines in names
+            if (name.rfind('\r') == name.size() - 1)
+                name = name.substr(0, name.size() - 1);
+            if (name.rfind('\n') == name.size() - 1)
+                name = name.substr(0, name.size() - 1);
             
             // pair the sequence name with an empty build string
             result[name] = "";
@@ -44,12 +50,20 @@ Blastn::IndexedSequenceMap split_sequence(Blastn::SequenceMap& data, u32 length)
 
         // map each word to all of their indices each time the word appears
         for (u32 i = 0; i < words.size(); i++) {
+
+            // no newlines in sequences
+            string temp = words[i];
+            if (temp.rfind('\r') == temp.size() - 1)
+                temp = temp.substr(0, temp.size() - 1);
+            if (temp.rfind('\n') == temp.size() - 1)
+                temp = temp.substr(0, temp.size() - 1);
+
             // insert the index if the item doesn't exist
-            if (indexed_words.find(words[i]) == indexed_words.end())
-                indexed_words.insert(std::pair<string, vector<u32>>{ words[i], vector<u32>{ i } });
-            // append the index if the item already exists
-            else
-                indexed_words.at(words[i]).push_back(i);
+            if (indexed_words.find(temp) == indexed_words.end())
+                indexed_words[temp] = vector<u32>{};
+
+            // append the index
+            indexed_words[temp].push_back(i);
         }
         result[name_seqmap.first] = indexed_words;
     }
