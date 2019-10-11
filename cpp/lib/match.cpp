@@ -1,11 +1,13 @@
 #include "match.hpp"
 #include "prepare.hpp"
+#include "../util/display.hpp"
 
 namespace Blastn {
 
 MatchedSequenceMap match_filter(IndexedSequenceMap& query, IndexedSequenceMap& data)
 {
     MatchedSequenceMap exact_matches;
+    Progress progress { data.size() };
 
     // traverse the data IndexedSequenceMap
     for (auto& dname_wordmap : data) {
@@ -32,6 +34,8 @@ MatchedSequenceMap match_filter(IndexedSequenceMap& query, IndexedSequenceMap& d
         // record if there were matches found
         if (!matches.empty())
             exact_matches[dname_wordmap.first] = matches;
+
+        progress.update();
     }
 
     return exact_matches;

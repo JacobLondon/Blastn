@@ -1,5 +1,6 @@
 #include <algorithm>
 #include "pairs.hpp"
+#include "../util/display.hpp"
 
 namespace Blastn {
 
@@ -53,6 +54,8 @@ vector<AdjacentPair> flatten(vector<Match> matches, u32 query_len)
 PairedSequenceMap pair_filter(MatchedSequenceMap matches, SequenceMap query)
 {
     PairedSequenceMap filtered_pairs;
+    Progress progress{ matches.size() };
+
     bool found = false;
 
     for (auto& dname_queries : matches) {
@@ -82,6 +85,8 @@ PairedSequenceMap pair_filter(MatchedSequenceMap matches, SequenceMap query)
         }
         if (!pairs.empty())
             filtered_pairs[dname_queries.first] = pairs;
+
+        progress.update();
     }
     return filtered_pairs;
 }

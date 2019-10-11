@@ -2,6 +2,7 @@
 #include <fstream>
 #include "prepare.hpp"
 #include "split.hpp"
+#include "../util/display.hpp"
 
 namespace Blastn {
 
@@ -44,6 +45,7 @@ SequenceMap build_sequence(string path, char sep)
 IndexedSequenceMap split_sequence(SequenceMap& data, u32 length)
 {
     IndexedSequenceMap result;
+    Progress progress{ data.size() };
 
     // traverse the sequence
     for (auto& name_seqmap : data) {
@@ -69,6 +71,8 @@ IndexedSequenceMap split_sequence(SequenceMap& data, u32 length)
             indexed_words[temp].push_back(i);
         }
         result[name_seqmap.first] = indexed_words;
+        
+        progress.update();
     }
 
     return result;

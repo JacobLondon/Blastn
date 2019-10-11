@@ -1,6 +1,7 @@
+#include <algorithm>    // count
 #include "dust.hpp"
 #include "split.hpp"    // split_to_words
-#include <algorithm>    // count
+#include "../util/display.hpp"
 
 namespace Blastn {
 
@@ -31,6 +32,7 @@ f32 dust(string word, u32 pattern_len)
 IndexedSequenceMap dust_filter(IndexedSequenceMap& data, f32 threshold, u32 pattern_len)
 {
     IndexedSequenceMap result;
+    Progress progress{ data.size() };
 
     // breaks words into subsequences of triplets
     for (auto& qname_seqmap : data) {
@@ -42,6 +44,8 @@ IndexedSequenceMap dust_filter(IndexedSequenceMap& data, f32 threshold, u32 patt
         }
         if (!temp.empty())
             result[qname_seqmap.first] = temp;
+        
+        progress.update();
     }
     return result;
 }

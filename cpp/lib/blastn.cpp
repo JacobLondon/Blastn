@@ -79,7 +79,6 @@ static void align(std::string query_file, std::string data_file)
 
     std::cout << "Dust Complexity Filtering " << query.size() << " query entries..." << std::endl;
     auto query_dustfiltered = Blastn::dust_filter(query_prepared, Blastn::DustThreshold, Blastn::DustPatternLength);
-    //std::cout << Blastn::str(query_dustfiltered);
 
     std::cout << std::endl;
 
@@ -90,19 +89,19 @@ static void align(std::string query_file, std::string data_file)
 
     std::cout << "Matching " << query.size() << " query entries against " << data.size() << " database entries..." << std::endl;
     auto exact_matches = Blastn::match_filter(query_dustfiltered, data_prepared);
-    //std::cout << Blastn::str(exact_matches);
+    std::cout << std::endl;
 
     std::cout << "Pairing " << exact_matches.size() << " words with each other..." << std::endl;
     auto adjacent_pairs = Blastn::pair_filter(exact_matches, query);
-    //std::cout << Blastn::str(adjacent_pairs);
+    std::cout << std::endl;
 
-    std::cout << "Extending " << adjacent_pairs.size() << " pairs..." << std::endl;
+    std::cout << "Extending " << adjacent_pairs.size() << " paired words..." << std::endl;
     auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, data, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, Blastn::SwRatio);
-    //std::cout << Blastn::str(extended_pairs);
+    std::cout << std::endl;
 
     std::cout << "Sorting " << extended_pairs.size() << " extended pairs..." << std::endl;
     auto sorted_epairs = Blastn::sort_filter(extended_pairs, query, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
-    //std::cout << Blastn::str(sorted_epairs);
+    std::cout << std::endl;
 
     std::cout << std::endl;
 
