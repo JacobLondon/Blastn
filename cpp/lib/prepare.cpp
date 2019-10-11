@@ -30,9 +30,10 @@ SequenceMap build_sequence(string path, char sep)
         }
         // the if statement MUST have been entered first
         else {
-            // append the next line of sequence data to the build string
+            // no newlines in entries
             line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
             line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
+            // append the next line of sequence data to the build string
             result[name].append(line);
         }
     }

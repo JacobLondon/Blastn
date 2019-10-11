@@ -177,15 +177,19 @@ s32 smith_waterman(string seq1,
 
 IndexedSequenceMap smith_waterman_filter(IndexedSequenceMap& data, s32 minscore, s32 match, s32 mismatch, s32 gap)
 {
-    // traverse each sequence using iterators as erase is used
-    for (auto name_seqmap = data.begin(); name_seqmap != data.end(); ++name_seqmap) {
-        // get the word from each element in each sequence
-        for (auto word_indices = name_seqmap->second.begin(); word_indices != name_seqmap->second.end(); ++word_indices) {
-            if (smith_waterman(word_indices->first, word_indices->first, match, mismatch, gap, true) < minscore)
-                data[name_seqmap->first].erase(word_indices);
+    IndexedSequenceMap result;
+    for (auto& dname_queries : data) {
+        IndexedWordMap temp;
+        for (auto& word_indices : dname_queries.second) {
+            // if the word scored high enough with itself, keep it
+            if (smith_waterman(word_indices.first, word_indices.first, match, mismatch, gap, true) >= minscore)
+                temp[word_indices.first] = word_indices.second;
+            else
+                std::cout << "ERASING" << std::endl;
         }
+        result[dname_queries.first] = temp;
     }
-    return data;
+    return result;
 }
 
 } // Blastn
