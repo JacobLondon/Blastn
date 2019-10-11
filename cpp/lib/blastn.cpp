@@ -7,24 +7,8 @@
 
 namespace Blastn {
 
-int test(int argc, char **argv)
+static std::string argparse(vector<string> arguments, std::string arg)
 {
-    //Test::dust();
-    //Test::extend();
-    Test::match();
-    Test::pairs();
-    //Test::sequence();
-    //Test::smith_waterman();
-    //Test::sort();
-    //Test::split();
-
-    std::cin.get();
-    return 0;
-}
-
-static std::string argparse(int argc, char **argv, std::string arg)
-{
-    std::vector<std::string> arguments(argv + 1, argv + argc);
     for (size_t i = 0; i < arguments.size(); i++) {
         if (arg == arguments[i]) {
             if (i + 1 >= arguments.size()) {
@@ -36,6 +20,37 @@ static std::string argparse(int argc, char **argv, std::string arg)
         }
     }
     return Blastn::Invalid;
+}
+
+int test(std::vector<std::string> args)
+{
+    string a;
+    a = argparse(args, "-test");
+    if (a == Blastn::Invalid) {
+        std::cerr << "Error: Unknown test function argument." << std::endl;
+        std::exit(-1);
+    }
+    
+    if (a == "dust")
+        Test::dust();
+    else if (a == "extend")
+        Test::extend();
+    else if (a == "match")
+        Test::match();
+    else if (a == "pairs")
+        Test::pairs();
+    else if (a == "sequence")
+        Test::sequence();
+    else if (a == "sw" || a == "smith waterman")
+        Test::smith_waterman();
+    else if (a == "sort")
+        Test::sort();
+    else if (a == "split")
+        Test::split();
+    else
+        std::cout << "Unknown test function: " << a << std::endl;
+
+    return 0;
 }
 
 static void align(std::string query_file, std::string data_file)
@@ -114,35 +129,35 @@ static void align(std::string query_file, std::string data_file)
     std::cout << "Done! In " << elapsed.count() << "s." << std::endl;
 }
 
-int blastn(int argc, char **argv)
+int blastn(std::vector<std::string> args)
 {
     // arg output
-    std::string a;
+    string a;
 
     // input files
-    a = argparse(argc, argv, "-q");
+    a = argparse(args, "-q");
     if (a != Blastn::Invalid) Blastn::QueryFile         = a;
-    a = argparse(argc, argv, "-db");
+    a = argparse(args, "-db");
     if (a != Blastn::Invalid) Blastn::DataFile          = a;
 
     // optional arguments (have defaults)
-    a = argparse(argc, argv, "-sp");
+    a = argparse(args, "-sp");
     if (a != Blastn::Invalid) Blastn::Seperator         = (char)a[0];
-    a = argparse(argc, argv, "-l");
+    a = argparse(args, "-l");
     if (a != Blastn::Invalid) Blastn::SplitLength       = atoi(a.c_str());
-    a = argparse(argc, argv, "-m");
+    a = argparse(args, "-m");
     if (a != Blastn::Invalid) Blastn::SwMinscore        = atoi(a.c_str());
-    a = argparse(argc, argv, "-ma");
+    a = argparse(args, "-ma");
     if (a != Blastn::Invalid) Blastn::SwMatch           = atoi(a.c_str());
-    a = argparse(argc, argv, "-mi");
+    a = argparse(args, "-mi");
     if (a != Blastn::Invalid) Blastn::SwMismatch        = atoi(a.c_str());
-    a = argparse(argc, argv, "-g");
+    a = argparse(args, "-g");
     if (a != Blastn::Invalid) Blastn::SwGap             = atoi(a.c_str());
-    a = argparse(argc, argv, "-dt");
+    a = argparse(args, "-dt");
     if (a != Blastn::Invalid) Blastn::DustThreshold     = atof(a.c_str());
-    a = argparse(argc, argv, "-dl");
+    a = argparse(args, "-dl");
     if (a != Blastn::Invalid) Blastn::DustPatternLength = atoi(a.c_str());
-    a = argparse(argc, argv, "-o");
+    a = argparse(args, "-o");
     if (a != Blastn::Invalid) Blastn::OutputFile        = a;
 
     align(Blastn::QueryFile, Blastn::DataFile);

@@ -15,7 +15,7 @@
 
 namespace Blastn {
 
-int test(int argc, char **argv);
-int blastn(int argc, char **argv);
+int test(std::vector<std::string> args);
+int blastn(std::vector<std::string> args);
 
 } // Blastn
