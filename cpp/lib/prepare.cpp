@@ -22,10 +22,8 @@ SequenceMap build_sequence(string path, char sep)
             // set the new name (sep char is length 1)
             name = line.substr(1, line.size());
             // no newlines in names
-            if (name.rfind('\r') == name.size() - 1)
-                name = name.substr(0, name.size() - 1);
-            if (name.rfind('\n') == name.size() - 1)
-                name = name.substr(0, name.size() - 1);
+            name.erase(std::remove(name.begin(), name.end(), '\r'), name.end());
+            name.erase(std::remove(name.begin(), name.end(), '\n'), name.end());
             
             // pair the sequence name with an empty build string
             result[name] = "";
@@ -33,6 +31,8 @@ SequenceMap build_sequence(string path, char sep)
         // the if statement MUST have been entered first
         else {
             // append the next line of sequence data to the build string
+            line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+            line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
             result[name].append(line);
         }
     }
