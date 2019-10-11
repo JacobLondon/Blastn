@@ -176,23 +176,4 @@ s32 smith_waterman(string seq1,
     return max_score;
 }
 
-IndexedSequenceMap smith_waterman_filter(IndexedSequenceMap& query, s32 minscore, s32 match, s32 mismatch, s32 gap)
-{
-    IndexedSequenceMap result;
-    for (auto& qname_words : query) {
-        IndexedWordMap temp;
-        for (auto& word_indices : qname_words.second) {
-            // if the word scored high enough with itself, keep it
-            // TODO: always the same result
-            s32 score = smith_waterman(word_indices.first, word_indices.first, match, mismatch, gap, true);
-            if (score >= minscore)
-                temp[word_indices.first] = word_indices.second;
-            else
-                std::cout << "ERASING score of " << score << std::endl;
-        }
-        result[qname_words.first] = temp;
-    }
-    return result;
-}
-
 } // Blastn

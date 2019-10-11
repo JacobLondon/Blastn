@@ -34,7 +34,7 @@ Extended extend_and_score(AdjacentPair pair,
                           s32 match,
                           s32 mismatch,
                           s32 gap,
-                          s32 minscore,
+                          f32 ratio,
                           bool score,
                           bool printing)
 {
@@ -48,6 +48,9 @@ Extended extend_and_score(AdjacentPair pair,
     string qextended = query.substr(qleftindex, pair.length);
     string dextended = data.substr(dleftindex, pair.length);
 
+    // running Smith Waterman score
+    s32 running_score = 0;
+
     // extend left
     s32 qexindex = qleftindex;
     s32 dexindex = dleftindex;
@@ -55,9 +58,10 @@ Extended extend_and_score(AdjacentPair pair,
         qexindex--; dexindex--;
         qextended = query[qexindex] + qextended;
         dextended = data[dexindex] + dextended;
-        if (score && smith_waterman(qextended, dextended, match, mismatch, gap, true) < minscore)
-        {
-            return Extended{ Invalid, 0, 0 };
+        if (score) {
+            running_score = smith_waterman(qextended, dextended, match, mismatch, gap, true);
+            if (running_score < ratio * qextended.size() * match)
+                return Extended{ Invalid, 0, 0, 0 };
         }
     }
 
@@ -92,9 +96,10 @@ Extended extend_and_score(AdjacentPair pair,
         qexindex++; dexindex++;
         qextended = qextended + query[qexindex];
         dextended = dextended + data[dexindex];
-        if (score && smith_waterman(qextended, dextended, match, mismatch, gap, true) < minscore)
-        {
-            return Extended{ Invalid, 0, 0 };
+        if (score) {
+            running_score = smith_waterman(qextended, dextended, match, mismatch, gap, true);
+            if (running_score < ratio * qextended.size() * match)
+                return Extended{ Invalid, 0, 0, 0 };
         }
     }
 
@@ -102,17 +107,17 @@ Extended extend_and_score(AdjacentPair pair,
         std::cout << "Data Ext:\t" << dextended << std::endl;
         std::cout << "Quer Ext:\t" << qextended << std::endl;
     }
-    return Extended{ qextended, dindex, qindex };
+    return Extended{ qextended, dindex, qindex, running_score };
 }
 
 // TODO: the minscore changes depending on word length, must fix
 ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                                   SequenceMap& query,
                                   SequenceMap& data,
-                                  s32 minscore,
                                   s32 match,
                                   s32 mismatch,
-                                  s32 gap)
+                                  s32 gap,
+                                  f32 ratio)
 {
     ExtendedSequenceMap result;
     bool found = false;
@@ -125,7 +130,7 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                 Extended ext = extend_and_score(adjacent_pair,
                                                 query[qname_pairvec.first],
                                                 data[dname_quermap.first],   // sw?    print?
-                                                match, mismatch, gap, minscore, false, false);
+                                                match, mismatch, gap, ratio, false, false);
                 // the word scored above the minscore
                 if (ext.extended_pair == Invalid)
                     continue;

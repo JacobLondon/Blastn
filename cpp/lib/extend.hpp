@@ -27,7 +27,7 @@ Extended extend_and_score(AdjacentPair pair,
                           s32 match,
                           s32 mismatch,
                           s32 gap,
-                          s32 minscore,
+                          f32 ratio,
                           bool score,
                           bool printing);
 
@@ -45,9 +45,9 @@ Extended extend_and_score(AdjacentPair pair,
 ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                                   SequenceMap& query,
                                   SequenceMap& data,
-                                  s32 minscore,
                                   s32 match,
                                   s32 mismatch,
-                                  s32 gap);
+                                  s32 gap,
+                                  f32 ratio);
 
 } // Blastn

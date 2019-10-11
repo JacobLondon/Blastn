@@ -42,15 +42,7 @@ public:
 
 class Extended {
 public:
-    Extended(string extended_pair, u32 dindex, u32 qindex);
-    string extended_pair;
-    u32 dindex;
-    u32 qindex;
-};
-
-class Sorted {
-public:
-    Sorted(string extended_pair, u32 dindex, u32 qindex, s32 score);
+    Extended(string extended_pair, u32 dindex, u32 qindex, s32 score);
     string extended_pair;
     u32 dindex;
     u32 qindex;
@@ -111,16 +103,7 @@ using ExtendedPairsMap = dict<string, vector<Extended>>;
 using ExtendedSequenceMap = dict<string, ExtendedPairsMap>;
 string str(ExtendedSequenceMap s);
 
-/**
- * @brief Intermediate, map a query to its Sorted/Extended object
- */
-using SortedPairsMap = dict<string, vector<Sorted>>;
-/**
- * @brief Data name mapped to a query name mapped to a vector of Sorted objects
- */
-using SortedSequenceMap = dict<string, SortedPairsMap>;
-string str(SortedSequenceMap s);
 
-string output_format(SortedSequenceMap& s, SequenceMap& data);
+string output_format(ExtendedSequenceMap& s, SequenceMap& data);
 
 } // Blastn

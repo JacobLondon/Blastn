@@ -74,15 +74,11 @@ static void align(std::string query_file, std::string data_file)
     std::cout << std::endl;
 
     /**
-     * Smith Waterman and Dust filtering
+     * Dust filtering
      */
 
-    std::cout << "Smith-Waterman Filtering " << query.size() << " query entries..." << std::endl;
-    auto query_swfiltered = Blastn::smith_waterman_filter(query_prepared, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
-    //std::cout << Blastn::str(query_swfiltered);
-
     std::cout << "Dust Complexity Filtering " << query.size() << " query entries..." << std::endl;
-    auto query_dustfiltered = Blastn::dust_filter(query_swfiltered, Blastn::DustThreshold, Blastn::DustPatternLength);
+    auto query_dustfiltered = Blastn::dust_filter(query_prepared, Blastn::DustThreshold, Blastn::DustPatternLength);
     //std::cout << Blastn::str(query_dustfiltered);
 
     std::cout << std::endl;
@@ -101,7 +97,7 @@ static void align(std::string query_file, std::string data_file)
     //std::cout << Blastn::str(adjacent_pairs);
 
     std::cout << "Extending " << adjacent_pairs.size() << " pairs..." << std::endl;
-    auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, data, Blastn::SwMinscore, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
+    auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, data, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, Blastn::SwRatio);
     //std::cout << Blastn::str(extended_pairs);
 
     std::cout << "Sorting " << extended_pairs.size() << " extended pairs..." << std::endl;
@@ -159,6 +155,8 @@ int blastn(std::vector<std::string> args)
     if (a != Blastn::Invalid) Blastn::DustPatternLength = atoi(a.c_str());
     a = argparse(args, "-o");
     if (a != Blastn::Invalid) Blastn::OutputFile        = a;
+
+    Blastn::SwRatio = (f32)SwMinscore / (f32)(SplitLength * SwMatch);
 
     align(Blastn::QueryFile, Blastn::DataFile);
     return 0;

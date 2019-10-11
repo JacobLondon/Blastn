@@ -8,13 +8,15 @@ char Seperator = '>';
 u32 SplitLength = 11;
 
 // min smith waterman score before filtering out
-s32 SwMinscore = 22;
+s32 SwMinscore = 20;
 // smith waterman match score
 s32 SwMatch = 2;
 // smith waterman mismatch score
 s32 SwMismatch = -1;
 // smith waterman gap score
 s32 SwGap = -1;
+// ratio of max score to length
+f32 SwRatio = 0; // SwMinscore / (SplitLength * SwMatch)
 
 // dust threshold score before filtering out
 f32 DustThreshold = 0.1f;

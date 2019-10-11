@@ -12,14 +12,9 @@ AdjacentPair::AdjacentPair(string word1, string word2, u32 dindex1, u32 qindex1,
     length = (u32)word1.size();
 }
 
-Extended::Extended(string extended_pair, u32 dindex, u32 qindex)
-    : extended_pair{ extended_pair }, dindex{ dindex }, qindex{ qindex }
-{}
-
-Sorted::Sorted(string extended_pair, u32 dindex, u32 qindex, s32 score)
+Extended::Extended(string extended_pair, u32 dindex, u32 qindex, s32 score)
     : extended_pair{ extended_pair }, dindex{ dindex }, qindex{ qindex }, score{ score }
 {}
-
 
 string str(Matrix m) {
     string builder = "";
@@ -126,31 +121,7 @@ string str(ExtendedSequenceMap s)
     return builder;
 }
 
-static string str(vector<Sorted> sorted)
-{
-    string builder = "[";
-    for (auto& s : sorted) {
-        builder += "{ Extended Pair: " + s.extended_pair          + ", ";
-        builder += "Data Index: "    + std::to_string(s.dindex) + ", ";
-        builder += "SW Score: "      + std::to_string(s.score)  + " }, ";
-    }
-    builder += "]";
-    return builder;
-}
-
-string str(SortedSequenceMap s)
-{
-    string builder = "";
-    for (auto& dname_queries : s) {
-        for (auto& qname_sorted : dname_queries.second) {
-            builder += dname_queries.first + "\t" + qname_sorted.first;
-            builder += str(qname_sorted.second) + "\n";
-        }
-    }
-    return builder;
-}
-
-string output_format(SortedSequenceMap& s, SequenceMap& data)
+string output_format(ExtendedSequenceMap& s, SequenceMap& data)
 {
     string builder = "";
     for (auto& dname_queries : s) {
