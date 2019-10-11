@@ -1,8 +1,17 @@
 # Blastn
 An implementation of the basic local alignment search tool
-(BLAST) algorithm on an FPGA to hardware accelerate the process.
+(BLAST) for nucleotides. The goal of this project is to implement the algorithm on an FPGA to hardware accelerate the process utilizing tools such as HLS (High Level Synthesis).
 
 ![Blastn Process](blastn-flowchart.png)
+
+## Requirements
+* Python
+  * Python 3.6+
+  * numpy
+  * tqdm
+* C++
+  * gcc
+  * make
 
 ## Members
 Electrical and Computer Engineering Senior Project
@@ -17,15 +26,3 @@ at California State Polytechnic University, Pomona
 ## Advisors
 - Mohamed El-Hadedy (Mohamed Aly)
 - Mostafa M. Hashim Ellabaan
-
-## Requirements
-The first implementation will be in Python 3 and uses the
-standard built in Python libraries.
-
-# To Do
-* Python
-  * Pair adjacent matches
-  * Sort extended matches
-* C++
-  * Implement Python to C++
-  * Implement OpenCL
