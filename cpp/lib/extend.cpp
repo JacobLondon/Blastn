@@ -1,5 +1,6 @@
 #include "extend.hpp"
 #include "smith_waterman.hpp"
+#include "../util/display.hpp"
 
 namespace Blastn {
 
@@ -121,6 +122,7 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
 {
     ExtendedSequenceMap result;
     bool found = false;
+    Progress progress{ pairs.size() };
 
     for (auto& dname_quermap : pairs) {
         ExtendedPairsMap temp;
@@ -155,6 +157,8 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
         }
         if (!temp.empty())
             result[dname_quermap.first] = temp;
+
+        progress.update();
     }
     return result;
 }
