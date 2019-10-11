@@ -156,7 +156,7 @@ s32 smith_waterman(string seq1,
     }
 
     // similarity number to percent
-    similarity_percent = similarity_percent / (f32)aligned1.length() * 100.0;
+    similarity_percent = (f32)similarity_percent / (f32)aligned1.length() * 100.0f;
 
     std::cout << "\nScore matrix:" << std::endl;
     std::cout << str(score_matrix) << std::endl;

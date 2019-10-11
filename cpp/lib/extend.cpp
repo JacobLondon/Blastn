@@ -93,7 +93,7 @@ Extended extend_and_score(AdjacentPair pair,
     // extend right
     qexindex = qrightindex + pair.length - 1;
     dexindex = drightindex + pair.length - 1;
-    while ((u32)qexindex + 1 < query.size() && (u32)dexindex + 1 < data.size()) {
+    while ((s32)(qexindex + 1) < (s32)query.size() && (s32)(dexindex + 1) < (s32)data.size()) {
         qexindex++; dexindex++;
         qextended = qextended + query[qexindex];
         dextended = dextended + data[dexindex];

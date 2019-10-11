@@ -39,6 +39,7 @@ void extend()
     Blastn::SwMismatch = -1;
     Blastn::SwGap = -1;
     Blastn::SwMinscore = 0;
+    Blastn::SwRatio = (f32)SwMinscore / (f32)(SplitLength * SwMatch);
     bool score = true;
     bool printing = true;
     Blastn::Extended result = extend_and_score(
@@ -48,7 +49,7 @@ void extend()
         Blastn::SwMatch,
         Blastn::SwMismatch,
         Blastn::SwGap,
-        Blastn::SwMinscore,
+        Blastn::SwRatio,
         score,
         printing
     );

@@ -149,7 +149,7 @@ int blastn(std::vector<std::string> args)
     a = argparse(args, "-g");
     if (a != Blastn::Invalid) Blastn::SwGap             = atoi(a.c_str());
     a = argparse(args, "-dt");
-    if (a != Blastn::Invalid) Blastn::DustThreshold     = atof(a.c_str());
+    if (a != Blastn::Invalid) Blastn::DustThreshold     = (f32)atof(a.c_str());
     a = argparse(args, "-dl");
     if (a != Blastn::Invalid) Blastn::DustPatternLength = atoi(a.c_str());
     a = argparse(args, "-o");
