@@ -98,19 +98,20 @@ void sequence()
 void smith_waterman()
 {
     string seq1 = "ATCGAC";
-    string seq2 = "ACCGAC";
+    string seq2 = "ATCGAC";
 
+    // https://www.ncbi.nlm.nih.gov/books/NBK1734/
     Blastn::SwMatch = 2;
-    Blastn::SwMismatch = -1;
+    Blastn::SwMismatch = -3;
     Blastn::SwGap = -1;
 
     u32 result = Blastn::smith_waterman(seq1, seq2, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, false);
-    std::cout << result << std::endl;
+    std::cout << "Max Score: " << result << std::endl;
 }
 
 void sort()
 {
-
+    // TODO
 }
 
 void split()

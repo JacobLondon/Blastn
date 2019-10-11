@@ -149,9 +149,9 @@ def tsplit_to_words():
 
 if __name__ == '__main__':
     #tsplit_to_words()
-    #tsmith_waterman()
+    tsmith_waterman()
     #tsequence()
     #tmatch()
-    tpair()
+    #tpair()
     #tdust()
     #textend()

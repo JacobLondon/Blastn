@@ -36,6 +36,6 @@ s32 smith_waterman(string seq1, string seq2, s32 match, s32 mismatch, s32 gap, b
  * @param mismatch The score when two characters are not the same.
  * @param gap The score when there is a gap character.
  */
-IndexedSequenceMap smith_waterman_filter(IndexedSequenceMap& data, s32 minscore, s32 match, s32 mismatch, s32 gap);
+IndexedSequenceMap smith_waterman_filter(IndexedSequenceMap& query, s32 minscore, s32 match, s32 mismatch, s32 gap);
 
 } // Blastn

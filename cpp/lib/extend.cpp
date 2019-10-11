@@ -105,6 +105,7 @@ Extended extend_and_score(AdjacentPair pair,
     return Extended{ qextended, dindex, qindex };
 }
 
+// TODO: the minscore changes depending on word length, must fix
 ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                                   SequenceMap& query,
                                   SequenceMap& data,

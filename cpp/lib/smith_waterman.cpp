@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <array>
 #include "smith_waterman.hpp"
 
 namespace Blastn {
@@ -49,8 +50,8 @@ s32 smith_waterman(string seq1,
                    bool just_score)
 {
 
-    u32 rows = (u32)seq1.length();
-    u32 cols = (u32)seq2.length();
+    u32 rows = (u32)seq1.size();
+    u32 cols = (u32)seq2.size();
     u32 i = 0;
     u32 j = 0;
 
@@ -175,19 +176,21 @@ s32 smith_waterman(string seq1,
     return max_score;
 }
 
-IndexedSequenceMap smith_waterman_filter(IndexedSequenceMap& data, s32 minscore, s32 match, s32 mismatch, s32 gap)
+IndexedSequenceMap smith_waterman_filter(IndexedSequenceMap& query, s32 minscore, s32 match, s32 mismatch, s32 gap)
 {
     IndexedSequenceMap result;
-    for (auto& dname_queries : data) {
+    for (auto& qname_words : query) {
         IndexedWordMap temp;
-        for (auto& word_indices : dname_queries.second) {
+        for (auto& word_indices : qname_words.second) {
             // if the word scored high enough with itself, keep it
-            if (smith_waterman(word_indices.first, word_indices.first, match, mismatch, gap, true) >= minscore)
+            // TODO: always the same result
+            s32 score = smith_waterman(word_indices.first, word_indices.first, match, mismatch, gap, true);
+            if (score >= minscore)
                 temp[word_indices.first] = word_indices.second;
             else
-                std::cout << "ERASING" << std::endl;
+                std::cout << "ERASING score of " << score << std::endl;
         }
-        result[dname_queries.first] = temp;
+        result[qname_words.first] = temp;
     }
     return result;
 }
