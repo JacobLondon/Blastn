@@ -104,7 +104,7 @@ static void align(std::string query_file, std::string data_file)
     std::cout << std::endl;
 
     std::cout << "Sorting " << extended_pairs.size() << " extended pairs..." << std::endl;
-    auto sorted_epairs = Blastn::sort_filter(extended_pairs, query, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap);
+    auto sorted_epairs = Blastn::sort_filter(extended_pairs);
     std::cout << std::endl;
 
     std::cout << std::endl;

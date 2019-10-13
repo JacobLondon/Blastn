@@ -11,6 +11,10 @@ int main(int argc, char **argv)
         Blastn::blastn(args);
     else
         Blastn::test(args);
-    
+
+#ifdef _WIN32
+    std::cin.get();
+#endif
+
     return 0;
 }
