@@ -1,5 +1,5 @@
-
 #include <chrono>
+#include <ctime>
 #include <fstream>
 #include "blastn.hpp"
 #include "../util/globals.hpp"
@@ -56,6 +56,10 @@ int test(std::vector<std::string> args)
 static void align(std::string query_file, std::string data_file)
 {
     auto start = std::chrono::high_resolution_clock::now();
+
+    auto start_time = std::chrono::system_clock::now();
+    std::time_t start_timestamp = std::chrono::system_clock::to_time_t(start_time);
+    std::cout << "Blastn started on " << std::ctime(&start_timestamp) << std::endl;
 
     /**
      * Data formatting
@@ -119,9 +123,11 @@ static void align(std::string query_file, std::string data_file)
      * Timer stats
      */
 
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<f32> elapsed = finish - start;
-    std::cout << "Done! In " << elapsed.count() << "s." << std::endl;
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<f32> elapsed = end - start;
+    auto end_time = std::chrono::system_clock::now();
+    std::time_t end_timestamp = std::chrono::system_clock::to_time_t(end_time);
+    std::cout << "Blastn finished on " << std::ctime(&end_timestamp) << "Elapsed time: " << elapsed.count() << "s." << std::endl;
 }
 
 int blastn(std::vector<std::string> args)

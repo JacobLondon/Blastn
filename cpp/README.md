@@ -10,6 +10,10 @@
     * Go to `C/C++ -> Optimization`
       * Select `Optimization: Maximum Optimization (Favor Speed) (/O2)`
       * Select `Favor Size or Speed: Favor Fast Code (/Ot)`
+    * Go to `C/C++ -> Preprocessor`
+      * Select `Preprocessor Definitions: <Edit...>`
+        * In definitions, enter `_CRT_SECURE_NO_WARNINGS`
+        * This allows for the timestamp system to work as `<ctime>` is used.
     * Go to `C/C++ -> Language`
       * Select `C++ Language Standard: ISO C++17 Standard (/std:c++17)`
   * On the top, specify `Release`, `x64`, and press `Ctrl + Shift + B` to build.
