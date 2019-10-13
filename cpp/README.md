@@ -1,11 +1,20 @@
 # C++ Blastn
 
 ## Building
-* Windows
+### Windows
   * Open `Blastn.sln` in Visual Studio 2019.
-  * On the top, specify `Release` and `x64`.
+  * Visual Studio Setup
+    * Open project properties
+    * On the top, select `Configuration: All Configurations`
+    * On the top, select `Platform: All Platforms`
+    * Go to `C/C++ -> Optimization`
+      * Select `Optimization: Maximum Optimization (Favor Speed) (/O2)`
+      * Select `Favor Size or Speed: Favor Fast Code (/Ot)`
+    * Go to `C/C++ -> Language`
+      * Select `C++ Language Standard: ISO C++17 Standard (/std:c++17)`
+  * On the top, specify `Release`, `x64`, and press `Ctrl + Shift + B` to build.
   * The generated executable will be `x64\Release\Blastn.exe`.
-* Mac and Linux
+### Mac and Linux
   * In the `cpp` directory, run the `make` command.
   * The generated binary will be `blastn`.
 
