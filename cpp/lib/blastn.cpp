@@ -1,5 +1,3 @@
-#include <chrono>
-#include <ctime>
 #include "blastn.hpp"
 #include "../util/globals.hpp"
 #include "../util/test.hpp"
