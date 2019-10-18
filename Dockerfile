@@ -12,7 +12,7 @@ FROM ubuntu:18.04
 # prepare installation of dependencies
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
-    git python3 python3-pip gcc make \
+    git python3 python3-pip gcc g++ make \
     vim wget
 
 # add python dependencies
