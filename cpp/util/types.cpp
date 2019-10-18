@@ -16,6 +16,10 @@ Extended::Extended(string extended_pair, u32 dindex, u32 qindex, s32 score)
     : extended_pair{ extended_pair }, dindex{ dindex }, qindex{ qindex }, score{ score }
 {}
 
+Formatted::Formatted(string dname, string extended_pair, u32 dindex, u32 qindex, s32 score)
+    : dname{ dname }, extended_pair{ extended_pair }, dindex{ dindex }, qindex{ qindex }, score{ score }
+{}
+
 string str(Matrix m) {
     string builder = "";
     for (auto v : m) {
@@ -121,20 +125,24 @@ string str(ExtendedSequenceMap s)
     return builder;
 }
 
-string output_format(ExtendedSequenceMap& s, SequenceMap& data)
+static string str(vector<Formatted> fpairs)
 {
     string builder = "";
-    for (auto& dname_queries : s) {
-        for (auto& qname_epairs : dname_queries.second) {
-            for (auto& epair : qname_epairs.second) {
-                builder += "\n";
-                builder += "Smith-Waterman Score : " + std::to_string(epair.score) + "\n";
-                builder += "Hit at " + dname_queries.first + "[" + std::to_string(epair.dindex) + "]:\n\t";
-                builder += data[dname_queries.first].substr(epair.dindex, epair.extended_pair.size()) + "\n";
-                builder += "Match at " + qname_epairs.first + "[" + std::to_string(epair.qindex) + "]\n";
-                builder += "Extended HSP:\n\t" + epair.extended_pair + "\n";
-            }
-        }
+    for (auto& fpair : fpairs) {
+            builder += fpair.dname;
+            builder += "{ Ext Pair: "  + fpair.extended_pair + ", ";
+            builder += "Data Index: "  + std::to_string(fpair.dindex) + ", ";
+            builder += "Query Index: " + std::to_string(fpair.qindex) + " }, ";
+    }
+    return builder;
+}
+
+string str(FormattedSequenceMap s)
+{
+    string builder = "";
+    for (auto& qname_fpairs : s) {
+        builder += qname_fpairs.first + "\t";
+        builder += str(qname_fpairs.second) + "\n";
     }
     return builder;
 }

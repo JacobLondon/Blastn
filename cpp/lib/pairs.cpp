@@ -61,15 +61,14 @@ PairedSequenceMap pair_filter(MatchedSequenceMap matches, SequenceMap query)
     for (auto& dname_queries : matches) {
         PairedMatchesMap pairs;
         for (auto& qname_matches : dname_queries.second) {
+            // qname not created yet in pairs
+            if (pairs.find(qname_matches.first) == pairs.end())
+                pairs[qname_matches.first] = vector<AdjacentPair>{};
             for (auto& pair : flatten(qname_matches.second, (u32)query[qname_matches.first].size())) {
                 if (ABS((s32)pair.dindex1 - (s32)pair.dindex2) <= (s32)query[qname_matches.first].size() - (s32)pair.length
                     || ABS((s32)pair.qindex1 - (s32)pair.qindex2) >= (s32)pair.length
                     || ABS((s32)pair.dindex1 - (s32)pair.dindex2) >= (s32)pair.length)
                 {
-                    // qname not created yet in pairs
-                    if (pairs.find(qname_matches.first) == pairs.end())
-                        pairs[qname_matches.first] = vector<AdjacentPair>{};
-
                     // check if the pair was recorded yet
                     found = false;
                     for (auto& p : pairs[qname_matches.first]) {

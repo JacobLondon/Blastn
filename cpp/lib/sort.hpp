@@ -3,6 +3,9 @@
 
 namespace Blastn {
 
-    ExtendedSequenceMap sort_filter(ExtendedSequenceMap extended_pairs);
+/**
+ * @brief Sort the extended pairs
+ */
+FormattedSequenceMap sort_filter(FormattedSequenceMap formatted_pairs);
 
 } // Blastn

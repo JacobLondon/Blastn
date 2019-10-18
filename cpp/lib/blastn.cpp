@@ -1,9 +1,9 @@
 #include <chrono>
 #include <ctime>
-#include <fstream>
 #include "blastn.hpp"
 #include "../util/globals.hpp"
 #include "../util/test.hpp"
+#include "../util/display.hpp"
 
 namespace Blastn {
 
@@ -55,11 +55,8 @@ int test(std::vector<std::string> args)
 
 static void align(std::string query_file, std::string data_file)
 {
-    auto start = std::chrono::high_resolution_clock::now();
-
-    auto start_time = std::chrono::system_clock::now();
-    std::time_t start_timestamp = std::chrono::system_clock::to_time_t(start_time);
-    std::cout << "Blastn started on " << std::ctime(&start_timestamp) << std::endl;
+    Timer timer{ "Blastn" };
+    timer.start();
 
     /**
      * Data formatting
@@ -103,8 +100,12 @@ static void align(std::string query_file, std::string data_file)
     auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, data, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, Blastn::SwRatio);
     std::cout << std::endl;
 
-    std::cout << "Sorting " << extended_pairs.size() << " extended pairs..." << std::endl;
-    auto sorted_epairs = Blastn::sort_filter(extended_pairs);
+    std::cout << "Formatting " << extended_pairs.size() << " extended pairs..." << std::endl;
+    auto formatted_epairs = Blastn::format_data(extended_pairs);
+    std::cout << std::endl;
+
+    std::cout << "Sorting " << extended_pairs.size() << " formatted, extended pairs..." << std::endl;
+    auto sorted_fpairs = Blastn::sort_filter(formatted_epairs);
     std::cout << std::endl;
 
     std::cout << std::endl;
@@ -114,20 +115,15 @@ static void align(std::string query_file, std::string data_file)
      */
 
     std::cout << "Writing to file " << Blastn::OutputFile << "..." << std::endl;
-    std::ofstream output_file{ Blastn::OutputFile };
-    output_file << Blastn::output_format(sorted_epairs, data);
+    auto formatted_output = Blastn::format_output(sorted_fpairs, data);
+    Blastn::write_output(formatted_output, Blastn::OutputFile);
 
     std::cout << std::endl;
 
     /**
      * Timer stats
      */
-
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<f32> elapsed = end - start;
-    auto end_time = std::chrono::system_clock::now();
-    std::time_t end_timestamp = std::chrono::system_clock::to_time_t(end_time);
-    std::cout << "Blastn finished on " << std::ctime(&end_timestamp) << "Elapsed time: " << elapsed.count() << "s." << std::endl;
+    timer.stop();
 }
 
 int blastn(std::vector<std::string> args)

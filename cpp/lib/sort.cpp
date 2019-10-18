@@ -6,21 +6,19 @@
 
 namespace Blastn {
 
-ExtendedSequenceMap sort_filter(ExtendedSequenceMap extended_pairs)
+FormattedSequenceMap sort_filter(FormattedSequenceMap formatted_pairs)
 {
-    Progress progress { extended_pairs.size() };
+    Progress progress{ formatted_pairs.size() };
 
-    for (auto& dname_queries : extended_pairs) {
-        for (auto& qname_epairs : dname_queries.second) {
-            // sort by score
-            std::sort(qname_epairs.second.begin(), qname_epairs.second.end(), [&](const Extended lhs, const Extended rhs)
-            {
-                return lhs.score < rhs.score;
-            });
-        }
+    for (auto& qname_epairs : formatted_pairs) {
+        // sort by score
+        std::sort(qname_epairs.second.begin(), qname_epairs.second.end(), [&](const Formatted lhs, const Formatted rhs)
+        {
+            return lhs.score < rhs.score;
+        });
         progress.update();
     }
-    return extended_pairs;
+    return formatted_pairs;
 }
 
 } // Blastn

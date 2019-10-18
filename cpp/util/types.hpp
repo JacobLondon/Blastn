@@ -49,6 +49,16 @@ public:
     s32 score;
 };
 
+class Formatted {
+public:
+    Formatted(string dname, string extended_pair, u32 dindex, u32 qindex, s32 score);
+    string dname;
+    string extended_pair;
+    u32 dindex;
+    u32 qindex;
+    s32 score;
+};
+
 const string SGap = "-";
 const char CGap = '-';
 const string Invalid = "\0";
@@ -103,7 +113,10 @@ using ExtendedPairsMap = dict<string, vector<Extended>>;
 using ExtendedSequenceMap = dict<string, ExtendedPairsMap>;
 string str(ExtendedSequenceMap s);
 
-
-string output_format(ExtendedSequenceMap& s, SequenceMap& data);
+/**
+ * @brief Map a query to its Formatted, Extended pairs
+ */
+using FormattedSequenceMap = dict<string, vector<Formatted>>;
+string str(FormattedSequenceMap s);
 
 } // Blastn
