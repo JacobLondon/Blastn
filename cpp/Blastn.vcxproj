@@ -154,6 +154,7 @@
     <ClCompile Include="lib\dust.cpp" />
     <ClCompile Include="lib\extend.cpp" />
     <ClCompile Include="lib\match.cpp" />
+    <ClCompile Include="lib\output.cpp" />
     <ClCompile Include="lib\pairs.cpp" />
     <ClCompile Include="lib\prepare.cpp" />
     <ClCompile Include="lib\smith_waterman.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="lib\dust.hpp" />
     <ClInclude Include="lib\extend.hpp" />
     <ClInclude Include="lib\match.hpp" />
+    <ClInclude Include="lib\output.hpp" />
     <ClInclude Include="lib\pairs.hpp" />
     <ClInclude Include="lib\prepare.hpp" />
     <ClInclude Include="lib\smith_waterman.hpp" />
