@@ -42,8 +42,8 @@ inline s32 score_alignment(char alpha, char beta, s32 match, s32 mismatch, s32 g
         return mismatch;
 }
 
-s32 smith_waterman(string seq1,
-                   string seq2,
+s32 smith_waterman(string& seq1,
+                   string& seq2,
                    s32 match,
                    s32 mismatch,
                    s32 gap,

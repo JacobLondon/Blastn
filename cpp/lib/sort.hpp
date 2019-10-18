@@ -6,6 +6,6 @@ namespace Blastn {
 /**
  * @brief Sort the extended pairs
  */
-FormattedSequenceMap sort_filter(FormattedSequenceMap formatted_pairs);
+FormattedSequenceMap sort_filter(FormattedSequenceMap& formatted_pairs);
 
 } // Blastn

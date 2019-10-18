@@ -6,7 +6,7 @@
 
 namespace Blastn {
 
-FormattedSequenceMap sort_filter(FormattedSequenceMap formatted_pairs)
+FormattedSequenceMap sort_filter(FormattedSequenceMap& formatted_pairs)
 {
     Progress progress{ formatted_pairs.size() };
 

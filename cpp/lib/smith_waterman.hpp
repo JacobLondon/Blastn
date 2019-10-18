@@ -27,7 +27,7 @@ inline s32 score_alignment(char alpha, char beta, s32 match, s32 mismatch, s32 g
  * @param just_score Indicate to exit the function early to only calculate the score.
  * @return The smith waterman score.
  */
-s32 smith_waterman(string seq1, string seq2, s32 match, s32 mismatch, s32 gap, bool just_score);
+s32 smith_waterman(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap, bool just_score);
 /**
  * @brief Filter an IndexedSequenceMap with the smith waterman algorithm.
  * @param data The IndexedSequenceMap to filter.
