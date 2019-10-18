@@ -1,5 +1,6 @@
 TARGET=blastn
 CXX=g++
+# C++ 17, Warnings, Optimizations
 CXXFLAGS=-std=c++17 -Wall -Wextra -Os
 OBJ_FILES=lib/blastn.o lib/dust.o lib/extend.o lib/match.o lib/output.o lib/pairs.o \
 		  lib/prepare.o lib/smith_waterman.o lib/sort.o lib/split.o \

@@ -15,6 +15,8 @@ a.out
 blastn
 blastn.out
 blastn_out.txt
+blastn_out/
+Hits-*
 
 *.fa.json
 *.fasta.json

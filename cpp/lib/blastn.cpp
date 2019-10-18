@@ -114,9 +114,9 @@ static void align(std::string query_file, std::string data_file)
      * Blastn finished, write to file
      */
 
-    std::cout << "Writing to file " << Blastn::OutputFile << "..." << std::endl;
+    std::cout << "Writing to directory " << Blastn::OutputDir << "/" << std::endl;
     auto formatted_output = Blastn::format_output(sorted_fpairs, data);
-    Blastn::write_output(formatted_output, Blastn::OutputFile);
+    Blastn::write_output(formatted_output, Blastn::OutputDir, Blastn::OutputExt);
 
     std::cout << std::endl;
 
@@ -155,7 +155,7 @@ int blastn(std::vector<std::string> args)
     a = argparse(args, "-dl");
     if (a != Blastn::Invalid) Blastn::DustPatternLength = atoi(a.c_str());
     a = argparse(args, "-o");
-    if (a != Blastn::Invalid) Blastn::OutputFile        = a;
+    if (a != Blastn::Invalid) Blastn::OutputDir         = a;
 
     Blastn::SwRatio = (f32)SwMinscore / (f32)(SplitLength * SwMatch);
 

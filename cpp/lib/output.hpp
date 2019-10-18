@@ -8,8 +8,11 @@ namespace Blastn {
  */
 FormattedSequenceMap format_data(ExtendedSequenceMap& extended_pairs);
 
-string format_output(FormattedSequenceMap& s, SequenceMap& data);
+/**
+ * @brief convert the formatted data to each query mapped to the formatted string output
+ */
+SequenceMap format_output(FormattedSequenceMap& s, SequenceMap& data);
 
-void write_output(string& output, string filename);
+void write_output(SequenceMap& output, string dirname, string extension);
 
 } // Blastn
