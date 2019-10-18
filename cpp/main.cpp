@@ -12,9 +12,10 @@ int main(int argc, char **argv)
     else
         Blastn::test(args);
 
-#ifdef _WIN32
-    std::cin.get();
-#endif
+    #ifdef _WIN32
+        std::cout << std::endl << "Blastn has completed. Press ENTER to exit..." << std::endl;
+        std::cin.get();
+    #endif
 
     return 0;
 }
