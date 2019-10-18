@@ -1,0 +1,6 @@
+#ifndef BLASTN_EXTEND_H
+#define BLASTN_EXTEND_H
+
+
+
+#endif // BLASTN_EXTEND_H

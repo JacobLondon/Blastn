@@ -1,31 +1,41 @@
 #include "test.h"
 
-void tdust()
+void test_dust()
 {
 
 }
 
-void textend()
+void test_extend()
 {
 
 }
 
-void tmatch()
+void test_match()
 {
 
 }
 
-void tsequence()
+void test_pairs()
 {
 
 }
 
-void tsmith_waterman()
+void test_sequence()
 {
 
 }
 
-void tsplit()
+void test_smith_waterman()
+{
+
+}
+
+void test_sort()
+{
+    
+}
+
+void test_split()
 {
     int split_length = 4;
     int word_length = 10;

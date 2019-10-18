@@ -3,11 +3,13 @@
 
 #include "../lib/blastn.h"
 
-void tdust();
-void textend();
-void tmatch();
-void tsequence();
-void tsmith_waterman();
-void tsplit();
+void test_dust();
+void test_extend();
+void test_match();
+void test_pairs();
+void test_sequence();
+void test_smith_waterman();
+void test_sort();
+void test_split();
 
 #endif // BLASTN_TEST_H
