@@ -2,7 +2,7 @@
 
 #include "util.h"
 
-int str_find(char *needle, char **haystack, unsigned int size)
+int strfind(char *needle, char **haystack, unsigned int size)
 {
     for (int i = 0; i < size; i++) {
         int found = 1;

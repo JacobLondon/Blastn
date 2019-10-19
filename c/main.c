@@ -5,7 +5,7 @@
 
 int main(int argc, char **argv)
 {
-    int test = str_find("-test", argv, argc);
+    int test = strfind("-test", argv, argc);
 
     if (!test)
         blastn(argc, argv);

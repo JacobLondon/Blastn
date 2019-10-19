@@ -1,12 +1,12 @@
 #ifndef BLASTN_PREPARE_H
 #define BLASTN_PREPARE_H
 
-#include "../tools/types.h"
+#include "../util/types.h"
 
-sequence_map *build_sequence(char *path, char sep);
+SequenceMap *build_sequence(char *path, char sep);
 
-indexed_sequence_map *split_sequence(sequence_map *data, u32 length);
+IndexedSequenceMap *split_sequence(SequenceMap *data, unsigned int length);
 
-indexed_sequence_map *prepare_sequence(char *path, u32 length, char sep);
+IndexedSequenceMap *prepare_sequence(char *path, unsigned int length, char sep);
 
 #endif // BLASTN_PREPARE_H

@@ -18,7 +18,7 @@ static char *argparse(int argc, char **argv, char *arg)
     return BlastnInvalid;
 }
 
-int test(int argc, char **argv)
+int blastn_test(int argc, char **argv)
 {
     init_globals();
     char a[BlastnMaxWidth] = {0};

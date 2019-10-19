@@ -1,6 +1,8 @@
 #ifndef BLASTN_EXTEND_H
 #define BLASTN_EXTEND_H
 
+#include "../util/types.h"
+
 Extended extend_and_score(
     AdjacentPair pair,
     char *query,
