@@ -3,8 +3,8 @@
 
 #include "../util/types.h"
 
-float dust(char *word, uint32_t pattern_len);
+float dust(char *word, unsigned int pattern_len);
 
-IndexedSequenceMap *dust_filter(IndexedSequenceMap *data, float threshold, uint32_t pattern_len, uint32_t word_len);
+IndexedSequenceMap *dust_filter(IndexedSequenceMap *data, float threshold, unsigned int pattern_len, unsigned int word_len);
 
 #endif // BLASTN_DUST_H
