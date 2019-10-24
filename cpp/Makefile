@@ -10,7 +10,7 @@ OBJ_FILES=lib/blastn.o lib/dust.o lib/extend.o lib/match.o lib/output.o lib/pair
 .PHONY: clean
 
 $(TARGET) : $(OBJ_FILES)
-	$(CXX) -o $(TARGET) $(OBJ_FILES)
+	$(CXX) -o $(TARGET) $(OBJ_FILES) $(CXXFLAGS)
 
 clean:
 	rm -rf $(TARGET) $(OBJ_FILES)
