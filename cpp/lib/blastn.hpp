@@ -6,6 +6,7 @@
 
 #include "dust.hpp"
 #include "extend.hpp"
+#include "hsp.hpp"
 #include "prepare.hpp"
 #include "match.hpp"
 #include "output.hpp"

@@ -128,24 +128,14 @@ string str(ExtendedSequenceMap s)
     return builder;
 }
 
-static string str(vector<HSP> hsps)
+string str(vector<HSP> hsps)
 {
     string builder = "";
-    for (auto& fpair : fpairs) {
-            builder += fpair.dname;
-            builder += "{ Ext Pair: "  + fpair.extended_pair + ", ";
-            builder += "Subject Index: "  + std::to_string(fpair.dindex) + ", ";
-            builder += "Query Index: " + std::to_string(fpair.qindex) + " }, ";
-    }
-    return builder;
-}
-
-string str(vector<HSP> s)
-{
-    string builder = "";
-    for (auto& qname_fpairs : s) {
-        builder += qname_fpairs.first + "\t";
-        builder += str(qname_fpairs.second) + "\n";
+    for (auto& hsp : hsps) {
+            builder += hsp.subject_id;
+            builder += "{ Ext Pair: "  + hsp.extended_pair + ", ";
+            builder += "Subject Index: "  + std::to_string(hsp.subject_start) + ", ";
+            builder += "Query Index: " + std::to_string(hsp.query_start) + " }, ";
     }
     return builder;
 }

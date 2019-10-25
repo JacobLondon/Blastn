@@ -72,6 +72,9 @@ static void align(std::string query_file, std::string subject_file)
     auto subject_prepared = Blastn::split_sequence(subject, Blastn::SplitLength);
     std::cout << std::endl;
 
+    // needed for E-value calculation
+    size_t subject_length = sequence_length(subject);
+
     /**
      * Dust filtering
      */
@@ -103,11 +106,11 @@ static void align(std::string query_file, std::string subject_file)
      */
 
     std::cout << "Formatting " << extended_pairs.size() << " of HSP's..." << std::endl;
-    auto hsps = Blastn::format_hsps(extended_pairs);
+    auto hsps = Blastn::format_hsps(extended_pairs, query, subject, Blastn::Lambda, Blastn::Kappa, subject_length);
     std::cout << std::endl;
 
     std::cout << "Sorting " << hsps.size() << " HSP's..." << std::endl;
-    auto sorted_hsps = Blastn::sort_filter(hsps);
+    auto sorted_hsps = Blastn::sort(hsps);
     std::cout << std::endl;
 
     std::cout << std::endl;
@@ -116,9 +119,9 @@ static void align(std::string query_file, std::string subject_file)
      * Blastn finished, write to file
      */
 
-    std::cout << "Writing to directory " << Blastn::OutputDir << "/" << std::endl;
-    auto formatted_output = Blastn::format_output(sorted_hsps, subject);
-    Blastn::write_output(formatted_output, Blastn::OutputDir, Blastn::OutputExt);
+    std::cout << "Writing to file " << Blastn::OutputFile << std::endl;
+    string formatted_output = Blastn::format_output(sorted_hsps, subject);
+    Blastn::write_output(formatted_output, Blastn::OutputFile);
 
     std::cout << std::endl;
 
@@ -139,7 +142,7 @@ int blastn(std::vector<std::string> args)
     if ((a = argparse(args, "-subject"))     != Blastn::Invalid)
         Blastn::SubjectFile = a;
     if ((a = argparse(args, "-out"))         != Blastn::Invalid)
-        Blastn::OutputDir = a;
+        Blastn::OutputFile = a;
 
     // query/subject file descriptions
     if ((a = argparse(args, "-sep"))         != Blastn::Invalid)

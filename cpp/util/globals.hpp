@@ -24,8 +24,7 @@ extern f32 Kappa;               // for calculating bit score
 
 extern string QueryFile;
 extern string SubjectFile;
-extern string OutputDir;
-extern string OutputExt;
+extern string OutputFile;
 
 extern string LTestQuery;
 extern string STestQuery;

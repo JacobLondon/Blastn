@@ -2,8 +2,7 @@
 #include <chrono>
 #include <ctime>
 
-class Progress {
-public:
+struct Progress {
     Progress(size_t max);
     size_t iteration = 0;
     size_t max = 0;

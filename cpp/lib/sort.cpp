@@ -1,24 +1,19 @@
 #include <algorithm> // sort
 #include <cstdlib>   // rand
+
 #include "sort.hpp"
-#include "smith_waterman.hpp"
-#include "../util/display.hpp"
 
 namespace Blastn {
 
-FormattedSequenceMap sort_filter(FormattedSequenceMap& formatted_pairs)
+vector<HSP> sort(vector<HSP>& hsps)
 {
-    Progress progress{ formatted_pairs.size() };
-
-    for (auto& qname_epairs : formatted_pairs) {
-        // sort by score
-        std::sort(qname_epairs.second.begin(), qname_epairs.second.end(), [&](const Formatted lhs, const Formatted rhs)
-        {
-            return lhs.score < rhs.score;
-        });
-        progress.update();
-    }
-    return formatted_pairs;
+    // sort by score
+    std::sort(hsps.begin(), hsps.end(), [&](const HSP lhs, const HSP rhs)
+    {
+        return lhs.evalue < rhs.evalue;
+    });
+    
+    return hsps;
 }
 
 } // Blastn

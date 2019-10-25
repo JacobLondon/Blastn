@@ -3,6 +3,8 @@
 
 namespace Blastn {
 
-void write_output(vector<HSP>& sorted_hsps, string output_file);
+string format_output(vector<HSP>& hsps, SequenceMap& subject);
+
+void write_output(string data, string output_file);
 
 } // Blastn

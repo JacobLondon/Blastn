@@ -27,5 +27,9 @@ IndexedSequenceMap split_sequence(SequenceMap& data, u32 length);
  * @return The build and split sequence.
  */
 IndexedSequenceMap prepare_sequence(string path, u32 length, char sep);
+/**
+ * @brief Sum the length of each sequence
+ */
+size_t sequence_length(SequenceMap& data);
 
 } // Blastn

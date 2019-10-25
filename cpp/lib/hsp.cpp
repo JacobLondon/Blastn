@@ -27,7 +27,6 @@ namespace Blastn {
  */
 
 static void calculate_score(HSP& hsp,
-                            SequenceMap& subject,
                             f32 lambda,
                             f32 kappa,
                             size_t subject_length,
@@ -35,8 +34,25 @@ static void calculate_score(HSP& hsp,
 {
     hsp.bitscore = (lambda * hsp.sw_score - log(kappa)) / log(2);
     hsp.evalue   = subject_length * query_length / (powf64(2, hsp.bitscore));
+}
 
+static void record_similarity(HSP& hsp, SequenceMap& subject)
+{
+    string subsequence = subject[hsp.subject_id].substr(hsp.subject_start, hsp.subject_end - hsp.subject_start);
 
+    // find how many of each type there are
+    for (size_t i = 0; i < subsequence.size(); i++) {
+        if (hsp.extended_pair[i] == Blastn::CGap) {
+            hsp.gaps++;
+        }
+        else if (hsp.extended_pair[i] == subsequence[i]) {
+            hsp.matches++;
+        }
+        else {
+            hsp.mismatches++;
+        }
+    }
+    hsp.percentage_id = ((f32)hsp.matches / (f32)subsequence.size());
 }
 
 vector<HSP> format_hsps(ExtendedSequenceMap& extended_pairs,
@@ -46,7 +62,6 @@ vector<HSP> format_hsps(ExtendedSequenceMap& extended_pairs,
                         f32 kappa,
                         size_t subject_length)
 {
-
     vector<HSP> result;
     Progress progress{ extended_pairs.size() };
 
@@ -62,7 +77,8 @@ vector<HSP> format_hsps(ExtendedSequenceMap& extended_pairs,
                     epair.score
                 };
                 
-                calculate_score(hsp, subject, lambda, kappa, subject_length, query[qid_epairs.first].size());
+                calculate_score(hsp, lambda, kappa, subject_length, query[qid_epairs.first].size());
+                record_similarity(hsp, subject);
                 result.push_back(hsp);
             }
         }
