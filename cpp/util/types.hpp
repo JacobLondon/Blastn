@@ -21,13 +21,13 @@ template<typename T>
 using vector = std::vector<T>;
 
 /**
- * @brief The details for what a match has, a word, data indices, query indices.
+ * @brief The details for what a match has, a word, subject indices, query indices.
  */
 class Match {
 public:
-    Match(string word, vector<u32> data_indices, vector<u32> query_indices);
+    Match(string word, vector<u32> subject_indices, vector<u32> query_indices);
     string word;
-    vector<u32> data_indices;
+    vector<u32> subject_indices;
     vector<u32> query_indices;
 };
 
@@ -88,7 +88,7 @@ string str(IndexedSequenceMap s);
  */
 using MatchedMatchesMap = dict<string, vector<Match>>;
 /**
- * @brief Data name mapped to a query name mapped to a vector of Match objects
+ * @brief Subject name mapped to a query name mapped to a vector of Match objects
  */
 using MatchedSequenceMap = dict<string, MatchedMatchesMap>;
 string str(MatchedSequenceMap s);
@@ -98,7 +98,7 @@ string str(MatchedSequenceMap s);
  */
 using PairedMatchesMap = dict<string, vector<AdjacentPair>>;
 /**
- * @brief Data name mapped to a query name mapped to a vector of AdjacentPair objects 
+ * @brief Subject name mapped to a query name mapped to a vector of AdjacentPair objects 
  */
 using PairedSequenceMap = dict<string, PairedMatchesMap>;
 string str(PairedSequenceMap s);
@@ -108,7 +108,7 @@ string str(PairedSequenceMap s);
  */
 using ExtendedPairsMap = dict<string, vector<Extended>>;
 /**
- * @brief Data name mapped to a query name mapped to a vector of Extended pair objects
+ * @brief Subject name mapped to a query name mapped to a vector of Extended pair objects
  */
 using ExtendedSequenceMap = dict<string, ExtendedPairsMap>;
 string str(ExtendedSequenceMap s);

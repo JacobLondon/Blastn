@@ -51,7 +51,7 @@ int test(std::vector<std::string> args)
     return 0;
 }
 
-static void align(std::string query_file, std::string data_file)
+static void align(std::string query_file, std::string subject_file)
 {
     Timer timer{ "Blastn" };
     timer.start();
@@ -66,10 +66,10 @@ static void align(std::string query_file, std::string data_file)
     auto query_prepared = Blastn::split_sequence(query, Blastn::SplitLength);
     std::cout << std::endl;
 
-    std::cout << "Reading " << data_file << "..." << std::endl;
-    auto data = Blastn::build_sequence(data_file, Blastn::Seperator);
-    std::cout << "Formatting " << data.size() << " database entries..." << std::endl;
-    auto data_prepared = Blastn::split_sequence(data, Blastn::SplitLength);
+    std::cout << "Reading " << subject_file << "..." << std::endl;
+    auto subject = Blastn::build_sequence(subject_file, Blastn::Seperator);
+    std::cout << "Formatting " << subject.size() << " subject entries..." << std::endl;
+    auto subject_prepared = Blastn::split_sequence(subject, Blastn::SplitLength);
     std::cout << std::endl;
 
     /**
@@ -83,11 +83,11 @@ static void align(std::string query_file, std::string data_file)
 
     /**
      * Exact matches, adjacent pairs, extending pairs, and sorting extended pairs
-     * all on smaller data subsets
+     * all on smaller subject subsets
      */
 
-    std::cout << "Matching " << query.size() << " query entries against " << data.size() << " database entries..." << std::endl;
-    auto exact_matches = Blastn::match_filter(query_dustfiltered, data_prepared);
+    std::cout << "Matching " << query.size() << " query entries against " << subject.size() << " subject entries..." << std::endl;
+    auto exact_matches = Blastn::match_filter(query_dustfiltered, subject_prepared);
     std::cout << std::endl;
 
     std::cout << "Pairing " << exact_matches.size() << " words with each other..." << std::endl;
@@ -95,7 +95,7 @@ static void align(std::string query_file, std::string data_file)
     std::cout << std::endl;
 
     std::cout << "Extending " << adjacent_pairs.size() << " paired words..." << std::endl;
-    auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, data, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, Blastn::SwRatio);
+    auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, subject, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, Blastn::SwRatio);
     std::cout << std::endl;
 
     std::cout << "Formatting " << extended_pairs.size() << " extended pairs..." << std::endl;
@@ -113,7 +113,7 @@ static void align(std::string query_file, std::string data_file)
      */
 
     std::cout << "Writing to directory " << Blastn::OutputDir << "/" << std::endl;
-    auto formatted_output = Blastn::format_output(sorted_fpairs, data);
+    auto formatted_output = Blastn::format_output(sorted_fpairs, subject);
     Blastn::write_output(formatted_output, Blastn::OutputDir, Blastn::OutputExt);
 
     std::cout << std::endl;
@@ -129,35 +129,45 @@ int blastn(std::vector<std::string> args)
     // arg output
     string a;
 
-    // input files
-    a = argparse(args, "-q");
-    if (a != Blastn::Invalid) Blastn::QueryFile         = a;
-    a = argparse(args, "-db");
-    if (a != Blastn::Invalid) Blastn::DataFile          = a;
+    // files
+    if ((a = argparse(args, "-query")) != Blastn::Invalid)
+        Blastn::QueryFile = a;
+    if ((a = argparse(args, "-subject")) != Blastn::Invalid)
+        Blastn::SubjectFile = a;
+    if ((a = argparse(args, "-out")) != Blastn::Invalid)
+        Blastn::OutputDir = a;
 
-    // optional arguments (have defaults)
-    a = argparse(args, "-sp");
-    if (a != Blastn::Invalid) Blastn::Seperator         = (char)a[0];
-    a = argparse(args, "-l");
-    if (a != Blastn::Invalid) Blastn::SplitLength       = atoi(a.c_str());
-    a = argparse(args, "-m");
-    if (a != Blastn::Invalid) Blastn::SwMinscore        = atoi(a.c_str());
-    a = argparse(args, "-ma");
-    if (a != Blastn::Invalid) Blastn::SwMatch           = atoi(a.c_str());
-    a = argparse(args, "-mi");
-    if (a != Blastn::Invalid) Blastn::SwMismatch        = atoi(a.c_str());
-    a = argparse(args, "-g");
-    if (a != Blastn::Invalid) Blastn::SwGap             = atoi(a.c_str());
-    a = argparse(args, "-dt");
-    if (a != Blastn::Invalid) Blastn::DustThreshold     = (f32)atof(a.c_str());
-    a = argparse(args, "-dl");
-    if (a != Blastn::Invalid) Blastn::DustPatternLength = atoi(a.c_str());
-    a = argparse(args, "-o");
-    if (a != Blastn::Invalid) Blastn::OutputDir         = a;
-
+    // query/subject file descriptions
+    if ((a = argparse(args, "-sep")) != Blastn::Invalid)
+        Blastn::Seperator = (char)a[0];
+    if ((a = argparse(args, "-word-length")) != Blastn::Invalid)
+        Blastn::SplitLength = atoi(a.c_str());
+    
+    // smith waterman
+    if ((a = argparse(args, "-sw-minscore")) != Blastn::Invalid)
+        Blastn::SwMinscore = atoi(a.c_str());
+    if ((a = argparse(args, "-sw-match")) != Blastn::Invalid)
+        Blastn::SwMatch = atoi(a.c_str());
+    if ((a = argparse(args, "-sw-mismatch")) != Blastn::Invalid)
+        Blastn::SwMismatch = atoi(a.c_str());
+    if ((a = argparse(args, "-sw-gap")) != Blastn::Invalid)
+        Blastn::SwGap = atoi(a.c_str());
+    
     Blastn::SwRatio = (f32)SwMinscore / (f32)(SplitLength * SwMatch);
 
-    align(Blastn::QueryFile, Blastn::DataFile);
+    // dust
+    if ((a = argparse(args, "-dust-thresh")) != Blastn::Invalid)
+        Blastn::DustThreshold = (f32)atof(a.c_str());
+    if ((a = argparse(args, "-dust-length")) != Blastn::Invalid)
+        Blastn::DustPatternLength = atoi(a.c_str());
+
+    if ((a = argparse(args, "-lambda")) != Blastn::Invalid)
+        Blastn::Lambda = atoi(a.c_str());
+    if ((a = argparse(args, "-kappa")) != Blastn::Invalid)
+        Blastn::Kappa = atoi(a.c_str());
+
+
+    align(Blastn::QueryFile, Blastn::SubjectFile);
     return 0;
 }
 

@@ -23,8 +23,12 @@ f32 DustThreshold = 0.1f;
 // length of patterns for dust to look for
 u32 DustPatternLength = 3;
 
+// bit score calculation
+f32 Lambda = 0.267;
+f32 Kappa = 0.041;
+
 string QueryFile  = "../data/SRR7236689--ARG830.fa";
-string DataFile   = "../data/Gn-SRR7236689_contigs.fasta";
+string SubjectFile   = "../data/Gn-SRR7236689_contigs.fasta";
 string OutputDir = "blastn_out";
 string OutputExt  = ".txt";
 

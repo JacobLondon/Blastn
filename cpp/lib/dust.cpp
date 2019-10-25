@@ -29,13 +29,13 @@ f32 dust(string word, u32 pattern_len)
     return total_score / (word.length() - pattern_len);
 }
 
-IndexedSequenceMap dust_filter(IndexedSequenceMap& data, f32 threshold, u32 pattern_len)
+IndexedSequenceMap dust_filter(IndexedSequenceMap& query, f32 threshold, u32 pattern_len)
 {
     IndexedSequenceMap result;
-    Progress progress{ data.size() };
+    Progress progress{ query.size() };
 
     // breaks words into subsequences of triplets
-    for (auto& qname_seqmap : data) {
+    for (auto& qname_seqmap : query) {
         IndexedWordMap temp;
         for (auto& word_indices : qname_seqmap.second) {
             // words that score above the threshold will not be added to the filtered result

@@ -37,7 +37,7 @@ FormattedSequenceMap format_data(ExtendedSequenceMap& extended_pairs)
     return result;
 }
 
-SequenceMap format_output(FormattedSequenceMap& s, SequenceMap& data)
+SequenceMap format_output(FormattedSequenceMap& s, SequenceMap& subject)
 {
     SequenceMap result;
     for (auto& qname_fpairs : s) {
@@ -46,7 +46,7 @@ SequenceMap format_output(FormattedSequenceMap& s, SequenceMap& data)
             builder += "\n";
             builder += "Smith-Waterman Score : " + std::to_string(fpair.score) + "\n";
             builder += "Hit at " + fpair.dname + "[" + std::to_string(fpair.dindex) + "]:\n\t";
-            builder += data[fpair.dname].substr(fpair.dindex, fpair.extended_pair.size()) + "\n";
+            builder += subject[fpair.dname].substr(fpair.dindex, fpair.extended_pair.size()) + "\n";
             builder += "Match at " + qname_fpairs.first + "[" + std::to_string(fpair.qindex) + "]\n";
             builder += "Extended HSP:\n\t" + fpair.extended_pair + "\n";
         }

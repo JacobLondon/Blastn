@@ -8,30 +8,30 @@ namespace Blastn {
 #define MAX(v1, v2) (((v1) < (v2)) ? (v2) : (v1))
 
 /* 
- *        ex) Query: G'TC'TGAA'CT'GAGC
- *            Data:  AG'TC'TGATGA'CT'GGGGAACTCGA
+ *        ex) Query:     G'TC'TGAA'CT'GAGC
+ *            Subject:  AG'TC'TGATGA'CT'GGGGAACTCGA
  *            Left Word:  'TC'
  *            Right Word: 'CT'
  * 
  *            Steps:
- *          1. Query: G'TC'                 -> score high enough? (extend left)
- *             Data:  G'TC'
- *          2. Query: G'TC'T                -> score high enough? (extend right)
- *             Data: G'TC'T
- *          3. Query: G'TC'TGAA             -> score high enough? (extend right more...)
- *             Data:  G'TC'TGAT
- *          4. Query: G'TC'TGAA--           -> score high enough? (add gaps)
- *             Data:  G'TC'TGATGA
- *          5. Query: G'TC'TGAA--'CT'       -> score high enough? (add right word)
- *             Data:  G'TC'TGATGA'CT'
- *          6. Query: G'TC'TGAA--'CT'GAGC   -> score high enough? (extend right more...)
- *             Data:  G'TC'TGATGA'CT'GGGG
+ *          1. Query:    G'TC'                 -> score high enough? (extend left)
+ *             Subject:  G'TC'
+ *          2. Query:    G'TC'T                -> score high enough? (extend right)
+ *             Subject:  G'TC'T
+ *          3. Query:    G'TC'TGAA             -> score high enough? (extend right more...)
+ *             Subject:  G'TC'TGAT
+ *          4. Query:    G'TC'TGAA--           -> score high enough? (add gaps)
+ *             Subject:  G'TC'TGATGA
+ *          5. Query:    G'TC'TGAA--'CT'       -> score high enough? (add right word)
+ *             Subject:  G'TC'TGATGA'CT'
+ *          6. Query:    G'TC'TGAA--'CT'GAGC   -> score high enough? (extend right more...)
+ *             Subject:  G'TC'TGATGA'CT'GGGG
  *          7. Done!
  */
 
 Extended extend_and_score(AdjacentPair pair,
                           string query,
-                          string data,
+                          string subject,
                           s32 match,
                           s32 mismatch,
                           s32 gap,
@@ -47,7 +47,7 @@ Extended extend_and_score(AdjacentPair pair,
 
     // build string
     string qextended = query.substr(qleftindex, pair.length);
-    string dextended = data.substr(dleftindex, pair.length);
+    string dextended = subject.substr(dleftindex, pair.length);
 
     // running Smith Waterman score
     s32 running_score = 0;
@@ -58,7 +58,7 @@ Extended extend_and_score(AdjacentPair pair,
     while (qexindex - 1 >= 0 && dexindex - 1 >= 0) {
         qexindex--; dexindex--;
         qextended = query[qexindex] + qextended;
-        dextended = data[dexindex] + dextended;
+        dextended = subject[dexindex] + dextended;
         if (score) {
             running_score = smith_waterman(qextended, dextended, match, mismatch, gap, true);
             if (running_score < ratio * qextended.size() * match)
@@ -66,7 +66,7 @@ Extended extend_and_score(AdjacentPair pair,
         }
     }
 
-    // the left-most index in the database
+    // the left-most index in the subject
     u32 dindex = (u32)dexindex;
     u32 qindex = (u32)qexindex;
     
@@ -76,27 +76,27 @@ Extended extend_and_score(AdjacentPair pair,
     while ((u32)qexindex + 1 < qrightindex && (u32)dexindex + 1 < drightindex) {
         qexindex++; dexindex++;
         qextended = qextended + query[qexindex];
-        dextended = dextended + data[dexindex];
+        dextended = dextended + subject[dexindex];
     }
 
-    // extend right with gaps until qextended aligns with data
+    // extend right with gaps until qextended aligns with subject
     while ((u32)dexindex + 1 < drightindex) {
         qexindex++; dexindex++;
         qextended = qextended + SGap;
-        dextended = dextended + data[dexindex];
+        dextended = dextended + subject[dexindex];
     }
 
     // append the right pair
     qextended = qextended + query.substr(qrightindex, pair.length);
-    dextended = dextended + data.substr(drightindex, pair.length);
+    dextended = dextended + subject.substr(drightindex, pair.length);
 
     // extend right
     qexindex = qrightindex + pair.length - 1;
     dexindex = drightindex + pair.length - 1;
-    while ((s32)(qexindex + 1) < (s32)query.size() && (s32)(dexindex + 1) < (s32)data.size()) {
+    while ((s32)(qexindex + 1) < (s32)query.size() && (s32)(dexindex + 1) < (s32)subject.size()) {
         qexindex++; dexindex++;
         qextended = qextended + query[qexindex];
-        dextended = dextended + data[dexindex];
+        dextended = dextended + subject[dexindex];
         if (score) {
             running_score = smith_waterman(qextended, dextended, match, mismatch, gap, true);
             if (running_score < ratio * qextended.size() * match)
@@ -105,7 +105,7 @@ Extended extend_and_score(AdjacentPair pair,
     }
 
     if (printing) {
-        std::cout << "Data Ext:\t" << dextended << std::endl;
+        std::cout << "Subject Ext:\t" << dextended << std::endl;
         std::cout << "Quer Ext:\t" << qextended << std::endl;
     }
     return Extended{ qextended, dindex, qindex, running_score };
@@ -113,7 +113,7 @@ Extended extend_and_score(AdjacentPair pair,
 
 ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                                   SequenceMap& query,
-                                  SequenceMap& data,
+                                  SequenceMap& subject,
                                   s32 match,
                                   s32 mismatch,
                                   s32 gap,

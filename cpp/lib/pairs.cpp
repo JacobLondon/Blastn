@@ -35,7 +35,7 @@ vector<AdjacentPair> flatten(vector<Match> matches, u32 query_len)
     vector<MatchSingleton> flattened;
 
     for (auto& match : matches) {
-        for (auto& dindex : match.data_indices) {
+        for (auto& dindex : match.subject_indices) {
             for (auto& qindex : match.query_indices) {
                 flattened.push_back(MatchSingleton {
                     match.word, dindex, qindex

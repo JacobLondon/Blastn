@@ -13,12 +13,12 @@ f32 dust(string word, u32 pattern_len);
 
 /**
  * @brief Filter the IndexedSequenceMap using the dust algorithm.
- * @param data The format of the data to be filtered.
- * @param threshold Dust scores less than this threshold will be removed from data.
- * @param word_len The length of the words in data.
+ * @param query The format of the query to be filtered.
+ * @param threshold Dust scores less than this threshold will be removed from query.
+ * @param word_len The length of the words in query.
  * @param pattern_len The length of the patterns to look for in each word.
  * @return A copy of the IndexedSequenceMap with low scoring words removed.
  */
-IndexedSequenceMap dust_filter(IndexedSequenceMap& data, f32 threshold, u32 pattern_len);
+IndexedSequenceMap dust_filter(IndexedSequenceMap& query, f32 threshold, u32 pattern_len);
 
 } // Blastn

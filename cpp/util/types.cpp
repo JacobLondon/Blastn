@@ -2,8 +2,8 @@
 
 namespace Blastn {
 
-Match::Match(string word, vector<u32> data_indices, vector<u32> query_indices)
-    : word{ word }, data_indices{ data_indices }, query_indices{ query_indices }
+Match::Match(string word, vector<u32> subject_indices, vector<u32> query_indices)
+    : word{ word }, subject_indices{ subject_indices }, query_indices{ query_indices }
 {}
 
 AdjacentPair::AdjacentPair(string word1, string word2, u32 dindex1, u32 qindex1, u32 dindex2, u32 qindex2)
@@ -69,7 +69,7 @@ string str(MatchedSequenceMap s)
             for (auto& match : qname_matches.second) {
                 builder += dname_queries.first + "\t" + qname_matches.first;
                 builder += "\t" + match.word;
-                builder += "\tData Indices:  " + str(match.data_indices);
+                builder += "\tSubject Indices:  " + str(match.subject_indices);
                 builder += "\tMatch Indices: " + str(match.query_indices) + "\n";
             }
         }
@@ -106,7 +106,7 @@ static string str(vector<Extended> ext)
     string builder = "[";
     for (auto& e : ext) {
         builder += "{ Ext Pair: "  + e.extended_pair          + ", ";
-        builder += "Data Index: "  + std::to_string(e.dindex) + ", ";
+        builder += "Subject Index: "  + std::to_string(e.dindex) + ", ";
         builder += "Query Index: " + std::to_string(e.qindex) + " }, ";
     }
     builder += "]";
@@ -131,7 +131,7 @@ static string str(vector<Formatted> fpairs)
     for (auto& fpair : fpairs) {
             builder += fpair.dname;
             builder += "{ Ext Pair: "  + fpair.extended_pair + ", ";
-            builder += "Data Index: "  + std::to_string(fpair.dindex) + ", ";
+            builder += "Subject Index: "  + std::to_string(fpair.dindex) + ", ";
             builder += "Query Index: " + std::to_string(fpair.qindex) + " }, ";
     }
     return builder;
