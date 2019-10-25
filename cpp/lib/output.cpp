@@ -24,25 +24,17 @@ string format_output(vector<HSP>& hsps, SequenceMap& subject)
     return builder;
 }
 
-void write_output(string data, string output_file)
+void write_output(string data, string filename)
 {
-    for (auto& qname_output : output) {
-        string filename = "Hits-" + qname_output.first + extension;
-        std::ofstream output_file;
+    std::ofstream output_file{ filename };
 
-        if (success)
-            output_file = std::ofstream{ dirname + "/" + filename };
-        else
-            output_file = std::ofstream{ filename };
-
-        if (output_file.is_open()) {
-            output_file.write(qname_output.second.c_str(), qname_output.second.size());
-            output_file.close();
-        }
-        else {
-            std::cerr << "Error: Failed to open output file " << qname_output.first << std::endl;
-            std::exit(-1);
-        }
+    if (output_file.is_open()) {
+        output_file.write(data.c_str(), data.size());
+        output_file.close();
+    }
+    else {
+        std::cerr << "Error: Failed to open output file: " << filename << std::endl;
+        std::exit(-1);
     }
 }
 
