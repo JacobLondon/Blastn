@@ -105,11 +105,11 @@ static void align(std::string query_file, std::string subject_file)
      * Get HSP's from the extended pairs
      */
 
-    std::cout << "Formatting " << extended_pairs.size() << " of HSP's..." << std::endl;
+    std::cout << "Formatting " << extended_pairs.size() << " HSPs..." << std::endl;
     auto hsps = Blastn::format_hsps(extended_pairs, query, subject, Blastn::Lambda, Blastn::Kappa, subject_length);
     std::cout << std::endl;
 
-    std::cout << "Sorting " << hsps.size() << " HSP's..." << std::endl;
+    std::cout << "Sorting " << hsps.size() << " HSPs..." << std::endl;
     auto sorted_hsps = Blastn::sort(hsps);
     std::cout << std::endl;
 
