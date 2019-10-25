@@ -7,17 +7,20 @@ Match::Match(string word, vector<u32> subject_indices, vector<u32> query_indices
 {}
 
 AdjacentPair::AdjacentPair(string word1, string word2, u32 dindex1, u32 qindex1, u32 dindex2, u32 qindex2)
-    : word1{ word1 }, word2{ word2 }, dindex1{ dindex1 }, dindex2{ dindex2 }, qindex1{ qindex1 }, qindex2{ qindex2 }
+    : word1{ word1 }, word2{ word2 }, sindex1{ dindex1 }, sindex2{ dindex2 }, qindex1{ qindex1 }, qindex2{ qindex2 }
 {
     length = (u32)word1.size();
 }
 
 Extended::Extended(string extended_pair, u32 dindex, u32 qindex, s32 score)
-    : extended_pair{ extended_pair }, dindex{ dindex }, qindex{ qindex }, score{ score }
+    : extended_pair{ extended_pair }, sindex{ dindex }, qindex{ qindex }, score{ score }
 {}
 
-Formatted::Formatted(string dname, string extended_pair, u32 dindex, u32 qindex, s32 score)
-    : dname{ dname }, extended_pair{ extended_pair }, dindex{ dindex }, qindex{ qindex }, score{ score }
+HSP::HSP(string subject_id, string query_id, string extended_pair, u32 sindex, u32 qindex, s32 sw_score)
+    : subject_id{ subject_id }, query_id{ query_id }, extended_pair{ extended_pair },
+      subject_start{ sindex },  subject_end{ sindex + extended_pair.size() },
+      query_start{ qindex },    query_end{ qindex + extended_pair.size() },
+      sw_score{ sw_score }
 {}
 
 string str(Matrix m) {
@@ -106,7 +109,7 @@ static string str(vector<Extended> ext)
     string builder = "[";
     for (auto& e : ext) {
         builder += "{ Ext Pair: "  + e.extended_pair          + ", ";
-        builder += "Subject Index: "  + std::to_string(e.dindex) + ", ";
+        builder += "Subject Index: "  + std::to_string(e.sindex) + ", ";
         builder += "Query Index: " + std::to_string(e.qindex) + " }, ";
     }
     builder += "]";
@@ -125,7 +128,7 @@ string str(ExtendedSequenceMap s)
     return builder;
 }
 
-static string str(vector<Formatted> fpairs)
+static string str(vector<HSP> hsps)
 {
     string builder = "";
     for (auto& fpair : fpairs) {
@@ -137,7 +140,7 @@ static string str(vector<Formatted> fpairs)
     return builder;
 }
 
-string str(FormattedSequenceMap s)
+string str(vector<HSP> s)
 {
     string builder = "";
     for (auto& qname_fpairs : s) {

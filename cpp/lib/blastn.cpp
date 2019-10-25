@@ -98,12 +98,16 @@ static void align(std::string query_file, std::string subject_file)
     auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, subject, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, Blastn::SwRatio);
     std::cout << std::endl;
 
-    std::cout << "Formatting " << extended_pairs.size() << " extended pairs..." << std::endl;
-    auto formatted_epairs = Blastn::format_data(extended_pairs);
+    /**
+     * Get HSP's from the extended pairs
+     */
+
+    std::cout << "Formatting " << extended_pairs.size() << " of HSP's..." << std::endl;
+    auto hsps = Blastn::format_hsps(extended_pairs);
     std::cout << std::endl;
 
-    std::cout << "Sorting " << extended_pairs.size() << " formatted, extended pairs..." << std::endl;
-    auto sorted_fpairs = Blastn::sort_filter(formatted_epairs);
+    std::cout << "Sorting " << hsps.size() << " HSP's..." << std::endl;
+    auto sorted_hsps = Blastn::sort_filter(hsps);
     std::cout << std::endl;
 
     std::cout << std::endl;
@@ -113,7 +117,7 @@ static void align(std::string query_file, std::string subject_file)
      */
 
     std::cout << "Writing to directory " << Blastn::OutputDir << "/" << std::endl;
-    auto formatted_output = Blastn::format_output(sorted_fpairs, subject);
+    auto formatted_output = Blastn::format_output(sorted_hsps, subject);
     Blastn::write_output(formatted_output, Blastn::OutputDir, Blastn::OutputExt);
 
     std::cout << std::endl;
@@ -130,15 +134,15 @@ int blastn(std::vector<std::string> args)
     string a;
 
     // files
-    if ((a = argparse(args, "-query")) != Blastn::Invalid)
+    if ((a = argparse(args, "-query"))       != Blastn::Invalid)
         Blastn::QueryFile = a;
-    if ((a = argparse(args, "-subject")) != Blastn::Invalid)
+    if ((a = argparse(args, "-subject"))     != Blastn::Invalid)
         Blastn::SubjectFile = a;
-    if ((a = argparse(args, "-out")) != Blastn::Invalid)
+    if ((a = argparse(args, "-out"))         != Blastn::Invalid)
         Blastn::OutputDir = a;
 
     // query/subject file descriptions
-    if ((a = argparse(args, "-sep")) != Blastn::Invalid)
+    if ((a = argparse(args, "-sep"))         != Blastn::Invalid)
         Blastn::Seperator = (char)a[0];
     if ((a = argparse(args, "-word-length")) != Blastn::Invalid)
         Blastn::SplitLength = atoi(a.c_str());
@@ -146,11 +150,11 @@ int blastn(std::vector<std::string> args)
     // smith waterman
     if ((a = argparse(args, "-sw-minscore")) != Blastn::Invalid)
         Blastn::SwMinscore = atoi(a.c_str());
-    if ((a = argparse(args, "-sw-match")) != Blastn::Invalid)
+    if ((a = argparse(args, "-sw-match"))    != Blastn::Invalid)
         Blastn::SwMatch = atoi(a.c_str());
     if ((a = argparse(args, "-sw-mismatch")) != Blastn::Invalid)
         Blastn::SwMismatch = atoi(a.c_str());
-    if ((a = argparse(args, "-sw-gap")) != Blastn::Invalid)
+    if ((a = argparse(args, "-sw-gap"))      != Blastn::Invalid)
         Blastn::SwGap = atoi(a.c_str());
     
     Blastn::SwRatio = (f32)SwMinscore / (f32)(SplitLength * SwMatch);
@@ -161,9 +165,9 @@ int blastn(std::vector<std::string> args)
     if ((a = argparse(args, "-dust-length")) != Blastn::Invalid)
         Blastn::DustPatternLength = atoi(a.c_str());
 
-    if ((a = argparse(args, "-lambda")) != Blastn::Invalid)
+    if ((a = argparse(args, "-lambda"))      != Blastn::Invalid)
         Blastn::Lambda = atoi(a.c_str());
-    if ((a = argparse(args, "-kappa")) != Blastn::Invalid)
+    if ((a = argparse(args, "-kappa"))       != Blastn::Invalid)
         Blastn::Kappa = atoi(a.c_str());
 
 

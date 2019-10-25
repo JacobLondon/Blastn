@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <unordered_map>
@@ -6,10 +7,14 @@
 
 namespace Blastn {
 
+const string SGap = "-";
+const char CGap = '-';
+const string Invalid = "\0";
+
 // type redefinitions
 
-using s32 = signed int;
-using u32 = unsigned int;
+using s32 = int32_t;
+using u32 = uint32_t;
 using f32 = float;
 
 using string = std::string;
@@ -23,45 +28,51 @@ using vector = std::vector<T>;
 /**
  * @brief The details for what a match has, a word, subject indices, query indices.
  */
-class Match {
-public:
+struct Match {
     Match(string word, vector<u32> subject_indices, vector<u32> query_indices);
     string word;
     vector<u32> subject_indices;
     vector<u32> query_indices;
 };
 
-class AdjacentPair {
-public:
-    AdjacentPair(string word1, string word2, u32 dindex1, u32 qindex1, u32 dindex2, u32 qindex2);
+struct AdjacentPair {
+    AdjacentPair(string word1, string word2, u32 sindex1, u32 qindex1, u32 sindex2, u32 qindex2);
     string word1, word2;
     u32 length;
-    u32 dindex1, dindex2;
+    u32 sindex1, sindex2;
     u32 qindex1, qindex2;
 };
 
-class Extended {
-public:
-    Extended(string extended_pair, u32 dindex, u32 qindex, s32 score);
+struct Extended {
+    Extended(string extended_pair, u32 sindex, u32 qindex, s32 score);
     string extended_pair;
-    u32 dindex;
+    u32 sindex;
     u32 qindex;
     s32 score;
 };
 
-class Formatted {
-public:
-    Formatted(string dname, string extended_pair, u32 dindex, u32 qindex, s32 score);
-    string dname;
+struct HSP {
+    HSP(string subject_id, string query_id, string extended_pair, u32 sindex, u32 qindex, s32 sw_score);
+
+    // calculated in constructor
+    string subject_id;
+    string query_id;
     string extended_pair;
-    u32 dindex;
-    u32 qindex;
-    s32 score;
+    u32 subject_start, subject_end;
+    u32 query_start, query_end;
+    s32 sw_score;
+
+    // calculate later
+
+    f32 percentage_id = 0;
+    u32 matches = 0;
+    u32 mismatches = 0;
+    u32 gaps = 0;
+
+    double evalue = 0;
+    f32 bitscore = 0;
 };
 
-const string SGap = "-";
-const char CGap = '-';
-const string Invalid = "\0";
 /**
  * @brief Used in Smith Waterman for the matrices
  */
@@ -114,9 +125,8 @@ using ExtendedSequenceMap = dict<string, ExtendedPairsMap>;
 string str(ExtendedSequenceMap s);
 
 /**
- * @brief Map a query to its Formatted, Extended pairs
+ * @brief Output data structure
  */
-using FormattedSequenceMap = dict<string, vector<Formatted>>;
-string str(FormattedSequenceMap s);
+string str(vector<HSP> s);
 
 } // Blastn
