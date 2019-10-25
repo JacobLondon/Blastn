@@ -7,10 +7,6 @@
 
 namespace Blastn {
 
-const string SGap = "-";
-const char CGap = '-';
-const string Invalid = "\0";
-
 // type redefinitions
 
 using s32 = int32_t;
@@ -24,6 +20,12 @@ using dict = std::unordered_map<T, U>;
 
 template<typename T>
 using vector = std::vector<T>;
+
+// convenient globals
+
+const string SGap = "-";
+const char CGap = '-';
+const string Invalid = "\0";
 
 /**
  * @brief The details for what a match has, a word, subject indices, query indices.

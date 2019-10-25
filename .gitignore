@@ -13,10 +13,7 @@ x64/
 
 a.out
 blastn
-blastn.out
-blastn_out.txt
-blastn_out/
-Hits-*
+result.txt
 
 *.fa.json
 *.fasta.json

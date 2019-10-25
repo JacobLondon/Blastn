@@ -5,7 +5,7 @@ namespace Blastn {
 
 struct MatchSingleton {
     string word;
-    u32 dindex;
+    u32 sindex;
     u32 qindex;
 };
 

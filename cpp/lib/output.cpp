@@ -4,7 +4,7 @@
 
 namespace Blastn {
 
-string format_output(vector<HSP>& hsps, SequenceMap& subject)
+string format_output(vector<HSP>& hsps)
 {
     string builder = "";
     for (auto& hsp : hsps) {

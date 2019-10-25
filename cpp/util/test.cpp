@@ -26,11 +26,11 @@ void extend()
     string word2 = "CT";
 
     u32 qindex1 = (u32)query.find(word1);
-    u32 dindex1 = (u32)data.find(word1);
+    u32 sindex1 = (u32)data.find(word1);
     u32 qindex2 = (u32)query.find(word2, qindex1 + word1.size());
-    u32 dindex2 = (u32)data.find(word2, dindex1 + word1.size());
+    u32 sindex2 = (u32)data.find(word2, sindex1 + word1.size());
 
-    Blastn::AdjacentPair pair(word1, word2, dindex1, qindex1, dindex2, qindex2);
+    Blastn::AdjacentPair pair(word1, word2, sindex1, qindex1, sindex2, qindex2);
 
     std::cout << "Query:\t\t" << query << std::endl;
     std::cout << "Data:\t\t" << data << std::endl;

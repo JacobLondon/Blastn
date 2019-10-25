@@ -113,14 +113,12 @@ static void align(std::string query_file, std::string subject_file)
     auto sorted_hsps = Blastn::sort(hsps);
     std::cout << std::endl;
 
-    std::cout << std::endl;
-
     /**
      * Blastn finished, write to file
      */
 
     std::cout << "Writing to file " << Blastn::OutputFile << std::endl;
-    string formatted_output = Blastn::format_output(sorted_hsps, subject);
+    string formatted_output = Blastn::format_output(sorted_hsps);
     Blastn::write_output(formatted_output, Blastn::OutputFile);
 
     std::cout << std::endl;

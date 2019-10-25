@@ -3,7 +3,7 @@
 
 namespace Blastn {
 
-string format_output(vector<HSP>& hsps, SequenceMap& subject);
+string format_output(vector<HSP>& hsps);
 
 void write_output(string data, string output_file);
 

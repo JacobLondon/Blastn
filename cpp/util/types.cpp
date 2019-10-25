@@ -6,20 +6,20 @@ Match::Match(string word, vector<u32> subject_indices, vector<u32> query_indices
     : word{ word }, subject_indices{ subject_indices }, query_indices{ query_indices }
 {}
 
-AdjacentPair::AdjacentPair(string word1, string word2, u32 dindex1, u32 qindex1, u32 dindex2, u32 qindex2)
-    : word1{ word1 }, word2{ word2 }, sindex1{ dindex1 }, sindex2{ dindex2 }, qindex1{ qindex1 }, qindex2{ qindex2 }
+AdjacentPair::AdjacentPair(string word1, string word2, u32 sindex1, u32 qindex1, u32 sindex2, u32 qindex2)
+    : word1{ word1 }, word2{ word2 }, sindex1{ sindex1 }, sindex2{ sindex2 }, qindex1{ qindex1 }, qindex2{ qindex2 }
 {
     length = (u32)word1.size();
 }
 
-Extended::Extended(string extended_pair, u32 dindex, u32 qindex, s32 score)
-    : extended_pair{ extended_pair }, sindex{ dindex }, qindex{ qindex }, score{ score }
+Extended::Extended(string extended_pair, u32 sindex, u32 qindex, s32 score)
+    : extended_pair{ extended_pair }, sindex{ sindex }, qindex{ qindex }, score{ score }
 {}
 
 HSP::HSP(string subject_id, string query_id, string extended_pair, u32 sindex, u32 qindex, s32 sw_score)
     : subject_id{ subject_id }, query_id{ query_id }, extended_pair{ extended_pair },
-      subject_start{ sindex },  subject_end{ sindex + extended_pair.size() },
-      query_start{ qindex },    query_end{ qindex + extended_pair.size() },
+      subject_start{ sindex },  subject_end{ sindex + (u32)extended_pair.size() },
+      query_start{ qindex },    query_end{ qindex + (u32)extended_pair.size() },
       sw_score{ sw_score }
 {}
 
@@ -55,9 +55,9 @@ static string str(vector<u32> ints)
 string str(IndexedSequenceMap s)
 {
     string builder = "";
-    for (auto& dname_queries : s) {
-        for (auto& qname_indices : dname_queries.second) {
-            builder += dname_queries.first + "\t" + qname_indices.first;
+    for (auto& sname_queries : s) {
+        for (auto& qname_indices : sname_queries.second) {
+            builder += sname_queries.first + "\t" + qname_indices.first;
             builder += str(qname_indices.second) + "\n";
         }
     }
@@ -67,10 +67,10 @@ string str(IndexedSequenceMap s)
 string str(MatchedSequenceMap s)
 {
     string builder = "";
-    for (auto& dname_queries : s) {
-        for (auto& qname_matches : dname_queries.second) {
+    for (auto& sname_queries : s) {
+        for (auto& qname_matches : sname_queries.second) {
             for (auto& match : qname_matches.second) {
-                builder += dname_queries.first + "\t" + qname_matches.first;
+                builder += sname_queries.first + "\t" + qname_matches.first;
                 builder += "\t" + match.word;
                 builder += "\tSubject Indices:  " + str(match.subject_indices);
                 builder += "\tMatch Indices: " + str(match.query_indices) + "\n";
@@ -95,9 +95,9 @@ static string str(vector<AdjacentPair> pairs)
 string str(PairedSequenceMap s)
 {
     string builder = "";
-    for (auto& dname_queries : s) {
-        for (auto& qname_pairs : dname_queries.second) {
-            builder += dname_queries.first + "\t" + qname_pairs.first;
+    for (auto& sname_queries : s) {
+        for (auto& qname_pairs : sname_queries.second) {
+            builder += sname_queries.first + "\t" + qname_pairs.first;
             builder += str(qname_pairs.second) + "\n";
         }
     }
@@ -119,9 +119,9 @@ static string str(vector<Extended> ext)
 string str(ExtendedSequenceMap s)
 {
     string builder = "";
-    for (auto& dname_queries : s) {
-        for (auto& qname_ext : dname_queries.second) {
-            builder += dname_queries.first + "\t" + qname_ext.first;
+    for (auto& sname_queries : s) {
+        for (auto& qname_ext : sname_queries.second) {
+            builder += sname_queries.first + "\t" + qname_ext.first;
             builder += str(qname_ext.second) + "\n";
         }
     }

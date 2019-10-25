@@ -40,75 +40,75 @@ Extended extend_and_score(AdjacentPair pair,
                           bool printing)
 {
     // find left most indices
-    u32 dleftindex  = MIN(pair.dindex1, pair.dindex2);
+    u32 sleftindex  = MIN(pair.sindex1, pair.sindex2);
     u32 qleftindex  = MIN(pair.qindex1, pair.qindex2);
-    u32 drightindex = MAX(pair.dindex1, pair.dindex2);
+    u32 srightindex = MAX(pair.sindex1, pair.sindex2);
     u32 qrightindex = MAX(pair.qindex1, pair.qindex2);
 
     // build string
     string qextended = query.substr(qleftindex, pair.length);
-    string dextended = subject.substr(dleftindex, pair.length);
+    string sextended = subject.substr(sleftindex, pair.length);
 
     // running Smith Waterman score
     s32 running_score = 0;
 
     // extend left
     s32 qexindex = qleftindex;
-    s32 dexindex = dleftindex;
-    while (qexindex - 1 >= 0 && dexindex - 1 >= 0) {
-        qexindex--; dexindex--;
+    s32 sexindex = sleftindex;
+    while (qexindex - 1 >= 0 && sexindex - 1 >= 0) {
+        qexindex--; sexindex--;
         qextended = query[qexindex] + qextended;
-        dextended = subject[dexindex] + dextended;
+        sextended = subject[sexindex] + sextended;
         if (score) {
-            running_score = smith_waterman(qextended, dextended, match, mismatch, gap, true);
+            running_score = smith_waterman(qextended, sextended, match, mismatch, gap, true);
             if (running_score < ratio * qextended.size() * match)
                 return Extended{ Invalid, 0, 0, 0 };
         }
     }
 
     // the left-most index in the subject
-    u32 dindex = (u32)dexindex;
+    u32 sindex = (u32)sexindex;
     u32 qindex = (u32)qexindex;
     
     // extend left pair to the right
     qexindex = qleftindex + pair.length - 1;
-    dexindex = dleftindex + pair.length - 1;
-    while ((u32)qexindex + 1 < qrightindex && (u32)dexindex + 1 < drightindex) {
-        qexindex++; dexindex++;
+    sexindex = sleftindex + pair.length - 1;
+    while ((u32)qexindex + 1 < qrightindex && (u32)sexindex + 1 < srightindex) {
+        qexindex++; sexindex++;
         qextended = qextended + query[qexindex];
-        dextended = dextended + subject[dexindex];
+        sextended = sextended + subject[sexindex];
     }
 
     // extend right with gaps until qextended aligns with subject
-    while ((u32)dexindex + 1 < drightindex) {
-        qexindex++; dexindex++;
+    while ((u32)sexindex + 1 < srightindex) {
+        qexindex++; sexindex++;
         qextended = qextended + SGap;
-        dextended = dextended + subject[dexindex];
+        sextended = sextended + subject[sexindex];
     }
 
     // append the right pair
     qextended = qextended + query.substr(qrightindex, pair.length);
-    dextended = dextended + subject.substr(drightindex, pair.length);
+    sextended = sextended + subject.substr(srightindex, pair.length);
 
     // extend right
     qexindex = qrightindex + pair.length - 1;
-    dexindex = drightindex + pair.length - 1;
-    while ((s32)(qexindex + 1) < (s32)query.size() && (s32)(dexindex + 1) < (s32)subject.size()) {
-        qexindex++; dexindex++;
+    sexindex = srightindex + pair.length - 1;
+    while ((s32)(qexindex + 1) < (s32)query.size() && (s32)(sexindex + 1) < (s32)subject.size()) {
+        qexindex++; sexindex++;
         qextended = qextended + query[qexindex];
-        dextended = dextended + subject[dexindex];
+        sextended = sextended + subject[sexindex];
         if (score) {
-            running_score = smith_waterman(qextended, dextended, match, mismatch, gap, true);
+            running_score = smith_waterman(qextended, sextended, match, mismatch, gap, true);
             if (running_score < ratio * qextended.size() * match)
                 return Extended{ Invalid, 0, 0, 0 };
         }
     }
 
     if (printing) {
-        std::cout << "Subject Ext:\t" << dextended << std::endl;
+        std::cout << "Subject Ext:\t" << sextended << std::endl;
         std::cout << "Quer Ext:\t" << qextended << std::endl;
     }
-    return Extended{ qextended, dindex, qindex, running_score };
+    return Extended{ qextended, sindex, qindex, running_score };
 }
 
 ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
@@ -123,15 +123,15 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
     bool found = false;
     Progress progress{ pairs.size() };
 
-    for (auto& dname_quermap : pairs) {
+    for (auto& sname_quermap : pairs) {
         ExtendedPairsMap temp;
-        for (auto& qname_pairvec : dname_quermap.second) {
+        for (auto& qname_pairvec : sname_quermap.second) {
             for (auto adjacent_pair : qname_pairvec.second) {
 
                 Extended ext = extend_and_score(adjacent_pair,
                                                 query[qname_pairvec.first],
-                                                data[dname_quermap.first],   // sw?    print?
-                                                match, mismatch, gap, ratio, true, false);
+                                                subject[sname_quermap.first],// sw?    print?
+                                                match, mismatch, gap, ratio, false, false);
                 // the word scored above the minscore
                 if (ext.extended_pair == Invalid)
                     continue;
@@ -139,7 +139,7 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                 // check to see if the extended pair was recored yet
                 found = false;
                 for (auto& e : temp[qname_pairvec.first]) {
-                    if (ext.dindex == e.dindex) {
+                    if (ext.sindex == e.sindex) {
                         found = true;
                         break;
                     }
@@ -155,7 +155,7 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
             }
         }
         if (!temp.empty())
-            result[dname_quermap.first] = temp;
+            result[sname_quermap.first] = temp;
 
         progress.update();
     }

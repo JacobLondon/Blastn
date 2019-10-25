@@ -10,22 +10,22 @@ MatchedSequenceMap match_filter(IndexedSequenceMap& query, IndexedSequenceMap& s
     Progress progress { subject.size() };
 
     // traverse the subject's IndexedSequenceMap
-    for (auto& dname_wordmap : subject) {
+    for (auto& sname_wordmap : subject) {
         MatchedMatchesMap matches;
         // traverse the query IndexedSequenceMap, create Match objects and insert to exact_matches
         for (auto& qname_wordmap : query) {
             for (auto& qword_indices : qname_wordmap.second) {
                 // skip if the subject doesn't have query word
-                if (dname_wordmap.second.find(qword_indices.first) == dname_wordmap.second.end())
+                if (sname_wordmap.second.find(qword_indices.first) == sname_wordmap.second.end())
                     continue;
                 // the current word in the query is also in subject but not inserted yet
-                if (dname_wordmap.second.find(qword_indices.first) == dname_wordmap.second.end())
+                if (sname_wordmap.second.find(qword_indices.first) == sname_wordmap.second.end())
                     matches[qname_wordmap.first] = vector<Match> {};
                 
                 // the current word in the query is also in subject, and the vector exists
                 matches[qname_wordmap.first].emplace_back(
                     qword_indices.first,
-                    dname_wordmap.second[qword_indices.first],
+                    sname_wordmap.second[qword_indices.first],
                     qword_indices.second
                 );
             }
@@ -33,7 +33,7 @@ MatchedSequenceMap match_filter(IndexedSequenceMap& query, IndexedSequenceMap& s
 
         // record if there were matches found
         if (!matches.empty())
-            exact_matches[dname_wordmap.first] = matches;
+            exact_matches[sname_wordmap.first] = matches;
 
         progress.update();
     }
