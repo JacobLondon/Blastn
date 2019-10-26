@@ -4,21 +4,23 @@
 
 namespace Blastn {
 
+static const string SEPERATOR = "\t\t";
+
 string format_output(vector<HSP>& hsps)
 {
     string builder = "";
     for (auto& hsp : hsps) {
-        builder += hsp.query_id   + "\t";
-        builder += hsp.subject_id + "\t";
-        builder += std::to_string(hsp.percentage_id * 100) + "\t";
-        builder += std::to_string(hsp.matches)       + "\t";
-        builder += std::to_string(hsp.mismatches)    + "\t";
-        builder += std::to_string(hsp.gaps)          + "\t";
-        builder += std::to_string(hsp.query_start)   + "\t";
-        builder += std::to_string(hsp.query_end)     + "\t";
-        builder += std::to_string(hsp.subject_start) + "\t";
-        builder += std::to_string(hsp.subject_end)   + "\t";
-        builder += std::to_string(hsp.evalue)        + "\t";
+        builder += hsp.query_id   + SEPERATOR;
+        builder += hsp.subject_id + SEPERATOR;
+        builder += std::to_string(hsp.percentage_id * 100) + SEPERATOR;
+        builder += std::to_string(hsp.matches)       + SEPERATOR;
+        builder += std::to_string(hsp.mismatches)    + SEPERATOR;
+        builder += std::to_string(hsp.gaps)          + SEPERATOR;
+        builder += std::to_string(hsp.query_start)   + SEPERATOR;
+        builder += std::to_string(hsp.query_end)     + SEPERATOR;
+        builder += std::to_string(hsp.subject_start) + SEPERATOR;
+        builder += std::to_string(hsp.subject_end)   + SEPERATOR;
+        builder += std::to_string(hsp.evalue)        + SEPERATOR;
         builder += std::to_string(hsp.bitscore)      + "\n";
     }
     return builder;

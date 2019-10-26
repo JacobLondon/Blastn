@@ -31,7 +31,7 @@ string QueryFile  = "../data/SRR7236689--ARG830.fa";
 string SubjectFile   = "../data/Gn-SRR7236689_contigs.fasta";
 string OutputFile = "result.txt";
 
-string TestQueryFile = "../data/small_query.fa";
-string TestDataFile  = "../data/small_data.fasta";
+//string /*Test*/QueryFile = "../data/query_small.fa";
+//string /*Test*/SubjectFile  = "../data/subject_small.fasta";
 
 } // Blastn

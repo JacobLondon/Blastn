@@ -32,8 +32,8 @@ static void calculate_score(HSP& hsp,
                             size_t subject_length,
                             size_t query_length)
 {
-    hsp.bitscore = (lambda * hsp.sw_score - log(kappa)) / log(2);
-    hsp.evalue   = subject_length * query_length / (powf64(2, hsp.bitscore));
+    hsp.bitscore = (double)(lambda * hsp.sw_score - log(kappa)) / log(2);
+    hsp.evalue   = (double)(subject_length * query_length) / (powf64(2, hsp.bitscore));
 }
 
 static void record_similarity(HSP& hsp, SequenceMap& subject)
