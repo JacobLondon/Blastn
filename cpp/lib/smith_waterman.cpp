@@ -272,13 +272,13 @@ static void diag(s32 *score_matrix, s32 rows, s32 cols)
     /**
      * Traverse as follows for a 4x4
      * Note that the matrix is not guaranteed to be square, just ignore the 2 corners
-     * 00 01 02 XX
-     * 10 11 12 13
-     * 20 21 22 23
+     * XX XX XX XX
+     * XX 11 12 13
+     * XX 21 22 23
      * XX 31 32 33
      * 
      * Where the pairs are repeated diagonal down left \
-     * (20, 31), (10, 21, 32), (00, 11, 22, 33), (01, 12, 23), (02, 13)
+     * (31), (21, 32), (11, 22, 33), (12, 23), (13)
      */
 
     for (i = rows, j = 0; j < rows;) {
