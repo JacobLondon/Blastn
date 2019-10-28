@@ -23,4 +23,6 @@ s32 smith_waterman(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap,
 
 s32 smith_waterman_s(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap);
 
+s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap);
+
 } // Blastn

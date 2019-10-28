@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <array>
+#include <thread>
+
 #include "smith_waterman.hpp"
 
 namespace Blastn {
@@ -10,6 +12,10 @@ enum Direction {
     UP,
     DIAG
 };
+
+/**
+ * Standard Smith-Waterman
+ */
 
 // return the maximum of three values or zero
 static inline Greatest greatest_max(s32 left, s32 up, s32 diag)
@@ -176,6 +182,10 @@ s32 smith_waterman(string& seq1,
     return max_score;
 }
 
+/**
+ * Smith-Waterman Smaller
+ */
+
 static inline s32 single_max(s32 left, s32 up, s32 diag)
 {
     s32 max = 0;
@@ -196,7 +206,7 @@ s32 smith_waterman_s(string& seq1, string& seq2, s32 match, s32 mismatch, s32 ga
     u32 cols = (u32)seq2.size();
     u32 i, j;
 
-    u32 *score_matrix = (u32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
+    s32 *score_matrix = (s32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
     s32 max_score = 0;
 
     // to fill the matrices
@@ -221,6 +231,101 @@ s32 smith_waterman_s(string& seq1, string& seq2, s32 match, s32 mismatch, s32 ga
     }
     
     free(score_matrix);
+    return max_score;
+}
+
+/**
+ * Smith-Waterman Multi-Threaded
+ */
+
+// avoid passing
+static s32 Match;
+static s32 Mismatch;
+static s32 Gap;
+
+static void left(s32 *score_matrix, s32 rows, s32 cols)
+{
+    s32 i, j;
+
+    for (j = 1; j <= rows; j++) {
+        for (i = 1; i <= cols; i++) {
+            score_matrix[i * cols + j] = score_matrix[((i - 1) * cols) + j] + Gap;
+        }
+    }
+}
+
+static void up(s32 *score_matrix, s32 rows, s32 cols)
+{
+    s32 i, j;
+
+    for (i = 1; i <= cols; i++) {
+        for (j = 1; j <= rows; j++) {
+            score_matrix[i * cols + j] = score_matrix[(i * cols) + j - 1] + Gap;
+        }
+    }
+}
+
+static void diag(s32 *score_matrix, s32 rows, s32 cols)
+{
+    s32 i, j, k;
+
+    /**
+     * Traverse as follows for a 4x4
+     * Note that the matrix is not guaranteed to be square, just ignore the 2 corners
+     * 00 01 02 XX
+     * 10 11 12 13
+     * 20 21 22 23
+     * XX 31 32 33
+     * 
+     * Where the pairs are repeated diagonal down left \
+     * (20, 31), (10, 21, 32), (00, 11, 22, 33), (01, 12, 23), (02, 13)
+     */
+
+    for (i = rows, j = 0; j < rows;) {
+        for (k = 0; k < rows - i || k < cols - j; k++) {
+            //score_matrix[i * cols + j] = score_matrix[((i - 1) * cols) + j - 1] + score_alignment(seq1[i - 1], seq2[j - 1], match, mismatch, gap);
+        }
+    }
+
+}
+
+s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap)
+{
+    Match = match;
+    Mismatch = mismatch;
+    Gap = gap;
+
+    u32 rows = (u32)seq1.size();
+    u32 cols = (u32)seq2.size();
+    s32 max_score = 0;
+
+    s32 *score_left = (s32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
+    s32 *score_up   = (s32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
+    s32 *score_diag = (s32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
+
+    // threads...
+    std::thread calc_left(left, score_left, rows, cols);
+    std::thread   calc_up(up,   score_up,   rows, cols);
+
+    // no need to multi thread all, diag should be slowest, run in this thread
+    diag(score_diag, rows, cols);
+    calc_left.join();
+    calc_up.join();
+
+    // find greatest value, traverse backwards,
+    // traverse greater percent of the array
+    for (u32 i = (cols + 1) * (rows + 1); i >= (cols + 1) * (rows + 1) / 4; i--) {
+        if (score_left[i] >= max_score)
+            max_score = score_left[i];
+        if (score_up[i] >= max_score)
+            max_score = score_up[i];
+        if (score_diag[i] >= max_score)
+            max_score = score_diag[i];
+    }
+
+    free(score_left);
+    free(score_up);
+    free(score_diag);
     return max_score;
 }
 
