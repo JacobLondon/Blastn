@@ -12,7 +12,7 @@ enum Direction {
 };
 
 // return the maximum of three values or zero
-inline Greatest max(s32 left, s32 up, s32 diag)
+static inline Greatest greatest_max(s32 left, s32 up, s32 diag)
 {
     Greatest max = { 0, 0 };
 
@@ -32,7 +32,7 @@ inline Greatest max(s32 left, s32 up, s32 diag)
     return max;
 }
 
-inline s32 score_alignment(char alpha, char beta, s32 match, s32 mismatch, s32 gap)
+static inline s32 score_alignment(char alpha, char beta, s32 match, s32 mismatch, s32 gap)
 {
     if (alpha == beta)
         return match;
@@ -84,7 +84,7 @@ s32 smith_waterman(string& seq1,
             diag = score_matrix[i - 1][j - 1] + score_alignment(seq1[i - 1], seq2[j - 1], match, mismatch, gap);
 
             // find greatest: load direction into point_matrix, score into score_matrix
-            greatest = max(left, up, diag);
+            greatest = greatest_max(left, up, diag);
             point_matrix[i][j] = greatest.index;
             score_matrix[i][j] = greatest.value;
 
@@ -173,6 +173,54 @@ s32 smith_waterman(string& seq1,
     std::cout << "Aligned B: " << aligned2 << std::endl;
     std::cout << "   Output: " << output_alignment << std::endl;
 
+    return max_score;
+}
+
+static inline s32 single_max(s32 left, s32 up, s32 diag)
+{
+    s32 max = 0;
+
+    if (left > 0)
+        max = left;
+    if (up > max)
+        max = up;
+    if (diag > max)
+        max = diag;
+
+    return max;
+}
+
+s32 smith_waterman_s(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap)
+{
+    u32 rows = (u32)seq1.size();
+    u32 cols = (u32)seq2.size();
+    u32 i, j;
+
+    u32 *score_matrix = (u32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
+    s32 max_score = 0;
+
+    // to fill the matrices
+    s32 left, up, diag;
+
+    // fill score matrix
+    for (i = 1; i <= cols; i++) {
+        for (j = 1; j <= rows; j++) {
+
+            // determine possible scores of the current cell
+            left = score_matrix[((i - 1) * cols) + j    ] + gap;
+            up   = score_matrix[ (i * cols)      + j - 1] + gap;
+            diag = score_matrix[((i - 1) * cols) + j - 1] + score_alignment(seq1[i - 1], seq2[j - 1], match, mismatch, gap);
+
+            // find greatest: load direction into point_matrix, score into score_matrix
+            score_matrix[i * cols + j] = single_max(left, up, diag);
+
+            // record high score
+            if ((s32)score_matrix[i * cols + j] >= (s32)max_score)
+                max_score = score_matrix[i * cols + j];
+        }
+    }
+    
+    free(score_matrix);
     return max_score;
 }
 

@@ -60,7 +60,7 @@ Extended extend_and_score(AdjacentPair pair,
         qextended = query[qexindex] + qextended;
         sextended = subject[sexindex] + sextended;
         if (score) {
-            running_score = smith_waterman(qextended, sextended, match, mismatch, gap, true);
+            running_score = smith_waterman_s(qextended, sextended, match, mismatch, gap);
             if (running_score < ratio * qextended.size() * match)
                 return Extended{ Invalid, 0, 0, 0 };
         }
@@ -98,7 +98,7 @@ Extended extend_and_score(AdjacentPair pair,
         qextended = qextended + query[qexindex];
         sextended = sextended + subject[sexindex];
         if (score) {
-            running_score = smith_waterman(qextended, sextended, match, mismatch, gap, true);
+            running_score = smith_waterman_s(qextended, sextended, match, mismatch, gap);
             if (running_score < ratio * qextended.size() * match)
                 return Extended{ Invalid, 0, 0, 0 };
         }
