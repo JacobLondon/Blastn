@@ -299,9 +299,11 @@ s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 g
     u32 cols = (u32)seq2.size();
     s32 max_score = 0;
 
-    s32 *score_left = (s32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
-    s32 *score_up   = (s32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
-    s32 *score_diag = (s32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
+    // create shared memory, store scores in each 1/3
+    s32 *shm = (s32 *)calloc(3 * (cols + 1) * (rows + 1), sizeof(u32));
+    s32 *score_left = shm;
+    s32 *score_up   = shm + (cols + 1) * (rows + 1);
+    s32 *score_diag = shm + 2 * (cols + 1) * (rows + 1);
 
     // threads...
     std::thread calc_left(left, score_left, rows, cols);
@@ -323,9 +325,7 @@ s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 g
             max_score = score_diag[i];
     }
 
-    free(score_left);
-    free(score_up);
-    free(score_diag);
+    free(shm);
     return max_score;
 }
 
