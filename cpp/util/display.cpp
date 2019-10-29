@@ -8,7 +8,7 @@ Progress::Progress(size_t max)
 void Progress::update()
 {
     iteration++;
-    std::printf("\r[%d / %d]", (int)iteration, (int)max);
+    std::printf("\rIteration [%d / %d]", (int)iteration, (int)max);
     fflush(stdout);
     if (iteration == max)
         std::cout << std::endl;

@@ -23,17 +23,19 @@ Run Blastn on specified data. For the example data, the extend step may take aro
   * The generated binary will be `blastn`.
 
 ## Command Line Arguments
-| Argument | Description                   | Default |
-|----------|-------------------------------|---------|
-| `-q`     | Path to query file            | Yes
-| `-db`    | Path to data file             | Yes
-| `-sp`    | Query / data name seperator   | `>`
-| `-l`     | Word length                   | `11`
-| `-m`     | Smith Waterman min score      | Yes
-| `-ma`    | Smith Waterman match score    | `2`
-| `-mi`    | Smith Waterman mismatch score | `-3`
-| `-g`     | Smith Waterman gap score      | `-1`
-| `-dt`    | Dust threshold                | Yes
-| `-dl`    | Dust pattern length           | `3`
-| `-o`     | Output file                   | `blastn_out.txt`
-| `-test`  | Expects `dust`, `extend`, `match`, `pairs`, `sequence`, `sw` or `smith waterman`, `sort`, `split` | NA
+| Argument       | Description                   | Default Value |
+|----------------|-------------------------------|---------|
+| `-query`       | Path to query file            | `data/SRR7236689--ARG830.fa`
+| `-subject`     | Path to data file             | `data/Gn-SRR7236689_contigs.fasta`
+| `-out`         | Output file                   | `result.txt`
+| `-sep`         | Query / subject seperator     | `>`
+| `-word-length` | Word length                   | `11`
+| `-sw-minscore` | Smith Waterman min score      | `20`
+| `-sw-match`    | Smith Waterman match score    | `2`
+| `-sw-mismatch` | Smith Waterman mismatch score | `-3`
+| `-sw-gap`      | Smith Waterman gap score      | `-1`
+| `-dust-thresh` | Dust threshold                | `0.1`
+| `-dust-length` | Dust pattern length           | `3`
+| `-lambda`      | E-value lambda constant       | `0.267`
+| `-kappa`       | E-value kappa constant        | `0.041`
+| `-test`        | Expects `dust`, `extend`, `match`, `pairs`, `sequence`, `sw` or `smith waterman`, `sort`, `split` | NA

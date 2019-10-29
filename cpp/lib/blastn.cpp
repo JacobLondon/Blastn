@@ -60,15 +60,15 @@ static void align(std::string query_file, std::string subject_file)
      * Data formatting
      */
 
-    std::cout << "Reading " << query_file << "..." << std::endl;
+    std::cout << "[1 / 11] Reading " << query_file << "..." << std::endl;
     auto query = Blastn::build_sequence(query_file, Blastn::Seperator);
-    std::cout << "Formatting " << query.size() << " query entries..." << std::endl;
+    std::cout << "[2 / 11] Formatting " << query.size() << " query entries..." << std::endl;
     auto query_prepared = Blastn::split_sequence(query, Blastn::SplitLength);
     std::cout << std::endl;
 
-    std::cout << "Reading " << subject_file << "..." << std::endl;
+    std::cout << "[3 / 11] Reading " << subject_file << "..." << std::endl;
     auto subject = Blastn::build_sequence(subject_file, Blastn::Seperator);
-    std::cout << "Formatting " << subject.size() << " subject entries..." << std::endl;
+    std::cout << "[4 / 11] Formatting " << subject.size() << " subject entries..." << std::endl;
     auto subject_prepared = Blastn::split_sequence(subject, Blastn::SplitLength);
     std::cout << std::endl;
 
@@ -79,7 +79,7 @@ static void align(std::string query_file, std::string subject_file)
      * Dust filtering
      */
 
-    std::cout << "Dust Complexity Filtering " << query.size() << " query entries..." << std::endl;
+    std::cout << "[5 / 11] Dust Complexity Filtering " << query.size() << " query entries..." << std::endl;
     auto query_dustfiltered = Blastn::dust_filter(query_prepared, Blastn::DustThreshold, Blastn::DustPatternLength);
 
     std::cout << std::endl;
@@ -89,15 +89,15 @@ static void align(std::string query_file, std::string subject_file)
      * all on smaller subject subsets
      */
 
-    std::cout << "Matching " << query.size() << " query entries against " << subject.size() << " subject entries..." << std::endl;
+    std::cout << "[6 / 11] Matching " << query.size() << " query entries against " << subject.size() << " subject entries..." << std::endl;
     auto exact_matches = Blastn::match_filter(query_dustfiltered, subject_prepared);
     std::cout << std::endl;
 
-    std::cout << "Pairing " << exact_matches.size() << " words with each other..." << std::endl;
+    std::cout << "[7 / 11] Pairing " << exact_matches.size() << " words with each other..." << std::endl;
     auto adjacent_pairs = Blastn::pair_filter(exact_matches, query);
     std::cout << std::endl;
 
-    std::cout << "Extending " << adjacent_pairs.size() << " paired words..." << std::endl;
+    std::cout << "[8 / 11] Extending " << adjacent_pairs.size() << " paired words..." << std::endl;
     auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, subject, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, Blastn::SwRatio);
     std::cout << std::endl;
 
@@ -105,11 +105,11 @@ static void align(std::string query_file, std::string subject_file)
      * Get HSP's from the extended pairs
      */
 
-    std::cout << "Formatting " << extended_pairs.size() << " HSPs..." << std::endl;
+    std::cout << "[9 / 11] Formatting " << extended_pairs.size() << " HSPs..." << std::endl;
     auto hsps = Blastn::format_hsps(extended_pairs, query, subject, Blastn::Lambda, Blastn::Kappa, subject_length);
     std::cout << std::endl;
 
-    std::cout << "Sorting " << hsps.size() << " HSPs..." << std::endl;
+    std::cout << "[10 / 11] Sorting " << hsps.size() << " HSPs..." << std::endl;
     auto sorted_hsps = Blastn::sort(hsps);
     std::cout << std::endl;
 
@@ -117,7 +117,7 @@ static void align(std::string query_file, std::string subject_file)
      * Blastn finished, write to file
      */
 
-    std::cout << "Writing to file " << Blastn::OutputFile << std::endl;
+    std::cout << "[11 / 11] Writing to file " << Blastn::OutputFile << std::endl;
     string formatted_output = Blastn::format_output(sorted_hsps);
     Blastn::write_output(formatted_output, Blastn::OutputFile);
 
