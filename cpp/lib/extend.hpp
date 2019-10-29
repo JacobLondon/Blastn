@@ -29,7 +29,8 @@ Extended extend_and_score(AdjacentPair pair,
                           s32 gap,
                           f32 ratio,
                           bool score,
-                          bool printing);
+                          bool printing,
+                          u32 flag);
 
 /*
  * @brief: Given adjacent pairs, the subject and query, extend the pairs from the query to the subject.

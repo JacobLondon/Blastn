@@ -29,6 +29,23 @@ namespace Blastn {
  *          7. Done!
  */
 
+static inline s32 sw_score(string qextended, string sextended, s32 match, s32 mismatch, s32 gap, u32 flag)
+{
+    switch (flag) {
+        case SW::NO_PRESERVE_MEM:
+            return smith_waterman_s(qextended, sextended, match, mismatch, gap);
+        case SW::PRESERVE_MEM:
+            return 0;
+        case SW::MULTI_THREAD:
+            return smith_waterman_mt(qextended, sextended, match, mismatch, gap);
+        case SW::FPGA:
+            return 0;
+        default:
+            std::cerr << "Error: Invalid flag for Extending " << flag << std::endl;
+            std::exit(-1);
+        }
+}
+
 Extended extend_and_score(AdjacentPair pair,
                           string query,
                           string subject,
@@ -37,7 +54,8 @@ Extended extend_and_score(AdjacentPair pair,
                           s32 gap,
                           f32 ratio,
                           bool score,
-                          bool printing)
+                          bool printing,
+                          u32 flag)
 {
     // find left most indices
     u32 sleftindex  = MIN(pair.sindex1, pair.sindex2);
@@ -59,8 +77,10 @@ Extended extend_and_score(AdjacentPair pair,
         qexindex--; sexindex--;
         qextended = query[qexindex] + qextended;
         sextended = subject[sexindex] + sextended;
+
         if (score) {
-            running_score = smith_waterman_s(qextended, sextended, match, mismatch, gap);
+            running_score = sw_score(qextended, sextended, match, mismatch, gap, flag);
+
             if (running_score < ratio * qextended.size() * match)
                 return Extended{ Invalid, 0, 0, 0 };
         }
@@ -97,8 +117,10 @@ Extended extend_and_score(AdjacentPair pair,
         qexindex++; sexindex++;
         qextended = qextended + query[qexindex];
         sextended = sextended + subject[sexindex];
+
         if (score) {
-            running_score = smith_waterman_s(qextended, sextended, match, mismatch, gap);
+            running_score = sw_score(qextended, sextended, match, mismatch, gap, flag);
+
             if (running_score < ratio * qextended.size() * match)
                 return Extended{ Invalid, 0, 0, 0 };
         }
@@ -130,8 +152,8 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
 
                 Extended ext = extend_and_score(adjacent_pair,
                                                 query[qname_pairvec.first],
-                                                subject[sname_quermap.first], // sw?  print?
-                                                match, mismatch, gap, ratio,   true, false);
+                                                subject[sname_quermap.first], // sw?  print? flag?
+                                                match, mismatch, gap, ratio,   true, false, NO_PRESERVE_MEM);
                 // the word scored above the minscore
                 if (ext.extended_pair == Invalid)
                     continue;

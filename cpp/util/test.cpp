@@ -51,7 +51,8 @@ void extend()
         Blastn::SwGap,
         Blastn::SwRatio,
         score,
-        printing
+        printing,
+        SW::NO_PRESERVE_MEM
     );
 
     std::cout << result.extended_pair << std::endl;

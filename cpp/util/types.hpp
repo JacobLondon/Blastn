@@ -27,6 +27,13 @@ const string SGap = "-";
 const char CGap = '-';
 const string Invalid = "\0";
 
+enum SW {
+    NO_PRESERVE_MEM,
+    PRESERVE_MEM,
+    MULTI_THREAD,
+    FPGA,
+};
+
 /**
  * @brief The details for what a match has, a word, subject indices, query indices.
  */
