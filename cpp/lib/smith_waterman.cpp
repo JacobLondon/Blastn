@@ -242,32 +242,38 @@ s32 smith_waterman_s(string& seq1, string& seq2, s32 match, s32 mismatch, s32 ga
 static s32 Match;
 static s32 Mismatch;
 static s32 Gap;
+static s32 Rows;
+static s32 Cols;
+static string Sequence1;
+static string Sequence2;
 
-static void left(s32 *score_matrix, s32 rows, s32 cols)
+static void left(s32 *score_matrix)
 {
     s32 i, j;
 
-    for (j = 1; j <= rows; j++) {
-        for (i = 1; i <= cols; i++) {
-            score_matrix[i * cols + j] = score_matrix[((i - 1) * cols) + j] + Gap;
+    for (j = 1; j <= Rows; j++) {
+        #pragma omp simd
+        for (i = 1; i <= Cols; i++) {
+            score_matrix[i * Cols + j] = score_matrix[((i - 1) * Cols) + j] + Gap;
         }
     }
 }
 
-static void up(s32 *score_matrix, s32 rows, s32 cols)
+static void up(s32 *score_matrix)
 {
     s32 i, j;
 
-    for (i = 1; i <= cols; i++) {
-        for (j = 1; j <= rows; j++) {
-            score_matrix[i * cols + j] = score_matrix[(i * cols) + j - 1] + Gap;
+    for (i = 1; i <= Cols; i++) {
+        #pragma omp simd
+        for (j = 1; j <= Rows; j++) {
+            score_matrix[i * Cols + j] = score_matrix[(i * Cols) + j - 1] + Gap;
         }
     }
 }
 
-static void diag(s32 *score_matrix, s32 rows, s32 cols)
+static void diag(s32 *score_matrix)
 {
-    s32 i, j, k;
+    s32 i, j, pt;
 
     /**
      * Traverse as follows for a 4x4
@@ -278,15 +284,35 @@ static void diag(s32 *score_matrix, s32 rows, s32 cols)
      * XX 31 32 33
      * 
      * Where the pairs are repeated diagonal down left \
-     * (31), (21, 32), (11, 22, 33), (12, 23), (13)
+     * With starting points: (31), (21, 32), (11, 22, 33), (12, 23), (13)
      */
 
-    for (i = rows, j = 0; j < rows;) {
-        for (k = 0; k < rows - i || k < cols - j; k++) {
-            //score_matrix[i * cols + j] = score_matrix[((i - 1) * cols) + j - 1] + score_alignment(seq1[i - 1], seq2[j - 1], match, mismatch, gap);
+    // hold the starting locations x1, y1, x2, y2, ...
+    s32 num_pts = 2 * ((Cols - 1) + (Rows - 1) - 1);
+    s32 *start_pts = (s32 *)calloc(num_pts, sizeof(s32));
+
+    // claim all starting locations
+    for (i = Cols - 1, j = 1, pt = 0; pt < num_pts; pt += 2) {
+        start_pts[pt] = i;
+        start_pts[pt + 1] = j;
+
+        if (i != 0)
+            i--;
+        else
+            j++;
+    }
+
+    // traverse for each starting point
+    #pragma omp simd
+    for (pt = 0; pt < num_pts; pt++) {
+        // traverse diagonally
+        for (i = start_pts[pt], j = start_pts[pt + 1]; i < Cols && j < Rows; i++, j++) {
+            score_matrix[i * Cols + j] = score_matrix[((i - 1) * Cols) + j - 1]
+                + score_alignment(Sequence1[i - 1], Sequence2[j - 1], Match, Mismatch, Gap);
         }
     }
 
+    free(start_pts);
 }
 
 s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap)
@@ -294,29 +320,31 @@ s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 g
     Match = match;
     Mismatch = mismatch;
     Gap = gap;
+    Rows = (u32)seq1.size();
+    Cols = (u32)seq2.size();
+    Sequence1 = seq1.c_str();
+    Sequence2 = seq2.c_str();
 
-    u32 rows = (u32)seq1.size();
-    u32 cols = (u32)seq2.size();
     s32 max_score = 0;
 
     // create shared memory, store scores in each 1/3
-    s32 *shm = (s32 *)calloc(3 * (cols + 1) * (rows + 1), sizeof(u32));
+    s32 *shm = (s32 *)calloc(3 * (Cols + 1) * (Rows + 1), sizeof(u32));
     s32 *score_left = shm;
-    s32 *score_up   = shm + (cols + 1) * (rows + 1);
-    s32 *score_diag = shm + 2 * (cols + 1) * (rows + 1);
+    s32 *score_up   = shm + (Cols + 1) * (Rows + 1);
+    s32 *score_diag = shm + 2 * (Cols + 1) * (Rows + 1);
 
     // threads...
-    std::thread calc_left(left, score_left, rows, cols);
-    std::thread   calc_up(up,   score_up,   rows, cols);
+    std::thread calc_left(left, score_left);
+    std::thread   calc_up(up,   score_up);
 
     // no need to multi thread all, diag should be slowest, run in this thread
-    diag(score_diag, rows, cols);
+    diag(score_diag);
     calc_left.join();
     calc_up.join();
 
     // find greatest value, traverse backwards,
     // traverse greater percent of the array
-    for (u32 i = (cols + 1) * (rows + 1); i >= (cols + 1) * (rows + 1) / 4; i--) {
+    for (s32 i = (Cols + 1) * (Rows + 1); i >= (Cols + 1) * (Rows + 1) / 4; i--) {
         if (score_left[i] >= max_score)
             max_score = score_left[i];
         if (score_up[i] >= max_score)
