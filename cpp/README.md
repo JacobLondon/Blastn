@@ -24,7 +24,7 @@ Blastn implemented in C++. This implementation is designed to be the fast implem
 
 ## Command Line Arguments
 | Argument       | Description                   | Default Value |
-|----------------|-------------------------------|---------|
+|----------------|-------------------------------|---------------|
 | `-query`       | Path to query file            | `data/SRR7236689--ARG830.fa`
 | `-subject`     | Path to data file             | `data/Gn-SRR7236689_contigs.fasta`
 | `-out`         | Output file                   | `result.txt`
