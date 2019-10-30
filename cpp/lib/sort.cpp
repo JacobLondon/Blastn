@@ -1,5 +1,4 @@
 #include <algorithm> // sort
-#include <cstdlib>   // rand
 
 #include "sort.hpp"
 
