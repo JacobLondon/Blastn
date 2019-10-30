@@ -1,19 +1,16 @@
 # Python Blastn
+The Python implementation of Blastn. This design is the prototype design of the C++ version, and is less complete than the C++ implementation.
 ## Running
+Execute the command `$ python3 main.py` to utilize the default values, or specify with command line arguments.
+## Dependencies
 * Install the `requirements.txt` file.
-* Windows Arguments
-  * Run `main.py` with Python 3 and specify arguments.
-  * `-q <*.fa path>` The query fa file.
-  * `-d <*.fasta path>` The data fasta file.
-  * `-l <int>` The split length for words.
-  * `-m <int>` The minimum Smith Waterman score before removing a word.
-  * `-dt <float>` The minimum Dust score before removing a word.
-  * `-ma <int>` The Smith Waterman score for a matching character.
-  * `-mi <int>` The Smith Waterman score for a non-matching character.
-  * `-g <int>` The Smith Waterman score for a gap character.
-* Mac and Linux Arguments
-  * Use the Windows arguments, or use the `blastn.sh` file.
-  * Open and modify `blastn.sh` to specify named arguments.
-    * Set `test` to `true` to use the test data set.
-    * Set `test` to `false` to use the large data set.
-  * Run `./blastn.sh`
+## Command Line Arguments
+| Argument | Description | Default Value |
+|----------|------------------------------------------|---------------|
+| `-q`     | Path to query file                       | `data/SRR7236689--ARG830.fa`
+| `-d`     | Path to data file                        | `data/Gn-SRR7236689_contigs.fasta`
+| `-l`     | The word length.                         | `11`
+| `-dt`    | The minimum Dust filter threshold.       | `1`
+| `-ma`    | The Smith-Waterman score for a match.    | `2`
+| `-mi`    | The Smith-Waterman score for a mismatch. | `-1`
+| `-g`     | The Smith-Waterman score for a gap.      | `-1`

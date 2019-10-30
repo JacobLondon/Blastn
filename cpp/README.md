@@ -1,5 +1,5 @@
 # C++ Blastn
-Run Blastn on specified data. For the example data, the extend step may take around 30 minutes to execute, however all other steps are relatively fast.
+Blastn implemented in C++. This implementation is designed to be the fast implementation which will interop with an FPGA implementation of the Smith-Waterman algorithm. 
 ## Building
 ### Windows
   * Open `Blastn.sln` in Visual Studio 2019.
