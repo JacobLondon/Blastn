@@ -1,43 +1,45 @@
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
 #include "output.hpp"
 #include "../util/display.hpp"
 
 namespace Blastn {
 
-static const string SEPERATOR = "\t\t";
+static const string SEPERATOR = "\t";
 
-string format_output(vector<HSP>& hsps)
+string format_output(vector<HSP>& hsps, SequenceMap& query, SequenceMap& subject, u32 precision)
 {
     std::ostringstream stream;
+    size_t qsize = 0;
+    size_t ssize = 0;
+
+    // find longest query name
+    for (auto& qname_seq : query) {
+        if (qname_seq.first.size() > qsize)
+            qsize = qname_seq.first.size();
+    }
+    // longest subject name
+    for (auto& sname_seq : subject) {
+        if (sname_seq.first.size() > ssize)
+            ssize = sname_seq.first.size();
+    }
 
     for (auto& hsp : hsps) {
-        stream << hsp.query_id      << SEPERATOR
-               << hsp.subject_id    << SEPERATOR
-               << hsp.percentage_id * 100.0f << SEPERATOR
-               << hsp.matches       << SEPERATOR
-               << hsp.mismatches    << SEPERATOR
-               << hsp.gaps          << SEPERATOR
-               << hsp.query_start   << SEPERATOR
-               << hsp.query_end     << SEPERATOR
-               << hsp.subject_start << SEPERATOR
-               << hsp.subject_end   << SEPERATOR
-               << hsp.evalue        << SEPERATOR
-               << hsp.bitscore       << std::endl;
-        /*builder += hsp.query_id   + SEPERATOR;
-        builder += hsp.subject_id + SEPERATOR;
-        builder += std::to_string(hsp.percentage_id * 100.0f) + SEPERATOR;
-        builder += std::to_string(hsp.matches)       + SEPERATOR;
-        builder += std::to_string(hsp.mismatches)    + SEPERATOR;
-        builder += std::to_string(hsp.gaps)          + SEPERATOR;
-        builder += std::to_string(hsp.query_start)   + SEPERATOR;
-        builder += std::to_string(hsp.query_end)     + SEPERATOR;
-        builder += std::to_string(hsp.subject_start) + SEPERATOR;
-        builder += std::to_string(hsp.subject_end)   + SEPERATOR;
-        builder += std::to_string(hsp.evalue)        + SEPERATOR;
-        builder += std::to_string(hsp.bitscore)      + "\n";
-        */
+        stream << std::setw(qsize)     << hsp.query_id      << SEPERATOR;
+        stream << std::setw(ssize)     << hsp.subject_id    << SEPERATOR;
+        stream << std::fixed  << hsp.percentage_id * 100.0f << SEPERATOR;
+        stream << std::setw(precision) << hsp.matches       << SEPERATOR;
+        stream << std::setw(precision) << hsp.mismatches    << SEPERATOR;
+        stream << std::setw(precision) << hsp.gaps          << SEPERATOR;
+        stream << std::setw(precision) << hsp.query_start   << SEPERATOR;
+        stream << std::setw(precision) << hsp.query_end     << SEPERATOR;
+        stream << std::setw(precision) << hsp.subject_start << SEPERATOR;
+        stream << std::setw(precision) << hsp.subject_end   << SEPERATOR;
+        stream << std::scientific      << hsp.evalue        << SEPERATOR;
+        stream << std::fixed           << hsp.bitscore      << std::endl;
+
     }
     return stream.str();
 }

@@ -27,9 +27,6 @@ extern string QueryFile;
 extern string SubjectFile;
 extern string OutputFile;
 
-extern string LTestQuery;
-extern string STestQuery;
-extern string LTestData;
-extern string STestData;
+extern u32 OutputSpacing;
 
 } // Blastn

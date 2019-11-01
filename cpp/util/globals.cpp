@@ -34,4 +34,6 @@ string OutputFile = "result.txt";
 string /*Test*/ QueryFile = "../data/query_small.fa";
 //string /*Test*/ SubjectFile  = "../data/subject_small.fasta";
 
+u32 OutputSpacing = 6;
+
 } // Blastn

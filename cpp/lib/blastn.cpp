@@ -117,7 +117,7 @@ static void align(std::string query_file, std::string subject_file)
      */
 
     std::cout << "[11 / 11] Writing to file " << Blastn::OutputFile << std::endl;
-    string formatted_output = Blastn::format_output(sorted_hsps);
+    string formatted_output = Blastn::format_output(sorted_hsps, query, subject, Blastn::OutputSpacing);
     Blastn::write_output(formatted_output, Blastn::OutputFile);
 
     std::cout << std::endl;
@@ -169,6 +169,10 @@ int blastn(std::vector<std::string> args)
         Blastn::Lambda = (f32)atof(a.c_str());
     if ((a = argparse(args, "-kappa"))       != Blastn::Invalid)
         Blastn::Kappa = (f32)atof(a.c_str());
+
+    // output spacing
+    if ((a = argparse(args, "-spacing")) != Blastn::Invalid)
+        Blastn::OutputSpacing = atoi(a.c_str());
 
 
     align(Blastn::QueryFile, Blastn::SubjectFile);
