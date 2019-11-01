@@ -23,8 +23,8 @@ namespace Blastn {
  * @return The extended, aligned match.
  */
 Extended extend_and_score(AdjacentPair pair,
-                          string query,
-                          string subject,
+                          string& query,
+                          string& subject,
                           s32 match,
                           s32 mismatch,
                           s32 gap,

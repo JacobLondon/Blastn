@@ -49,8 +49,8 @@ static inline s32 sw_score(string qextended, string sextended, s32 match, s32 mi
 }
 
 Extended extend_and_score(AdjacentPair pair,
-                          string query,
-                          string subject,
+                          string& query,
+                          string& subject,
                           s32 match,
                           s32 mismatch,
                           s32 gap,
