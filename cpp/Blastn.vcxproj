@@ -153,6 +153,8 @@
     <ClCompile Include="lib\blastn.cpp" />
     <ClCompile Include="lib\dust.cpp" />
     <ClCompile Include="lib\extend.cpp" />
+    <ClCompile Include="lib\hsp.cpp" />
+    <ClCompile Include="lib\interface.cpp" />
     <ClCompile Include="lib\match.cpp" />
     <ClCompile Include="lib\output.cpp" />
     <ClCompile Include="lib\pairs.cpp" />
@@ -170,6 +172,8 @@
     <ClInclude Include="lib\blastn.hpp" />
     <ClInclude Include="lib\dust.hpp" />
     <ClInclude Include="lib\extend.hpp" />
+    <ClInclude Include="lib\hsp.hpp" />
+    <ClInclude Include="lib\interface.hpp" />
     <ClInclude Include="lib\match.hpp" />
     <ClInclude Include="lib\output.hpp" />
     <ClInclude Include="lib\pairs.hpp" />

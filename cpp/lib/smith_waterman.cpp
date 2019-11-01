@@ -202,8 +202,8 @@ static inline s32 single_max(s32 left, s32 up, s32 diag)
 
 s32 smith_waterman_s(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap)
 {
-    u32 rows = (u32)seq1.size();
-    u32 cols = (u32)seq2.size();
+    size_t rows = seq1.size();
+    size_t cols = seq2.size();
     u32 i, j;
 
     s32 *score_matrix = (s32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
@@ -242,14 +242,14 @@ s32 smith_waterman_s(string& seq1, string& seq2, s32 match, s32 mismatch, s32 ga
 static s32 Match;
 static s32 Mismatch;
 static s32 Gap;
-static s32 Rows;
-static s32 Cols;
+static size_t Rows;
+static size_t Cols;
 static string Sequence1;
 static string Sequence2;
 
 static void left(s32 *score_matrix)
 {
-    s32 i, j;
+    size_t i, j;
 
     for (j = 1; j <= Rows; j++) {
         #pragma omp simd
@@ -261,7 +261,7 @@ static void left(s32 *score_matrix)
 
 static void up(s32 *score_matrix)
 {
-    s32 i, j;
+    size_t i, j;
 
     for (i = 1; i <= Cols; i++) {
         #pragma omp simd
@@ -273,7 +273,7 @@ static void up(s32 *score_matrix)
 
 static void diag(s32 *score_matrix)
 {
-    s32 i, j, pt;
+    size_t i, j, pt;
 
     /**
      * Traverse as follows for a 4x4
@@ -288,8 +288,12 @@ static void diag(s32 *score_matrix)
      */
 
     // hold the starting locations x1, y1, x2, y2, ...
-    s32 num_pts = 2 * ((Cols - 1) + (Rows - 1) - 1);
+    size_t num_pts = 2 * ((Cols - 1) + (Rows - 1) - 1);
     s32 *start_pts = (s32 *)calloc(num_pts, sizeof(s32));
+    if (!start_pts) {
+        std::cerr << "Error: Failed to allocate memory for diagonal Smith-Waterman matrix." << std::endl;
+        std::exit(-1);
+    }
 
     // claim all starting locations
     for (i = Cols - 1, j = 1, pt = 0; pt < num_pts; pt += 2) {
@@ -320,16 +324,20 @@ s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 g
     Match = match;
     Mismatch = mismatch;
     Gap = gap;
-    Rows = (u32)seq1.size();
-    Cols = (u32)seq2.size();
+    Rows = seq1.size();
+    Cols = seq2.size();
     Sequence1 = seq1.c_str();
     Sequence2 = seq2.c_str();
 
     s32 max_score = 0;
 
     // create shared memory, store scores in each 1/3
-    s32 shm_size = (Cols + 1) * (Rows + 1);
+    size_t shm_size = (Cols + 1) * (Rows + 1);
     s32 *shm = (s32 *)calloc(3 * shm_size, sizeof(u32));
+    if (!shm) {
+        std::cerr << "Error: Failed allocate memory for Smith-Waterman matrix." << std::endl;
+        std::exit(-1);
+    }
     s32 *score_left = shm;
     s32 *score_up   = shm + shm_size;
     s32 *score_diag = shm + 2 * shm_size;
@@ -345,7 +353,7 @@ s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 g
 
     // find greatest value, traverse backwards,
     // traverse greater percent of the array
-    for (s32 i = shm_size - 1; i >= shm_size / 4; i--) {
+    for (size_t i = shm_size - 1; i >= shm_size / 4; i--) {
         if (score_left[i] >= max_score)
             max_score = score_left[i];
         if (score_up[i] >= max_score)
@@ -364,7 +372,7 @@ s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 g
 
 s32 smith_waterman_mem(char *seq1, char *seq2, s32 match, s32 mismatch, s32 gap, s32 *shm, u32 cols, u32 rows)
 {
-    
+    return 0;
 }
 
 } // Blastn

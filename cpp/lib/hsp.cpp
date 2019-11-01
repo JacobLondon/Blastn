@@ -32,8 +32,12 @@ static void calculate_score(HSP& hsp,
                             size_t subject_length,
                             size_t query_length)
 {
-    hsp.bitscore = (double)(lambda * hsp.sw_score - log(kappa)) / log(2);
-    hsp.evalue   = (double)(subject_length * query_length) / (powf64(2, hsp.bitscore));
+    hsp.bitscore = (double)(lambda * (double)hsp.sw_score - log(kappa)) / log(2);
+    #ifdef _WIN32
+        hsp.evalue = (double)(subject_length * query_length) / (pow(2, hsp.bitscore));
+    #else
+        hsp.evalue   = (double)(subject_length * query_length) / (powf64(2, hsp.bitscore));
+    #endif
 }
 
 static void record_similarity(HSP& hsp, SequenceMap& subject)

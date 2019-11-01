@@ -65,6 +65,12 @@
     <ClCompile Include="lib\output.cpp">
       <Filter>lib</Filter>
     </ClCompile>
+    <ClCompile Include="lib\hsp.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\interface.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\display.hpp">
@@ -107,6 +113,12 @@
       <Filter>lib</Filter>
     </ClInclude>
     <ClInclude Include="lib\output.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\hsp.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\interface.hpp">
       <Filter>lib</Filter>
     </ClInclude>
   </ItemGroup>

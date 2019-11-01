@@ -167,9 +167,9 @@ int blastn(std::vector<std::string> args)
         Blastn::DustPatternLength = atoi(a.c_str());
 
     if ((a = argparse(args, "-lambda"))      != Blastn::Invalid)
-        Blastn::Lambda = atoi(a.c_str());
+        Blastn::Lambda = (f32)atof(a.c_str());
     if ((a = argparse(args, "-kappa"))       != Blastn::Invalid)
-        Blastn::Kappa = atoi(a.c_str());
+        Blastn::Kappa = (f32)atof(a.c_str());
 
 
     align(Blastn::QueryFile, Blastn::SubjectFile);

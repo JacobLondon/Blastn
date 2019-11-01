@@ -80,7 +80,7 @@ struct HSP {
     u32 gaps = 0;
 
     double evalue = 0;
-    f32 bitscore = 0;
+    double bitscore = 0;
 };
 
 /**

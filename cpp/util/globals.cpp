@@ -16,7 +16,7 @@ s32 SwMismatch = -1;
 // smith waterman gap score
 s32 SwGap = -1;
 // ratio of max score to length
-f32 SwRatio = 0; // SwMinscore / (SplitLength * SwMatch)
+f32 SwRatio = 0.0f; // SwMinscore / (SplitLength * SwMatch)
 
 // dust threshold score before filtering out
 f32 DustThreshold = 0.1f;
@@ -24,8 +24,8 @@ f32 DustThreshold = 0.1f;
 u32 DustPatternLength = 3;
 
 // bit score calculation
-f32 Lambda = 0.267;
-f32 Kappa = 0.041;
+f32 Lambda = 0.267f;
+f32 Kappa = 0.041f;
 
 string QueryFile  = "../data/SRR7236689--ARG830.fa";
 string SubjectFile   = "../data/Gn-SRR7236689_contigs.fasta";
