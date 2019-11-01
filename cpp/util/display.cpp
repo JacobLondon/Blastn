@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include "display.hpp"
 
 Progress::Progress(size_t max)
