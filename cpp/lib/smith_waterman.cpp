@@ -183,7 +183,7 @@ s32 smith_waterman(string& seq1,
 }
 
 /**
- * Smith-Waterman Smaller
+ * Reallocate memory on each call, don't preserve the memory
  */
 
 static inline s32 single_max(s32 left, s32 up, s32 diag)
@@ -200,7 +200,7 @@ static inline s32 single_max(s32 left, s32 up, s32 diag)
     return max;
 }
 
-s32 smith_waterman_s(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap)
+s32 smith_waterman_no_preserve(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap)
 {
     size_t rows = seq1.size();
     size_t cols = seq2.size();
@@ -235,7 +235,25 @@ s32 smith_waterman_s(string& seq1, string& seq2, s32 match, s32 mismatch, s32 ga
 }
 
 /**
- * Smith-Waterman Multi-Threaded
+ * Allocate memory once, preserve memory through different calls
+ */
+
+s32 smith_waterman_preserve(char *seq1, char *seq2, s32 match, s32 mismatch, s32 gap, s32 *shm, size_t cols, size_t rows)
+{
+    return 0;
+}
+
+/**
+ * FPGA Interface with Smith-Waterman
+ */
+
+s32 smith_waterman_fgpa(char *seq1, char *seq2, s32 match, s32 mismatch, s32 gap, size_t cols, size_t rows)
+{
+    return 0;
+}
+
+/**
+ * Multi-Threaded implementation
  */
 
 // avoid passing
@@ -364,15 +382,6 @@ s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 g
 
     free(shm);
     return max_score;
-}
-
-/**
- * Shared memory interface
- */
-
-s32 smith_waterman_mem(char *seq1, char *seq2, s32 match, s32 mismatch, s32 gap, s32 *shm, u32 cols, u32 rows)
-{
-    return 0;
 }
 
 } // Blastn

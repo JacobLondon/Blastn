@@ -22,10 +22,11 @@ struct Greatest {
  */
 s32 smith_waterman(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap, bool just_score);
 
-s32 smith_waterman_s(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap);
+s32 smith_waterman_no_preserve(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap);
+s32 smith_waterman_preserve(char *seq1, char *seq2, s32 match, s32 mismatch, s32 gap, s32 *shm, size_t cols, size_t rows);
 
 s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap);
 
-s32 smith_waterman_mem(char *seq1, char *seq2, s32 match, s32 mismatch, s32 gap, s32 *shm, u32 cols, u32 rows);
+s32 smith_waterman_fgpa(char *seq1, char *seq2, s32 match, s32 mismatch, s32 gap, size_t cols, size_t rows);
 
 } // Blastn

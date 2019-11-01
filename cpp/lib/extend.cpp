@@ -33,12 +33,14 @@ static inline s32 sw_score(string qextended, string sextended, s32 match, s32 mi
 {
     switch (flag) {
         case SW::NO_PRESERVE_MEM:
-            return smith_waterman_s(qextended, sextended, match, mismatch, gap);
+            return smith_waterman_no_preserve(qextended, sextended, match, mismatch, gap);
         case SW::PRESERVE_MEM:
+            //return smith_waterman_preserve(qextended.c_str(), sextended.c_str(), match, mismatch, gap, nullptr, sextended.size() + 1, qextended.size() + 1);
             return 0;
         case SW::MULTI_THREAD:
             return smith_waterman_mt(qextended, sextended, match, mismatch, gap);
         case SW::FPGA:
+            //smith_waterman_fpga(qextended.c_str(), sextended.c_str(), match, mismatch, gap, sextended.size() + 1, qextended.size() + 1);
             return 0;
         default:
             std::cerr << "Error: Invalid flag for Extending " << flag << std::endl;
