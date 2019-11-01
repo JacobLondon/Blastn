@@ -27,11 +27,11 @@ u32 DustPatternLength = 3;
 f32 Lambda = 0.6225f;//0.267f;
 f32 Kappa = 0.041f;//0.041f;
 
-//string QueryFile  = "../data/SRR7236689--ARG830.fa";
-string SubjectFile   = "../data/Gn-SRR7236689_contigs.fasta";
-string OutputFile = "result.txt";
+string QueryFile   = "../data/SRR7236689--ARG830.fa";
+string SubjectFile = "../data/Gn-SRR7236689_contigs.fasta";
+string OutputFile  = "result.txt";
 
-string /*Test*/ QueryFile = "../data/query_small.fa";
+//kstring /*Test*/ QueryFile = "../data/query_small.fa";
 //string /*Test*/ SubjectFile  = "../data/subject_small.fasta";
 
 u32 OutputSpacing = 6;
