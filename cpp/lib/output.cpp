@@ -1,4 +1,5 @@
 #include <fstream>
+#include <sstream>
 
 #include "output.hpp"
 #include "../util/display.hpp"
@@ -9,11 +10,24 @@ static const string SEPERATOR = "\t\t";
 
 string format_output(vector<HSP>& hsps)
 {
-    string builder = "";
+    std::ostringstream stream;
+
     for (auto& hsp : hsps) {
-        builder += hsp.query_id   + SEPERATOR;
+        stream << hsp.query_id      << SEPERATOR
+               << hsp.subject_id    << SEPERATOR
+               << hsp.percentage_id * 100.0f << SEPERATOR
+               << hsp.matches       << SEPERATOR
+               << hsp.mismatches    << SEPERATOR
+               << hsp.gaps          << SEPERATOR
+               << hsp.query_start   << SEPERATOR
+               << hsp.query_end     << SEPERATOR
+               << hsp.subject_start << SEPERATOR
+               << hsp.subject_end   << SEPERATOR
+               << hsp.evalue        << SEPERATOR
+               << hsp.bitscore       << std::endl;
+        /*builder += hsp.query_id   + SEPERATOR;
         builder += hsp.subject_id + SEPERATOR;
-        builder += std::to_string(hsp.percentage_id * 100) + SEPERATOR;
+        builder += std::to_string(hsp.percentage_id * 100.0f) + SEPERATOR;
         builder += std::to_string(hsp.matches)       + SEPERATOR;
         builder += std::to_string(hsp.mismatches)    + SEPERATOR;
         builder += std::to_string(hsp.gaps)          + SEPERATOR;
@@ -23,8 +37,9 @@ string format_output(vector<HSP>& hsps)
         builder += std::to_string(hsp.subject_end)   + SEPERATOR;
         builder += std::to_string(hsp.evalue)        + SEPERATOR;
         builder += std::to_string(hsp.bitscore)      + "\n";
+        */
     }
-    return builder;
+    return stream.str();
 }
 
 void write_output(string data, string filename)

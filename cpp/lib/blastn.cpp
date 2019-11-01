@@ -81,7 +81,6 @@ static void align(std::string query_file, std::string subject_file)
 
     std::cout << "[5 / 11] Dust Complexity Filtering " << query.size() << " query entries..." << std::endl;
     auto query_dustfiltered = Blastn::dust_filter(query_prepared, Blastn::DustThreshold, Blastn::DustPatternLength);
-
     std::cout << std::endl;
 
     /**

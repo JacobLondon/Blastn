@@ -14,10 +14,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
-    <None Include="..\data\data_small.fasta">
+    <None Include="..\data\Gn-SRR7236689_contigs.fasta">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\data\query_small.fa">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\data\SRR7236689--ARG830.fa">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\data\subject_small.fasta">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -123,6 +129,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="blastn_out.txt" />
+    <Text Include="result.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

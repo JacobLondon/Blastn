@@ -145,8 +145,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\data\data_small.fasta" />
+    <None Include="..\data\Gn-SRR7236689_contigs.fasta" />
     <None Include="..\data\query_small.fa" />
+    <None Include="..\data\SRR7236689--ARG830.fa" />
+    <None Include="..\data\subject_small.fasta" />
     <None Include="Makefile" />
   </ItemGroup>
   <ItemGroup>
@@ -187,7 +189,7 @@
     <ClInclude Include="util\types.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="blastn_out.txt" />
+    <Text Include="result.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
