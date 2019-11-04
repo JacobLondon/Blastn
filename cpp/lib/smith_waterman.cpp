@@ -206,7 +206,7 @@ s32 smith_waterman_no_preserve(string& seq1, string& seq2, s32 match, s32 mismat
     u64 cols = seq2.size();
     u32 i, j;
 
-    s32 *score_matrix = (s32 *)calloc((cols + 1) * (rows + 1), sizeof(u32));
+    s32 *score_matrix = (s32 *)calloc((cols + 1) * (rows + 1), sizeof(s32));
     s32 max_score = 0;
 
     // to fill the matrices
@@ -238,16 +238,50 @@ s32 smith_waterman_no_preserve(string& seq1, string& seq2, s32 match, s32 mismat
  * Allocate memory once, preserve memory through different calls
  */
 
-s32 smith_waterman_preserve(char *seq1, char *seq2, s32 match, s32 mismatch, s32 gap, s32 *shm, u64 cols, u64 rows)
+static s32 *ScoreMatrix = nullptr;
+static u64 ScoreMatrixSize = 0;
+
+s32 smith_waterman_preserve(const char *seq1, const char *seq2, s32 match, s32 mismatch, s32 gap, u64 cols, u64 rows)
 {
-    return 0;
+    if ((cols + 1) * (rows + 1) > ScoreMatrixSize) {
+        ScoreMatrixSize = (cols + 1) * (rows + 1) * 2;
+        if (!ScoreMatrix)
+            ScoreMatrix = (s32 *)calloc(ScoreMatrixSize, sizeof(s32));
+        else
+            ScoreMatrix = (s32 *)realloc(ScoreMatrix, ScoreMatrixSize * sizeof(s32));
+    }
+
+    // to fill the matrices
+    u32 i, j;
+    s32 left, up, diag;
+    s32 max_score = 0;
+
+    // fill score matrix
+    for (i = 1; i <= cols; i++) {
+        for (j = 1; j <= rows; j++) {
+
+            // determine possible scores of the current cell
+            left = ScoreMatrix[((i - 1) * cols) + j    ] + gap;
+            up   = ScoreMatrix[ (i * cols)      + j - 1] + gap;
+            diag = ScoreMatrix[((i - 1) * cols) + j - 1] + score_alignment(seq1[i - 1], seq2[j - 1], match, mismatch, gap);
+
+            // find greatest: load direction into point_matrix, score into score_matrix
+            ScoreMatrix[i * cols + j] = single_max(left, up, diag);
+
+            // record high score
+            if ((s32)ScoreMatrix[i * cols + j] >= (s32)max_score)
+                max_score = ScoreMatrix[i * cols + j];
+        }
+    }
+    
+    return max_score;
 }
 
 /**
  * FPGA Interface with Smith-Waterman
  */
 
-s32 smith_waterman_fgpa(char *seq1, char *seq2, s32 match, s32 mismatch, s32 gap, u64 cols, u64 rows)
+s32 smith_waterman_fgpa(const char *seq1, const char *seq2, s32 match, s32 mismatch, s32 gap, u64 cols, u64 rows)
 {
     return 0;
 }

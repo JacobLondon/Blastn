@@ -51,18 +51,20 @@ IndexedSequenceMap split_sequence(SequenceMap& data, u32 length)
     // traverse the sequence
     for (auto& name_seqmap : data) {
         // get all words and find their indices in that data set
-        IndexedWordMap indexed_words;
         vector<string> words = split_to_words(name_seqmap.second, length);
+        IndexedWordMap indexed_words;
 
         // map each word to all of their indices each time the word appears
         for (u32 i = 0; i < words.size(); i++) {
 
             // no newlines in sequences
-            string temp = words[i];
-            if (temp.rfind('\r') == temp.size() - 1)
-                temp = temp.substr(0, temp.size() - 1);
-            if (temp.rfind('\n') == temp.size() - 1)
-                temp = temp.substr(0, temp.size() - 1);
+            u64 back = words[i].size();
+            if (words[i][back - 1] == '\r')
+                back--;
+            if (words[i][back - 1] == '\n')
+                back--;
+
+            string temp = words[i].substr(0, back);
 
             // insert the index if the item doesn't exist
             if (indexed_words.find(temp) == indexed_words.end())

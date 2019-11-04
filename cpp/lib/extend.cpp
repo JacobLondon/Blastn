@@ -35,13 +35,11 @@ static inline s32 sw_score(string qextended, string sextended, s32 match, s32 mi
         case SW::NO_PRESERVE_MEM:
             return smith_waterman_no_preserve(qextended, sextended, match, mismatch, gap);
         case SW::PRESERVE_MEM:
-            //return smith_waterman_preserve(qextended.c_str(), sextended.c_str(), match, mismatch, gap, nullptr, sextended.size() + 1, qextended.size() + 1);
-            return 0;
+            return smith_waterman_preserve(qextended.c_str(), sextended.c_str(), match, mismatch, gap, sextended.size(), qextended.size());
         case SW::MULTI_THREAD:
             return smith_waterman_mt(qextended, sextended, match, mismatch, gap);
         case SW::FPGA:
-            //smith_waterman_fpga(qextended.c_str(), sextended.c_str(), match, mismatch, gap, sextended.size() + 1, qextended.size() + 1);
-            return 0;
+            return smith_waterman_fgpa(qextended.c_str(), sextended.c_str(), match, mismatch, gap, sextended.size(), qextended.size());
         default:
             std::cerr << "Error: Invalid flag for Extending " << flag << std::endl;
             std::exit(-1);
@@ -155,7 +153,7 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                 Extended ext = extend_and_score(adjacent_pair,
                                                 query[qname_pairvec.first],
                                                 subject[sname_quermap.first], // sw?  print? flag?
-                                                match, mismatch, gap, ratio,   true, false, SW::NO_PRESERVE_MEM);
+                                                match, mismatch, gap, ratio,   true, false, SW::PRESERVE_MEM);
                 // the word scored above the minscore
                 if (ext.extended_pair == Invalid)
                     continue;

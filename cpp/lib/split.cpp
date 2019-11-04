@@ -2,7 +2,7 @@
 
 namespace Blastn {
 
-vector<string> split_to_words(string input, u32 word_len) {
+vector<string> split_to_words(string& input, u32 word_len) {
     u32 num_words = (u32)input.length() - word_len + 1;
     vector<string> words;
     words.reserve(num_words);
