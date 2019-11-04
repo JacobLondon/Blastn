@@ -12,6 +12,6 @@ vector<HSP> format_hsps(ExtendedSequenceMap& extended_pairs,
                         SequenceMap& subject,
                         f32 lambda,
                         f32 kappa,
-                        size_t subject_length);
+                        u64 subject_length);
 
 } // Blastn

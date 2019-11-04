@@ -31,6 +31,6 @@ IndexedSequenceMap prepare_sequence(string path, u32 length, char sep);
 /**
  * @brief Sum the length of each sequence
  */
-size_t sequence_length(SequenceMap& data);
+u64 sequence_length(SequenceMap& data);
 
 } // Blastn

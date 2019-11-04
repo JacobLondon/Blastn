@@ -87,9 +87,9 @@ IndexedSequenceMap prepare_sequence(string path, u32 length, char sep)
     return indexed_data;
 }
 
-size_t sequence_length(SequenceMap& data)
+u64 sequence_length(SequenceMap& data)
 {
-    size_t result = 0;
+    u64 result = 0;
     for (auto& id_seq : data) {
         result += id_seq.second.size();
     }

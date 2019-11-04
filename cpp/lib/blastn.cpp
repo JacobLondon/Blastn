@@ -73,7 +73,7 @@ static void align(std::string query_file, std::string subject_file)
     std::cout << std::endl;
 
     // needed for E-value calculation
-    size_t subject_length = sequence_length(subject);
+    u64 subject_length = sequence_length(subject);
 
     /**
      * Dust filtering

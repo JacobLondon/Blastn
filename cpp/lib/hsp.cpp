@@ -29,14 +29,14 @@ namespace Blastn {
 static void calculate_score(HSP& hsp,
                             f32 lambda,
                             f32 kappa,
-                            size_t subject_length,
-                            size_t query_length)
+                            u64 subject_length,
+                            u64 query_length)
 {
-    hsp.bitscore = (double)(lambda * (double)hsp.sw_score - log(kappa)) / log(2);
+    hsp.bitscore = (f64)(lambda * (f64)hsp.sw_score - log(kappa)) / log(2);
     #ifdef _WIN32
-        hsp.evalue = (double)(subject_length * query_length) / (pow(2, hsp.bitscore));
+        hsp.evalue = (f64)(subject_length * query_length) / (pow(2, hsp.bitscore));
     #else
-        hsp.evalue   = (double)(subject_length * query_length) / (powf64(2, hsp.bitscore));
+        hsp.evalue   = (f64)(subject_length * query_length) / (powf64(2, hsp.bitscore));
     #endif
 }
 
@@ -45,7 +45,7 @@ static void record_similarity(HSP& hsp, SequenceMap& subject)
     string subsequence = subject[hsp.subject_id].substr(hsp.subject_start, hsp.subject_end - hsp.subject_start);
 
     // find how many of each type there are
-    for (size_t i = 0; i < subsequence.size(); i++) {
+    for (u64 i = 0; i < subsequence.size(); i++) {
         if (hsp.extended_pair[i] == Blastn::CGap) {
             hsp.gaps++;
         }
@@ -64,7 +64,7 @@ vector<HSP> format_hsps(ExtendedSequenceMap& extended_pairs,
                         SequenceMap& subject,
                         f32 lambda,
                         f32 kappa,
-                        size_t subject_length)
+                        u64 subject_length)
 {
     vector<HSP> result;
     Progress progress{ extended_pairs.size() };

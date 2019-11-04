@@ -12,8 +12,8 @@ static const string SEPERATOR = "\t";
 string format_output(vector<HSP>& hsps, SequenceMap& query, SequenceMap& subject, u32 precision)
 {
     std::ostringstream stream;
-    size_t qsize = 0;
-    size_t ssize = 0;
+    u64 qsize = 0;
+    u64 ssize = 0;
 
     // find longest query name
     for (auto& qname_seq : query) {
