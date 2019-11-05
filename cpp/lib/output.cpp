@@ -44,7 +44,7 @@ string format_output(vector<HSP>& hsps, SequenceMap& query, SequenceMap& subject
     return stream.str();
 }
 
-void write_output(string data, string filename)
+void write_output(string& data, string& filename)
 {
     std::ofstream output_file{ filename };
 

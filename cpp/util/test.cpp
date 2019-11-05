@@ -86,7 +86,8 @@ void pairs()
 
     std::cout << str(matches) << std::endl;
 
-    auto pairs = pair_filter(matches, build_sequence(qpath, Seperator));
+    auto built = build_sequence(qpath, Seperator);
+    auto pairs = pair_filter(matches, built);
     std::cout << str(pairs) << std::endl;
 }
 

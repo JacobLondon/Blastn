@@ -31,7 +31,7 @@ vector<AdjacentPair> pair(vector<MatchSingleton>& flattened, u32 query_len)
     return result;
 }
 
-vector<AdjacentPair> flatten(vector<Match> matches, u32 query_len)
+vector<AdjacentPair> flatten(vector<Match>& matches, u32 query_len)
 {
     vector<MatchSingleton> flattened;
 
@@ -48,11 +48,10 @@ vector<AdjacentPair> flatten(vector<Match> matches, u32 query_len)
         return lhs.sindex < rhs.sindex;
     });
 
-    vector<AdjacentPair> result = pair(flattened, query_len);
-    return result;
+    return pair(flattened, query_len);
 }
 
-PairedSequenceMap pair_filter(MatchedSequenceMap matches, SequenceMap query)
+PairedSequenceMap pair_filter(MatchedSequenceMap& matches, SequenceMap& query)
 {
     PairedSequenceMap filtered_pairs;
     Progress progress{ matches.size() };
