@@ -1,6 +1,6 @@
 #include "extend.hpp"
 #include "smith_waterman.hpp"
-#include "../util/display.hpp"
+#include "../../util/display.hpp"
 
 namespace Blastn {
 
@@ -41,7 +41,7 @@ static inline s32 sw_score(string qextended, string sextended, s32 match, s32 mi
         case SW::FPGA:
             return smith_waterman_fgpa(qextended.c_str(), sextended.c_str(), match, mismatch, gap, sextended.size(), qextended.size());
         default:
-            std::cerr << "Error: Invalid flag for Extending " << flag << std::endl;
+            std::cerr << "Error: INVALID flag for Extending " << flag << std::endl;
             std::exit(-1);
     }
 }
@@ -82,7 +82,7 @@ Extended extend_and_score(AdjacentPair pair,
             running_score = sw_score(qextended, sextended, match, mismatch, gap, flag);
 
             if (running_score < ratio * qextended.size() * match)
-                return Extended{ Invalid, 0, 0, 0 };
+                return Extended{ INVALID, 0, 0, 0 };
         }
     }
 
@@ -102,7 +102,7 @@ Extended extend_and_score(AdjacentPair pair,
     // extend right with gaps until qextended aligns with subject
     while ((u32)sexindex + 1 < srightindex) {
         qexindex++; sexindex++;
-        qextended = qextended + SGap;
+        qextended = qextended + STR_GAP;
         sextended = sextended + subject[sexindex];
     }
 
@@ -122,7 +122,7 @@ Extended extend_and_score(AdjacentPair pair,
             running_score = sw_score(qextended, sextended, match, mismatch, gap, flag);
 
             if (running_score < ratio * qextended.size() * match)
-                return Extended{ Invalid, 0, 0, 0 };
+                return Extended{ INVALID, 0, 0, 0 };
         }
     }
 
@@ -155,7 +155,7 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                                                 subject[sname_quermap.first], // sw?  print? flag?
                                                 match, mismatch, gap, ratio,   true, false, SW::PRESERVE_MEM);
                 // the word scored above the minscore
-                if (ext.extended_pair == Invalid)
+                if (ext.extended_pair == INVALID)
                     continue;
                 
                 // check to see if the extended pair was recored yet

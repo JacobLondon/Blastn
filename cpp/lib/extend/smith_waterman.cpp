@@ -42,7 +42,7 @@ static inline s32 score_alignment(char alpha, char beta, s32 match, s32 mismatch
 {
     if (alpha == beta)
         return match;
-    else if (CGap == alpha || CGap == beta)
+    else if (CHAR_GAP == alpha || CHAR_GAP == beta)
         return gap;
     else
         return mismatch;
@@ -120,13 +120,13 @@ s32 smith_waterman(string& seq1,
         }
         // upwards movement
         else if (point_matrix[i][j] == UP) {
-            temp1 = SGap;
+            temp1 = STR_GAP;
             temp2 = seq2[--j];
         }
         // left movement
         else if (point_matrix[i][j] == LEFT) {
             temp1 = seq1[--i];
-            temp2 = SGap;
+            temp2 = STR_GAP;
         }
 
         // append the chars to the aligned build string
@@ -152,12 +152,12 @@ s32 smith_waterman(string& seq1,
             similarity_percent += 1.0;
         }
         // no match, gap append to output string
-        else if (a1 != a2 && a1 != SGap && a2 != SGap) {
-            output_alignment.append(SGap);
+        else if (a1 != a2 && a1 != STR_GAP && a2 != STR_GAP) {
+            output_alignment.append(STR_GAP);
         }
         // gap in both
-        else if (a1 == SGap || a2 == SGap) {
-            output_alignment.append(SGap);
+        else if (a1 == STR_GAP || a2 == STR_GAP) {
+            output_alignment.append(STR_GAP);
         }
     }
 

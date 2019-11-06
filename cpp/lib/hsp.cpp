@@ -46,7 +46,7 @@ static void record_similarity(HSP& hsp, SequenceMap& subject)
 
     // find how many of each type there are
     for (u64 i = 0; i < subsequence.size(); i++) {
-        if (hsp.extended_pair[i] == Blastn::CGap) {
+        if (hsp.extended_pair[i] == Blastn::CHAR_GAP) {
             hsp.gaps++;
         }
         else if (hsp.extended_pair[i] == subsequence[i]) {

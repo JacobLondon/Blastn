@@ -3,17 +3,17 @@
 namespace Blastn {
 
 Match::Match(string word, vector<u32> subject_indices, vector<u32> query_indices)
-    : word{ word }, subject_indices{ subject_indices }, query_indices{ query_indices }
+: word{ word }, subject_indices{ subject_indices }, query_indices{ query_indices }
 {}
 
 AdjacentPair::AdjacentPair(string word1, string word2, u32 sindex1, u32 qindex1, u32 sindex2, u32 qindex2)
-    : word1{ word1 }, word2{ word2 }, sindex1{ sindex1 }, sindex2{ sindex2 }, qindex1{ qindex1 }, qindex2{ qindex2 }
+: word1{ word1 }, word2{ word2 }, sindex1{ sindex1 }, sindex2{ sindex2 }, qindex1{ qindex1 }, qindex2{ qindex2 }
 {
     length = (u32)word1.size();
 }
 
 Extended::Extended(string extended_pair, u32 sindex, u32 qindex, s32 score)
-    : extended_pair{ extended_pair }, sindex{ sindex }, qindex{ qindex }, score{ score }
+: extended_pair{ extended_pair }, sindex{ sindex }, qindex{ qindex }, score{ score }
 {}
 
 HSP::HSP(string subject_id, string query_id, string extended_pair, u32 sindex, u32 qindex, s32 sw_score)

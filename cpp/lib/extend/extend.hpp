@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../util/types.hpp"
+#include "../../util/types.hpp"
 
 namespace Blastn {
 

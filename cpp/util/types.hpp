@@ -6,15 +6,18 @@
 #include <unordered_map>
 #include <vector>
 
+#include "constants.h"
+
 namespace Blastn {
 
 // type redefinitions
 
-using s32 = int32_t;
-using u32 = uint32_t;
-using u64 = uint64_t;
-using f32 = float;
-using f64 = double;
+using byte = uint8_t;
+using s32  = int32_t;
+using u32  = uint32_t;
+using u64  = uint64_t;
+using f32  = float;
+using f64  = double;
 
 using string = std::string;
 
@@ -23,19 +26,6 @@ using dict = std::unordered_map<T, U>;
 
 template<typename T>
 using vector = std::vector<T>;
-
-// convenient globals
-
-const string SGap = "-";
-const char CGap = '-';
-const string Invalid = "\0";
-
-enum SW {
-    NO_PRESERVE_MEM,
-    PRESERVE_MEM,
-    MULTI_THREAD,
-    FPGA,
-};
 
 /**
  * @brief The details for what a match has, a word, subject indices, query indices.
