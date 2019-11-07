@@ -11,6 +11,9 @@
     <Filter Include="lib">
       <UniqueIdentifier>{15596d5d-733f-41af-8760-b77b37c68162}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lib\extend">
+      <UniqueIdentifier>{227d312c-00a9-4203-a3ba-0548627f03b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -29,6 +32,42 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="lib\extend\extend.cpp">
+      <Filter>lib\extend</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\extend\interface.cpp">
+      <Filter>lib\extend</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\extend\smith_waterman.cpp">
+      <Filter>lib\extend</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\blastn.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\dust.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\hsp.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\match.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\output.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\pairs.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\prepare.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\sort.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\split.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
     <ClCompile Include="util\display.cpp">
       <Filter>util</Filter>
     </ClCompile>
@@ -41,44 +80,52 @@
     <ClCompile Include="util\types.cpp">
       <Filter>util</Filter>
     </ClCompile>
-    <ClCompile Include="lib\blastn.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\dust.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\extend.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\match.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\pairs.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\prepare.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\smith_waterman.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\sort.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\split.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\output.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\hsp.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\interface.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="result.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lib\extend\extend.hpp">
+      <Filter>lib\extend</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\extend\interface.hpp">
+      <Filter>lib\extend</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\extend\smith_waterman.hpp">
+      <Filter>lib\extend</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\blastn.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\dust.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\hsp.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\match.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\output.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\pairs.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\prepare.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\sort.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\split.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="util\constants.hpp">
+      <Filter>util</Filter>
+    </ClInclude>
     <ClInclude Include="util\display.hpp">
       <Filter>util</Filter>
     </ClInclude>
@@ -91,46 +138,5 @@
     <ClInclude Include="util\types.hpp">
       <Filter>util</Filter>
     </ClInclude>
-    <ClInclude Include="lib\blastn.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\dust.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\extend.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\match.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\pairs.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\prepare.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\smith_waterman.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\sort.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\split.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\output.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\hsp.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\interface.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="result.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
   </ItemGroup>
 </Project>

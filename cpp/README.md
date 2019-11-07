@@ -7,6 +7,11 @@ Blastn implemented in C++. This implementation is designed to be the fast implem
     * Open project properties
     * On the top, select `Configuration: All Configurations`
     * On the top, select `Platform: All Platforms`
+    * Go to VC++ Directories
+      * Select `Include Directories -> Edit...`
+        * Click in the `New Line` button (shaped as a folder)
+        * Enter `$(ProjectDir)\include\parallel-hashmap`
+        * Click `OK` at the bottom
     * Go to `C/C++ -> Optimization`
       * Select `Optimization: Maximum Optimization (Favor Speed) (/O2)`
       * Select `Favor Size or Speed: Favor Fast Code (/Ot)`

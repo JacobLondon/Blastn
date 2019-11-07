@@ -69,7 +69,18 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)\include\parallel-hashmap;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir)\include\parallel-hashmap;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir)\include\parallel-hashmap;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir)\include\parallel-hashmap;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -154,14 +165,14 @@
   <ItemGroup>
     <ClCompile Include="lib\blastn.cpp" />
     <ClCompile Include="lib\dust.cpp" />
-    <ClCompile Include="lib\extend.cpp" />
+    <ClCompile Include="lib\extend\extend.cpp" />
+    <ClCompile Include="lib\extend\interface.cpp" />
+    <ClCompile Include="lib\extend\smith_waterman.cpp" />
     <ClCompile Include="lib\hsp.cpp" />
-    <ClCompile Include="lib\interface.cpp" />
     <ClCompile Include="lib\match.cpp" />
     <ClCompile Include="lib\output.cpp" />
     <ClCompile Include="lib\pairs.cpp" />
     <ClCompile Include="lib\prepare.cpp" />
-    <ClCompile Include="lib\smith_waterman.cpp" />
     <ClCompile Include="lib\sort.cpp" />
     <ClCompile Include="lib\split.cpp" />
     <ClCompile Include="main.cpp" />
@@ -171,25 +182,26 @@
     <ClCompile Include="util\types.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="result.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="lib\blastn.hpp" />
     <ClInclude Include="lib\dust.hpp" />
-    <ClInclude Include="lib\extend.hpp" />
+    <ClInclude Include="lib\extend\extend.hpp" />
+    <ClInclude Include="lib\extend\interface.hpp" />
+    <ClInclude Include="lib\extend\smith_waterman.hpp" />
     <ClInclude Include="lib\hsp.hpp" />
-    <ClInclude Include="lib\interface.hpp" />
     <ClInclude Include="lib\match.hpp" />
     <ClInclude Include="lib\output.hpp" />
     <ClInclude Include="lib\pairs.hpp" />
     <ClInclude Include="lib\prepare.hpp" />
-    <ClInclude Include="lib\smith_waterman.hpp" />
     <ClInclude Include="lib\sort.hpp" />
     <ClInclude Include="lib\split.hpp" />
+    <ClInclude Include="util\constants.hpp" />
     <ClInclude Include="util\display.hpp" />
     <ClInclude Include="util\globals.hpp" />
     <ClInclude Include="util\test.hpp" />
     <ClInclude Include="util\types.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="result.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -28,7 +28,7 @@ RUN git config --global http.sslCAinfo /etc/ssl/certs/ca-certificates.crt
 # get repository
 WORKDIR /root
 
-RUN git clone https://github.com/JacobLondon/Blastn.git
+RUN git clone https://github.com/JacobLondon/Blastn.git --recurse-submodules
 
 # done
 CMD ["/bin/bash"]

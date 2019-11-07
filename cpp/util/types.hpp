@@ -3,8 +3,9 @@
 #include <cstdint>
 #include <iostream>
 #include <string>
-#include <unordered_map>
 #include <vector>
+
+#include <parallel_hashmap/phmap.h>
 
 #include "constants.hpp"
 
@@ -22,7 +23,7 @@ using f64  = double;
 using string = std::string;
 
 template<typename T, typename U>
-using dict = std::unordered_map<T, U>;
+using dict = phmap::flat_hash_map<T, U>;
 
 template<typename T>
 using vector = std::vector<T>;
