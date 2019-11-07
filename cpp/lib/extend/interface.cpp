@@ -27,13 +27,47 @@
 
 namespace Blastn {
 
-FPGA_Format::FPGA_Format(u64 query_size, u64 gap_index, u64 gap_count, byte query[SW_MAX_LENGTH], byte subject[SW_MAX_LENGTH])
-: query_size(query_size), gap_index(gap_index), gap_count(gap_count), query(query), subject(subject)
+PackedFmt::PackedFmt()
+: query_size(0), gap_index(0), gap_count(0), query{0}, subject{0}
 {}
 
-FPGA_Format pack(char *data)
+
+void PackedFmt::pack(const char *query, const char *subject, u64 query_size, u64 subject_size)
 {
-    
+    this->query_size = query_size;
+    gap_index  = 0;
+    gap_count  = 0;
+
+    u64 i, gap_probe, j, shiftpos;
+
+    // NOTE: If the query / subject's length is not divisible by 4,
+    //       then the extraneous values will be ignored for scoring.
+    // ALSO: Assume a gap CANNOT start before index 3
+    // ALSO: Gaps must ONLY be in the query, not the subject
+
+    for (i = 0, j = 0, shiftpos = 0; i + 3 < query_size && i / 4 < SW_MAX_LENGTH; i += 4) {
+        for (gap_probe = 0; gap_probe < 4; gap_probe++) {
+            // found first gap
+            if (query[i + gap_probe] == CHAR_GAP) {
+                if (!gap_index)
+                    gap_index = i + gap_probe;
+                gap_count++;
+                continue;
+            }
+            
+            this->query[j] = this->query[j] | (PACK_FIND(query[i + gap_probe] << ((shiftpos % 4) * 2)));
+            shiftpos++;
+        }
+        // go to the next byte
+        if (!(shiftpos % 4))
+            j++;
+    }
+
+    for (i = 0; i + 3 < subject_size && i / 4 < SW_MAX_LENGTH; i += 4) {
+        for (j = 0; j < 4; j++)
+            this->subject[i / 4] = this->subject[i / 4] | (PACK_FIND(subject[i + j]) << (j * 2));
+    }
 }
+
 
 } // Blastn

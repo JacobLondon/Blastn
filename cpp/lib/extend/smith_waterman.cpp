@@ -3,8 +3,15 @@
 #include <thread>
 
 #include "smith_waterman.hpp"
+#include "interface.hpp"
 
 namespace Blastn {
+
+/******************************************************************************
+ * 
+ * Standard Smith-Waterman
+ * 
+ */
 
 enum Direction {
     _INVALID,
@@ -12,10 +19,6 @@ enum Direction {
     UP,
     DIAG
 };
-
-/**
- * Standard Smith-Waterman
- */
 
 // return the maximum of three values or zero
 static inline Greatest greatest_max(s32 left, s32 up, s32 diag)
@@ -182,8 +185,10 @@ s32 smith_waterman(string& seq1,
     return max_score;
 }
 
-/**
+/******************************************************************************
+ * 
  * Reallocate memory on each call, don't preserve the memory
+ * 
  */
 
 static inline s32 single_max(s32 left, s32 up, s32 diag)
@@ -234,8 +239,10 @@ s32 smith_waterman_no_preserve(string& seq1, string& seq2, s32 match, s32 mismat
     return max_score;
 }
 
-/**
+/******************************************************************************
+ * 
  * Allocate memory once, preserve memory through different calls
+ * 
  */
 
 static s32 *ScoreMatrix = nullptr;
@@ -277,17 +284,24 @@ s32 smith_waterman_preserve(const char *seq1, const char *seq2, s32 match, s32 m
     return max_score;
 }
 
-/**
+/******************************************************************************
+ * 
  * FPGA Interface with Smith-Waterman
+ * 
  */
 
-s32 smith_waterman_fgpa(const char *seq1, const char *seq2, s32 match, s32 mismatch, s32 gap, u64 cols, u64 rows)
+s32 smith_waterman_fgpa(const char *seq1, const char *seq2, u64 rows, u64 cols)
 {
+    PackedFmt formatted{};
+    formatted.pack(seq1, seq2, rows, cols);
+
     return 0;
 }
 
-/**
+/******************************************************************************
+ * 
  * Multi-Threaded implementation
+ * 
  */
 
 // avoid passing

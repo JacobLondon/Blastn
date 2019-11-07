@@ -27,6 +27,6 @@ s32 smith_waterman_preserve(const char *seq1, const char *seq2, s32 match, s32 m
 
 s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap);
 
-s32 smith_waterman_fgpa(const char *seq1, const char *seq2, s32 match, s32 mismatch, s32 gap, u64 cols, u64 rows);
+s32 smith_waterman_fgpa(const char *seq1, const char *seq2, u64 rows, u64 cols);
 
 } // Blastn

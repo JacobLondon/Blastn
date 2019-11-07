@@ -39,7 +39,7 @@ static inline s32 sw_score(string qextended, string sextended, s32 match, s32 mi
         case SW::MULTI_THREAD:
             return smith_waterman_mt(qextended, sextended, match, mismatch, gap);
         case SW::FPGA:
-            return smith_waterman_fgpa(qextended.c_str(), sextended.c_str(), match, mismatch, gap, sextended.size(), qextended.size());
+            return smith_waterman_fgpa(qextended.c_str(), sextended.c_str(), qextended.size(), sextended.size());
         default:
             std::cerr << "Error: INVALID flag for Extending " << flag << std::endl;
             std::exit(-1);

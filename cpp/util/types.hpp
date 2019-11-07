@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "constants.h"
+#include "constants.hpp"
 
 namespace Blastn {
 
