@@ -154,11 +154,11 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                                                 query[qname_pairvec.first],
                                                 subject[sname_quermap.first], // sw?  print? flag?
                                                 match, mismatch, gap, ratio,   true, false, SW::PRESERVE_MEM);
-                // the word scored above the minscore
+                // the word scored below the minscore
                 if (ext.extended_pair == INVALID)
                     continue;
                 
-                // check to see if the extended pair was recored yet
+                // check to see if the extended pair was inserted yet
                 found = false;
                 for (auto& e : temp[qname_pairvec.first]) {
                     if (ext.sindex == e.sindex) {
@@ -166,13 +166,11 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                         break;
                     }
                 }
-                // skip if the same pair was already found
+                // don't record the pair if it was already found
                 if (found)
                     continue;
 
-                // no items in the vector of Extended pairs
-                if (temp.find(qname_pairvec.first) == temp.end())
-                    temp[qname_pairvec.first] = vector<Extended>{};
+                // vector<Extended> already initialized
                 temp[qname_pairvec.first].push_back(ext);
             }
         }

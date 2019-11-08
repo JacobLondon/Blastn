@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iterator>
+
 #include "lib/blastn.hpp"
 
 int main(int argc, char **argv)

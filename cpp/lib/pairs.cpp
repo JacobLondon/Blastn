@@ -18,11 +18,11 @@ vector<AdjacentPair> pair(vector<MatchSingleton>& flattened, u32 query_len)
                 // not too far apart
                 && ABS(((s32)flattened[i].sindex - (s32)flattened[j].sindex)) <= (s32)query_len - (s32)flattened[i].word.size())
             {
-                result.push_back(AdjacentPair {
+                result.emplace_back(
                     flattened[i].word,   flattened[j].word,
                     flattened[i].sindex, flattened[i].qindex,
                     flattened[j].sindex, flattened[j].qindex
-                });
+                );
 
                 break;
             }
@@ -78,7 +78,7 @@ PairedSequenceMap pair_filter(MatchedSequenceMap& matches, SequenceMap& query)
                         }
                     }
                     if (!found)
-                        pairs[qname_matches.first].push_back(pair);
+                        pairs[qname_matches.first].emplace_back(pair);
                 }
             }
         }

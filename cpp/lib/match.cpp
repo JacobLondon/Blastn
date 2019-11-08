@@ -18,11 +18,8 @@ MatchedSequenceMap match_filter(IndexedSequenceMap& query, IndexedSequenceMap& s
                 // skip if the subject doesn't have query word
                 if (sname_wordmap.second.find(qword_indices.first) == sname_wordmap.second.end())
                     continue;
-                // the current word in the query is also in subject but not inserted yet
-                if (sname_wordmap.second.find(qword_indices.first) == sname_wordmap.second.end())
-                    matches[qname_wordmap.first] = vector<Match> {};
                 
-                // the current word in the query is also in subject, and the vector exists
+                // the current word in the query is also in subject, vector<Match> already exists
                 matches[qname_wordmap.first].emplace_back(
                     qword_indices.first,
                     sname_wordmap.second[qword_indices.first],

@@ -12,8 +12,6 @@ f32 dust(string word, u32 pattern_len)
     u32 occurrence;
     vector<string> triplets = split_to_words(word, pattern_len);
     dict<string, u32> record;
-    // reserve double necessary capacity for hash table to minimize collisions
-    record.reserve(triplets.size() * 2);
 
     for (auto triplet : triplets) {
         // triplet not recorded yet
@@ -24,8 +22,8 @@ f32 dust(string word, u32 pattern_len)
         }
     }
     // sum the scores
-    for (auto iter = record.begin(); iter != record.end(); ++iter)
-        total_score += iter->second;
+    for (auto& r : record)
+        total_score += r.second;
     
     return total_score / (word.length() - pattern_len);
 }
