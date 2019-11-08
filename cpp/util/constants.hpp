@@ -4,6 +4,10 @@
 
 namespace Blastn {
 
+/**
+ * Byte packing utilities
+ */
+
 // MUST be divisible by 4
 #define SW_MAX_LENGTH 2000
 
@@ -22,12 +26,19 @@ enum Pack {
     : ((letter) == PACK_LOOKUP[2] ? Pack::G \
     : Pack::T)))
 
+/**
+ * Specify which smith waterman implementation to use in extend
+ */
 enum SW {
     NO_PRESERVE_MEM,
     PRESERVE_MEM,
     MULTI_THREAD,
     FPGA,
 };
+
+/**
+ * Constants used throughout Blastn
+ */
 
 const std::string STR_GAP = "-";
 const char CHAR_GAP = '-';

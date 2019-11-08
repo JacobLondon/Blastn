@@ -4,7 +4,10 @@
 
 namespace Blastn {
 
-// smith waterman
+/**
+ * Holds the single greatest element, whether it be
+ * from an up, left, or diagonal score
+ */
 struct Greatest {
     u32 index;
     s32 value;
@@ -22,11 +25,28 @@ struct Greatest {
  */
 s32 smith_waterman(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap, bool just_score);
 
+/**
+ * @brief The smith waterman algorithm, but mallocs and frees the score matrix each time
+ */
 s32 smith_waterman_no_preserve(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap);
+
+/**
+ * @brief The smith waterman algorithm, but mallocs the first time, and preserves the score matrix
+ *        into a static variable. The score matrix will grow as needed, and is reclaimed when the program exits.
+ */
 s32 smith_waterman_preserve(const char *seq1, const char *seq2, s32 match, s32 mismatch, s32 gap, u64 cols, u64 rows);
 
+/**
+ * @brief The smith waterman algorithm, but creates teams of threads using OpenMP to calculate
+ *        the up, left, and diagonal scores simultaneously. This is fast by itself, but the cost
+ *        of creating and destroying threads very often is too expensive to use with the 'extend' algorithm
+ */
 s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 gap);
 
+/**
+ * @brief The smith waterman algorithm interface to communicate with the FPGA. It sends
+ *        the data to score, and receives a score back
+ */
 s32 smith_waterman_fgpa(const char *seq1, const char *seq2, u64 rows, u64 cols);
 
 } // Blastn

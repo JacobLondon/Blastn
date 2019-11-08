@@ -5,8 +5,8 @@
 namespace Blastn {
 
 /**
- * @brief Sort the extended pairs
+ * @brief Sort the extended pairs by query id, then by E value
  */
-vector<HSP> sort(vector<HSP> & hsps);
+vector<HSP> sort(vector<HSP>& hsps);
 
 } // Blastn

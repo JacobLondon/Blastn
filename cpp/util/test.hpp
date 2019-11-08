@@ -2,6 +2,10 @@
 
 namespace Blastn::Test {
 
+/**
+ * Test each part of Blastn
+ */
+
 void dust();
 void extend();
 void match();

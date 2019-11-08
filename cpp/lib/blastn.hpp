@@ -18,7 +18,15 @@
 
 namespace Blastn {
 
+/**
+ * @brief Parses input arguments for calling the Blastn::Test functions
+ */
 int test(std::vector<std::string> args);
+
+/**
+ * @brief Parses input arguments and runs the Blastn alignment algorithm
+ *        after setting globals
+ */
 int blastn(std::vector<std::string> args);
 
 } // Blastn

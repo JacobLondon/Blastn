@@ -3,6 +3,9 @@
 #include <chrono>
 #include <ctime>
 
+/**
+ * Show the progress of a for loop with a Progress object
+ */
 struct Progress {
     Progress(size_t max);
     uint32_t iteration = 0;
@@ -11,6 +14,9 @@ struct Progress {
     void update();
 };
 
+/**
+ * Record runtime with timestamps
+ */
 class Timer {
     using Clock = std::chrono::high_resolution_clock::time_point;
 public:
