@@ -3,7 +3,7 @@
 /**
  * C++ Format
  * Transmission (TX)
- * [u64 Query_Size, u64 GapStartIndex, u64 GapCount, Query_Sequence, Subject_Sequence]
+ * [u32 Query_Size, u32 GapStartIndex, u32 GapCount, Query_Sequence, Subject_Sequence]
  * 
  * Receive (RX)
  * u64 Result
@@ -14,7 +14,7 @@
  * u64 Result
  * 
  * Receive (RX)
- * [u64 Sequence1_Size, u64 GapStartIndex, u64 GapCount, Query_Sequence, Subject_Sequence]
+ * [u32 Query_Size, u32 GapStartIndex, u32 GapCount, Query_Sequence, Subject_Sequence]
  * 
  * 
  * FPGA Hardware
