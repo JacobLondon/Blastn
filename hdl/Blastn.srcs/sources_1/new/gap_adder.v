@@ -3,8 +3,9 @@
 module GapAdder(
         x,      // input from left or up
         gap,    // input global constant gap score
-        sum,    // output sum of x and gap
+        sum     // output sum of x and gap
     );
+    
     input  [1:0] x;
     input  [1:0] gap;
     output [2:0] sum;

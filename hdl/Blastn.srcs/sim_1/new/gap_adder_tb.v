@@ -5,7 +5,7 @@
     reg [1:0] gap;
     wire[2:0] sum;
     
-    GapAdder uut (
+    GapAdder uut(
         .x(x),
         .gap(gap),
         .sum(sum)

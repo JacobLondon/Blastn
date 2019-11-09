@@ -1,19 +1,19 @@
 `timescale 1ns / 1ps
 
 module Selector(
-        i_bus,
-        match,
-        mismatch,
-        gap,
-        result
+        sel,        // comparator results, 3 bit input
+        match,      // input feed through if 100
+        mismatch,   // input feed through if 010
+        gap,        // input feed through if 001
+        result      // the selected score
     );
     
-    input [2:0] i_bus;
+    input [2:0] sel;
     input [1:0] match;
     input [1:0] mismatch;
     input [1:0] gap;
     output [1:0] result;
     
-    assign result = (i_bus[2] == 1) ? match : ((i_bus[1] == 1) ? mismatch : gap);
+    assign result = (sel[2] == 1) ? match : ((sel[1] == 1) ? mismatch : gap);
     
 endmodule
