@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module GapAdder (
+module GapAdder(
         x,      // input from left or up
         gap,    // input global constant gap score
         sum,    // output sum of x and gap

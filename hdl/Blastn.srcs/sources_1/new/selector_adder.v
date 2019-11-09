@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module SelectorAdder (
+module SelectorAdder(
         x,
         score,
         sum,
