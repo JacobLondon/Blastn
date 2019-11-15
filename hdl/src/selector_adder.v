@@ -13,11 +13,9 @@ module SelectorAdder(
     
     input [1:0] x;
     input [1:0] score;
-    output [2:0] sum;
+    output [1:0] sum;
     
-    wire [3:0] result;
-    
-    assign result = {2'b00, x} + {2'b00, score};
-    assign sum = ((result[3] == 1) || (result[2] == 1) && (score != 2'b10)) ? 2'b00 : result[1:0];
+    assign sum = ((score == 2'b10) && (x == 2'b00)) ? 2'b10 : ((score == 2'b11) && (x[1] == 0)) ? 2'b00 
+                : ((score == 2'b11) && (x[1] == 1)) ? x + score : 2'b11;
     
 endmodule

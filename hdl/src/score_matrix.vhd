@@ -4,20 +4,23 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity ScoreMatrix is
     Generic (
-        g_SIZE : POSITIVE := 10;
-        g_BITS : POSITIVE := 32
+        g_SIZE : POSITIVE := 10;        -- square matrix size
+        g_BITS : POSITIVE := 32         -- result size in bits (ie. 32-bit integer result)
     );
     Port (
-        clk         : in  STD_LOGIC;
-        rst         : in  STD_LOGIC;
-        go          : in  STD_LOGIC;
+        clk         : in  STD_LOGIC;    -- board clock
+        rst         : in  STD_LOGIC;    -- reset the score counter
+        i_sen       : in  STD_LOGIC;    -- 1 => score counter enable, 0 => score counter stops
+        
+        -- Smith-Waterman match, mismatch, and gap scores
         i_match     : in  SIGNED(1 downto 0);
         i_mismatch  : in  SIGNED(1 downto 0);
         i_gap       : in  SIGNED(1 downto 0);
-        i_length    : in  UNSIGNED(g_BITS - 1 downto 0);             -- length of the query or the subject
-        i_query     : in  STD_LOGIC_VECTOR(g_SIZE * 3 - 1 downto 0); -- the query, groups of 3 adjacent bits per character
-        i_subject   : in  STD_LOGIC_VECTOR(g_SIZE * 2 - 1 downto 0); -- the subject, groups of 2 adjacent bits per character
-        o_score     : out UNSIGNED(g_BITS - 1 downto 0)              -- Smith-Waterman max score
+        
+        i_length    : in  UNSIGNED(g_BITS - 1 downto 0);                -- length of the query or the subject
+        i_query     : in  STD_LOGIC_VECTOR(g_SIZE * 3 - 1 downto 0);    -- the query, groups of 3 adjacent bits per character
+        i_subject   : in  STD_LOGIC_VECTOR(g_SIZE * 2 - 1 downto 0);    -- the subject, groups of 2 adjacent bits per character
+        o_score     : out UNSIGNED(g_BITS - 1 downto 0)                 -- Smith-Waterman max score
     );
 end ScoreMatrix;
 
@@ -53,7 +56,7 @@ architecture Blastn of ScoreMatrix is
 
 begin
 
-    r_en <= go;
+    r_en <= i_sen;
     r_dis <= '1' when unsigned(m_score_matrix(g_SIZE - 1)(g_SIZE - 1 downto g_SIZE - g_BITS)) > 0 else '0';
 
     SCORE_COUNTER: process (clk) is
@@ -67,6 +70,9 @@ begin
             -- only increment the score if the
             elsif r_en = '1' and r_dis = '0' then
                 r_score <= r_score + 1;
+            -- set the output score after the score is finished being calculated
+            elsif r_dis = '1' then
+                o_score <= r_score;
             end if;
         end if;
     end process;
