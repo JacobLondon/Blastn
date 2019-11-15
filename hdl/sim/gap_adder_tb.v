@@ -2,7 +2,7 @@
  
  module GapAdderTb();
     reg  [1:0] x;
-    wire [2:0] sum;
+    wire [1:0] sum;
     
     GapAdder uut(
         .x(x),

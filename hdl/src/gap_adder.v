@@ -9,7 +9,7 @@ module GapAdder(
     );
     
     input  [1:0] x;
-    output [2:0] sum;
+    output [1:0] sum;
     
     /**
      * Gap is always -1 == 2'b11

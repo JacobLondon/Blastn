@@ -4,8 +4,8 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity ScoreMatrix is
     Generic (
-        g_SIZE     : POSITIVE := 10;
-        g_BITS     : POSITIVE := 32;
+        g_SIZE : POSITIVE := 10;
+        g_BITS : POSITIVE := 32
     );
     Port (
         clk         : in  STD_LOGIC;
@@ -14,12 +14,10 @@ entity ScoreMatrix is
         i_match     : in  SIGNED(1 downto 0);
         i_mismatch  : in  SIGNED(1 downto 0);
         i_gap       : in  SIGNED(1 downto 0);
-        i_length    : in  UNSIGNED(g_BITS - 1 downto 0);         -- length of the query or the subject
-        i_gap_start : in  UNSIGNED(g_BITS - 1 downto 0);         -- gap start index in the query
-        i_gap_count : in  UNSIGNED(g_BITS - 1 downto 0);         -- number of gaps in the query
-        i_query     : in  STD_LOGIC_VECTOR(g_SIZE - 1 downto 0); -- the query
-        i_subject   : in  STD_LOGIC_VECTOR(g_SIZE - 1 downto 0); -- the subject
-        o_score     : out UNSIGNED(g_BITS - 1 downto 0)          -- Smith-Waterman max score
+        i_length    : in  UNSIGNED(g_BITS - 1 downto 0);             -- length of the query or the subject
+        i_query     : in  STD_LOGIC_VECTOR(g_SIZE * 3 - 1 downto 0); -- the query, groups of 3 adjacent bits per character
+        i_subject   : in  STD_LOGIC_VECTOR(g_SIZE * 2 - 1 downto 0); -- the subject, groups of 2 adjacent bits per character
+        o_score     : out UNSIGNED(g_BITS - 1 downto 0)              -- Smith-Waterman max score
     );
 end ScoreMatrix;
 
@@ -39,8 +37,11 @@ architecture Blastn of ScoreMatrix is
         );
     end component;
 
-    type MATRIX is array(0 to g_SIZE - 1) of STD_LOGIC_VECTOR(g_SIZE - 1 downto 0);
+    constant QSIZE : POSITIVE := g_SIZE * 3 - 1;
+    constant SSIZE : POSITIVE := g_SIZE * 2 - 1;
     
+    -- twice as many columns to hold each score (2 adjacent bits)
+    type MATRIX is array(0 to g_SIZE - 1) of STD_LOGIC_VECTOR(g_SIZE * 2 - 1 downto 0);
     signal m_score_matrix : MATRIX := (others => (others => '0'));
 
     -- Smith-Waterman score counter
@@ -65,24 +66,25 @@ begin
                 r_dis   <= '0';
             -- only increment the score if the
             elsif r_en = '1' and r_dis = '0' then
-                r_score = r_score + 1;
+                r_score <= r_score + 1;
             end if;
         end if;
     end process;
 
+    -- traverse each query and subject letter
     ROW: for i in 1 to g_SIZE - 1 generate
-        COLUMN: for j in 1 to g_SIZE / 2 - 1 generate
+        COLUMN: for j in 1 to g_SIZE - 1 generate
             CURRENT_CELL: Cell
                 Port map (
-                    s        => i_subject(i),
-                    q        => i_query(j*2),
+                    s        => i_subject(i*2 downto i*2 - 1),
+                    q        =>   i_query(j*3 downto j*3 - 2),
                     match    => i_MATCH,
                     mismatch => i_MISMATCH,
                     gap      => i_GAP,
                     diag     => m_score_matrix(i - 1)(j*2 - 1 downto j*2 - 2),
-                    up       => m_score_matrix(i - 1)(j*2 + 1 downto j*2    ),
+                    up       => m_score_matrix(i - 1)(j*2 - 1 downto j*2 - 2),
                     left     => m_score_matrix(i    )(j*2 - 1 downto j*2 - 2),
-                    score    => m_score_matrix(i    )(j*2 + 1 downto j*2    )
+                    score    => m_score_matrix(i    )(j*2 + 1 downto j*2)
                 );
         end generate;
     end generate;
