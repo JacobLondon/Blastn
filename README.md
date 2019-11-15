@@ -10,11 +10,12 @@ $ git clone https://github.com/JacobLondon/Blastn.git --recurse-submodules
 $ git clone git@github.com:/JacobLondon/Blastn.git --recurse-submodules
 ```
 
+## Process
 ![Blastn Process](blastn-flowchart.png)
 
 ## Building and Running
 ### Docker
-Run `docker build -t blastn .` to create the environment with all necessary dependencies. Blastn will be placed under /root.
+Run `docker build -t blastn .` to create the environment with all necessary dependencies. Blastn will be placed under `/root`.
 ### C++
 See the [C++ README.md](cpp/README.md)
 
