@@ -1,1 +1,0 @@
--wto "18211453c77243aba0afb7458193284a" --incr --debug "typical" --relax --mt "8" -L "xil_defaultlib" -L "unisims_ver" -L "unimacro_ver" -L "secureip" --snapshot "SelectorAdderTb_behav" "xil_defaultlib.SelectorAdderTb" "xil_defaultlib.glbl" -log "elaborate.log" 

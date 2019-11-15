@@ -1,6 +1,0 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/Blastn.srcs/sources_1/new/selector_adder.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module SelectorAdder
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/Blastn.srcs/sim_1/new/selector_adder_tb.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module SelectorAdderTb
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/Blastn.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module glbl
