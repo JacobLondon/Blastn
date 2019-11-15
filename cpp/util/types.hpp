@@ -35,6 +35,8 @@ using vector = std::vector<T>;
  */
 struct Match {
     Match(string word, vector<u32> subject_indices, vector<u32> query_indices);
+    ~Match();
+
     string word;
     vector<u32> subject_indices;
     vector<u32> query_indices;
@@ -45,6 +47,8 @@ struct Match {
  */
 struct AdjacentPair {
     AdjacentPair(string word1, string word2, u32 sindex1, u32 qindex1, u32 sindex2, u32 qindex2);
+    ~AdjacentPair();
+
     string word1, word2;
     u32 length;
     u32 sindex1, sindex2;
@@ -56,6 +60,8 @@ struct AdjacentPair {
  */
 struct Extended {
     Extended(string extended_pair, u32 sindex, u32 qindex, s32 score);
+    ~Extended();
+
     string extended_pair;
     u32 sindex;
     u32 qindex;
@@ -67,6 +73,7 @@ struct Extended {
  */
 struct HSP {
     HSP(string subject_id, string query_id, string extended_pair, u32 sindex, u32 qindex, s32 sw_score);
+    ~HSP();
 
     // calculated in constructor
     string subject_id;
@@ -98,32 +105,32 @@ struct HSP {
  * Used in Smith Waterman for the matrices
  */
 using Matrix = vector<vector<u32>>;
-string str(Matrix m);
+string str(Matrix& m);
 /**
  * Map sequence names to their sequence.
  */
 using SequenceMap = dict<string, string>;
-string str(SequenceMap s);
+string str(SequenceMap& s);
 
 /**
  * Intermediate, map a word to its indices.
  */
-using IndexedWordMap = dict<string, vector<u32>>;
+using IndexedWordMap = dict<string, std::vector<u32>>;
 /**
  * Map sequence names to all words mapped to a vector or indices where each word appears in its sequence.
  */
 using IndexedSequenceMap = dict<string, IndexedWordMap>;
-string str(IndexedSequenceMap s);
+string str(IndexedSequenceMap& s);
 
 /**
  * Intermediate, map a query name to its Match objects
  */
-using MatchedMatchesMap = dict<string, vector<Match>>;
+using MatchedMatchesMap = dict<string, std::vector<Match>>;
 /**
  * Subject name mapped to a query name mapped to a vector of Match objects
  */
 using MatchedSequenceMap = dict<string, MatchedMatchesMap>;
-string str(MatchedSequenceMap s);
+string str(MatchedSequenceMap& s);
 
 /**
  * Intermediate, map a query name to its AdjacentPair objects
@@ -133,21 +140,21 @@ using PairedMatchesMap = dict<string, vector<AdjacentPair>>;
  * Subject name mapped to a query name mapped to a vector of AdjacentPair objects 
  */
 using PairedSequenceMap = dict<string, PairedMatchesMap>;
-string str(PairedSequenceMap s);
+string str(PairedSequenceMap& s);
 
 /**
  * Intermediate, map a query name to its Extended pair objects
  */
-using ExtendedPairsMap = dict<string, vector<Extended>>;
+using ExtendedPairsMap = dict<string, std::vector<Extended>>;
 /**
  * Subject name mapped to a query name mapped to a vector of Extended pair objects
  */
 using ExtendedSequenceMap = dict<string, ExtendedPairsMap>;
-string str(ExtendedSequenceMap s);
+string str(ExtendedSequenceMap& s);
 
 /**
  * Output data structure
  */
-string str(vector<HSP> s);
+string str(vector<HSP>& s);
 
 } // Blastn

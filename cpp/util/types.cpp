@@ -6,14 +6,23 @@ Match::Match(string word, vector<u32> subject_indices, vector<u32> query_indices
 : word{ word }, subject_indices{ subject_indices }, query_indices{ query_indices }
 {}
 
+Match::~Match()
+{}
+
 AdjacentPair::AdjacentPair(string word1, string word2, u32 sindex1, u32 qindex1, u32 sindex2, u32 qindex2)
 : word1{ word1 }, word2{ word2 }, sindex1{ sindex1 }, sindex2{ sindex2 }, qindex1{ qindex1 }, qindex2{ qindex2 }
 {
     length = (u32)word1.size();
 }
 
+AdjacentPair::~AdjacentPair()
+{}
+
 Extended::Extended(string extended_pair, u32 sindex, u32 qindex, s32 score)
 : extended_pair{ extended_pair }, sindex{ sindex }, qindex{ qindex }, score{ score }
+{}
+
+Extended::~Extended()
 {}
 
 HSP::HSP(string subject_id, string query_id, string extended_pair, u32 sindex, u32 qindex, s32 sw_score)
@@ -23,7 +32,10 @@ HSP::HSP(string subject_id, string query_id, string extended_pair, u32 sindex, u
       sw_score{ sw_score }
 {}
 
-string str(Matrix m) {
+HSP::~HSP()
+{}
+
+string str(Matrix& m) {
     string builder = "";
     for (auto v : m) {
         for (auto score : v) {
@@ -35,7 +47,7 @@ string str(Matrix m) {
     return builder;
 }
 
-string str(SequenceMap s)
+string str(SequenceMap& s)
 {
     string builder = "";
     for (auto& name_seq : s)
@@ -43,7 +55,7 @@ string str(SequenceMap s)
     return builder;
 }
 
-static string str(vector<u32> ints)
+static string str(vector<u32>& ints)
 {
     string builder = "[";
     for (auto& i : ints)
@@ -52,7 +64,7 @@ static string str(vector<u32> ints)
     return builder;
 }
 
-string str(IndexedSequenceMap s)
+string str(IndexedSequenceMap& s)
 {
     string builder = "";
     for (auto& sname_queries : s) {
@@ -64,7 +76,7 @@ string str(IndexedSequenceMap s)
     return builder;
 }
 
-string str(MatchedSequenceMap s)
+string str(MatchedSequenceMap& s)
 {
     string builder = "";
     for (auto& sname_queries : s) {
@@ -80,7 +92,7 @@ string str(MatchedSequenceMap s)
     return builder;
 }
 
-static string str(vector<AdjacentPair> pairs)
+static string str(vector<AdjacentPair>& pairs)
 {
     string builder = "[";
     for (auto& p : pairs) {
@@ -92,7 +104,7 @@ static string str(vector<AdjacentPair> pairs)
     return builder;
 }
 
-string str(PairedSequenceMap s)
+string str(PairedSequenceMap& s)
 {
     string builder = "";
     for (auto& sname_queries : s) {
@@ -104,7 +116,7 @@ string str(PairedSequenceMap s)
     return builder;
 }
 
-static string str(vector<Extended> ext)
+static string str(vector<Extended>& ext)
 {
     string builder = "[";
     for (auto& e : ext) {
@@ -116,7 +128,7 @@ static string str(vector<Extended> ext)
     return builder;
 }
 
-string str(ExtendedSequenceMap s)
+string str(ExtendedSequenceMap& s)
 {
     string builder = "";
     for (auto& sname_queries : s) {
@@ -128,7 +140,7 @@ string str(ExtendedSequenceMap s)
     return builder;
 }
 
-string str(vector<HSP> hsps)
+string str(vector<HSP>& hsps)
 {
     string builder = "";
     for (auto& hsp : hsps) {
