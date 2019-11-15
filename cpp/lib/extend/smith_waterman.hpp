@@ -47,6 +47,6 @@ s32 smith_waterman_mt(string& seq1, string& seq2, s32 match, s32 mismatch, s32 g
  * @brief The smith waterman algorithm interface to communicate with the FPGA. It sends
  *        the data to score, and receives a score back
  */
-s32 smith_waterman_fgpa(const char *seq1, const char *seq2, u64 rows, u64 cols);
+s32 smith_waterman_fgpa(const char *seq1, const char *seq2, u64 size);
 
 } // Blastn

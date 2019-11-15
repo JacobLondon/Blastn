@@ -290,10 +290,10 @@ s32 smith_waterman_preserve(const char *seq1, const char *seq2, s32 match, s32 m
  * 
  */
 
-s32 smith_waterman_fgpa(const char *seq1, const char *seq2, u64 rows, u64 cols)
+s32 smith_waterman_fgpa(const char *seq1, const char *seq2, u64 size)
 {
     PackedFmt formatted{};
-    formatted.pack(seq1, seq2, rows, cols);
+    formatted.pack(seq1, seq2, size);
 
     return 0;
 }

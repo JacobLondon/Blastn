@@ -14,18 +14,18 @@ module Cell(
         diag,       // input diagonal value
         up,         // input up value
         left,       // input left value
-        out         // output max of diagonal, up, or left
+        score       // output max of diagonal, up, or left
     );
     
     input  [1:0] s;
-    input  [1:0] q;
+    input  [2:0] q;
     input  [1:0] match;
     input  [1:0] mismatch;
     input  [1:0] gap;
     input  [1:0] diag;
     input  [1:0] up;
     input  [1:0] left;
-    output [1:0] out;
+    output [1:0] score;
     
     wire [1:0] sum_left;
     wire [1:0] sum_up;
@@ -55,6 +55,6 @@ module Cell(
     );
     
     // max value between all score directions
-    assign out = (sum_left > sum_up) ? ((sum_left > sum_diag) ? sum_left : sum_diag) : ((sum_up > sum_diag) ? sum_up : sum_diag);
+    assign score = (sum_left > sum_up) ? ((sum_left > sum_diag) ? sum_left : sum_diag) : ((sum_up > sum_diag) ? sum_up : sum_diag);
     
 endmodule
