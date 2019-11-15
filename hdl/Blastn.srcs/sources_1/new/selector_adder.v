@@ -1,5 +1,10 @@
 `timescale 1ns / 1ps
 
+/**
+ * Module to come after Selector. Add the selected score with the diagonal up left value
+ * to calculate the Smith-Waterman diagonal score. The result of these modules will
+ * score based on whether the current query and subject letter were a match, mismatch, or gap.
+ */
 module SelectorAdder(
         x,      // input diagonal value
         score,  // input selected score depending on match, mismatch, or gap

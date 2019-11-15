@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
 module SelectorTb();
-    reg [2:0] sel;
-    reg [1:0] match, mismatch, gap;
+    reg  [2:0] sel;
+    reg  [1:0] match, mismatch, gap;
     wire [1:0] result;
     
     Selector uut(

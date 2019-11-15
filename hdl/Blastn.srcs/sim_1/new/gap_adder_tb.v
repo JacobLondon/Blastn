@@ -1,9 +1,9 @@
  `timescale 1ns / 1ps
  
  module GapAdderTb();
-    reg [1:0] x;
-    reg [1:0] gap;
-    wire[2:0] sum;
+    reg  [1:0] x;
+    reg  [1:0] gap;
+    wire [2:0] sum;
     
     GapAdder uut(
         .x(x),

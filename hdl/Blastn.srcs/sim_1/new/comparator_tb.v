@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
 module ComparatorTb();
-    reg [2:0] q;
-    reg [1:0] s;
+    reg  [2:0] q;
+    reg  [1:0] s;
     wire [2:0] result;
     
     Comparator uut(

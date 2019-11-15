@@ -1,5 +1,8 @@
 `timescale 1ns / 1ps
 
+/**
+ * Add the up or left cell's value with the gap score.
+ */
 module GapAdder(
         x,      // input from left or up
         gap,    // input global constant gap score
