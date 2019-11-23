@@ -2,6 +2,9 @@
 
 namespace Blastn {
 
+bool FPGA = false;
+string UArtPath = "/dev/ttyUSB1";
+
 // .fa and .fasta line seperator
 char Seperator = '>';
 // word length

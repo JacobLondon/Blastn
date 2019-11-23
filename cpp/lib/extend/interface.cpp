@@ -1,5 +1,9 @@
 #include "interface.hpp"
 
+extern "C" {
+    #include "uart.h"
+}
+
 /**
  * C++ Format
  * Transmission (TX)
@@ -27,12 +31,19 @@
 
 namespace Blastn {
 
-PackedFmt::PackedFmt()
-: size{0}, gap_index{0}, gap_count{0}, query{0}, subject{0}
-{}
+PackedFmt::PackedFmt(const char *uart_path)
+: usize{0}, size{0}, gap_index{0}, gap_count{0}, query{0}, subject{0}
+{
+    if (!uart_init(uart_path)) {
+        std::cerr << "Error: Could not open connection to " << uart_path << std::endl;
+        std::exit(-1);
+    }
+}
 
 PackedFmt::~PackedFmt()
-{}
+{
+    uart_close();
+}
 
 static const u32 BYTE1 = 0x000000FFu;
 static const u32 BYTE2 = 0x0000FF00u;
@@ -45,6 +56,8 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
     this->size[1] = (BYTE2 & size) >> 8;
     this->size[2] = (BYTE3 & size) >> 16;
     this->size[3] = (BYTE4 & size) >> 24;
+    this->usize = size;
+    this->result = 0;
     u32 gap_index_tmp = 0;
     u32 gap_count_tmp  = 0;
 
@@ -88,7 +101,43 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
         for (j = 0; j < 4; j++)
             this->subject[i / 4] = this->subject[i / 4] | (PACK_FIND(subject[i + j]) << (j * 2));
     }
+
+    // load data into main buffer
+    buf[0] = this->size[0];
+    buf[1] = this->size[1];
+    buf[2] = this->size[2];
+    buf[3] = this->size[3];
+
+    buf[0] = this->gap_index[0];
+    buf[1] = this->gap_index[1];
+    buf[2] = this->gap_index[2];
+    buf[3] = this->gap_index[3];
+
+    buf[0] = this->gap_count[0];
+    buf[1] = this->gap_count[1];
+    buf[2] = this->gap_count[2];
+    buf[3] = this->gap_count[3];
+
+    for (i = 0; i < this->usize; i++) {
+        buf[4 + 4 + 4 + i] = query[i];
+        buf[4 + 4 + 4 + this->usize + i] = subject[i];
+    }
 }
 
+void PackedFmt::write()
+{
+    // write size, gap index, gap count, and the data
+    uart_write(this->buf, 4 + 4 + 4 + 2*this->usize);
+}
+
+void PackedFmt::read()
+{
+    uart_read(this->buf, 4);
+
+    result  = this->buf[3] << 24;
+    result |= this->buf[2] << 16;
+    result |= this->buf[1] << 8;
+    result |= this->buf[0];
+}
 
 } // Blastn

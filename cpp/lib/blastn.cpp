@@ -134,15 +134,15 @@ int blastn(std::vector<std::string> args)
     string a;
 
     // files
-    if ((a = argparse(args, "-query"))       != Blastn::INVALID)
+    if ((a = argparse(args, "-query")) != Blastn::INVALID)
         Blastn::QueryFile = a;
-    if ((a = argparse(args, "-subject"))     != Blastn::INVALID)
+    if ((a = argparse(args, "-subject")) != Blastn::INVALID)
         Blastn::SubjectFile = a;
-    if ((a = argparse(args, "-out"))         != Blastn::INVALID)
+    if ((a = argparse(args, "-out")) != Blastn::INVALID)
         Blastn::OutputFile = a;
 
     // query/subject file descriptions
-    if ((a = argparse(args, "-sep"))         != Blastn::INVALID)
+    if ((a = argparse(args, "-sep")) != Blastn::INVALID)
         Blastn::Seperator = (char)a[0];
     if ((a = argparse(args, "-word-length")) != Blastn::INVALID)
         Blastn::SplitLength = atoi(a.c_str());
@@ -150,11 +150,11 @@ int blastn(std::vector<std::string> args)
     // smith waterman
     if ((a = argparse(args, "-sw-minscore")) != Blastn::INVALID)
         Blastn::SwMinscore = atoi(a.c_str());
-    if ((a = argparse(args, "-sw-match"))    != Blastn::INVALID)
+    if ((a = argparse(args, "-sw-match")) != Blastn::INVALID)
         Blastn::SwMatch = atoi(a.c_str());
     if ((a = argparse(args, "-sw-mismatch")) != Blastn::INVALID)
         Blastn::SwMismatch = atoi(a.c_str());
-    if ((a = argparse(args, "-sw-gap"))      != Blastn::INVALID)
+    if ((a = argparse(args, "-sw-gap")) != Blastn::INVALID)
         Blastn::SwGap = atoi(a.c_str());
     
     Blastn::SwRatio = (f32)SwMinscore / (f32)(SplitLength * SwMatch);
@@ -165,15 +165,19 @@ int blastn(std::vector<std::string> args)
     if ((a = argparse(args, "-dust-length")) != Blastn::INVALID)
         Blastn::DustPatternLength = atoi(a.c_str());
 
-    if ((a = argparse(args, "-lambda"))      != Blastn::INVALID)
+    if ((a = argparse(args, "-lambda")) != Blastn::INVALID)
         Blastn::Lambda = (f32)atof(a.c_str());
-    if ((a = argparse(args, "-kappa"))       != Blastn::INVALID)
+    if ((a = argparse(args, "-kappa")) != Blastn::INVALID)
         Blastn::Kappa = (f32)atof(a.c_str());
 
     // output spacing
     if ((a = argparse(args, "-spacing")) != Blastn::INVALID)
         Blastn::OutputSpacing = atoi(a.c_str());
 
+    if ((a = argparse(args, "-fpga")) != Blastn::INVALID) {
+        Blastn::FPGA = true;
+        Blastn::UArtPath = a;
+    }
 
     align(Blastn::QueryFile, Blastn::SubjectFile);
     return 0;

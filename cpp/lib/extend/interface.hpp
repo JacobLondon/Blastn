@@ -5,7 +5,7 @@
 namespace Blastn {
 
 struct PackedFmt {
-    PackedFmt();
+    PackedFmt(const char *uart_path);
     ~PackedFmt();
 
     /**
@@ -16,12 +16,17 @@ struct PackedFmt {
      * @param subject_size The length of the subject
      */
     void pack(const char *query, const char *subject, u32 size);
+    void write();
+    void read();
 
+    u32 usize;
+    s32 result;
     byte size[4];
     byte gap_index[4];
     byte gap_count[4];
     byte query[SW_MAX_LENGTH];
     byte subject[SW_MAX_LENGTH];
+    byte buf[4 + 4 + 4 + 2*SW_MAX_LENGTH];
 };
 
 }
