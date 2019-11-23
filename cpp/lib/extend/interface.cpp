@@ -34,7 +34,7 @@ namespace Blastn {
 PackedFmt::PackedFmt(const char *uart_path)
 : usize{0}, size{0}, gap_index{0}, gap_count{0}, query{0}, subject{0}
 {
-    if (!uart_init(uart_path)) {
+    if (uart_path && !uart_init(uart_path)) {
         std::cerr << "Error: Could not open connection to " << uart_path << std::endl;
         std::exit(-1);
     }
@@ -132,7 +132,11 @@ void PackedFmt::write()
 
 void PackedFmt::read()
 {
-    uart_read(this->buf, 4);
+    // receive the 32 bit signed integer score
+    uart_read(this->buf + 0, 1);
+    uart_read(this->buf + 1, 1);
+    uart_read(this->buf + 2, 1);
+    uart_read(this->buf + 3, 1);
 
     result  = this->buf[3] << 24;
     result |= this->buf[2] << 16;

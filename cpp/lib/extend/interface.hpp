@@ -5,7 +5,7 @@
 namespace Blastn {
 
 struct PackedFmt {
-    PackedFmt(const char *uart_path);
+    PackedFmt(const char *uart_path = NULL);
     ~PackedFmt();
 
     /**

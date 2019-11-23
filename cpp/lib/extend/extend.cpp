@@ -139,7 +139,8 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                                   s32 match,
                                   s32 mismatch,
                                   s32 gap,
-                                  f32 ratio)
+                                  f32 ratio,
+                                  int flag)
 {
     ExtendedSequenceMap result;
     bool found = false;
@@ -153,7 +154,7 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                 Extended ext = extend_and_score(adjacent_pair,
                                                 query[qname_pairvec.first],
                                                 subject[sname_quermap.first], // sw?  print? flag?
-                                                match, mismatch, gap, ratio,   true, false, SW::PRESERVE_MEM);
+                                                match, mismatch, gap, ratio,   true, false, flag);
                 // the word scored below the minscore
                 if (ext.extended_pair == INVALID)
                     continue;

@@ -50,6 +50,7 @@ ExtendedSequenceMap extend_filter(PairedSequenceMap& pairs,
                                   s32 match,
                                   s32 mismatch,
                                   s32 gap,
-                                  f32 ratio);
+                                  f32 ratio,
+                                  int flag);
 
 } // Blastn

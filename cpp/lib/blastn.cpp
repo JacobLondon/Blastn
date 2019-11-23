@@ -97,7 +97,12 @@ static void align(std::string query_file, std::string subject_file)
     std::cout << std::endl;
 
     std::cout << "[8 / 11] Extending " << adjacent_pairs.size() << " paired words..." << std::endl;
-    auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, subject, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, Blastn::SwRatio);
+
+    int sw_flag = SW::PRESERVE_MEM;
+    if (Blastn::UArtFPGA)
+        sw_flag = SW::FPGA;
+    
+    auto extended_pairs = Blastn::extend_filter(adjacent_pairs, query, subject, Blastn::SwMatch, Blastn::SwMismatch, Blastn::SwGap, Blastn::SwRatio, sw_flag);
     std::cout << std::endl;
 
     /**
@@ -175,7 +180,7 @@ int blastn(std::vector<std::string> args)
         Blastn::OutputSpacing = atoi(a.c_str());
 
     if ((a = argparse(args, "-fpga")) != Blastn::INVALID) {
-        Blastn::FPGA = true;
+        Blastn::UArtFPGA = true;
         Blastn::UArtPath = a;
     }
 

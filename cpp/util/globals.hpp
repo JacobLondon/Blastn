@@ -8,7 +8,7 @@
 
 namespace Blastn {
 
-extern bool FPGA;               // use the FPGA through UART
+extern bool UArtFPGA;           // use the FPGA through UART
 extern string UArtPath;
 
 extern char Seperator;          // .fa and .fasta line seperator
