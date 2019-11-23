@@ -1,4 +1,4 @@
-Running: xsim.dir/ScoreMatrixTb_behav/xsimk -simmode gui -wdb ScoreMatrixTb_behav.wdb -simrunnum 0 -socket 34115
+Running: xsim.dir/ScoreMatrixTb_behav/xsimk -simmode gui -wdb ScoreMatrixTb_behav.wdb -simrunnum 0 -socket 35871
 Design successfully loaded
-Design Loading Memory Usage: 33520 KB (Peak: 33572 KB)
-Design Loading CPU Usage: 40 ms
+Design Loading Memory Usage: 33676 KB (Peak: 33676 KB)
+Design Loading CPU Usage: 30 ms

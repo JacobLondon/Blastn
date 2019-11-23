@@ -10,7 +10,6 @@ entity ScoreMatrix is
         g_LENGTH : POSITIVE := 100  -- length of the query and subject in letters
     );
     port (
-        --tmp : out INTEGER;
         clk         : in  STD_LOGIC;    -- board clock
         rst         : in  STD_LOGIC;    -- reset the score counter
         done        : out  STD_LOGIC;
@@ -46,7 +45,7 @@ architecture Blastn of ScoreMatrix is
     end component;
     
     -- twice as many columns to hold each score (2 adjacent bits)
-    type MATRIX is array(0 to g_MATSIZE - 1) of STD_LOGIC_VECTOR(g_MATSIZE * 2 - 1 downto 0);
+    type MATRIX is array(0 to g_MATSIZE) of STD_LOGIC_VECTOR(g_MATSIZE * 2 + 1 downto 0);
     signal m_score_matrix : MATRIX := (others => (others => '0'));
 
     -- Smith-Waterman score counter
@@ -76,7 +75,7 @@ architecture Blastn of ScoreMatrix is
 
 begin
 
-    r_botbit <= '1' when UNSIGNED(m_score_matrix(g_MATSIZE - 1)(g_MATSIZE - 1 downto 0)) > 0 else '0';
+    r_botbit <= '1' when UNSIGNED(m_score_matrix(g_MATSIZE - 1)(g_MATSIZE * 2 - 1 downto 0)) > 0 else '0';
     o_score  <= r_score;
     --tmp <= r_state;
 
@@ -118,7 +117,6 @@ begin
         case r_state is
             -- start
             when s0 =>
-                --tmp <= (others => '0');
                 r_step_en <= '0';
                 r_score_en <= '0';
                 q_buf <= (others => '0');
@@ -131,7 +129,6 @@ begin
                 else
                     r_next_state <= s0;
                 end if;
-                --r_next_state <= s1;
             -- load
             when s1 => 
                 r_score_en <= '1';
@@ -146,9 +143,8 @@ begin
                 r_shift_count <= r_shift_count + g_MATSIZE;
                 r_next_state <= s3;
             when s3 => 
-                --r_score_en <= '1';
                 if r_botbit = '1' or r_step_count >= g_MAXSTEP then
-                    if r_shift_count >= g_LENGTH then
+                    if r_shift_count >= i_length then
                         r_next_state <= s4;
                     else
                         r_next_state <= s1;
@@ -156,7 +152,6 @@ begin
                 else
                     r_next_state <= s3;
                 end if;
-                --r_next_state <= s4;
             when s4 => 
                 r_score_en <= '0';
                 done <= '1';
@@ -166,25 +161,26 @@ begin
                 else
                     r_next_state <= s4;
                 end if;
-                --r_next_state <= s0;
             when others => r_next_state <= s0;
         end case;
     end process;
 
     -- traverse each query and subject letter
-    ROW: for i in 1 to g_MATSIZE - 1 generate
-        COLUMN: for j in 1 to g_MATSIZE - 1 generate
+    ROW: for i in 1 to g_MATSIZE generate
+        COLUMN: for j in 1 to g_MATSIZE generate
             CURRENT_CELL: Cell
                 port map (
-                    s        => s_buf(i*2 downto i*2 - 1),
-                    q        => q_buf(j*3 downto j*3 - 2),
+                    -- 0 base index
+                    s        => s_buf(i*2 - 1 downto i*2 - 2), -- 1,0; 3,2; 5,4 ...
+                    q        => q_buf(j*3 - 1 downto j*3 - 3), -- 2,1,0; 5,4,3 ...
                     match    => i_MATCH,
                     mismatch => i_MISMATCH,
                     gap      => i_GAP,
+                    -- y axis: 1 base index, x axis: 2 base index
                     diag     => m_score_matrix(i - 1)(j*2 - 1 downto j*2 - 2),
-                    up       => m_score_matrix(i - 1)(j*2 - 1 downto j*2 - 2),
+                    up       => m_score_matrix(i - 1)(j*2 + 1 downto j*2    ),
                     left     => m_score_matrix(i    )(j*2 - 1 downto j*2 - 2),
-                    score    => m_score_matrix(i    )(j*2 + 1 downto j*2)
+                    score    => m_score_matrix(i    )(j*2 + 1 downto j*2    )
                 );
         end generate;
     end generate;

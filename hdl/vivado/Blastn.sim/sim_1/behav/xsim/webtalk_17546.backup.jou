@@ -2,8 +2,8 @@
 # Webtalk v2019.1 (64-bit)
 # SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
 # IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
-# Start of session at: Fri Nov 22 17:31:22 2019
-# Process ID: 18011
+# Start of session at: Fri Nov 22 17:29:12 2019
+# Process ID: 17546
 # Current directory: /home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.sim/sim_1/behav/xsim
 # Command line: wbtcv -mode batch -source /home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.sim/sim_1/behav/xsim/xsim.dir/CellTb_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: /home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.sim/sim_1/behav/xsim/webtalk.log
