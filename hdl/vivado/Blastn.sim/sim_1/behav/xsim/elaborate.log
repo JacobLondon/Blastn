@@ -19,6 +19,6 @@ Compiling module xil_defaultlib.Selector
 Compiling module xil_defaultlib.SelectorAdder
 Compiling module xil_defaultlib.AlignScore
 Compiling module xil_defaultlib.Cell
-Compiling architecture blastn of entity xil_defaultlib.ScoreMatrix [\ScoreMatrix(g_maxstep=1,g_matsi...]
+Compiling architecture blastn of entity xil_defaultlib.ScoreMatrix [\ScoreMatrix(g_matsize=20)\]
 Compiling architecture blastn of entity xil_defaultlib.scorematrixtb
 Built simulation snapshot ScoreMatrixTb_behav

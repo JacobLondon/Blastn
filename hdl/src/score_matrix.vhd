@@ -67,7 +67,7 @@ architecture Blastn of ScoreMatrix is
 
     -- auto disable max value for the current score segment
     signal r_step_count : UNSIGNED(g_BITS - 1 downto 0);
-    signal r_step_en : STD_LOGIC;
+    signal r_step_rst : STD_LOGIC;
 
     -- Count number of letters processed. Indicate scoring is over when
     -- this value equals the query_size
@@ -77,7 +77,6 @@ begin
 
     r_botbit <= '1' when UNSIGNED(m_score_matrix(g_MATSIZE - 1)(g_MATSIZE * 2 - 1 downto 0)) > 0 else '0';
     o_score  <= r_score;
-    --tmp <= r_state;
 
     SCORE_COUNTER: process (clk)
     begin
@@ -95,7 +94,9 @@ begin
     STEP_COUNTER: process (clk)
     begin
         if rising_edge(clk) then
-            if r_step_en = '1' then
+            if r_step_rst = '1' then
+                r_step_count <= (others => '0');
+            else
                 r_step_count <= r_step_count + 1;
             end if;
         end if;
@@ -117,7 +118,7 @@ begin
         case r_state is
             -- start
             when s0 =>
-                r_step_en <= '0';
+                r_step_rst <= '1';
                 r_score_en <= '0';
                 q_buf <= (others => '0');
                 s_buf <= (others => '0');
@@ -132,14 +133,13 @@ begin
             -- load
             when s1 => 
                 r_score_en <= '1';
-                r_step_en  <= '0';
-                r_step_count <= (others => '0');
+                r_step_rst <= '1';
 
                 q_buf <=   i_query((to_integer(r_shift_count) + g_MATSIZE) * 3 - 1 downto to_integer(r_shift_count) * 3);
                 s_buf <= i_subject((to_integer(r_shift_count) + g_MATSIZE) * 2 - 1 downto to_integer(r_shift_count) * 2);
                 r_next_state <= s2;
             when s2 => 
-                r_step_en  <= '1';
+                r_step_rst <= '0';
                 r_shift_count <= r_shift_count + g_MATSIZE;
                 r_next_state <= s3;
             when s3 => 

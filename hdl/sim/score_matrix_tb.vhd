@@ -62,8 +62,8 @@ begin
 
     UUT: ScoreMatrix
         generic map (
-            g_MAXSTEP => 1,
-            g_MATSIZE => 5,
+            g_MAXSTEP => 10,
+            g_MATSIZE => 20,
             g_BITS    => g_BITS,
             g_LENGTH  => g_LENGTH
         )
@@ -124,6 +124,94 @@ begin
         wait for jump;
         tx_done <= '0';
         wait for jump;
+
+        wait for jump*50;
+
+
+
+        -- second simulation
+
+        match    <= "10";
+        mismatch <= "11";
+        gap      <= "11";
+        rx_done  <= '0';
+        tx_done  <= '0';
+
+        length  <= x"0000000F";
+        query(47 downto 0)   <= "011011011011011011011011011011011011011011011011";
+        subject(31 downto 0) <= "11111111111111111111111111111111";
+        query(g_LENGTH * 3 - 1 downto 11)   <= (others => '0');
+        subject(g_LENGTH * 2 - 1 downto 11) <= (others => '0');
+
+        -- start process
+        wait for jump;
+        rst <= '1';
+        wait for jump;
+        rst <= '0';
+        wait for jump;
+
+        -- simulate rx receiving
+        wait for jump*5;
+
+        -- begin scoring
+        rx_done <= '1';
+        wait for jump;
+        rx_done <= '0';
+        wait for jump;
+
+        -- wait for scoring process
+        while done = '0' loop
+            wait for jump;
+        end loop;
+
+        -- simulate tx sending
+        tx_done <= '1';
+        wait for jump;
+        tx_done <= '0';
+        wait for jump;
+
+        wait for jump*50;
+
+         -- third simulation
+
+         match    <= "10";
+         mismatch <= "11";
+         gap      <= "11";
+         rx_done  <= '0';
+         tx_done  <= '0';
+ 
+         length  <= x"0000000F";
+         query(47 downto 0)   <= "011011011011011011011011011011011011011011011011";
+         subject(31 downto 0) <= "00000000000000000000000000000000";
+         query(g_LENGTH * 3 - 1 downto 11)   <= (others => '0');
+         subject(g_LENGTH * 2 - 1 downto 11) <= (others => '0');
+ 
+         -- start process
+         wait for jump;
+         rst <= '1';
+         wait for jump;
+         rst <= '0';
+         wait for jump;
+ 
+         -- simulate rx receiving
+         wait for jump*5;
+ 
+         -- begin scoring
+         rx_done <= '1';
+         wait for jump;
+         rx_done <= '0';
+         wait for jump;
+ 
+         -- wait for scoring process
+         while done = '0' loop
+             wait for jump;
+         end loop;
+ 
+         -- simulate tx sending
+         tx_done <= '1';
+         wait for jump;
+         tx_done <= '0';
+         wait for jump;
 
         -- finish
         wait;

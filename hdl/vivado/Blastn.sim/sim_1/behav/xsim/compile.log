@@ -1,2 +1,2 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/score_matrix.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'ScoreMatrix'
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/sim/score_matrix_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'ScoreMatrixTb'
