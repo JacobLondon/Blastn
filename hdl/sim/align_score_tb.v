@@ -1,7 +1,7 @@
 module AlignScoreTb();
     reg  [2:0] q;
     reg  [1:0] s, match, mismatch, gap, diag;
-    wire [2:0] score;
+    wire [1:0] score;
     
     AlignScore uut(
         .q(q),

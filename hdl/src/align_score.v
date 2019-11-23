@@ -19,7 +19,7 @@ module AlignScore(
     input [1:0] mismatch;
     input [1:0] gap;
     input [1:0] diag;
-    output [2:0] score;
+    output [1:0] score;
     
     wire [2:0] cmp_result;
     wire [1:0] sel_result;

@@ -4,13 +4,16 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity ScoreMatrix is
     generic (
+        g_MAXSTEP : POSITIVE := 10;
         g_MATSIZE : POSITIVE := 10; -- square matrix size
         g_BITS : POSITIVE := 32;    -- result size in bits (ie. 32-bit integer result)
         g_LENGTH : POSITIVE := 100  -- length of the query and subject in letters
     );
     port (
+        --tmp : out INTEGER;
         clk         : in  STD_LOGIC;    -- board clock
         rst         : in  STD_LOGIC;    -- reset the score counter
+        done        : out  STD_LOGIC;
         rx_done     : in  STD_LOGIC;
         tx_done     : in  STD_LOGIC;
         
@@ -28,7 +31,7 @@ end ScoreMatrix;
 
 architecture Blastn of ScoreMatrix is
 
-    component Cell is
+    component Cell
         Port (
             s        : in  STD_LOGIC_VECTOR(1 downto 0);
             q        : in  STD_LOGIC_VECTOR(2 downto 0);
@@ -52,19 +55,18 @@ architecture Blastn of ScoreMatrix is
     signal r_score : UNSIGNED(g_BITS - 1 downto 0) := (others => '0');
     signal r_score_en : STD_LOGIC;
     signal rx_rst, tx_rst : STD_LOGIC;
-    signal done : STD_LOGIC;
     -- indicate whether any bits at the bottom are 1
     signal r_botbit : STD_LOGIC;
 
     -- hold the current state of the score system
-    signal r_state : UNSIGNED(2 downto 0);
+    type STATE_TYPE is (s0, s1, s2, s3, s4);
+    signal r_state, r_next_state : STATE_TYPE;
 
     -- the next SIZE letters from the query and subject
     signal q_buf : STD_LOGIC_VECTOR(g_MATSIZE * 3 - 1 downto 0);
     signal s_buf : STD_LOGIC_VECTOR(g_MATSIZE * 2 - 1 downto 0);
 
     -- auto disable max value for the current score segment
-    constant MAX_STEP_COUNT : INTEGER := 10;
     signal r_step_count : UNSIGNED(g_BITS - 1 downto 0);
     signal r_step_en : STD_LOGIC;
 
@@ -76,21 +78,22 @@ begin
 
     r_botbit <= '1' when UNSIGNED(m_score_matrix(g_MATSIZE - 1)(g_MATSIZE - 1 downto 0)) > 0 else '0';
     o_score  <= r_score;
+    --tmp <= r_state;
 
-    SCORE_COUNTER: process (clk) is
+    SCORE_COUNTER: process (clk)
     begin
         if rising_edge(clk) then
-            -- synchronous reset
             if rst = '1' then
-                r_state <= (others => '0');
-            -- only increment the score if the
+                r_score <= (others => '0');
             elsif r_score_en = '1' then
                 r_score <= r_score + 1;
+            else
+                r_score <= r_score;
             end if;
         end if;
     end process;
 
-    STEP_COUNTER: process (clk) is
+    STEP_COUNTER: process (clk)
     begin
         if rising_edge(clk) then
             if r_step_en = '1' then
@@ -99,65 +102,80 @@ begin
         end if;
     end process;
 
-    STATE_MACHINE: process (clk) is
+    NEXT_STATE: process(clk, rst)
     begin
         if rising_edge(clk) then
-            case r_state is
-                -- start
-                when x"0" =>
-                    r_score <= (others => '0');
-                    r_step_en <= '0';
-                    r_score_en <= '0';
-                    q_buf <= (others => '0');
-                    s_buf <= (others => '0');
-                    done  <= '0';
-                    if rx_done = '1' then
-                        r_state <= x"1";
-                    else
-                        r_state <= x"0";
-                    end if;
-                -- load
-                when x"1" => 
-                    r_score_en <= '0';
-                    r_step_en  <= '0';
-                    r_step_count <= (others => '0');
-
-                    q_buf <=   i_query(to_integer(r_shift_count) downto to_integer(r_shift_count) - g_MATSIZE);
-                    s_buf <= i_subject(to_integer(r_shift_count) downto to_integer(r_shift_count) - g_MATSIZE);
-                    r_state <= x"2";
-                when x"2" => 
-                    r_shift_count <= r_shift_count + g_MATSIZE;
-                    r_state <= x"3";
-                when x"3" => 
-                    r_score_en <= '1';
-                    r_step_en  <= '1';
-                    if r_botbit = '1' or r_step_count = MAX_STEP_COUNT then
-                        if r_shift_count >= g_LENGTH then
-                            r_state <= x"4";
-                        else
-                            r_state <= x"1";
-                        end if;
-                    else
-                        r_state <= x"3";
-                    end if;
-                when x"4" => 
-                    r_score_en <= '0';
-                    done <= '1';
-                    if tx_done = '1' then
-                        r_state <= x"0";
-                    else
-                        r_state <= x"4";
-                    end if;
-                when others => r_state <= (others => '0');
-            end case;
+            if rst = '1' then
+                r_state <= s0;
+            else
+                r_state <= r_next_state;
+            end if;
         end if;
+    end process;
+
+    STATE_MACHINE: process(clk, r_state, i_query, i_subject)
+    begin
+        case r_state is
+            -- start
+            when s0 =>
+                --tmp <= (others => '0');
+                r_step_en <= '0';
+                r_score_en <= '0';
+                q_buf <= (others => '0');
+                s_buf <= (others => '0');
+                done  <= '0';
+                r_shift_count <= (others => '0');
+                
+                if rx_done = '1' then
+                    r_next_state <= s1;
+                else
+                    r_next_state <= s0;
+                end if;
+                --r_next_state <= s1;
+            -- load
+            when s1 => 
+                r_score_en <= '1';
+                r_step_en  <= '0';
+                r_step_count <= (others => '0');
+
+                q_buf <=   i_query((to_integer(r_shift_count) + g_MATSIZE) * 3 - 1 downto to_integer(r_shift_count) * 3);
+                s_buf <= i_subject((to_integer(r_shift_count) + g_MATSIZE) * 2 - 1 downto to_integer(r_shift_count) * 2);
+                r_next_state <= s2;
+            when s2 => 
+                r_step_en  <= '1';
+                r_shift_count <= r_shift_count + g_MATSIZE;
+                r_next_state <= s3;
+            when s3 => 
+                --r_score_en <= '1';
+                if r_botbit = '1' or r_step_count >= g_MAXSTEP then
+                    if r_shift_count >= g_LENGTH then
+                        r_next_state <= s4;
+                    else
+                        r_next_state <= s1;
+                    end if;
+                else
+                    r_next_state <= s3;
+                end if;
+                --r_next_state <= s4;
+            when s4 => 
+                r_score_en <= '0';
+                done <= '1';
+                
+                if tx_done = '1' then
+                    r_next_state <= s0;
+                else
+                    r_next_state <= s4;
+                end if;
+                --r_next_state <= s0;
+            when others => r_next_state <= s0;
+        end case;
     end process;
 
     -- traverse each query and subject letter
     ROW: for i in 1 to g_MATSIZE - 1 generate
         COLUMN: for j in 1 to g_MATSIZE - 1 generate
             CURRENT_CELL: Cell
-                Port map (
+                port map (
                     s        => s_buf(i*2 downto i*2 - 1),
                     q        => q_buf(j*3 downto j*3 - 2),
                     match    => i_MATCH,

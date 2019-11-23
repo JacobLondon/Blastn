@@ -33,13 +33,11 @@ module Cell(
     
     GapAdder mod_left(
         .x(left),       // input from left or up
-        .gap(gap),      // input global constant gap score
         .sum(sum_left)  // output sum of x and gap
     );
     
     GapAdder mod_up(
         .x(up),         // input from left or up
-        .gap(gap),      // input global constant gap score
         .sum(sum_up)    // output sum of x and gap
     );
     
