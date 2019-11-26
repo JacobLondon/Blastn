@@ -79,81 +79,91 @@ begin
     STATE_CONTROL: process (i_clk) is
     begin          
         if rising_edge(i_clk) then
-       
-            case state is
-                when s_size =>
-                    temp_done <= '0';
-
-                    if (done = '1') then
-                        size(index + 7 downto index) <= temp;
-                        
-                        if (index + 8 > g_BITS - 8) then
-                            index    <= 0;
-                            int_size <= to_integer(UNSIGNED(size));
-                            state    <= s_gap_start;
-                        else
-                            index    <= index + 8;
+            if i_rst = '1' then
+                query <= (others => '0');
+                subject <= (others => '0');
+                size <= (others => '0');
+                state <= s_size;
+                temp <= (others => '0');
+                gap_start <= (others => '0');
+                gap_count <= (others => '0');
+                temp_done <= '0';
+            else
+                case state is
+                    when s_size =>
+                        temp_done <= '0';
+    
+                        if (done = '1') then
+                            size(index + 7 downto index) <= temp;
+                            
+                            if (index + 8 > g_BITS - 8) then
+                                index    <= 0;
+                                int_size <= to_integer(UNSIGNED(size));
+                                state    <= s_gap_start;
+                            else
+                                index    <= index + 8;
+                            end if;
                         end if;
-                    end if;
-               
-                when s_gap_start =>
-                    if (done = '1') then
-                        gap_start(index + 7 downto index) <= temp;
-                        
-                        if (index + 8 > g_BITS - 8) then
-                            index         <= 0;
-                            int_gap_start <= to_integer(UNSIGNED(gap_start));
-                            state         <= s_gap_count;
-                        else
-                            index         <= index + 8;
+                   
+                    when s_gap_start =>
+                        if (done = '1') then
+                            gap_start(index + 7 downto index) <= temp;
+                            
+                            if (index + 8 > g_BITS - 8) then
+                                index         <= 0;
+                                int_gap_start <= to_integer(UNSIGNED(gap_start));
+                                state         <= s_gap_count;
+                            else
+                                index         <= index + 8;
+                            end if;
                         end if;
-                    end if;
-                
-                when s_gap_count =>
-                    if (done = '1') then
-                        gap_count(index + 7 downto index) <= temp;
-                        
-                        if (index + 8 > g_BITS - 8) then
-                            index         <= 0;
-                            int_gap_count <= to_integer(UNSIGNED(gap_count));
-                            state         <= s_query;
-                        else
-                            index         <= index + 8;
+                    
+                    when s_gap_count =>
+                        if (done = '1') then
+                            gap_count(index + 7 downto index) <= temp;
+                            
+                            if (index + 8 > g_BITS - 8) then
+                                index         <= 0;
+                                int_gap_count <= to_integer(UNSIGNED(gap_count));
+                                state         <= s_query;
+                            else
+                                index         <= index + 8;
+                            end if;
                         end if;
-                    end if;
-                
-                -- *** Can never send less than a byte; on PC side, need to append 0 if sending only 3 char for example (4 char = byte)
-                -- *** in byte packing method maybe?
-                
-                when s_query =>
-                    if (done = '1') then
-                        query(index + 7 downto index) <= temp;
-                        
-                        if (index + 8 > (int_size * 2) - 8) then
-                            index <= 0;
-                            state <= s_subject;
-                        else
-                            index <= index + 8;
+                    
+                    -- *** Can never send less than a byte; on PC side, need to append 0 if sending only 3 char for example (4 char = byte)
+                    -- *** in byte packing method maybe?
+                    
+                    when s_query =>
+                        if (done = '1') then
+                            query(index + 7 downto index) <= temp;
+                            
+                            if (index + 8 > (int_size * 2) - 8) then
+                                index <= 0;
+                                state <= s_subject;
+                            else
+                                index <= index + 8;
+                            end if;
                         end if;
-                    end if;
-
-                when s_subject =>
-                    if (done = '1') then
-                        subject(index + 7 downto index) <= temp;
-
-                        if (index + 8 > (int_size * 2) - 8) then
-                            temp_done <= '1';
-                            index     <= 0;
-                            state     <= s_size;
-                        else
-                            index     <= index + 8;
+    
+                    when s_subject =>
+                        if (done = '1') then
+                            subject(index + 7 downto index) <= temp;
+    
+                            if (index + 8 > (int_size * 2) - 8) then
+                                temp_done <= '1';
+                                index     <= 0;
+                                state     <= s_size;
+                            else
+                                index     <= index + 8;
+                            end if;
                         end if;
-                    end if;
-
-                 when others => 
-                    state <= s_size;
- 
-           end case;
+    
+                     when others => 
+                        state <= s_size;
+     
+               end case;
+           end if;
        end if;
     end process STATE_CONTROL;
 

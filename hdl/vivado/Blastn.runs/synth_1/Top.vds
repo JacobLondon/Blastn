@@ -1,0 +1,530 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Tue Nov 26 14:17:12 2019
+# Process ID: 3559
+# Current directory: /home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.runs/synth_1
+# Command line: vivado -log Top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source Top.tcl
+# Log file: /home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.runs/synth_1/Top.vds
+# Journal file: /home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.runs/synth_1/vivado.jou
+#-----------------------------------------------------------
+source Top.tcl -notrace
+Command: synth_design -top Top -part xc7a100tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Device 21-403] Loading part xc7a100tcsg324-1
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 3601 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 1750.207 ; gain = 154.715 ; free physical = 2518 ; free virtual = 8892
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'Top' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/top.vhd:17]
+	Parameter g_SIZE bound to: 16 - type: integer 
+	Parameter g_CLK_PER_BIT bound to: 434 - type: integer 
+	Parameter g_BITS bound to: 32 - type: integer 
+INFO: [Synth 8-3491] module 'ScoreTx' declared at '/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/ScoreTx.vhd:4' bound to instance 'SCORE_TRANSMITTER' of component 'ScoreTx' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/top.vhd:78]
+INFO: [Synth 8-638] synthesizing module 'ScoreTx' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/ScoreTx.vhd:25]
+	Parameter g_CLK_PER_BIT bound to: 434 - type: integer 
+	Parameter g_BITS bound to: 32 - type: integer 
+	Parameter g_CLK_PER_BIT bound to: 434 - type: integer 
+INFO: [Synth 8-3491] module 'UartTx' declared at '/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/UartTx.vhd:5' bound to instance 'BYTE_TX' of component 'UartTx' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/ScoreTx.vhd:53]
+INFO: [Synth 8-638] synthesizing module 'UartTx' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/UartTx.vhd:19]
+	Parameter g_CLK_PER_BIT bound to: 434 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'UartTx' (1#1) [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/UartTx.vhd:19]
+INFO: [Synth 8-226] default block is never used [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/ScoreTx.vhd:75]
+INFO: [Synth 8-256] done synthesizing module 'ScoreTx' (2#1) [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/ScoreTx.vhd:25]
+	Parameter g_CLK_PER_BIT bound to: 434 - type: integer 
+	Parameter g_SIZE bound to: 16 - type: integer 
+	Parameter g_BITS bound to: 32 - type: integer 
+INFO: [Synth 8-3491] module 'Collector' declared at '/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:7' bound to instance 'DATA_RECEIVER' of component 'Collector' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/top.vhd:90]
+INFO: [Synth 8-638] synthesizing module 'Collector' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:32]
+	Parameter g_CLK_PER_BIT bound to: 434 - type: integer 
+	Parameter g_SIZE bound to: 16 - type: integer 
+	Parameter g_BITS bound to: 32 - type: integer 
+	Parameter g_CLK_PER_BIT bound to: 434 - type: integer 
+INFO: [Synth 8-3491] module 'UartRx' declared at '/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/UartRx.vhd:5' bound to instance 'BYTE_RX' of component 'UartRx' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:68]
+INFO: [Synth 8-638] synthesizing module 'UartRx' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/UartRx.vhd:17]
+	Parameter g_CLK_PER_BIT bound to: 434 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'UartRx' (3#1) [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/UartRx.vhd:17]
+INFO: [Synth 8-256] done synthesizing module 'Collector' (4#1) [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:32]
+INFO: [Synth 8-256] done synthesizing module 'Top' (5#1) [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/top.vhd:17]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 1804.957 ; gain = 209.465 ; free physical = 2540 ; free virtual = 8915
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1808.926 ; gain = 213.434 ; free physical = 2539 ; free virtual = 8913
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1808.926 ; gain = 213.434 ; free physical = 2539 ; free virtual = 8913
+---------------------------------------------------------------------------------
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/nexys4.xdc]
+Finished Parsing XDC File [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/nexys4.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/nexys4.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/Top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/Top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1987.613 ; gain = 0.000 ; free physical = 2440 ; free virtual = 8815
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 1987.613 ; gain = 0.000 ; free physical = 2440 ; free virtual = 8815
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:08 ; elapsed = 00:00:10 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2519 ; free virtual = 8895
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a100tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:08 ; elapsed = 00:00:10 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2519 ; free virtual = 8895
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:10 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2519 ; free virtual = 8895
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'UartTx'
+INFO: [Synth 8-5544] ROM "state" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'ScoreTx'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'UartRx'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'Collector'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  s_idle |                              000 |                              000
+             s_start_bit |                              001 |                              001
+         s_transmit_bits |                              010 |                              010
+              s_stop_bit |                              011 |                              011
+              s_clean_up |                              100 |                              100
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'UartTx'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  s_idle |                              000 |                              000
+                 s_byte0 |                              001 |                              001
+             s_pre_byte1 |                              010 |                              010
+                 s_byte1 |                              011 |                              011
+             s_pre_byte2 |                              100 |                              100
+                 s_byte2 |                              101 |                              101
+             s_pre_byte3 |                              110 |                              110
+                 s_byte3 |                              111 |                              111
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'ScoreTx'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  s_idle |                            00001 |                              000
+             s_start_bit |                            00010 |                              001
+          s_receive_bits |                            00100 |                              010
+              s_stop_bit |                            01000 |                              011
+              s_clean_up |                            10000 |                              100
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'UartRx'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  s_size |                              000 |                              000
+             s_gap_start |                              001 |                              001
+             s_gap_count |                              010 |                              010
+                 s_query |                              011 |                              011
+               s_subject |                              100 |                              100
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'Collector'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:10 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2511 ; free virtual = 8886
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     32 Bit       Adders := 1     
+	   2 Input     31 Bit       Adders := 1     
+	   2 Input      9 Bit       Adders := 2     
+	   2 Input      3 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 3     
+	               31 Bit    Registers := 4     
+	               16 Bit    Registers := 2     
+	                9 Bit    Registers := 2     
+	                8 Bit    Registers := 3     
+	                3 Bit    Registers := 2     
+	                1 Bit    Registers := 7     
++---Muxes : 
+	   5 Input     32 Bit        Muxes := 3     
+	   5 Input     31 Bit        Muxes := 1     
+	   5 Input     16 Bit        Muxes := 2     
+	   2 Input      9 Bit        Muxes := 3     
+	   5 Input      9 Bit        Muxes := 2     
+	   8 Input      8 Bit        Muxes := 1     
+	   2 Input      8 Bit        Muxes := 1     
+	   5 Input      8 Bit        Muxes := 1     
+	   5 Input      5 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 1     
+	   5 Input      3 Bit        Muxes := 4     
+	   8 Input      3 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 1     
+	   5 Input      1 Bit        Muxes := 20    
+	   8 Input      1 Bit        Muxes := 6     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module UartTx 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      9 Bit       Adders := 1     
+	   2 Input      3 Bit       Adders := 1     
++---Registers : 
+	                9 Bit    Registers := 1     
+	                8 Bit    Registers := 1     
+	                3 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   2 Input      9 Bit        Muxes := 1     
+	   5 Input      9 Bit        Muxes := 1     
+	   5 Input      3 Bit        Muxes := 2     
+	   5 Input      1 Bit        Muxes := 10    
+Module ScoreTx 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
+	                1 Bit    Registers := 2     
++---Muxes : 
+	   8 Input      8 Bit        Muxes := 1     
+	   8 Input      3 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 1     
+	   8 Input      1 Bit        Muxes := 6     
+Module UartRx 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      9 Bit       Adders := 1     
+	   2 Input      3 Bit       Adders := 1     
++---Registers : 
+	                9 Bit    Registers := 1     
+	                8 Bit    Registers := 1     
+	                3 Bit    Registers := 1     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   2 Input      9 Bit        Muxes := 2     
+	   5 Input      9 Bit        Muxes := 1     
+	   2 Input      8 Bit        Muxes := 1     
+	   5 Input      8 Bit        Muxes := 1     
+	   5 Input      5 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 1     
+	   5 Input      3 Bit        Muxes := 1     
+	   5 Input      1 Bit        Muxes := 4     
+Module Collector 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     32 Bit       Adders := 1     
+	   2 Input     31 Bit       Adders := 1     
++---Registers : 
+	               32 Bit    Registers := 3     
+	               31 Bit    Registers := 4     
+	               16 Bit    Registers := 2     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   5 Input     32 Bit        Muxes := 3     
+	   5 Input     31 Bit        Muxes := 1     
+	   5 Input     16 Bit        Muxes := 2     
+	   5 Input      3 Bit        Muxes := 1     
+	   5 Input      1 Bit        Muxes := 6     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 240 (col length:80)
+BRAMs: 270 (col length: RAMB18 80 RAMB36 40)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/temp_byte_reg[6]' (FDRE) to 'SCORE_TRANSMITTER/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/temp_byte_reg[5]' (FDRE) to 'SCORE_TRANSMITTER/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/temp_byte_reg[4]' (FDRE) to 'SCORE_TRANSMITTER/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/temp_byte_reg[3]' (FDRE) to 'SCORE_TRANSMITTER/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/temp_byte_reg[2]' (FDRE) to 'SCORE_TRANSMITTER/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/temp_byte_reg[1]' (FDRE) to 'SCORE_TRANSMITTER/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[6]' (FDE) to 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[5]' (FDE) to 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[4]' (FDE) to 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[3]' (FDE) to 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[2]' (FDE) to 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[0]'
+INFO: [Synth 8-3886] merging instance 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[1]' (FDE) to 'SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[0]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\DATA_RECEIVER/size_reg[1] )
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[1]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[2]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[3]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[4]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[5]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[6]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[7]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[8]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[9]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[10]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[11]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[12]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[13]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[14]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[15]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[16]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[17]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[18]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[19]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[20]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[21]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[22]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[23]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[24]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[25]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[26]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[27]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[28]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/int_size_reg[29]' (FDE) to 'DATA_RECEIVER/int_size_reg[30]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\DATA_RECEIVER/int_size_reg[30] )
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'DATA_RECEIVER/temp_reg[7]/Q' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'DATA_RECEIVER/temp_reg[6]/Q' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'DATA_RECEIVER/temp_reg[5]/Q' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'DATA_RECEIVER/temp_reg[4]/Q' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'DATA_RECEIVER/temp_reg[3]/Q' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'DATA_RECEIVER/temp_reg[2]/Q' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'DATA_RECEIVER/temp_reg[1]/Q' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'DATA_RECEIVER/temp_reg[0]/Q' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/Collector.vhd:75]
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[9]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[10]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[11]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[12]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[13]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[14]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[15]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[16]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[17]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[18]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[19]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[20]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[21]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[22]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[23]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[24]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[25]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[26]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[27]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[28]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[29]' (FDE) to 'DATA_RECEIVER/index_reg[30]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[30]' (FDE) to 'DATA_RECEIVER/index_reg[8]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[5]' (FDE) to 'DATA_RECEIVER/index_reg[8]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[6]' (FDE) to 'DATA_RECEIVER/index_reg[8]'
+INFO: [Synth 8-3886] merging instance 'DATA_RECEIVER/index_reg[7]' (FDE) to 'DATA_RECEIVER/index_reg[8]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\DATA_RECEIVER/index_reg[8] )
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2498 ; free virtual = 8877
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:14 ; elapsed = 00:00:16 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2347 ; free virtual = 8754
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:16 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2344 ; free virtual = 8750
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2343 ; free virtual = 8750
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2342 ; free virtual = 8751
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2342 ; free virtual = 8751
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2342 ; free virtual = 8751
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2342 ; free virtual = 8751
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2342 ; free virtual = 8751
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2342 ; free virtual = 8751
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     1|
+|2     |CARRY4 |     1|
+|3     |LUT1   |     2|
+|4     |LUT2   |     7|
+|5     |LUT3   |     8|
+|6     |LUT4   |    19|
+|7     |LUT5   |    13|
+|8     |LUT6   |    30|
+|9     |FDRE   |    52|
+|10    |IBUF   |     3|
+|11    |OBUF   |     2|
++------+-------+------+
+
+Report Instance Areas: 
++------+--------------------+----------+------+
+|      |Instance            |Module    |Cells |
++------+--------------------+----------+------+
+|1     |top                 |          |   138|
+|2     |  DATA_RECEIVER     |Collector |    69|
+|3     |    BYTE_RX         |UartRx    |    55|
+|4     |  SCORE_TRANSMITTER |ScoreTx   |    63|
+|5     |    BYTE_TX         |UartTx    |    53|
++------+--------------------+----------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2342 ; free virtual = 8751
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 24 critical warnings and 0 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:14 ; elapsed = 00:00:16 . Memory (MB): peak = 1987.613 ; gain = 213.434 ; free physical = 2394 ; free virtual = 8803
+Synthesis Optimization Complete : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 1987.613 ; gain = 392.121 ; free physical = 2394 ; free virtual = 8803
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1987.613 ; gain = 0.000 ; free physical = 2343 ; free virtual = 8753
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+105 Infos, 0 Warnings, 24 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 1987.613 ; gain = 598.227 ; free physical = 2442 ; free virtual = 8851
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1987.613 ; gain = 0.000 ; free physical = 2442 ; free virtual = 8851
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint '/home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.runs/synth_1/Top.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file Top_utilization_synth.rpt -pb Top_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue Nov 26 14:17:43 2019...
