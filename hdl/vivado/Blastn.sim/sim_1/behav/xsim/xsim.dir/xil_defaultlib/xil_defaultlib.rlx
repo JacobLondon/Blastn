@@ -3,6 +3,7 @@
 May 24 2019
 14:51:52
 /home/jacob/Workspace/school/seniorproj/Blastn/hdl/sim/cell_tb.v,1574447959,verilog,,,,CellTb,,,,,,,,
+/home/jacob/Workspace/school/seniorproj/Blastn/hdl/sim/score_matrix_sq_tb.vhd,1574745062,vhdl,,,,scorematrixsqtb,,,,,,,,
 /home/jacob/Workspace/school/seniorproj/Blastn/hdl/sim/score_matrix_tb.vhd,1574477177,vhdl,,,,scorematrixtb,,,,,,,,
 /home/jacob/Workspace/school/seniorproj/Blastn/hdl/sim/uart_tb.vhd,1573830736,vhdl,,,,uarttb,,,,,,,,
 /home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/align_score.v,1574461494,verilog,,/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/cell.v,,AlignScore,,,,,,,,
@@ -10,6 +11,7 @@ May 24 2019
 /home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/comparator.v,1573840780,verilog,,/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/gap_adder.v,,Comparator,,,,,,,,
 /home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/gap_adder.v,1573856952,verilog,,/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/selector.v,,GapAdder,,,,,,,,
 /home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/score_matrix.vhd,1574476727,vhdl,,,,scorematrix,,,,,,,,
+/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/score_matrix_sq.vhd,1574745073,vhdl,,,,scorematrixsq,,,,,,,,
 /home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/selector.v,1573841220,verilog,,/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/selector_adder.v,,Selector,,,,,,,,
 /home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/selector_adder.v,1573860787,verilog,,/home/jacob/Workspace/school/seniorproj/Blastn/hdl/sim/cell_tb.v,,SelectorAdder,,,,,,,,
 /home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/uart_rx.vhd,1573823150,vhdl,,,,uartrx,,,,,,,,
