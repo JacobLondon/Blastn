@@ -21,6 +21,7 @@ callgrind.out.*
 *.fasta.json
 packing_table.json
 unpacking_table.json
+blastn_out.txt
 
 vivado.jou
 vivado.log

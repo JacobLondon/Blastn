@@ -92,7 +92,7 @@ def blastn(query_file, data_file, split_len, minscore, dust_threshold, sw_match,
 """
 input arg example:
 python main.py -q ../data/query_small.fa -db ../data/data_small.fasta -l 4 -m 5 -dt .5 -ma 2 -mi -1 -g -1
-python main.py -q ../data/SRR7236689--ARG830.fa -db ../data/Gn-SRR7236689_contigs.fasta -l 11 -m 2 -dt .2 -ma 2 -mi -1 -g -1
+python3 main.py -q ../data/SRR7236689--ARG830.fa -db ../data/Gn-SRR7236689_contigs.fasta -l 11 -m 2 -dt .2 -ma 2 -mi -1 -g -1
 """
 if __name__ == '__main__':
     #query_file = "../data/query_small.fa"
