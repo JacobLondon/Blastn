@@ -37,12 +37,11 @@ PackedFmt::PackedFmt(const char *uart_path)
         std::cerr << "Error: Could not open connection to " << uart_path << std::endl;
         std::exit(-1);
     }
-	std::cout << "Got here" << std::endl;
 }
 
 PackedFmt::~PackedFmt()
 {
-    //uart_close();
+    uart_close();
 }
 
 static const u32 BYTE1 = 0x000000FFu;
@@ -69,6 +68,7 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
     // ALSO: Gaps must ONLY be in the query, not the subject
 
     for (i = 0, j = 0, shiftpos = 0; i + 3 < size && i / 4 < SW_MAX_LENGTH; i += 4) {
+        // insert 4 letters per byte
         for (gap_probe = 0; gap_probe < 4; gap_probe++) {
             // found first gap
             if (query[i + gap_probe] == CHAR_GAP) {
@@ -78,6 +78,7 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
                 continue;
             }
             
+            // logical or the current letter with A, C, G, or T at the current bit offset in the current byte
             this->query[j] = this->query[j] | (PACK_FIND(query[i + gap_probe] << ((shiftpos % 4) * 2)));
             shiftpos++;
         }
@@ -133,18 +134,12 @@ void PackedFmt::write()
 void PackedFmt::read()
 {
     // receive the 32 bit signed integer score
-    /*uart_read(this->buf + 0, 1);
-    uart_read(this->buf + 1, 1);
-    uart_read(this->buf + 2, 1);
-    uart_read(this->buf + 3, 1);
-	*/
-
-	uart_read(this->buf, 4);
+    uart_read(this->buf, 4);
 
     this->result  = ((s32)this->buf[3]) << 24;
-	this->result |= ((s32)this->buf[2]) << 16;
-	this->result |= ((s32)this->buf[1]) << 8;
-	this->result |= ((s32)this->buf[0]);
+    this->result |= ((s32)this->buf[2]) << 16;
+    this->result |= ((s32)this->buf[1]) << 8;
+    this->result |= ((s32)this->buf[0]);
 }
 
 } // Blastn

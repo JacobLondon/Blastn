@@ -4,19 +4,24 @@
 #include "uart.hpp"
 
 #ifdef __linux__
-	#include <errno.h>
-	#include <fcntl.h>
-	#include <termios.h>
-	#include <unistd.h>
-	int uart_fd;
+    #include <errno.h>
+    #include <fcntl.h>
+    #include <termios.h>
+    #include <unistd.h>
+    int uart_fd;
 #elif defined(_WIN32)
-	#include <Windows.h>
-	HANDLE hComm;
-	char ComPortName[] = "\\\\.\\COM10";
-	BOOL Status;
+    #include <Windows.h>
+    #include <string>
+    HANDLE hComm;
+    std::string ComPortName = "\\\\.\\";
+    BOOL Status;
 #else
-	#error Unsupported operating system. Please use either Linux or Windows.
+    #error Unsupported operating system. Please use either Linux or Windows.
 #endif
+
+/**
+ * Initialize the serial port connection depending on the operating system.
+ */
 
 int uart_init(const char *path)
 {
@@ -54,131 +59,143 @@ int uart_init(const char *path)
 
 #else // _WIN32
 
-	// opening the serial port
-	hComm = CreateFile(
-		ComPortName,
-		GENERIC_READ | GENERIC_WRITE,	// Read/Write Access
-		0,								// No Sharing, ports cant be shared
-		NULL,							// No Security
-		OPEN_EXISTING,					// Open existing port only
-		0,								// Non Overlapped I/O
-		NULL							// Null for Comm Devices
-	);
+    ComPortName += path;
 
-	if (hComm == INVALID_HANDLE_VALUE)
-		fprintf(stderr, "Serial Port Error: Port %s can't be opened\n", ComPortName);
+    // opening the serial port
+    hComm = CreateFile(
+        ComPortName.c_str(),
+        GENERIC_READ | GENERIC_WRITE,   // read/write access
+        0,                              // no sharing, ports can't be shared
+        NULL,                           // no security
+        OPEN_EXISTING,                  // open existing port only
+        0,                              // non overlapped I/O
+        NULL                            // null for comm devices
+    );
 
-	// Initializing DCB structure
-	DCB dcbSerialParams = { 0 };
-	dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
+    if (hComm == INVALID_HANDLE_VALUE) {
+        fprintf(stderr, "Serial Port Error: Port %s can't be opened\n", ComPortName);
+        exit(-1);
+    }
 
-	// Retreives current settings
-	Status = GetCommState(hComm, &dcbSerialParams);
+    // initializing DCB structure
+    DCB dcb_params = { 0 };
+    dcb_params.DCBlength = sizeof(dcb_params);
 
-	if (!Status) {
-		fprintf(stderr, "Serial Port Error: Could not obtain COM port state GetCommState()\n");
-		exit(-1);
-	}
+    // retrieve current settings
+    Status = GetCommState(hComm, &dcb_params);
 
-	dcbSerialParams.BaudRate = CBR_256000;	// Setting BaudRate = 256000
-	dcbSerialParams.ByteSize = 8;			// Setting ByteSize = 8
-	dcbSerialParams.StopBits = ONESTOPBIT;	// Setting StopBits = 1
-	dcbSerialParams.Parity = NOPARITY;		// Setting Parity = None 
+    if (!Status) {
+        fprintf(stderr, "Serial Port Error: Could not obtain COM port state\n");
+        exit(-1);
+    }
 
-	Status = SetCommState(hComm, &dcbSerialParams);	// Configuring the port according to settings in DCB 
+    dcb_params.BaudRate = CBR_256000;   // BaudRate = 256000
+    dcb_params.ByteSize = 8;            // ByteSize = 8
+    dcb_params.StopBits = ONESTOPBIT;   // StopBits = 1
+    dcb_params.Parity   = NOPARITY;     // Parity   = None
 
-	if (!Status) {
-		fprintf(stderr, "Serial Port Error: Could not set DCB structure\n");
-		exit(-1);
-	}
+    // configure the port according to settings in DCB
+    Status = SetCommState(hComm, &dcb_params);
 
-	// timeouts
-	COMMTIMEOUTS timeouts = { 0 };
+    if (!Status) {
+        fprintf(stderr, "Serial Port Error: Could not set DCB structure\n");
+        exit(-1);
+    }
 
-	timeouts.ReadIntervalTimeout = 50;
-	timeouts.ReadTotalTimeoutConstant = 50;
-	timeouts.ReadTotalTimeoutMultiplier = 10;
-	timeouts.WriteTotalTimeoutConstant = 50;
-	timeouts.WriteTotalTimeoutMultiplier = 10;
+    // timeouts
+    COMMTIMEOUTS timeouts = { 0 };
+    timeouts.ReadIntervalTimeout         = 50;
+    timeouts.ReadTotalTimeoutConstant    = 50;
+    timeouts.ReadTotalTimeoutMultiplier  = 10;
+    timeouts.WriteTotalTimeoutConstant   = 50;
+    timeouts.WriteTotalTimeoutMultiplier = 10;
 
-	if (!SetCommTimeouts(hComm, &timeouts)) {
-		fprintf(stderr, "Serial Port Error: Could not set time out");
-		exit(-1);
-	}
+    if (!SetCommTimeouts(hComm, &timeouts)) {
+        fprintf(stderr, "Serial Port Error: Could not set timeouts\n");
+        exit(-1);
+    }
 #endif
 
     return 1;
 }
+
+/**
+ * Serial port tear-down depending on the operating system
+ */
 
 int uart_close()
 {
 #ifdef __linux__
     return close(uart_fd);
 #else // _WIN32
-	return CloseHandle(hComm);
+    return CloseHandle(hComm);
 #endif
 }
+
+/**
+ * Write data from the computer to the serial port
+ */
 
 void uart_write(unsigned char *buf, size_t size)
 {
 #ifdef __linux__
     write(uart_fd, buf, size);
 #else // _WIN32
-	DWORD  dNoOfBytesWritten = 0;
-	Status = WriteFile(
-		hComm,				// Handle to the Serialport
-		buf,				// Data to be written to the port 
-		(DWORD)size,		// No of bytes to write into the port
-		&dNoOfBytesWritten,	// No of bytes written to the port
-		NULL
-	);
+    DWORD  bytes_written = 0;
+    Status = WriteFile(
+        hComm,          // serial port handle
+        buf,            // data to be written
+        (DWORD)size,    // num bytes to write
+        &bytes_written, // num bytes written
+        NULL
+    );
 
-	printf("Bytes written: %ld\n", dNoOfBytesWritten);
+    printf("Bytes written: %ld\n", bytes_written);
 
-	if (!Status) {
-		fprintf(stderr, "Serial Port Error: %d in writing to serial port\n", GetLastError());
-		exit(-1);
-	}
+    if (!Status) {
+        fprintf(stderr, "Serial Port Error: Code %d received in writing to serial port\n", GetLastError());
+        exit(-1);
+    }
 #endif
 }
+
+/**
+ * Read data from the serial port to the computer
+ */
 
 void uart_read(unsigned char *buf, size_t size)
 {
 #ifdef __linux__
     read(uart_fd, buf, size);
 #else // _WIN32
-	// setting receive mask
-	// configure Windows to monitor the serial device for character reception
-	Status = SetCommMask(hComm, EV_RXCHAR);
+    // set receive mask to configure Windows to monitor the serial device for character reception
+    Status = SetCommMask(hComm, EV_RXCHAR);
 
-	if (!Status) {
-		fprintf(stderr, "Serial Port Error: Could not set CommMask\n");
-		exit(-1);
-	}
+    if (!Status) {
+        fprintf(stderr, "Serial Port Error: Could not set CommMask\n");
+        exit(-1);
+    }
 
-	// Event mask to trigger
-	DWORD dwEventMask;
+    // wait for the character to be received from even_mask trigger
+    DWORD event_mask;
+    Status = WaitCommEvent(hComm, &event_mask, NULL);
 
-	// Wait for the character to be received
-	Status = WaitCommEvent(hComm, &dwEventMask, NULL);
+    // wait until a character is received
+    char rx_byte;
+    DWORD bytes_read;
+    int i = 0;
 
-	// wait until a character is received
-	char TempChar;			// Temperory Character
-	DWORD NoBytesRead;		// Bytes read by ReadFile()
-	int i = 0;
-
-	if (!Status) {
-		fprintf(stderr, "Serial Port Error: Could not set WaitCommEvent()\n");
-		exit(-1);
-	}
-
-	// read the RXed data using ReadFile();
-	else {
-		do {
-			Status = ReadFile(hComm, &TempChar, sizeof(TempChar), &NoBytesRead, NULL);
-			if (i < size)
-				buf[i++] = TempChar;
-		} while (NoBytesRead > 0);
-	}
+    // read rx data
+    if (!Status) {
+        fprintf(stderr, "Serial Port Error: Could not set WaitCommEvent\n");
+        exit(-1);
+    }
+    else {
+        do {
+            Status = ReadFile(hComm, &rx_byte, sizeof(rx_byte), &bytes_read, NULL);
+            if (i < size)
+                buf[i++] = rx_byte;
+        } while (bytes_read > 0);
+    }
 #endif
 }

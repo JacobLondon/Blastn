@@ -293,14 +293,14 @@ s32 smith_waterman_preserve(const char *seq1, const char *seq2, s32 match, s32 m
  */
 
 PackedFmt formatted{};
-bool uart_initialized = false;
+static bool uart_initialized = false;
 
 s32 smith_waterman_fgpa(const char *seq1, const char *seq2, u64 size)
 {
-	if (!uart_initialized) {
-		formatted = PackedFmt(Blastn::UArtPath.c_str());
-		uart_initialized = true;
-	}
+    if (!uart_initialized) {
+        formatted = PackedFmt(Blastn::UArtPath.c_str());
+        uart_initialized = true;
+    }
     formatted.pack(seq1, seq2, size);
     formatted.write();
     formatted.read();

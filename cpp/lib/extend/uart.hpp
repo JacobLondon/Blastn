@@ -3,12 +3,12 @@
 #include <stdlib.h>
 
 #ifdef __linux__
-	extern int uart_fd;
+    extern int uart_fd;
 #elif defined(_WIN32)
-	#include <Windows.h>
-	extern HANDLE hComm;
+    #include <Windows.h>
+    extern HANDLE hComm;
 #else
-	#error Unsupported operating system. Please use either Linux or Windows.
+    #error Unsupported operating system. Please use either Linux or Windows.
 #endif
 
 int uart_init(const char *path);
