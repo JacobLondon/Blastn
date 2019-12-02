@@ -80,6 +80,9 @@
     <ClCompile Include="util\types.cpp">
       <Filter>util</Filter>
     </ClCompile>
+    <ClCompile Include="lib\extend\uart.cpp">
+      <Filter>lib\extend</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="result.txt">
@@ -137,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="util\types.hpp">
       <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\extend\uart.hpp">
+      <Filter>lib\extend</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

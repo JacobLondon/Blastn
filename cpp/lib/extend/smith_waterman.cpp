@@ -297,9 +297,10 @@ bool uart_initialized = false;
 
 s32 smith_waterman_fgpa(const char *seq1, const char *seq2, u64 size)
 {
-    if (!uart_initialized) {
-        formatted = PackedFmt(Blastn::UArtPath.c_str());
-    }
+	if (!uart_initialized) {
+		formatted = PackedFmt(Blastn::UArtPath.c_str());
+		uart_initialized = true;
+	}
     formatted.pack(seq1, seq2, size);
     formatted.write();
     formatted.read();

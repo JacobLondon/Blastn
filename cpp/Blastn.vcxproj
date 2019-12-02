@@ -168,6 +168,7 @@
     <ClCompile Include="lib\extend\extend.cpp" />
     <ClCompile Include="lib\extend\interface.cpp" />
     <ClCompile Include="lib\extend\smith_waterman.cpp" />
+    <ClCompile Include="lib\extend\uart.cpp" />
     <ClCompile Include="lib\hsp.cpp" />
     <ClCompile Include="lib\match.cpp" />
     <ClCompile Include="lib\output.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="lib\extend\extend.hpp" />
     <ClInclude Include="lib\extend\interface.hpp" />
     <ClInclude Include="lib\extend\smith_waterman.hpp" />
+    <ClInclude Include="lib\extend\uart.hpp" />
     <ClInclude Include="lib\hsp.hpp" />
     <ClInclude Include="lib\match.hpp" />
     <ClInclude Include="lib\output.hpp" />

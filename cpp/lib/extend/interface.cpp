@@ -1,8 +1,7 @@
 #include "interface.hpp"
 
-extern "C" {
-    #include "uart.h"
-}
+#include "uart.hpp"
+
 
 /**
  * C++ Format
@@ -38,11 +37,12 @@ PackedFmt::PackedFmt(const char *uart_path)
         std::cerr << "Error: Could not open connection to " << uart_path << std::endl;
         std::exit(-1);
     }
+	std::cout << "Got here" << std::endl;
 }
 
 PackedFmt::~PackedFmt()
 {
-    uart_close();
+    //uart_close();
 }
 
 static const u32 BYTE1 = 0x000000FFu;
@@ -133,15 +133,18 @@ void PackedFmt::write()
 void PackedFmt::read()
 {
     // receive the 32 bit signed integer score
-    uart_read(this->buf + 0, 1);
+    /*uart_read(this->buf + 0, 1);
     uart_read(this->buf + 1, 1);
     uart_read(this->buf + 2, 1);
     uart_read(this->buf + 3, 1);
+	*/
 
-    result  = this->buf[3] << 24;
-    result |= this->buf[2] << 16;
-    result |= this->buf[1] << 8;
-    result |= this->buf[0];
+	uart_read(this->buf, 4);
+
+    this->result  = ((s32)this->buf[3]) << 24;
+	this->result |= ((s32)this->buf[2]) << 16;
+	this->result |= ((s32)this->buf[1]) << 8;
+	this->result |= ((s32)this->buf[0]);
 }
 
 } // Blastn
