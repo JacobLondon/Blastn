@@ -28,7 +28,7 @@ int uart_init(const char *path)
 #ifdef __linux__
     uart_fd = open(path, O_RDWR | O_NOCTTY | O_NDELAY);
 
-    if (uart_fd = -1) {
+    if (uart_fd == -1) {
         fprintf(stderr, "Error: Could not open serial connection to %s\n", path);
         return 0;
     }
