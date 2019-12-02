@@ -5,20 +5,20 @@ use IEEE.NUMERIC_STD.ALL;
 entity ScoreMatrixSq is
     generic (
         g_RSTCNT : POSITIVE := 10;
-        g_MATSIZE : POSITIVE := 10; -- square matrix size
+        g_MATSIZE : POSITIVE := 10; -- square matrix size in letters
         g_BITS : POSITIVE := 32;    -- result size in bits (ie. 32-bit integer result)
         g_LENGTH : POSITIVE := 100  -- length of the query and subject in letters
     );
     port (
         clk         : in  STD_LOGIC;    -- board clock
         rst         : in  STD_LOGIC;    -- reset the score counter
+        done        : out STD_LOGIC;
         
         -- Smith-Waterman match, mismatch, and gap scores
         i_match     : in  SIGNED(1 downto 0);
         i_mismatch  : in  SIGNED(1 downto 0);
         i_gap       : in  SIGNED(1 downto 0);
         
-        i_length    : in  UNSIGNED(g_BITS - 1 downto 0);            -- length of the query or the subject
         i_query     : in  STD_LOGIC_VECTOR(g_LENGTH * 3 - 1 downto 0);  -- the query, groups of 3 adjacent bits per character
         i_subject   : in  STD_LOGIC_VECTOR(g_LENGTH * 2 - 1 downto 0);  -- the subject, groups of 2 adjacent bits per character
         o_score     : out UNSIGNED(g_BITS - 1 downto 0)             -- Smith-Waterman max score
@@ -71,10 +71,13 @@ begin
             if rst = '1' then
                 r_score <= (others => '0');
                 r_en <= '1';
+                done <= '0';
             elsif r_en = '1' and r_dis = '0' then
                 r_score <= r_score + 1;
+                done <= '0';
             else
                 r_score <= r_score;
+                done <= '1';
             end if;
         end if;
     end process;

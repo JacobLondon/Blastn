@@ -21,13 +21,13 @@ architecture Blastn of ScoreMatrixSqTb is
         port (
             clk         : in  STD_LOGIC;    -- board clock
             rst         : in  STD_LOGIC;    -- reset the score counter
+            done        : out STD_LOGIC;
             
             -- Smith-Waterman match, mismatch, and gap scores
             i_match     : in  SIGNED(1 downto 0);
             i_mismatch  : in  SIGNED(1 downto 0);
             i_gap       : in  SIGNED(1 downto 0);
             
-            i_length    : in  UNSIGNED(g_BITS - 1 downto 0);            -- length of the query or the subject
             i_query     : in  STD_LOGIC_VECTOR(g_LENGTH * 3 - 1 downto 0);  -- the query, groups of 3 adjacent bits per character
             i_subject   : in  STD_LOGIC_VECTOR(g_LENGTH * 2 - 1 downto 0);  -- the subject, groups of 2 adjacent bits per character
             o_score     : out UNSIGNED(g_BITS - 1 downto 0)             -- Smith-Waterman max score
@@ -36,7 +36,7 @@ architecture Blastn of ScoreMatrixSqTb is
 
     constant jump : time := 10 ns;
 
-    signal clk, rst : STD_LOGIC;
+    signal clk, rst, done : STD_LOGIC;
     signal match, mismatch, gap : SIGNED(1 downto 0);
 
     signal length : UNSIGNED(g_BITS - 1 downto 0);
@@ -67,6 +67,7 @@ begin
             --tmp => state,
             clk        => clk,
             rst        => rst,
+            done      => done,
             i_match    => match,
             i_mismatch => mismatch,
             i_gap      => gap,
