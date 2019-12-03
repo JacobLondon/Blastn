@@ -1,9 +1,12 @@
 #pragma once
 
+
 #include <stdlib.h>
 
+#ifdef _WIN32
 #include <Windows.h>
 extern HANDLE hComm;
+#endif
 
 int uart_init(const char *path, size_t baud_rate);
 int uart_close();

@@ -3,7 +3,7 @@
 namespace Blastn {
 
 bool UArtFPGA = false;
-string UArtPath = "/dev/ttyUSB1";
+string UArtPath = "COM4";
 
 // .fa and .fasta line seperator
 char Seperator = '>';

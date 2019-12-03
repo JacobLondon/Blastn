@@ -182,7 +182,12 @@ int blastn(std::vector<std::string> args)
     if ((a = argparse(args, "-fpga")) != Blastn::INVALID) {
         Blastn::UArtFPGA = true;
         Blastn::UArtPath = a;
+        #ifndef _WIN32
+            std::cerr << "Error: FPGA connection to UART was only designed for the Windows 10 operating system." << std::endl;
+            std::exit(-1);
+        #endif
     }
+    
 
     align(Blastn::QueryFile, Blastn::SubjectFile);
     return 0;

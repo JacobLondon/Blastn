@@ -21,19 +21,19 @@ enum Pack {
 };
 
 auto pack_find = [&](char letter) {
-	switch (letter) {
-	case 'A': case 'a':
-		return Pack::A;
-	case 'C': case 'c':
-		return Pack::C;
-	case 'G': case 'g':
-		return Pack::G;
-	case 'T': case 't':
-		return Pack::T;
-	default:
-		fprintf(stderr, "Error: Invalid Smith-Waterman letter: %x\n", letter);
-		std::exit(-1);
-	}
+    switch (letter) {
+    case 'A': case 'a':
+        return Pack::A;
+    case 'C': case 'c':
+        return Pack::C;
+    case 'G': case 'g':
+        return Pack::G;
+    case 'T': case 't':
+        return Pack::T;
+    default:
+        fprintf(stderr, "Error: Invalid Smith-Waterman letter: %x\n", letter);
+        std::exit(-1);
+    }
 };
 
 /**

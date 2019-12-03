@@ -3,11 +3,15 @@
 
 #include "uart.hpp"
 
+#ifdef _WIN32
+
 #include <Windows.h>
 #include <string>
 HANDLE hComm;
 std::string ComPortName = "\\\\.\\";
 BOOL Status;
+
+#endif
 
 /**
  * Initialize the serial port connection depending on the operating system.
@@ -15,6 +19,7 @@ BOOL Status;
 
 int uart_init(const char *path, size_t baud_rate)
 {
+#ifdef _WIN32
     ComPortName += path;
 
     // opening the serial port
@@ -46,7 +51,7 @@ int uart_init(const char *path, size_t baud_rate)
     }
 
     //dcb_params.BaudRate = CBR_256000;   // BaudRate = 256000
-	dcb_params.BaudRate = baud_rate;
+    dcb_params.BaudRate = baud_rate;
     dcb_params.ByteSize = 8;            // ByteSize = 8
     dcb_params.StopBits = ONESTOPBIT;   // StopBits = 1
     dcb_params.Parity   = NOPARITY;     // Parity   = None
@@ -71,7 +76,7 @@ int uart_init(const char *path, size_t baud_rate)
         fprintf(stderr, "Serial Port Error: Could not set timeouts\n");
         exit(-1);
     }
-
+#endif
     return 1;
 }
 
@@ -81,7 +86,11 @@ int uart_init(const char *path, size_t baud_rate)
 
 int uart_close()
 {
+#ifdef _WIN32
     return CloseHandle(hComm);
+#else
+    return 0;
+#endif
 }
 
 /**
@@ -90,6 +99,7 @@ int uart_close()
 
 void uart_write(unsigned char *buf, size_t size)
 {
+#ifdef _WIN32
     DWORD  bytes_written = 0;
     Status = WriteFile(
         hComm,          // serial port handle
@@ -99,12 +109,11 @@ void uart_write(unsigned char *buf, size_t size)
         NULL
     );
 
-    //printf("Bytes written: %ld\n", bytes_written);
-
     if (!Status) {
         fprintf(stderr, "Serial Port Error: Code %d received in writing to serial port\n", GetLastError());
         exit(-1);
     }
+#endif
 }
 
 /**
@@ -113,6 +122,7 @@ void uart_write(unsigned char *buf, size_t size)
 
 void uart_read(unsigned char *buf, size_t size)
 {
+#ifdef _WIN32
     // set receive mask to configure Windows to monitor the serial device for character reception
     Status = SetCommMask(hComm, EV_RXCHAR);
 
@@ -138,10 +148,11 @@ void uart_read(unsigned char *buf, size_t size)
     else {
         do {
             Status = ReadFile(hComm, &rx_byte, sizeof(rx_byte), &bytes_read, NULL);
-			if (i < size)
-				buf[i++] = rx_byte;
-			else
-				break;
+            if (i < size)
+                buf[i++] = rx_byte;
+            else
+                break;
         } while (bytes_read > 0);
     }
+#endif
 }

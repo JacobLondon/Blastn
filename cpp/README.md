@@ -46,4 +46,5 @@ Blastn implemented in C++. This implementation is designed to be the fast implem
 | `-lambda`      | E-value lambda constant        | `0.267`
 | `-kappa`       | E-value kappa constant         | `0.041`
 | `-spacing`     | Spacing between output columns | `6`
+| `-fpga`        | Score using an FPGA through UART | `COM4`
 | `-test`        | Expects `dust`, `extend`, `match`, `pairs`, `sequence`, `sw` or `smith waterman`, `sort`, `split` | NA

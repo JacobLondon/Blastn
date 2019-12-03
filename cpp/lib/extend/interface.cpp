@@ -33,18 +33,18 @@ namespace Blastn {
 PackedFmt::PackedFmt(const char *uart_path)
 : usize{0}, size{0}, gap_index{0}, gap_count{0}, query{0}, subject{0}
 {
-	if (!uart_path)
-		return;
-	if (!uart_init(uart_path, BaudRate)) {
-		std::cerr << "Error: Could not open connection to " << uart_path << std::endl;
-		std::exit(-1);
-	}
+    if (!uart_path)
+        return;
+    if (!uart_init(uart_path, BaudRate)) {
+        std::cerr << "Error: Could not open connection to " << uart_path << std::endl;
+        std::exit(-1);
+    }
 }
 
 PackedFmt::~PackedFmt()
 {
     if (usize != 0)
-		uart_close();
+        uart_close();
 }
 
 static const u32 BYTE1 = 0x000000FFu;
@@ -82,7 +82,7 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
             }
             
             // logical or the current letter with A, C, G, or T at the current bit offset in the current byte
-			char found = pack_find(query[i + gap_probe]);
+            char found = pack_find(query[i + gap_probe]);
             this->query[j] = this->query[j] | (found << ((shiftpos % 4) * 2));
             shiftpos++;
         }
@@ -127,7 +127,7 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
         buf[4 + 4 + 4 + i] = this->query[i];
         buf[4 + 4 + 4 + SW_MAX_BYTES + i] = this->subject[i];
     }
-	this->usize = this->usize / 4; // pack 4 letters per byte
+    this->usize = this->usize / 4; // pack 4 letters per byte
 }
 
 void PackedFmt::write()
