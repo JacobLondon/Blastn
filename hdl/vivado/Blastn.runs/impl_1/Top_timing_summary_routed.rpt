@@ -1,8 +1,8 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Tool Version : Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-| Date         : Tue Nov 26 14:18:37 2019
-| Host         : cygnus running 64-bit Ubuntu 19.04
+| Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
+| Date         : Mon Dec  2 22:12:56 2019
+| Host         : EP-09409A890D running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -max_paths 10 -file Top_timing_summary_routed.rpt -pb Top_timing_summary_routed.pb -rpx Top_timing_summary_routed.rpx -warn_on_violation
 | Design       : Top
 | Device       : 7a100t-csg324
@@ -82,7 +82,7 @@ Table of Contents
 
 6. checking no_output_delay
 ---------------------------
- There are 2 ports with no output delay specified. (HIGH)
+ There is 1 port with no output delay specified. (HIGH)
 
  There are 0 ports with no output delay but user has a false path constraint
 
@@ -127,10 +127,10 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-      5.469        0.000                      0                   75        0.165        0.000                      0                   75        4.500        0.000                       0                    53  
+     -7.653     -248.974                     33                  677        0.121        0.000                      0                  677        4.500        0.000                       0                   335  
 
 
-All user specified timing constraints are met.
+Timing constraints are not met.
 
 
 ------------------------------------------------------------------------------------------------
@@ -150,7 +150,7 @@ sys_clk_pin  {0.000 5.000}      10.000          100.000
 
 Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----             -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-sys_clk_pin         5.469        0.000                      0                   75        0.165        0.000                      0                   75        4.500        0.000                       0                    53  
+sys_clk_pin        -7.653     -248.974                     33                  677        0.121        0.000                      0                  677        4.500        0.000                       0                   335  
 
 
 ------------------------------------------------------------------------------------------------
@@ -181,27 +181,27 @@ Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing 
 From Clock:  sys_clk_pin
   To Clock:  sys_clk_pin
 
-Setup :            0  Failing Endpoints,  Worst Slack        5.469ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.165ns,  Total Violation        0.000ns
+Setup :           33  Failing Endpoints,  Worst Slack       -7.653ns,  Total Violation     -248.974ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.121ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        4.500ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             5.469ns  (required time - arrival time)
-  Source:                 DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+Slack (VIOLATED) :        -7.653ns  (required time - arrival time)
+  Source:                 SmithWaterman/q_buf_reg[5]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[0]/CE
+  Destination:            SmithWaterman/r_score_reg[10]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        4.252ns  (logic 1.247ns (29.327%)  route 3.005ns (70.673%))
-  Logic Levels:           4  (LUT4=1 LUT6=3)
-  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.911ns = ( 14.911 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.209ns
+  Data Path Delay:        17.384ns  (logic 3.692ns (21.238%)  route 13.692ns (78.762%))
+  Logic Levels:           20  (LUT2=4 LUT3=9 LUT5=1 LUT6=6)
+  Clock Path Skew:        -0.029ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.017ns = ( 15.017 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.305ns
     Clock Pessimism Removal (CPR):    0.259ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -218,20 +218,52 @@ Slack (MET) :             5.469ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.607     5.209    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+                         net (fo=334, routed)         1.703     5.305    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X80Y114        FDRE                                         r  SmithWaterman/q_buf_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y117        FDRE (Prop_fdre_C_Q)         0.518     5.727 r  DATA_RECEIVER/BYTE_RX/count_reg[2]/Q
-                         net (fo=6, routed)           0.892     6.619    DATA_RECEIVER/BYTE_RX/count_reg_n_0_[2]
-    SLICE_X51Y117        LUT6 (Prop_lut6_I3_O)        0.124     6.743 f  DATA_RECEIVER/BYTE_RX/count[8]_i_5/O
-                         net (fo=1, routed)           0.806     7.549    DATA_RECEIVER/BYTE_RX/count[8]_i_5_n_0
-    SLICE_X51Y118        LUT4 (Prop_lut4_I1_O)        0.154     7.703 f  DATA_RECEIVER/BYTE_RX/count[8]_i_3__0/O
-                         net (fo=12, routed)          0.541     8.244    DATA_RECEIVER/BYTE_RX/count[8]_i_3__0_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I1_O)        0.327     8.571 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_3/O
-                         net (fo=1, routed)           0.151     8.722    DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_3_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I5_O)        0.124     8.846 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_1/O
-                         net (fo=5, routed)           0.615     9.461    DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_1_n_0
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[0]/CE
+    SLICE_X80Y114        FDRE (Prop_fdre_C_Q)         0.518     5.823 r  SmithWaterman/q_buf_reg[5]/Q
+                         net (fo=14, routed)          0.918     6.741    SmithWaterman/q28_in[2]
+    SLICE_X80Y116        LUT5 (Prop_lut5_I2_O)        0.124     6.865 f  SmithWaterman/r_score[0]_i_511/O
+                         net (fo=3, routed)           0.598     7.464    SmithWaterman/r_score[0]_i_511_n_0
+    SLICE_X81Y114        LUT3 (Prop_lut3_I0_O)        0.124     7.588 r  SmithWaterman/r_score[0]_i_463/O
+                         net (fo=5, routed)           0.988     8.576    SmithWaterman/r_score[0]_i_463_n_0
+    SLICE_X81Y111        LUT6 (Prop_lut6_I3_O)        0.124     8.700 r  SmithWaterman/r_score[0]_i_546/O
+                         net (fo=1, routed)           0.573     9.273    SmithWaterman/m_score_matrix[3]_6[0]
+    SLICE_X81Y112        LUT3 (Prop_lut3_I1_O)        0.124     9.397 r  SmithWaterman/r_score[0]_i_505/O
+                         net (fo=2, routed)           0.438     9.835    SmithWaterman/r_score[0]_i_505_n_0
+    SLICE_X80Y111        LUT2 (Prop_lut2_I1_O)        0.124     9.959 f  SmithWaterman/r_score[0]_i_457/O
+                         net (fo=5, routed)           1.029    10.988    SmithWaterman/r_score[0]_i_457_n_0
+    SLICE_X81Y111        LUT3 (Prop_lut3_I2_O)        0.152    11.140 r  SmithWaterman/r_score[0]_i_413/O
+                         net (fo=3, routed)           0.466    11.606    SmithWaterman/m_score_matrix[4]_10[1]
+    SLICE_X80Y110        LUT3 (Prop_lut3_I2_O)        0.326    11.932 r  SmithWaterman/r_score[0]_i_493/O
+                         net (fo=2, routed)           0.584    12.515    SmithWaterman/r_score[0]_i_493_n_0
+    SLICE_X81Y111        LUT2 (Prop_lut2_I1_O)        0.124    12.639 f  SmithWaterman/r_score[0]_i_436/O
+                         net (fo=5, routed)           0.660    13.299    SmithWaterman/r_score[0]_i_436_n_0
+    SLICE_X77Y109        LUT3 (Prop_lut3_I2_O)        0.124    13.423 r  SmithWaterman/r_score[0]_i_388/O
+                         net (fo=3, routed)           1.235    14.659    SmithWaterman/m_score_matrix[5]_14[1]
+    SLICE_X83Y110        LUT6 (Prop_lut6_I0_O)        0.124    14.783 r  SmithWaterman/r_score[0]_i_357/O
+                         net (fo=1, routed)           0.659    15.441    SmithWaterman/m_score_matrix[6]_14[0]
+    SLICE_X82Y110        LUT3 (Prop_lut3_I1_O)        0.152    15.593 r  SmithWaterman/r_score[0]_i_295/O
+                         net (fo=2, routed)           0.441    16.035    SmithWaterman/r_score[0]_i_295_n_0
+    SLICE_X82Y109        LUT2 (Prop_lut2_I1_O)        0.332    16.367 f  SmithWaterman/r_score[0]_i_240/O
+                         net (fo=5, routed)           0.855    17.222    SmithWaterman/r_score[0]_i_240_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I2_O)        0.150    17.372 r  SmithWaterman/r_score[0]_i_227/O
+                         net (fo=2, routed)           0.999    18.371    SmithWaterman/m_score_matrix[7]_18[1]
+    SLICE_X82Y107        LUT6 (Prop_lut6_I0_O)        0.326    18.697 r  SmithWaterman/r_score[0]_i_180/O
+                         net (fo=1, routed)           0.419    19.115    SmithWaterman/m_score_matrix[8]_18[0]
+    SLICE_X84Y108        LUT3 (Prop_lut3_I1_O)        0.124    19.239 f  SmithWaterman/r_score[0]_i_125/O
+                         net (fo=2, routed)           0.321    19.561    SmithWaterman/r_score[0]_i_125_n_0
+    SLICE_X86Y108        LUT2 (Prop_lut2_I1_O)        0.124    19.685 r  SmithWaterman/r_score[0]_i_128/O
+                         net (fo=3, routed)           0.586    20.270    SmithWaterman/r_score[0]_i_128_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I1_O)        0.124    20.394 f  SmithWaterman/r_score[0]_i_72/O
+                         net (fo=2, routed)           0.640    21.034    SmithWaterman/m_score_matrix[10]_20[1]
+    SLICE_X85Y108        LUT6 (Prop_lut6_I0_O)        0.124    21.158 f  SmithWaterman/r_score[0]_i_24/O
+                         net (fo=1, routed)           0.582    21.740    SmithWaterman/m_score_matrix[11]_20[0]
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    21.864 f  SmithWaterman/r_score[0]_i_5/O
+                         net (fo=2, routed)           0.171    22.035    SmithWaterman/r_score[0]_i_5_n_0
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    22.159 r  SmithWaterman/r_score[0]_i_1/O
+                         net (fo=32, routed)          0.530    22.689    SmithWaterman/r_score0
+    SLICE_X87Y107        FDRE                                         r  SmithWaterman/r_score_reg[10]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -241,30 +273,30 @@ Slack (MET) :             5.469ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.489    14.911    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[0]/C
-                         clock pessimism              0.259    15.170    
-                         clock uncertainty           -0.035    15.135    
-    SLICE_X49Y117        FDRE (Setup_fdre_C_CE)      -0.205    14.930    DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[0]
+                         net (fo=334, routed)         1.595    15.017    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X87Y107        FDRE                                         r  SmithWaterman/r_score_reg[10]/C
+                         clock pessimism              0.259    15.276    
+                         clock uncertainty           -0.035    15.241    
+    SLICE_X87Y107        FDRE (Setup_fdre_C_CE)      -0.205    15.036    SmithWaterman/r_score_reg[10]
   -------------------------------------------------------------------
-                         required time                         14.930    
-                         arrival time                          -9.461    
+                         required time                         15.036    
+                         arrival time                         -22.689    
   -------------------------------------------------------------------
-                         slack                                  5.469    
+                         slack                                 -7.653    
 
-Slack (MET) :             5.469ns  (required time - arrival time)
-  Source:                 DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+Slack (VIOLATED) :        -7.653ns  (required time - arrival time)
+  Source:                 SmithWaterman/q_buf_reg[5]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[1]/CE
+  Destination:            SmithWaterman/r_score_reg[11]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        4.252ns  (logic 1.247ns (29.327%)  route 3.005ns (70.673%))
-  Logic Levels:           4  (LUT4=1 LUT6=3)
-  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.911ns = ( 14.911 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.209ns
+  Data Path Delay:        17.384ns  (logic 3.692ns (21.238%)  route 13.692ns (78.762%))
+  Logic Levels:           20  (LUT2=4 LUT3=9 LUT5=1 LUT6=6)
+  Clock Path Skew:        -0.029ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.017ns = ( 15.017 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.305ns
     Clock Pessimism Removal (CPR):    0.259ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -281,20 +313,52 @@ Slack (MET) :             5.469ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.607     5.209    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+                         net (fo=334, routed)         1.703     5.305    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X80Y114        FDRE                                         r  SmithWaterman/q_buf_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y117        FDRE (Prop_fdre_C_Q)         0.518     5.727 r  DATA_RECEIVER/BYTE_RX/count_reg[2]/Q
-                         net (fo=6, routed)           0.892     6.619    DATA_RECEIVER/BYTE_RX/count_reg_n_0_[2]
-    SLICE_X51Y117        LUT6 (Prop_lut6_I3_O)        0.124     6.743 f  DATA_RECEIVER/BYTE_RX/count[8]_i_5/O
-                         net (fo=1, routed)           0.806     7.549    DATA_RECEIVER/BYTE_RX/count[8]_i_5_n_0
-    SLICE_X51Y118        LUT4 (Prop_lut4_I1_O)        0.154     7.703 f  DATA_RECEIVER/BYTE_RX/count[8]_i_3__0/O
-                         net (fo=12, routed)          0.541     8.244    DATA_RECEIVER/BYTE_RX/count[8]_i_3__0_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I1_O)        0.327     8.571 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_3/O
-                         net (fo=1, routed)           0.151     8.722    DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_3_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I5_O)        0.124     8.846 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_1/O
-                         net (fo=5, routed)           0.615     9.461    DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_1_n_0
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[1]/CE
+    SLICE_X80Y114        FDRE (Prop_fdre_C_Q)         0.518     5.823 r  SmithWaterman/q_buf_reg[5]/Q
+                         net (fo=14, routed)          0.918     6.741    SmithWaterman/q28_in[2]
+    SLICE_X80Y116        LUT5 (Prop_lut5_I2_O)        0.124     6.865 f  SmithWaterman/r_score[0]_i_511/O
+                         net (fo=3, routed)           0.598     7.464    SmithWaterman/r_score[0]_i_511_n_0
+    SLICE_X81Y114        LUT3 (Prop_lut3_I0_O)        0.124     7.588 r  SmithWaterman/r_score[0]_i_463/O
+                         net (fo=5, routed)           0.988     8.576    SmithWaterman/r_score[0]_i_463_n_0
+    SLICE_X81Y111        LUT6 (Prop_lut6_I3_O)        0.124     8.700 r  SmithWaterman/r_score[0]_i_546/O
+                         net (fo=1, routed)           0.573     9.273    SmithWaterman/m_score_matrix[3]_6[0]
+    SLICE_X81Y112        LUT3 (Prop_lut3_I1_O)        0.124     9.397 r  SmithWaterman/r_score[0]_i_505/O
+                         net (fo=2, routed)           0.438     9.835    SmithWaterman/r_score[0]_i_505_n_0
+    SLICE_X80Y111        LUT2 (Prop_lut2_I1_O)        0.124     9.959 f  SmithWaterman/r_score[0]_i_457/O
+                         net (fo=5, routed)           1.029    10.988    SmithWaterman/r_score[0]_i_457_n_0
+    SLICE_X81Y111        LUT3 (Prop_lut3_I2_O)        0.152    11.140 r  SmithWaterman/r_score[0]_i_413/O
+                         net (fo=3, routed)           0.466    11.606    SmithWaterman/m_score_matrix[4]_10[1]
+    SLICE_X80Y110        LUT3 (Prop_lut3_I2_O)        0.326    11.932 r  SmithWaterman/r_score[0]_i_493/O
+                         net (fo=2, routed)           0.584    12.515    SmithWaterman/r_score[0]_i_493_n_0
+    SLICE_X81Y111        LUT2 (Prop_lut2_I1_O)        0.124    12.639 f  SmithWaterman/r_score[0]_i_436/O
+                         net (fo=5, routed)           0.660    13.299    SmithWaterman/r_score[0]_i_436_n_0
+    SLICE_X77Y109        LUT3 (Prop_lut3_I2_O)        0.124    13.423 r  SmithWaterman/r_score[0]_i_388/O
+                         net (fo=3, routed)           1.235    14.659    SmithWaterman/m_score_matrix[5]_14[1]
+    SLICE_X83Y110        LUT6 (Prop_lut6_I0_O)        0.124    14.783 r  SmithWaterman/r_score[0]_i_357/O
+                         net (fo=1, routed)           0.659    15.441    SmithWaterman/m_score_matrix[6]_14[0]
+    SLICE_X82Y110        LUT3 (Prop_lut3_I1_O)        0.152    15.593 r  SmithWaterman/r_score[0]_i_295/O
+                         net (fo=2, routed)           0.441    16.035    SmithWaterman/r_score[0]_i_295_n_0
+    SLICE_X82Y109        LUT2 (Prop_lut2_I1_O)        0.332    16.367 f  SmithWaterman/r_score[0]_i_240/O
+                         net (fo=5, routed)           0.855    17.222    SmithWaterman/r_score[0]_i_240_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I2_O)        0.150    17.372 r  SmithWaterman/r_score[0]_i_227/O
+                         net (fo=2, routed)           0.999    18.371    SmithWaterman/m_score_matrix[7]_18[1]
+    SLICE_X82Y107        LUT6 (Prop_lut6_I0_O)        0.326    18.697 r  SmithWaterman/r_score[0]_i_180/O
+                         net (fo=1, routed)           0.419    19.115    SmithWaterman/m_score_matrix[8]_18[0]
+    SLICE_X84Y108        LUT3 (Prop_lut3_I1_O)        0.124    19.239 f  SmithWaterman/r_score[0]_i_125/O
+                         net (fo=2, routed)           0.321    19.561    SmithWaterman/r_score[0]_i_125_n_0
+    SLICE_X86Y108        LUT2 (Prop_lut2_I1_O)        0.124    19.685 r  SmithWaterman/r_score[0]_i_128/O
+                         net (fo=3, routed)           0.586    20.270    SmithWaterman/r_score[0]_i_128_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I1_O)        0.124    20.394 f  SmithWaterman/r_score[0]_i_72/O
+                         net (fo=2, routed)           0.640    21.034    SmithWaterman/m_score_matrix[10]_20[1]
+    SLICE_X85Y108        LUT6 (Prop_lut6_I0_O)        0.124    21.158 f  SmithWaterman/r_score[0]_i_24/O
+                         net (fo=1, routed)           0.582    21.740    SmithWaterman/m_score_matrix[11]_20[0]
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    21.864 f  SmithWaterman/r_score[0]_i_5/O
+                         net (fo=2, routed)           0.171    22.035    SmithWaterman/r_score[0]_i_5_n_0
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    22.159 r  SmithWaterman/r_score[0]_i_1/O
+                         net (fo=32, routed)          0.530    22.689    SmithWaterman/r_score0
+    SLICE_X87Y107        FDRE                                         r  SmithWaterman/r_score_reg[11]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -304,30 +368,30 @@ Slack (MET) :             5.469ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.489    14.911    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[1]/C
-                         clock pessimism              0.259    15.170    
-                         clock uncertainty           -0.035    15.135    
-    SLICE_X49Y117        FDRE (Setup_fdre_C_CE)      -0.205    14.930    DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[1]
+                         net (fo=334, routed)         1.595    15.017    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X87Y107        FDRE                                         r  SmithWaterman/r_score_reg[11]/C
+                         clock pessimism              0.259    15.276    
+                         clock uncertainty           -0.035    15.241    
+    SLICE_X87Y107        FDRE (Setup_fdre_C_CE)      -0.205    15.036    SmithWaterman/r_score_reg[11]
   -------------------------------------------------------------------
-                         required time                         14.930    
-                         arrival time                          -9.461    
+                         required time                         15.036    
+                         arrival time                         -22.689    
   -------------------------------------------------------------------
-                         slack                                  5.469    
+                         slack                                 -7.653    
 
-Slack (MET) :             5.469ns  (required time - arrival time)
-  Source:                 DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+Slack (VIOLATED) :        -7.653ns  (required time - arrival time)
+  Source:                 SmithWaterman/q_buf_reg[5]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[2]/CE
+  Destination:            SmithWaterman/r_score_reg[8]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        4.252ns  (logic 1.247ns (29.327%)  route 3.005ns (70.673%))
-  Logic Levels:           4  (LUT4=1 LUT6=3)
-  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.911ns = ( 14.911 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.209ns
+  Data Path Delay:        17.384ns  (logic 3.692ns (21.238%)  route 13.692ns (78.762%))
+  Logic Levels:           20  (LUT2=4 LUT3=9 LUT5=1 LUT6=6)
+  Clock Path Skew:        -0.029ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.017ns = ( 15.017 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.305ns
     Clock Pessimism Removal (CPR):    0.259ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -344,20 +408,52 @@ Slack (MET) :             5.469ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.607     5.209    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+                         net (fo=334, routed)         1.703     5.305    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X80Y114        FDRE                                         r  SmithWaterman/q_buf_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y117        FDRE (Prop_fdre_C_Q)         0.518     5.727 r  DATA_RECEIVER/BYTE_RX/count_reg[2]/Q
-                         net (fo=6, routed)           0.892     6.619    DATA_RECEIVER/BYTE_RX/count_reg_n_0_[2]
-    SLICE_X51Y117        LUT6 (Prop_lut6_I3_O)        0.124     6.743 f  DATA_RECEIVER/BYTE_RX/count[8]_i_5/O
-                         net (fo=1, routed)           0.806     7.549    DATA_RECEIVER/BYTE_RX/count[8]_i_5_n_0
-    SLICE_X51Y118        LUT4 (Prop_lut4_I1_O)        0.154     7.703 f  DATA_RECEIVER/BYTE_RX/count[8]_i_3__0/O
-                         net (fo=12, routed)          0.541     8.244    DATA_RECEIVER/BYTE_RX/count[8]_i_3__0_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I1_O)        0.327     8.571 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_3/O
-                         net (fo=1, routed)           0.151     8.722    DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_3_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I5_O)        0.124     8.846 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_1/O
-                         net (fo=5, routed)           0.615     9.461    DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_1_n_0
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[2]/CE
+    SLICE_X80Y114        FDRE (Prop_fdre_C_Q)         0.518     5.823 r  SmithWaterman/q_buf_reg[5]/Q
+                         net (fo=14, routed)          0.918     6.741    SmithWaterman/q28_in[2]
+    SLICE_X80Y116        LUT5 (Prop_lut5_I2_O)        0.124     6.865 f  SmithWaterman/r_score[0]_i_511/O
+                         net (fo=3, routed)           0.598     7.464    SmithWaterman/r_score[0]_i_511_n_0
+    SLICE_X81Y114        LUT3 (Prop_lut3_I0_O)        0.124     7.588 r  SmithWaterman/r_score[0]_i_463/O
+                         net (fo=5, routed)           0.988     8.576    SmithWaterman/r_score[0]_i_463_n_0
+    SLICE_X81Y111        LUT6 (Prop_lut6_I3_O)        0.124     8.700 r  SmithWaterman/r_score[0]_i_546/O
+                         net (fo=1, routed)           0.573     9.273    SmithWaterman/m_score_matrix[3]_6[0]
+    SLICE_X81Y112        LUT3 (Prop_lut3_I1_O)        0.124     9.397 r  SmithWaterman/r_score[0]_i_505/O
+                         net (fo=2, routed)           0.438     9.835    SmithWaterman/r_score[0]_i_505_n_0
+    SLICE_X80Y111        LUT2 (Prop_lut2_I1_O)        0.124     9.959 f  SmithWaterman/r_score[0]_i_457/O
+                         net (fo=5, routed)           1.029    10.988    SmithWaterman/r_score[0]_i_457_n_0
+    SLICE_X81Y111        LUT3 (Prop_lut3_I2_O)        0.152    11.140 r  SmithWaterman/r_score[0]_i_413/O
+                         net (fo=3, routed)           0.466    11.606    SmithWaterman/m_score_matrix[4]_10[1]
+    SLICE_X80Y110        LUT3 (Prop_lut3_I2_O)        0.326    11.932 r  SmithWaterman/r_score[0]_i_493/O
+                         net (fo=2, routed)           0.584    12.515    SmithWaterman/r_score[0]_i_493_n_0
+    SLICE_X81Y111        LUT2 (Prop_lut2_I1_O)        0.124    12.639 f  SmithWaterman/r_score[0]_i_436/O
+                         net (fo=5, routed)           0.660    13.299    SmithWaterman/r_score[0]_i_436_n_0
+    SLICE_X77Y109        LUT3 (Prop_lut3_I2_O)        0.124    13.423 r  SmithWaterman/r_score[0]_i_388/O
+                         net (fo=3, routed)           1.235    14.659    SmithWaterman/m_score_matrix[5]_14[1]
+    SLICE_X83Y110        LUT6 (Prop_lut6_I0_O)        0.124    14.783 r  SmithWaterman/r_score[0]_i_357/O
+                         net (fo=1, routed)           0.659    15.441    SmithWaterman/m_score_matrix[6]_14[0]
+    SLICE_X82Y110        LUT3 (Prop_lut3_I1_O)        0.152    15.593 r  SmithWaterman/r_score[0]_i_295/O
+                         net (fo=2, routed)           0.441    16.035    SmithWaterman/r_score[0]_i_295_n_0
+    SLICE_X82Y109        LUT2 (Prop_lut2_I1_O)        0.332    16.367 f  SmithWaterman/r_score[0]_i_240/O
+                         net (fo=5, routed)           0.855    17.222    SmithWaterman/r_score[0]_i_240_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I2_O)        0.150    17.372 r  SmithWaterman/r_score[0]_i_227/O
+                         net (fo=2, routed)           0.999    18.371    SmithWaterman/m_score_matrix[7]_18[1]
+    SLICE_X82Y107        LUT6 (Prop_lut6_I0_O)        0.326    18.697 r  SmithWaterman/r_score[0]_i_180/O
+                         net (fo=1, routed)           0.419    19.115    SmithWaterman/m_score_matrix[8]_18[0]
+    SLICE_X84Y108        LUT3 (Prop_lut3_I1_O)        0.124    19.239 f  SmithWaterman/r_score[0]_i_125/O
+                         net (fo=2, routed)           0.321    19.561    SmithWaterman/r_score[0]_i_125_n_0
+    SLICE_X86Y108        LUT2 (Prop_lut2_I1_O)        0.124    19.685 r  SmithWaterman/r_score[0]_i_128/O
+                         net (fo=3, routed)           0.586    20.270    SmithWaterman/r_score[0]_i_128_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I1_O)        0.124    20.394 f  SmithWaterman/r_score[0]_i_72/O
+                         net (fo=2, routed)           0.640    21.034    SmithWaterman/m_score_matrix[10]_20[1]
+    SLICE_X85Y108        LUT6 (Prop_lut6_I0_O)        0.124    21.158 f  SmithWaterman/r_score[0]_i_24/O
+                         net (fo=1, routed)           0.582    21.740    SmithWaterman/m_score_matrix[11]_20[0]
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    21.864 f  SmithWaterman/r_score[0]_i_5/O
+                         net (fo=2, routed)           0.171    22.035    SmithWaterman/r_score[0]_i_5_n_0
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    22.159 r  SmithWaterman/r_score[0]_i_1/O
+                         net (fo=32, routed)          0.530    22.689    SmithWaterman/r_score0
+    SLICE_X87Y107        FDRE                                         r  SmithWaterman/r_score_reg[8]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -367,30 +463,30 @@ Slack (MET) :             5.469ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.489    14.911    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[2]/C
-                         clock pessimism              0.259    15.170    
-                         clock uncertainty           -0.035    15.135    
-    SLICE_X49Y117        FDRE (Setup_fdre_C_CE)      -0.205    14.930    DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[2]
+                         net (fo=334, routed)         1.595    15.017    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X87Y107        FDRE                                         r  SmithWaterman/r_score_reg[8]/C
+                         clock pessimism              0.259    15.276    
+                         clock uncertainty           -0.035    15.241    
+    SLICE_X87Y107        FDRE (Setup_fdre_C_CE)      -0.205    15.036    SmithWaterman/r_score_reg[8]
   -------------------------------------------------------------------
-                         required time                         14.930    
-                         arrival time                          -9.461    
+                         required time                         15.036    
+                         arrival time                         -22.689    
   -------------------------------------------------------------------
-                         slack                                  5.469    
+                         slack                                 -7.653    
 
-Slack (MET) :             5.469ns  (required time - arrival time)
-  Source:                 DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+Slack (VIOLATED) :        -7.653ns  (required time - arrival time)
+  Source:                 SmithWaterman/q_buf_reg[5]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/CE
+  Destination:            SmithWaterman/r_score_reg[9]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        4.252ns  (logic 1.247ns (29.327%)  route 3.005ns (70.673%))
-  Logic Levels:           4  (LUT4=1 LUT6=3)
-  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.911ns = ( 14.911 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.209ns
+  Data Path Delay:        17.384ns  (logic 3.692ns (21.238%)  route 13.692ns (78.762%))
+  Logic Levels:           20  (LUT2=4 LUT3=9 LUT5=1 LUT6=6)
+  Clock Path Skew:        -0.029ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.017ns = ( 15.017 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.305ns
     Clock Pessimism Removal (CPR):    0.259ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -407,20 +503,52 @@ Slack (MET) :             5.469ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.607     5.209    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+                         net (fo=334, routed)         1.703     5.305    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X80Y114        FDRE                                         r  SmithWaterman/q_buf_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y117        FDRE (Prop_fdre_C_Q)         0.518     5.727 r  DATA_RECEIVER/BYTE_RX/count_reg[2]/Q
-                         net (fo=6, routed)           0.892     6.619    DATA_RECEIVER/BYTE_RX/count_reg_n_0_[2]
-    SLICE_X51Y117        LUT6 (Prop_lut6_I3_O)        0.124     6.743 f  DATA_RECEIVER/BYTE_RX/count[8]_i_5/O
-                         net (fo=1, routed)           0.806     7.549    DATA_RECEIVER/BYTE_RX/count[8]_i_5_n_0
-    SLICE_X51Y118        LUT4 (Prop_lut4_I1_O)        0.154     7.703 f  DATA_RECEIVER/BYTE_RX/count[8]_i_3__0/O
-                         net (fo=12, routed)          0.541     8.244    DATA_RECEIVER/BYTE_RX/count[8]_i_3__0_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I1_O)        0.327     8.571 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_3/O
-                         net (fo=1, routed)           0.151     8.722    DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_3_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I5_O)        0.124     8.846 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_1/O
-                         net (fo=5, routed)           0.615     9.461    DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_1_n_0
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/CE
+    SLICE_X80Y114        FDRE (Prop_fdre_C_Q)         0.518     5.823 r  SmithWaterman/q_buf_reg[5]/Q
+                         net (fo=14, routed)          0.918     6.741    SmithWaterman/q28_in[2]
+    SLICE_X80Y116        LUT5 (Prop_lut5_I2_O)        0.124     6.865 f  SmithWaterman/r_score[0]_i_511/O
+                         net (fo=3, routed)           0.598     7.464    SmithWaterman/r_score[0]_i_511_n_0
+    SLICE_X81Y114        LUT3 (Prop_lut3_I0_O)        0.124     7.588 r  SmithWaterman/r_score[0]_i_463/O
+                         net (fo=5, routed)           0.988     8.576    SmithWaterman/r_score[0]_i_463_n_0
+    SLICE_X81Y111        LUT6 (Prop_lut6_I3_O)        0.124     8.700 r  SmithWaterman/r_score[0]_i_546/O
+                         net (fo=1, routed)           0.573     9.273    SmithWaterman/m_score_matrix[3]_6[0]
+    SLICE_X81Y112        LUT3 (Prop_lut3_I1_O)        0.124     9.397 r  SmithWaterman/r_score[0]_i_505/O
+                         net (fo=2, routed)           0.438     9.835    SmithWaterman/r_score[0]_i_505_n_0
+    SLICE_X80Y111        LUT2 (Prop_lut2_I1_O)        0.124     9.959 f  SmithWaterman/r_score[0]_i_457/O
+                         net (fo=5, routed)           1.029    10.988    SmithWaterman/r_score[0]_i_457_n_0
+    SLICE_X81Y111        LUT3 (Prop_lut3_I2_O)        0.152    11.140 r  SmithWaterman/r_score[0]_i_413/O
+                         net (fo=3, routed)           0.466    11.606    SmithWaterman/m_score_matrix[4]_10[1]
+    SLICE_X80Y110        LUT3 (Prop_lut3_I2_O)        0.326    11.932 r  SmithWaterman/r_score[0]_i_493/O
+                         net (fo=2, routed)           0.584    12.515    SmithWaterman/r_score[0]_i_493_n_0
+    SLICE_X81Y111        LUT2 (Prop_lut2_I1_O)        0.124    12.639 f  SmithWaterman/r_score[0]_i_436/O
+                         net (fo=5, routed)           0.660    13.299    SmithWaterman/r_score[0]_i_436_n_0
+    SLICE_X77Y109        LUT3 (Prop_lut3_I2_O)        0.124    13.423 r  SmithWaterman/r_score[0]_i_388/O
+                         net (fo=3, routed)           1.235    14.659    SmithWaterman/m_score_matrix[5]_14[1]
+    SLICE_X83Y110        LUT6 (Prop_lut6_I0_O)        0.124    14.783 r  SmithWaterman/r_score[0]_i_357/O
+                         net (fo=1, routed)           0.659    15.441    SmithWaterman/m_score_matrix[6]_14[0]
+    SLICE_X82Y110        LUT3 (Prop_lut3_I1_O)        0.152    15.593 r  SmithWaterman/r_score[0]_i_295/O
+                         net (fo=2, routed)           0.441    16.035    SmithWaterman/r_score[0]_i_295_n_0
+    SLICE_X82Y109        LUT2 (Prop_lut2_I1_O)        0.332    16.367 f  SmithWaterman/r_score[0]_i_240/O
+                         net (fo=5, routed)           0.855    17.222    SmithWaterman/r_score[0]_i_240_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I2_O)        0.150    17.372 r  SmithWaterman/r_score[0]_i_227/O
+                         net (fo=2, routed)           0.999    18.371    SmithWaterman/m_score_matrix[7]_18[1]
+    SLICE_X82Y107        LUT6 (Prop_lut6_I0_O)        0.326    18.697 r  SmithWaterman/r_score[0]_i_180/O
+                         net (fo=1, routed)           0.419    19.115    SmithWaterman/m_score_matrix[8]_18[0]
+    SLICE_X84Y108        LUT3 (Prop_lut3_I1_O)        0.124    19.239 f  SmithWaterman/r_score[0]_i_125/O
+                         net (fo=2, routed)           0.321    19.561    SmithWaterman/r_score[0]_i_125_n_0
+    SLICE_X86Y108        LUT2 (Prop_lut2_I1_O)        0.124    19.685 r  SmithWaterman/r_score[0]_i_128/O
+                         net (fo=3, routed)           0.586    20.270    SmithWaterman/r_score[0]_i_128_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I1_O)        0.124    20.394 f  SmithWaterman/r_score[0]_i_72/O
+                         net (fo=2, routed)           0.640    21.034    SmithWaterman/m_score_matrix[10]_20[1]
+    SLICE_X85Y108        LUT6 (Prop_lut6_I0_O)        0.124    21.158 f  SmithWaterman/r_score[0]_i_24/O
+                         net (fo=1, routed)           0.582    21.740    SmithWaterman/m_score_matrix[11]_20[0]
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    21.864 f  SmithWaterman/r_score[0]_i_5/O
+                         net (fo=2, routed)           0.171    22.035    SmithWaterman/r_score[0]_i_5_n_0
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    22.159 r  SmithWaterman/r_score[0]_i_1/O
+                         net (fo=32, routed)          0.530    22.689    SmithWaterman/r_score0
+    SLICE_X87Y107        FDRE                                         r  SmithWaterman/r_score_reg[9]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -430,30 +558,30 @@ Slack (MET) :             5.469ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.489    14.911    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/C
-                         clock pessimism              0.259    15.170    
-                         clock uncertainty           -0.035    15.135    
-    SLICE_X49Y117        FDRE (Setup_fdre_C_CE)      -0.205    14.930    DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]
+                         net (fo=334, routed)         1.595    15.017    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X87Y107        FDRE                                         r  SmithWaterman/r_score_reg[9]/C
+                         clock pessimism              0.259    15.276    
+                         clock uncertainty           -0.035    15.241    
+    SLICE_X87Y107        FDRE (Setup_fdre_C_CE)      -0.205    15.036    SmithWaterman/r_score_reg[9]
   -------------------------------------------------------------------
-                         required time                         14.930    
-                         arrival time                          -9.461    
+                         required time                         15.036    
+                         arrival time                         -22.689    
   -------------------------------------------------------------------
-                         slack                                  5.469    
+                         slack                                 -7.653    
 
-Slack (MET) :             5.469ns  (required time - arrival time)
-  Source:                 DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+Slack (VIOLATED) :        -7.651ns  (required time - arrival time)
+  Source:                 SmithWaterman/q_buf_reg[5]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[4]/CE
+  Destination:            SmithWaterman/r_score_reg[0]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        4.252ns  (logic 1.247ns (29.327%)  route 3.005ns (70.673%))
-  Logic Levels:           4  (LUT4=1 LUT6=3)
-  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.911ns = ( 14.911 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.209ns
+  Data Path Delay:        17.383ns  (logic 3.692ns (21.239%)  route 13.691ns (78.761%))
+  Logic Levels:           20  (LUT2=4 LUT3=9 LUT5=1 LUT6=6)
+  Clock Path Skew:        -0.028ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.018ns = ( 15.018 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.305ns
     Clock Pessimism Removal (CPR):    0.259ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -470,20 +598,52 @@ Slack (MET) :             5.469ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.607     5.209    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+                         net (fo=334, routed)         1.703     5.305    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X80Y114        FDRE                                         r  SmithWaterman/q_buf_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y117        FDRE (Prop_fdre_C_Q)         0.518     5.727 r  DATA_RECEIVER/BYTE_RX/count_reg[2]/Q
-                         net (fo=6, routed)           0.892     6.619    DATA_RECEIVER/BYTE_RX/count_reg_n_0_[2]
-    SLICE_X51Y117        LUT6 (Prop_lut6_I3_O)        0.124     6.743 f  DATA_RECEIVER/BYTE_RX/count[8]_i_5/O
-                         net (fo=1, routed)           0.806     7.549    DATA_RECEIVER/BYTE_RX/count[8]_i_5_n_0
-    SLICE_X51Y118        LUT4 (Prop_lut4_I1_O)        0.154     7.703 f  DATA_RECEIVER/BYTE_RX/count[8]_i_3__0/O
-                         net (fo=12, routed)          0.541     8.244    DATA_RECEIVER/BYTE_RX/count[8]_i_3__0_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I1_O)        0.327     8.571 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_3/O
-                         net (fo=1, routed)           0.151     8.722    DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_3_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I5_O)        0.124     8.846 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_1/O
-                         net (fo=5, routed)           0.615     9.461    DATA_RECEIVER/BYTE_RX/FSM_onehot_state[4]_i_1_n_0
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[4]/CE
+    SLICE_X80Y114        FDRE (Prop_fdre_C_Q)         0.518     5.823 r  SmithWaterman/q_buf_reg[5]/Q
+                         net (fo=14, routed)          0.918     6.741    SmithWaterman/q28_in[2]
+    SLICE_X80Y116        LUT5 (Prop_lut5_I2_O)        0.124     6.865 f  SmithWaterman/r_score[0]_i_511/O
+                         net (fo=3, routed)           0.598     7.464    SmithWaterman/r_score[0]_i_511_n_0
+    SLICE_X81Y114        LUT3 (Prop_lut3_I0_O)        0.124     7.588 r  SmithWaterman/r_score[0]_i_463/O
+                         net (fo=5, routed)           0.988     8.576    SmithWaterman/r_score[0]_i_463_n_0
+    SLICE_X81Y111        LUT6 (Prop_lut6_I3_O)        0.124     8.700 r  SmithWaterman/r_score[0]_i_546/O
+                         net (fo=1, routed)           0.573     9.273    SmithWaterman/m_score_matrix[3]_6[0]
+    SLICE_X81Y112        LUT3 (Prop_lut3_I1_O)        0.124     9.397 r  SmithWaterman/r_score[0]_i_505/O
+                         net (fo=2, routed)           0.438     9.835    SmithWaterman/r_score[0]_i_505_n_0
+    SLICE_X80Y111        LUT2 (Prop_lut2_I1_O)        0.124     9.959 f  SmithWaterman/r_score[0]_i_457/O
+                         net (fo=5, routed)           1.029    10.988    SmithWaterman/r_score[0]_i_457_n_0
+    SLICE_X81Y111        LUT3 (Prop_lut3_I2_O)        0.152    11.140 r  SmithWaterman/r_score[0]_i_413/O
+                         net (fo=3, routed)           0.466    11.606    SmithWaterman/m_score_matrix[4]_10[1]
+    SLICE_X80Y110        LUT3 (Prop_lut3_I2_O)        0.326    11.932 r  SmithWaterman/r_score[0]_i_493/O
+                         net (fo=2, routed)           0.584    12.515    SmithWaterman/r_score[0]_i_493_n_0
+    SLICE_X81Y111        LUT2 (Prop_lut2_I1_O)        0.124    12.639 f  SmithWaterman/r_score[0]_i_436/O
+                         net (fo=5, routed)           0.660    13.299    SmithWaterman/r_score[0]_i_436_n_0
+    SLICE_X77Y109        LUT3 (Prop_lut3_I2_O)        0.124    13.423 r  SmithWaterman/r_score[0]_i_388/O
+                         net (fo=3, routed)           1.235    14.659    SmithWaterman/m_score_matrix[5]_14[1]
+    SLICE_X83Y110        LUT6 (Prop_lut6_I0_O)        0.124    14.783 r  SmithWaterman/r_score[0]_i_357/O
+                         net (fo=1, routed)           0.659    15.441    SmithWaterman/m_score_matrix[6]_14[0]
+    SLICE_X82Y110        LUT3 (Prop_lut3_I1_O)        0.152    15.593 r  SmithWaterman/r_score[0]_i_295/O
+                         net (fo=2, routed)           0.441    16.035    SmithWaterman/r_score[0]_i_295_n_0
+    SLICE_X82Y109        LUT2 (Prop_lut2_I1_O)        0.332    16.367 f  SmithWaterman/r_score[0]_i_240/O
+                         net (fo=5, routed)           0.855    17.222    SmithWaterman/r_score[0]_i_240_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I2_O)        0.150    17.372 r  SmithWaterman/r_score[0]_i_227/O
+                         net (fo=2, routed)           0.999    18.371    SmithWaterman/m_score_matrix[7]_18[1]
+    SLICE_X82Y107        LUT6 (Prop_lut6_I0_O)        0.326    18.697 r  SmithWaterman/r_score[0]_i_180/O
+                         net (fo=1, routed)           0.419    19.115    SmithWaterman/m_score_matrix[8]_18[0]
+    SLICE_X84Y108        LUT3 (Prop_lut3_I1_O)        0.124    19.239 f  SmithWaterman/r_score[0]_i_125/O
+                         net (fo=2, routed)           0.321    19.561    SmithWaterman/r_score[0]_i_125_n_0
+    SLICE_X86Y108        LUT2 (Prop_lut2_I1_O)        0.124    19.685 r  SmithWaterman/r_score[0]_i_128/O
+                         net (fo=3, routed)           0.586    20.270    SmithWaterman/r_score[0]_i_128_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I1_O)        0.124    20.394 f  SmithWaterman/r_score[0]_i_72/O
+                         net (fo=2, routed)           0.640    21.034    SmithWaterman/m_score_matrix[10]_20[1]
+    SLICE_X85Y108        LUT6 (Prop_lut6_I0_O)        0.124    21.158 f  SmithWaterman/r_score[0]_i_24/O
+                         net (fo=1, routed)           0.582    21.740    SmithWaterman/m_score_matrix[11]_20[0]
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    21.864 f  SmithWaterman/r_score[0]_i_5/O
+                         net (fo=2, routed)           0.171    22.035    SmithWaterman/r_score[0]_i_5_n_0
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    22.159 r  SmithWaterman/r_score[0]_i_1/O
+                         net (fo=32, routed)          0.529    22.688    SmithWaterman/r_score0
+    SLICE_X87Y105        FDRE                                         r  SmithWaterman/r_score_reg[0]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -493,30 +653,30 @@ Slack (MET) :             5.469ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.489    14.911    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[4]/C
-                         clock pessimism              0.259    15.170    
-                         clock uncertainty           -0.035    15.135    
-    SLICE_X49Y117        FDRE (Setup_fdre_C_CE)      -0.205    14.930    DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[4]
+                         net (fo=334, routed)         1.596    15.018    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X87Y105        FDRE                                         r  SmithWaterman/r_score_reg[0]/C
+                         clock pessimism              0.259    15.277    
+                         clock uncertainty           -0.035    15.242    
+    SLICE_X87Y105        FDRE (Setup_fdre_C_CE)      -0.205    15.037    SmithWaterman/r_score_reg[0]
   -------------------------------------------------------------------
-                         required time                         14.930    
-                         arrival time                          -9.461    
+                         required time                         15.037    
+                         arrival time                         -22.688    
   -------------------------------------------------------------------
-                         slack                                  5.469    
+                         slack                                 -7.651    
 
-Slack (MET) :             5.769ns  (required time - arrival time)
-  Source:                 DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+Slack (VIOLATED) :        -7.651ns  (required time - arrival time)
+  Source:                 SmithWaterman/q_buf_reg[5]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/index_reg[0]/D
+  Destination:            SmithWaterman/r_score_reg[1]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        4.204ns  (logic 1.275ns (30.330%)  route 2.929ns (69.670%))
-  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
-  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.911ns = ( 14.911 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.209ns
+  Data Path Delay:        17.383ns  (logic 3.692ns (21.239%)  route 13.691ns (78.761%))
+  Logic Levels:           20  (LUT2=4 LUT3=9 LUT5=1 LUT6=6)
+  Clock Path Skew:        -0.028ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.018ns = ( 15.018 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.305ns
     Clock Pessimism Removal (CPR):    0.259ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -533,20 +693,52 @@ Slack (MET) :             5.769ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.607     5.209    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+                         net (fo=334, routed)         1.703     5.305    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X80Y114        FDRE                                         r  SmithWaterman/q_buf_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y117        FDRE (Prop_fdre_C_Q)         0.518     5.727 r  DATA_RECEIVER/BYTE_RX/count_reg[2]/Q
-                         net (fo=6, routed)           0.892     6.619    DATA_RECEIVER/BYTE_RX/count_reg_n_0_[2]
-    SLICE_X51Y117        LUT6 (Prop_lut6_I3_O)        0.124     6.743 f  DATA_RECEIVER/BYTE_RX/count[8]_i_5/O
-                         net (fo=1, routed)           0.806     7.549    DATA_RECEIVER/BYTE_RX/count[8]_i_5_n_0
-    SLICE_X51Y118        LUT4 (Prop_lut4_I1_O)        0.154     7.703 f  DATA_RECEIVER/BYTE_RX/count[8]_i_3__0/O
-                         net (fo=12, routed)          0.553     8.256    DATA_RECEIVER/BYTE_RX/count[8]_i_3__0_n_0
-    SLICE_X48Y117        LUT5 (Prop_lut5_I2_O)        0.327     8.583 r  DATA_RECEIVER/BYTE_RX/index[2]_i_2__0/O
-                         net (fo=3, routed)           0.678     9.261    DATA_RECEIVER/BYTE_RX/index
-    SLICE_X48Y117        LUT3 (Prop_lut3_I1_O)        0.152     9.413 r  DATA_RECEIVER/BYTE_RX/index[0]_i_1/O
-                         net (fo=1, routed)           0.000     9.413    DATA_RECEIVER/BYTE_RX/index[0]_i_1_n_0
-    SLICE_X48Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/index_reg[0]/D
+    SLICE_X80Y114        FDRE (Prop_fdre_C_Q)         0.518     5.823 r  SmithWaterman/q_buf_reg[5]/Q
+                         net (fo=14, routed)          0.918     6.741    SmithWaterman/q28_in[2]
+    SLICE_X80Y116        LUT5 (Prop_lut5_I2_O)        0.124     6.865 f  SmithWaterman/r_score[0]_i_511/O
+                         net (fo=3, routed)           0.598     7.464    SmithWaterman/r_score[0]_i_511_n_0
+    SLICE_X81Y114        LUT3 (Prop_lut3_I0_O)        0.124     7.588 r  SmithWaterman/r_score[0]_i_463/O
+                         net (fo=5, routed)           0.988     8.576    SmithWaterman/r_score[0]_i_463_n_0
+    SLICE_X81Y111        LUT6 (Prop_lut6_I3_O)        0.124     8.700 r  SmithWaterman/r_score[0]_i_546/O
+                         net (fo=1, routed)           0.573     9.273    SmithWaterman/m_score_matrix[3]_6[0]
+    SLICE_X81Y112        LUT3 (Prop_lut3_I1_O)        0.124     9.397 r  SmithWaterman/r_score[0]_i_505/O
+                         net (fo=2, routed)           0.438     9.835    SmithWaterman/r_score[0]_i_505_n_0
+    SLICE_X80Y111        LUT2 (Prop_lut2_I1_O)        0.124     9.959 f  SmithWaterman/r_score[0]_i_457/O
+                         net (fo=5, routed)           1.029    10.988    SmithWaterman/r_score[0]_i_457_n_0
+    SLICE_X81Y111        LUT3 (Prop_lut3_I2_O)        0.152    11.140 r  SmithWaterman/r_score[0]_i_413/O
+                         net (fo=3, routed)           0.466    11.606    SmithWaterman/m_score_matrix[4]_10[1]
+    SLICE_X80Y110        LUT3 (Prop_lut3_I2_O)        0.326    11.932 r  SmithWaterman/r_score[0]_i_493/O
+                         net (fo=2, routed)           0.584    12.515    SmithWaterman/r_score[0]_i_493_n_0
+    SLICE_X81Y111        LUT2 (Prop_lut2_I1_O)        0.124    12.639 f  SmithWaterman/r_score[0]_i_436/O
+                         net (fo=5, routed)           0.660    13.299    SmithWaterman/r_score[0]_i_436_n_0
+    SLICE_X77Y109        LUT3 (Prop_lut3_I2_O)        0.124    13.423 r  SmithWaterman/r_score[0]_i_388/O
+                         net (fo=3, routed)           1.235    14.659    SmithWaterman/m_score_matrix[5]_14[1]
+    SLICE_X83Y110        LUT6 (Prop_lut6_I0_O)        0.124    14.783 r  SmithWaterman/r_score[0]_i_357/O
+                         net (fo=1, routed)           0.659    15.441    SmithWaterman/m_score_matrix[6]_14[0]
+    SLICE_X82Y110        LUT3 (Prop_lut3_I1_O)        0.152    15.593 r  SmithWaterman/r_score[0]_i_295/O
+                         net (fo=2, routed)           0.441    16.035    SmithWaterman/r_score[0]_i_295_n_0
+    SLICE_X82Y109        LUT2 (Prop_lut2_I1_O)        0.332    16.367 f  SmithWaterman/r_score[0]_i_240/O
+                         net (fo=5, routed)           0.855    17.222    SmithWaterman/r_score[0]_i_240_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I2_O)        0.150    17.372 r  SmithWaterman/r_score[0]_i_227/O
+                         net (fo=2, routed)           0.999    18.371    SmithWaterman/m_score_matrix[7]_18[1]
+    SLICE_X82Y107        LUT6 (Prop_lut6_I0_O)        0.326    18.697 r  SmithWaterman/r_score[0]_i_180/O
+                         net (fo=1, routed)           0.419    19.115    SmithWaterman/m_score_matrix[8]_18[0]
+    SLICE_X84Y108        LUT3 (Prop_lut3_I1_O)        0.124    19.239 f  SmithWaterman/r_score[0]_i_125/O
+                         net (fo=2, routed)           0.321    19.561    SmithWaterman/r_score[0]_i_125_n_0
+    SLICE_X86Y108        LUT2 (Prop_lut2_I1_O)        0.124    19.685 r  SmithWaterman/r_score[0]_i_128/O
+                         net (fo=3, routed)           0.586    20.270    SmithWaterman/r_score[0]_i_128_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I1_O)        0.124    20.394 f  SmithWaterman/r_score[0]_i_72/O
+                         net (fo=2, routed)           0.640    21.034    SmithWaterman/m_score_matrix[10]_20[1]
+    SLICE_X85Y108        LUT6 (Prop_lut6_I0_O)        0.124    21.158 f  SmithWaterman/r_score[0]_i_24/O
+                         net (fo=1, routed)           0.582    21.740    SmithWaterman/m_score_matrix[11]_20[0]
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    21.864 f  SmithWaterman/r_score[0]_i_5/O
+                         net (fo=2, routed)           0.171    22.035    SmithWaterman/r_score[0]_i_5_n_0
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    22.159 r  SmithWaterman/r_score[0]_i_1/O
+                         net (fo=32, routed)          0.529    22.688    SmithWaterman/r_score0
+    SLICE_X87Y105        FDRE                                         r  SmithWaterman/r_score_reg[1]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -556,30 +748,30 @@ Slack (MET) :             5.769ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.489    14.911    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X48Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/index_reg[0]/C
-                         clock pessimism              0.259    15.170    
-                         clock uncertainty           -0.035    15.135    
-    SLICE_X48Y117        FDRE (Setup_fdre_C_D)        0.047    15.182    DATA_RECEIVER/BYTE_RX/index_reg[0]
+                         net (fo=334, routed)         1.596    15.018    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X87Y105        FDRE                                         r  SmithWaterman/r_score_reg[1]/C
+                         clock pessimism              0.259    15.277    
+                         clock uncertainty           -0.035    15.242    
+    SLICE_X87Y105        FDRE (Setup_fdre_C_CE)      -0.205    15.037    SmithWaterman/r_score_reg[1]
   -------------------------------------------------------------------
-                         required time                         15.182    
-                         arrival time                          -9.413    
+                         required time                         15.037    
+                         arrival time                         -22.688    
   -------------------------------------------------------------------
-                         slack                                  5.769    
+                         slack                                 -7.651    
 
-Slack (MET) :             5.772ns  (required time - arrival time)
-  Source:                 DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+Slack (VIOLATED) :        -7.651ns  (required time - arrival time)
+  Source:                 SmithWaterman/q_buf_reg[5]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/index_reg[1]/D
+  Destination:            SmithWaterman/r_score_reg[2]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        4.183ns  (logic 1.247ns (29.812%)  route 2.936ns (70.188%))
-  Logic Levels:           4  (LUT4=2 LUT5=1 LUT6=1)
-  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.911ns = ( 14.911 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.209ns
+  Data Path Delay:        17.383ns  (logic 3.692ns (21.239%)  route 13.691ns (78.761%))
+  Logic Levels:           20  (LUT2=4 LUT3=9 LUT5=1 LUT6=6)
+  Clock Path Skew:        -0.028ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.018ns = ( 15.018 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.305ns
     Clock Pessimism Removal (CPR):    0.259ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -596,20 +788,52 @@ Slack (MET) :             5.772ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.607     5.209    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+                         net (fo=334, routed)         1.703     5.305    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X80Y114        FDRE                                         r  SmithWaterman/q_buf_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y117        FDRE (Prop_fdre_C_Q)         0.518     5.727 r  DATA_RECEIVER/BYTE_RX/count_reg[2]/Q
-                         net (fo=6, routed)           0.892     6.619    DATA_RECEIVER/BYTE_RX/count_reg_n_0_[2]
-    SLICE_X51Y117        LUT6 (Prop_lut6_I3_O)        0.124     6.743 f  DATA_RECEIVER/BYTE_RX/count[8]_i_5/O
-                         net (fo=1, routed)           0.806     7.549    DATA_RECEIVER/BYTE_RX/count[8]_i_5_n_0
-    SLICE_X51Y118        LUT4 (Prop_lut4_I1_O)        0.154     7.703 f  DATA_RECEIVER/BYTE_RX/count[8]_i_3__0/O
-                         net (fo=12, routed)          0.553     8.256    DATA_RECEIVER/BYTE_RX/count[8]_i_3__0_n_0
-    SLICE_X48Y117        LUT5 (Prop_lut5_I2_O)        0.327     8.583 r  DATA_RECEIVER/BYTE_RX/index[2]_i_2__0/O
-                         net (fo=3, routed)           0.685     9.268    DATA_RECEIVER/BYTE_RX/index
-    SLICE_X48Y117        LUT4 (Prop_lut4_I2_O)        0.124     9.392 r  DATA_RECEIVER/BYTE_RX/index[1]_i_1/O
-                         net (fo=1, routed)           0.000     9.392    DATA_RECEIVER/BYTE_RX/index[1]_i_1_n_0
-    SLICE_X48Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/index_reg[1]/D
+    SLICE_X80Y114        FDRE (Prop_fdre_C_Q)         0.518     5.823 r  SmithWaterman/q_buf_reg[5]/Q
+                         net (fo=14, routed)          0.918     6.741    SmithWaterman/q28_in[2]
+    SLICE_X80Y116        LUT5 (Prop_lut5_I2_O)        0.124     6.865 f  SmithWaterman/r_score[0]_i_511/O
+                         net (fo=3, routed)           0.598     7.464    SmithWaterman/r_score[0]_i_511_n_0
+    SLICE_X81Y114        LUT3 (Prop_lut3_I0_O)        0.124     7.588 r  SmithWaterman/r_score[0]_i_463/O
+                         net (fo=5, routed)           0.988     8.576    SmithWaterman/r_score[0]_i_463_n_0
+    SLICE_X81Y111        LUT6 (Prop_lut6_I3_O)        0.124     8.700 r  SmithWaterman/r_score[0]_i_546/O
+                         net (fo=1, routed)           0.573     9.273    SmithWaterman/m_score_matrix[3]_6[0]
+    SLICE_X81Y112        LUT3 (Prop_lut3_I1_O)        0.124     9.397 r  SmithWaterman/r_score[0]_i_505/O
+                         net (fo=2, routed)           0.438     9.835    SmithWaterman/r_score[0]_i_505_n_0
+    SLICE_X80Y111        LUT2 (Prop_lut2_I1_O)        0.124     9.959 f  SmithWaterman/r_score[0]_i_457/O
+                         net (fo=5, routed)           1.029    10.988    SmithWaterman/r_score[0]_i_457_n_0
+    SLICE_X81Y111        LUT3 (Prop_lut3_I2_O)        0.152    11.140 r  SmithWaterman/r_score[0]_i_413/O
+                         net (fo=3, routed)           0.466    11.606    SmithWaterman/m_score_matrix[4]_10[1]
+    SLICE_X80Y110        LUT3 (Prop_lut3_I2_O)        0.326    11.932 r  SmithWaterman/r_score[0]_i_493/O
+                         net (fo=2, routed)           0.584    12.515    SmithWaterman/r_score[0]_i_493_n_0
+    SLICE_X81Y111        LUT2 (Prop_lut2_I1_O)        0.124    12.639 f  SmithWaterman/r_score[0]_i_436/O
+                         net (fo=5, routed)           0.660    13.299    SmithWaterman/r_score[0]_i_436_n_0
+    SLICE_X77Y109        LUT3 (Prop_lut3_I2_O)        0.124    13.423 r  SmithWaterman/r_score[0]_i_388/O
+                         net (fo=3, routed)           1.235    14.659    SmithWaterman/m_score_matrix[5]_14[1]
+    SLICE_X83Y110        LUT6 (Prop_lut6_I0_O)        0.124    14.783 r  SmithWaterman/r_score[0]_i_357/O
+                         net (fo=1, routed)           0.659    15.441    SmithWaterman/m_score_matrix[6]_14[0]
+    SLICE_X82Y110        LUT3 (Prop_lut3_I1_O)        0.152    15.593 r  SmithWaterman/r_score[0]_i_295/O
+                         net (fo=2, routed)           0.441    16.035    SmithWaterman/r_score[0]_i_295_n_0
+    SLICE_X82Y109        LUT2 (Prop_lut2_I1_O)        0.332    16.367 f  SmithWaterman/r_score[0]_i_240/O
+                         net (fo=5, routed)           0.855    17.222    SmithWaterman/r_score[0]_i_240_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I2_O)        0.150    17.372 r  SmithWaterman/r_score[0]_i_227/O
+                         net (fo=2, routed)           0.999    18.371    SmithWaterman/m_score_matrix[7]_18[1]
+    SLICE_X82Y107        LUT6 (Prop_lut6_I0_O)        0.326    18.697 r  SmithWaterman/r_score[0]_i_180/O
+                         net (fo=1, routed)           0.419    19.115    SmithWaterman/m_score_matrix[8]_18[0]
+    SLICE_X84Y108        LUT3 (Prop_lut3_I1_O)        0.124    19.239 f  SmithWaterman/r_score[0]_i_125/O
+                         net (fo=2, routed)           0.321    19.561    SmithWaterman/r_score[0]_i_125_n_0
+    SLICE_X86Y108        LUT2 (Prop_lut2_I1_O)        0.124    19.685 r  SmithWaterman/r_score[0]_i_128/O
+                         net (fo=3, routed)           0.586    20.270    SmithWaterman/r_score[0]_i_128_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I1_O)        0.124    20.394 f  SmithWaterman/r_score[0]_i_72/O
+                         net (fo=2, routed)           0.640    21.034    SmithWaterman/m_score_matrix[10]_20[1]
+    SLICE_X85Y108        LUT6 (Prop_lut6_I0_O)        0.124    21.158 f  SmithWaterman/r_score[0]_i_24/O
+                         net (fo=1, routed)           0.582    21.740    SmithWaterman/m_score_matrix[11]_20[0]
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    21.864 f  SmithWaterman/r_score[0]_i_5/O
+                         net (fo=2, routed)           0.171    22.035    SmithWaterman/r_score[0]_i_5_n_0
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    22.159 r  SmithWaterman/r_score[0]_i_1/O
+                         net (fo=32, routed)          0.529    22.688    SmithWaterman/r_score0
+    SLICE_X87Y105        FDRE                                         r  SmithWaterman/r_score_reg[2]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -619,30 +843,30 @@ Slack (MET) :             5.772ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.489    14.911    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X48Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/index_reg[1]/C
-                         clock pessimism              0.259    15.170    
-                         clock uncertainty           -0.035    15.135    
-    SLICE_X48Y117        FDRE (Setup_fdre_C_D)        0.029    15.164    DATA_RECEIVER/BYTE_RX/index_reg[1]
+                         net (fo=334, routed)         1.596    15.018    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X87Y105        FDRE                                         r  SmithWaterman/r_score_reg[2]/C
+                         clock pessimism              0.259    15.277    
+                         clock uncertainty           -0.035    15.242    
+    SLICE_X87Y105        FDRE (Setup_fdre_C_CE)      -0.205    15.037    SmithWaterman/r_score_reg[2]
   -------------------------------------------------------------------
-                         required time                         15.164    
-                         arrival time                          -9.392    
+                         required time                         15.037    
+                         arrival time                         -22.688    
   -------------------------------------------------------------------
-                         slack                                  5.772    
+                         slack                                 -7.651    
 
-Slack (MET) :             5.790ns  (required time - arrival time)
-  Source:                 DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+Slack (VIOLATED) :        -7.651ns  (required time - arrival time)
+  Source:                 SmithWaterman/q_buf_reg[5]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/index_reg[2]/D
+  Destination:            SmithWaterman/r_score_reg[3]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        4.211ns  (logic 1.275ns (30.278%)  route 2.936ns (69.722%))
-  Logic Levels:           4  (LUT4=1 LUT5=2 LUT6=1)
-  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.911ns = ( 14.911 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.209ns
+  Data Path Delay:        17.383ns  (logic 3.692ns (21.239%)  route 13.691ns (78.761%))
+  Logic Levels:           20  (LUT2=4 LUT3=9 LUT5=1 LUT6=6)
+  Clock Path Skew:        -0.028ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.018ns = ( 15.018 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.305ns
     Clock Pessimism Removal (CPR):    0.259ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -659,20 +883,52 @@ Slack (MET) :             5.790ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.607     5.209    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+                         net (fo=334, routed)         1.703     5.305    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X80Y114        FDRE                                         r  SmithWaterman/q_buf_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y117        FDRE (Prop_fdre_C_Q)         0.518     5.727 r  DATA_RECEIVER/BYTE_RX/count_reg[2]/Q
-                         net (fo=6, routed)           0.892     6.619    DATA_RECEIVER/BYTE_RX/count_reg_n_0_[2]
-    SLICE_X51Y117        LUT6 (Prop_lut6_I3_O)        0.124     6.743 f  DATA_RECEIVER/BYTE_RX/count[8]_i_5/O
-                         net (fo=1, routed)           0.806     7.549    DATA_RECEIVER/BYTE_RX/count[8]_i_5_n_0
-    SLICE_X51Y118        LUT4 (Prop_lut4_I1_O)        0.154     7.703 f  DATA_RECEIVER/BYTE_RX/count[8]_i_3__0/O
-                         net (fo=12, routed)          0.553     8.256    DATA_RECEIVER/BYTE_RX/count[8]_i_3__0_n_0
-    SLICE_X48Y117        LUT5 (Prop_lut5_I2_O)        0.327     8.583 r  DATA_RECEIVER/BYTE_RX/index[2]_i_2__0/O
-                         net (fo=3, routed)           0.685     9.268    DATA_RECEIVER/BYTE_RX/index
-    SLICE_X48Y117        LUT5 (Prop_lut5_I3_O)        0.152     9.420 r  DATA_RECEIVER/BYTE_RX/index[2]_i_1/O
-                         net (fo=1, routed)           0.000     9.420    DATA_RECEIVER/BYTE_RX/index[2]_i_1_n_0
-    SLICE_X48Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/index_reg[2]/D
+    SLICE_X80Y114        FDRE (Prop_fdre_C_Q)         0.518     5.823 r  SmithWaterman/q_buf_reg[5]/Q
+                         net (fo=14, routed)          0.918     6.741    SmithWaterman/q28_in[2]
+    SLICE_X80Y116        LUT5 (Prop_lut5_I2_O)        0.124     6.865 f  SmithWaterman/r_score[0]_i_511/O
+                         net (fo=3, routed)           0.598     7.464    SmithWaterman/r_score[0]_i_511_n_0
+    SLICE_X81Y114        LUT3 (Prop_lut3_I0_O)        0.124     7.588 r  SmithWaterman/r_score[0]_i_463/O
+                         net (fo=5, routed)           0.988     8.576    SmithWaterman/r_score[0]_i_463_n_0
+    SLICE_X81Y111        LUT6 (Prop_lut6_I3_O)        0.124     8.700 r  SmithWaterman/r_score[0]_i_546/O
+                         net (fo=1, routed)           0.573     9.273    SmithWaterman/m_score_matrix[3]_6[0]
+    SLICE_X81Y112        LUT3 (Prop_lut3_I1_O)        0.124     9.397 r  SmithWaterman/r_score[0]_i_505/O
+                         net (fo=2, routed)           0.438     9.835    SmithWaterman/r_score[0]_i_505_n_0
+    SLICE_X80Y111        LUT2 (Prop_lut2_I1_O)        0.124     9.959 f  SmithWaterman/r_score[0]_i_457/O
+                         net (fo=5, routed)           1.029    10.988    SmithWaterman/r_score[0]_i_457_n_0
+    SLICE_X81Y111        LUT3 (Prop_lut3_I2_O)        0.152    11.140 r  SmithWaterman/r_score[0]_i_413/O
+                         net (fo=3, routed)           0.466    11.606    SmithWaterman/m_score_matrix[4]_10[1]
+    SLICE_X80Y110        LUT3 (Prop_lut3_I2_O)        0.326    11.932 r  SmithWaterman/r_score[0]_i_493/O
+                         net (fo=2, routed)           0.584    12.515    SmithWaterman/r_score[0]_i_493_n_0
+    SLICE_X81Y111        LUT2 (Prop_lut2_I1_O)        0.124    12.639 f  SmithWaterman/r_score[0]_i_436/O
+                         net (fo=5, routed)           0.660    13.299    SmithWaterman/r_score[0]_i_436_n_0
+    SLICE_X77Y109        LUT3 (Prop_lut3_I2_O)        0.124    13.423 r  SmithWaterman/r_score[0]_i_388/O
+                         net (fo=3, routed)           1.235    14.659    SmithWaterman/m_score_matrix[5]_14[1]
+    SLICE_X83Y110        LUT6 (Prop_lut6_I0_O)        0.124    14.783 r  SmithWaterman/r_score[0]_i_357/O
+                         net (fo=1, routed)           0.659    15.441    SmithWaterman/m_score_matrix[6]_14[0]
+    SLICE_X82Y110        LUT3 (Prop_lut3_I1_O)        0.152    15.593 r  SmithWaterman/r_score[0]_i_295/O
+                         net (fo=2, routed)           0.441    16.035    SmithWaterman/r_score[0]_i_295_n_0
+    SLICE_X82Y109        LUT2 (Prop_lut2_I1_O)        0.332    16.367 f  SmithWaterman/r_score[0]_i_240/O
+                         net (fo=5, routed)           0.855    17.222    SmithWaterman/r_score[0]_i_240_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I2_O)        0.150    17.372 r  SmithWaterman/r_score[0]_i_227/O
+                         net (fo=2, routed)           0.999    18.371    SmithWaterman/m_score_matrix[7]_18[1]
+    SLICE_X82Y107        LUT6 (Prop_lut6_I0_O)        0.326    18.697 r  SmithWaterman/r_score[0]_i_180/O
+                         net (fo=1, routed)           0.419    19.115    SmithWaterman/m_score_matrix[8]_18[0]
+    SLICE_X84Y108        LUT3 (Prop_lut3_I1_O)        0.124    19.239 f  SmithWaterman/r_score[0]_i_125/O
+                         net (fo=2, routed)           0.321    19.561    SmithWaterman/r_score[0]_i_125_n_0
+    SLICE_X86Y108        LUT2 (Prop_lut2_I1_O)        0.124    19.685 r  SmithWaterman/r_score[0]_i_128/O
+                         net (fo=3, routed)           0.586    20.270    SmithWaterman/r_score[0]_i_128_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I1_O)        0.124    20.394 f  SmithWaterman/r_score[0]_i_72/O
+                         net (fo=2, routed)           0.640    21.034    SmithWaterman/m_score_matrix[10]_20[1]
+    SLICE_X85Y108        LUT6 (Prop_lut6_I0_O)        0.124    21.158 f  SmithWaterman/r_score[0]_i_24/O
+                         net (fo=1, routed)           0.582    21.740    SmithWaterman/m_score_matrix[11]_20[0]
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    21.864 f  SmithWaterman/r_score[0]_i_5/O
+                         net (fo=2, routed)           0.171    22.035    SmithWaterman/r_score[0]_i_5_n_0
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    22.159 r  SmithWaterman/r_score[0]_i_1/O
+                         net (fo=32, routed)          0.529    22.688    SmithWaterman/r_score0
+    SLICE_X87Y105        FDRE                                         r  SmithWaterman/r_score_reg[3]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -682,31 +938,31 @@ Slack (MET) :             5.790ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.489    14.911    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X48Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/index_reg[2]/C
-                         clock pessimism              0.259    15.170    
-                         clock uncertainty           -0.035    15.135    
-    SLICE_X48Y117        FDRE (Setup_fdre_C_D)        0.075    15.210    DATA_RECEIVER/BYTE_RX/index_reg[2]
+                         net (fo=334, routed)         1.596    15.018    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X87Y105        FDRE                                         r  SmithWaterman/r_score_reg[3]/C
+                         clock pessimism              0.259    15.277    
+                         clock uncertainty           -0.035    15.242    
+    SLICE_X87Y105        FDRE (Setup_fdre_C_CE)      -0.205    15.037    SmithWaterman/r_score_reg[3]
   -------------------------------------------------------------------
-                         required time                         15.210    
-                         arrival time                          -9.420    
+                         required time                         15.037    
+                         arrival time                         -22.688    
   -------------------------------------------------------------------
-                         slack                                  5.790    
+                         slack                                 -7.651    
 
-Slack (MET) :             5.828ns  (required time - arrival time)
-  Source:                 DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+Slack (VIOLATED) :        -7.644ns  (required time - arrival time)
+  Source:                 SmithWaterman/q_buf_reg[5]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/count_reg[0]/CE
+  Destination:            SmithWaterman/r_score_reg[28]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        3.909ns  (logic 1.123ns (28.725%)  route 2.786ns (71.275%))
-  Logic Levels:           3  (LUT4=1 LUT6=2)
-  Clock Path Skew:        -0.022ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.909ns = ( 14.909 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.209ns
-    Clock Pessimism Removal (CPR):    0.278ns
+  Data Path Delay:        17.372ns  (logic 3.692ns (21.253%)  route 13.680ns (78.747%))
+  Logic Levels:           20  (LUT2=4 LUT3=9 LUT5=1 LUT6=6)
+  Clock Path Skew:        -0.032ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.014ns = ( 15.014 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.305ns
+    Clock Pessimism Removal (CPR):    0.259ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -722,18 +978,52 @@ Slack (MET) :             5.828ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.607     5.209    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+                         net (fo=334, routed)         1.703     5.305    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X80Y114        FDRE                                         r  SmithWaterman/q_buf_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y117        FDRE (Prop_fdre_C_Q)         0.518     5.727 f  DATA_RECEIVER/BYTE_RX/count_reg[2]/Q
-                         net (fo=6, routed)           0.892     6.619    DATA_RECEIVER/BYTE_RX/count_reg_n_0_[2]
-    SLICE_X51Y117        LUT6 (Prop_lut6_I3_O)        0.124     6.743 r  DATA_RECEIVER/BYTE_RX/count[8]_i_5/O
-                         net (fo=1, routed)           0.806     7.549    DATA_RECEIVER/BYTE_RX/count[8]_i_5_n_0
-    SLICE_X51Y118        LUT4 (Prop_lut4_I1_O)        0.154     7.703 r  DATA_RECEIVER/BYTE_RX/count[8]_i_3__0/O
-                         net (fo=12, routed)          0.540     8.243    DATA_RECEIVER/BYTE_RX/count[8]_i_3__0_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I2_O)        0.327     8.570 r  DATA_RECEIVER/BYTE_RX/count[8]_i_1__0/O
-                         net (fo=9, routed)           0.549     9.119    DATA_RECEIVER/BYTE_RX/count
-    SLICE_X51Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[0]/CE
+    SLICE_X80Y114        FDRE (Prop_fdre_C_Q)         0.518     5.823 r  SmithWaterman/q_buf_reg[5]/Q
+                         net (fo=14, routed)          0.918     6.741    SmithWaterman/q28_in[2]
+    SLICE_X80Y116        LUT5 (Prop_lut5_I2_O)        0.124     6.865 f  SmithWaterman/r_score[0]_i_511/O
+                         net (fo=3, routed)           0.598     7.464    SmithWaterman/r_score[0]_i_511_n_0
+    SLICE_X81Y114        LUT3 (Prop_lut3_I0_O)        0.124     7.588 r  SmithWaterman/r_score[0]_i_463/O
+                         net (fo=5, routed)           0.988     8.576    SmithWaterman/r_score[0]_i_463_n_0
+    SLICE_X81Y111        LUT6 (Prop_lut6_I3_O)        0.124     8.700 r  SmithWaterman/r_score[0]_i_546/O
+                         net (fo=1, routed)           0.573     9.273    SmithWaterman/m_score_matrix[3]_6[0]
+    SLICE_X81Y112        LUT3 (Prop_lut3_I1_O)        0.124     9.397 r  SmithWaterman/r_score[0]_i_505/O
+                         net (fo=2, routed)           0.438     9.835    SmithWaterman/r_score[0]_i_505_n_0
+    SLICE_X80Y111        LUT2 (Prop_lut2_I1_O)        0.124     9.959 f  SmithWaterman/r_score[0]_i_457/O
+                         net (fo=5, routed)           1.029    10.988    SmithWaterman/r_score[0]_i_457_n_0
+    SLICE_X81Y111        LUT3 (Prop_lut3_I2_O)        0.152    11.140 r  SmithWaterman/r_score[0]_i_413/O
+                         net (fo=3, routed)           0.466    11.606    SmithWaterman/m_score_matrix[4]_10[1]
+    SLICE_X80Y110        LUT3 (Prop_lut3_I2_O)        0.326    11.932 r  SmithWaterman/r_score[0]_i_493/O
+                         net (fo=2, routed)           0.584    12.515    SmithWaterman/r_score[0]_i_493_n_0
+    SLICE_X81Y111        LUT2 (Prop_lut2_I1_O)        0.124    12.639 f  SmithWaterman/r_score[0]_i_436/O
+                         net (fo=5, routed)           0.660    13.299    SmithWaterman/r_score[0]_i_436_n_0
+    SLICE_X77Y109        LUT3 (Prop_lut3_I2_O)        0.124    13.423 r  SmithWaterman/r_score[0]_i_388/O
+                         net (fo=3, routed)           1.235    14.659    SmithWaterman/m_score_matrix[5]_14[1]
+    SLICE_X83Y110        LUT6 (Prop_lut6_I0_O)        0.124    14.783 r  SmithWaterman/r_score[0]_i_357/O
+                         net (fo=1, routed)           0.659    15.441    SmithWaterman/m_score_matrix[6]_14[0]
+    SLICE_X82Y110        LUT3 (Prop_lut3_I1_O)        0.152    15.593 r  SmithWaterman/r_score[0]_i_295/O
+                         net (fo=2, routed)           0.441    16.035    SmithWaterman/r_score[0]_i_295_n_0
+    SLICE_X82Y109        LUT2 (Prop_lut2_I1_O)        0.332    16.367 f  SmithWaterman/r_score[0]_i_240/O
+                         net (fo=5, routed)           0.855    17.222    SmithWaterman/r_score[0]_i_240_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I2_O)        0.150    17.372 r  SmithWaterman/r_score[0]_i_227/O
+                         net (fo=2, routed)           0.999    18.371    SmithWaterman/m_score_matrix[7]_18[1]
+    SLICE_X82Y107        LUT6 (Prop_lut6_I0_O)        0.326    18.697 r  SmithWaterman/r_score[0]_i_180/O
+                         net (fo=1, routed)           0.419    19.115    SmithWaterman/m_score_matrix[8]_18[0]
+    SLICE_X84Y108        LUT3 (Prop_lut3_I1_O)        0.124    19.239 f  SmithWaterman/r_score[0]_i_125/O
+                         net (fo=2, routed)           0.321    19.561    SmithWaterman/r_score[0]_i_125_n_0
+    SLICE_X86Y108        LUT2 (Prop_lut2_I1_O)        0.124    19.685 r  SmithWaterman/r_score[0]_i_128/O
+                         net (fo=3, routed)           0.586    20.270    SmithWaterman/r_score[0]_i_128_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I1_O)        0.124    20.394 f  SmithWaterman/r_score[0]_i_72/O
+                         net (fo=2, routed)           0.640    21.034    SmithWaterman/m_score_matrix[10]_20[1]
+    SLICE_X85Y108        LUT6 (Prop_lut6_I0_O)        0.124    21.158 f  SmithWaterman/r_score[0]_i_24/O
+                         net (fo=1, routed)           0.582    21.740    SmithWaterman/m_score_matrix[11]_20[0]
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    21.864 f  SmithWaterman/r_score[0]_i_5/O
+                         net (fo=2, routed)           0.171    22.035    SmithWaterman/r_score[0]_i_5_n_0
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    22.159 r  SmithWaterman/r_score[0]_i_1/O
+                         net (fo=32, routed)          0.518    22.677    SmithWaterman/r_score0
+    SLICE_X87Y112        FDRE                                         r  SmithWaterman/r_score_reg[28]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -743,31 +1033,31 @@ Slack (MET) :             5.828ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.487    14.909    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X51Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[0]/C
-                         clock pessimism              0.278    15.187    
-                         clock uncertainty           -0.035    15.152    
-    SLICE_X51Y117        FDRE (Setup_fdre_C_CE)      -0.205    14.947    DATA_RECEIVER/BYTE_RX/count_reg[0]
+                         net (fo=334, routed)         1.592    15.014    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X87Y112        FDRE                                         r  SmithWaterman/r_score_reg[28]/C
+                         clock pessimism              0.259    15.273    
+                         clock uncertainty           -0.035    15.238    
+    SLICE_X87Y112        FDRE (Setup_fdre_C_CE)      -0.205    15.033    SmithWaterman/r_score_reg[28]
   -------------------------------------------------------------------
-                         required time                         14.947    
-                         arrival time                          -9.119    
+                         required time                         15.033    
+                         arrival time                         -22.677    
   -------------------------------------------------------------------
-                         slack                                  5.828    
+                         slack                                 -7.644    
 
-Slack (MET) :             5.882ns  (required time - arrival time)
-  Source:                 DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+Slack (VIOLATED) :        -7.644ns  (required time - arrival time)
+  Source:                 SmithWaterman/q_buf_reg[5]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/count_reg[5]/CE
+  Destination:            SmithWaterman/r_score_reg[29]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        3.852ns  (logic 1.123ns (29.157%)  route 2.729ns (70.843%))
-  Logic Levels:           3  (LUT4=1 LUT6=2)
-  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.907ns = ( 14.907 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.209ns
-    Clock Pessimism Removal (CPR):    0.276ns
+  Data Path Delay:        17.372ns  (logic 3.692ns (21.253%)  route 13.680ns (78.747%))
+  Logic Levels:           20  (LUT2=4 LUT3=9 LUT5=1 LUT6=6)
+  Clock Path Skew:        -0.032ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.014ns = ( 15.014 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.305ns
+    Clock Pessimism Removal (CPR):    0.259ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -783,18 +1073,52 @@ Slack (MET) :             5.882ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.607     5.209    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[2]/C
+                         net (fo=334, routed)         1.703     5.305    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X80Y114        FDRE                                         r  SmithWaterman/q_buf_reg[5]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y117        FDRE (Prop_fdre_C_Q)         0.518     5.727 f  DATA_RECEIVER/BYTE_RX/count_reg[2]/Q
-                         net (fo=6, routed)           0.892     6.619    DATA_RECEIVER/BYTE_RX/count_reg_n_0_[2]
-    SLICE_X51Y117        LUT6 (Prop_lut6_I3_O)        0.124     6.743 r  DATA_RECEIVER/BYTE_RX/count[8]_i_5/O
-                         net (fo=1, routed)           0.806     7.549    DATA_RECEIVER/BYTE_RX/count[8]_i_5_n_0
-    SLICE_X51Y118        LUT4 (Prop_lut4_I1_O)        0.154     7.703 r  DATA_RECEIVER/BYTE_RX/count[8]_i_3__0/O
-                         net (fo=12, routed)          0.540     8.243    DATA_RECEIVER/BYTE_RX/count[8]_i_3__0_n_0
-    SLICE_X49Y117        LUT6 (Prop_lut6_I2_O)        0.327     8.570 r  DATA_RECEIVER/BYTE_RX/count[8]_i_1__0/O
-                         net (fo=9, routed)           0.491     9.061    DATA_RECEIVER/BYTE_RX/count
-    SLICE_X51Y118        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[5]/CE
+    SLICE_X80Y114        FDRE (Prop_fdre_C_Q)         0.518     5.823 r  SmithWaterman/q_buf_reg[5]/Q
+                         net (fo=14, routed)          0.918     6.741    SmithWaterman/q28_in[2]
+    SLICE_X80Y116        LUT5 (Prop_lut5_I2_O)        0.124     6.865 f  SmithWaterman/r_score[0]_i_511/O
+                         net (fo=3, routed)           0.598     7.464    SmithWaterman/r_score[0]_i_511_n_0
+    SLICE_X81Y114        LUT3 (Prop_lut3_I0_O)        0.124     7.588 r  SmithWaterman/r_score[0]_i_463/O
+                         net (fo=5, routed)           0.988     8.576    SmithWaterman/r_score[0]_i_463_n_0
+    SLICE_X81Y111        LUT6 (Prop_lut6_I3_O)        0.124     8.700 r  SmithWaterman/r_score[0]_i_546/O
+                         net (fo=1, routed)           0.573     9.273    SmithWaterman/m_score_matrix[3]_6[0]
+    SLICE_X81Y112        LUT3 (Prop_lut3_I1_O)        0.124     9.397 r  SmithWaterman/r_score[0]_i_505/O
+                         net (fo=2, routed)           0.438     9.835    SmithWaterman/r_score[0]_i_505_n_0
+    SLICE_X80Y111        LUT2 (Prop_lut2_I1_O)        0.124     9.959 f  SmithWaterman/r_score[0]_i_457/O
+                         net (fo=5, routed)           1.029    10.988    SmithWaterman/r_score[0]_i_457_n_0
+    SLICE_X81Y111        LUT3 (Prop_lut3_I2_O)        0.152    11.140 r  SmithWaterman/r_score[0]_i_413/O
+                         net (fo=3, routed)           0.466    11.606    SmithWaterman/m_score_matrix[4]_10[1]
+    SLICE_X80Y110        LUT3 (Prop_lut3_I2_O)        0.326    11.932 r  SmithWaterman/r_score[0]_i_493/O
+                         net (fo=2, routed)           0.584    12.515    SmithWaterman/r_score[0]_i_493_n_0
+    SLICE_X81Y111        LUT2 (Prop_lut2_I1_O)        0.124    12.639 f  SmithWaterman/r_score[0]_i_436/O
+                         net (fo=5, routed)           0.660    13.299    SmithWaterman/r_score[0]_i_436_n_0
+    SLICE_X77Y109        LUT3 (Prop_lut3_I2_O)        0.124    13.423 r  SmithWaterman/r_score[0]_i_388/O
+                         net (fo=3, routed)           1.235    14.659    SmithWaterman/m_score_matrix[5]_14[1]
+    SLICE_X83Y110        LUT6 (Prop_lut6_I0_O)        0.124    14.783 r  SmithWaterman/r_score[0]_i_357/O
+                         net (fo=1, routed)           0.659    15.441    SmithWaterman/m_score_matrix[6]_14[0]
+    SLICE_X82Y110        LUT3 (Prop_lut3_I1_O)        0.152    15.593 r  SmithWaterman/r_score[0]_i_295/O
+                         net (fo=2, routed)           0.441    16.035    SmithWaterman/r_score[0]_i_295_n_0
+    SLICE_X82Y109        LUT2 (Prop_lut2_I1_O)        0.332    16.367 f  SmithWaterman/r_score[0]_i_240/O
+                         net (fo=5, routed)           0.855    17.222    SmithWaterman/r_score[0]_i_240_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I2_O)        0.150    17.372 r  SmithWaterman/r_score[0]_i_227/O
+                         net (fo=2, routed)           0.999    18.371    SmithWaterman/m_score_matrix[7]_18[1]
+    SLICE_X82Y107        LUT6 (Prop_lut6_I0_O)        0.326    18.697 r  SmithWaterman/r_score[0]_i_180/O
+                         net (fo=1, routed)           0.419    19.115    SmithWaterman/m_score_matrix[8]_18[0]
+    SLICE_X84Y108        LUT3 (Prop_lut3_I1_O)        0.124    19.239 f  SmithWaterman/r_score[0]_i_125/O
+                         net (fo=2, routed)           0.321    19.561    SmithWaterman/r_score[0]_i_125_n_0
+    SLICE_X86Y108        LUT2 (Prop_lut2_I1_O)        0.124    19.685 r  SmithWaterman/r_score[0]_i_128/O
+                         net (fo=3, routed)           0.586    20.270    SmithWaterman/r_score[0]_i_128_n_0
+    SLICE_X82Y108        LUT3 (Prop_lut3_I1_O)        0.124    20.394 f  SmithWaterman/r_score[0]_i_72/O
+                         net (fo=2, routed)           0.640    21.034    SmithWaterman/m_score_matrix[10]_20[1]
+    SLICE_X85Y108        LUT6 (Prop_lut6_I0_O)        0.124    21.158 f  SmithWaterman/r_score[0]_i_24/O
+                         net (fo=1, routed)           0.582    21.740    SmithWaterman/m_score_matrix[11]_20[0]
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    21.864 f  SmithWaterman/r_score[0]_i_5/O
+                         net (fo=2, routed)           0.171    22.035    SmithWaterman/r_score[0]_i_5_n_0
+    SLICE_X86Y108        LUT6 (Prop_lut6_I3_O)        0.124    22.159 r  SmithWaterman/r_score[0]_i_1/O
+                         net (fo=32, routed)          0.518    22.677    SmithWaterman/r_score0
+    SLICE_X87Y112        FDRE                                         r  SmithWaterman/r_score_reg[29]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -804,16 +1128,16 @@ Slack (MET) :             5.882ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          1.485    14.907    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X51Y118        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[5]/C
-                         clock pessimism              0.276    15.183    
-                         clock uncertainty           -0.035    15.148    
-    SLICE_X51Y118        FDRE (Setup_fdre_C_CE)      -0.205    14.943    DATA_RECEIVER/BYTE_RX/count_reg[5]
+                         net (fo=334, routed)         1.592    15.014    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X87Y112        FDRE                                         r  SmithWaterman/r_score_reg[29]/C
+                         clock pessimism              0.259    15.273    
+                         clock uncertainty           -0.035    15.238    
+    SLICE_X87Y112        FDRE (Setup_fdre_C_CE)      -0.205    15.033    SmithWaterman/r_score_reg[29]
   -------------------------------------------------------------------
-                         required time                         14.943    
-                         arrival time                          -9.061    
+                         required time                         15.033    
+                         arrival time                         -22.677    
   -------------------------------------------------------------------
-                         slack                                  5.882    
+                         slack                                 -7.644    
 
 
 
@@ -821,19 +1145,239 @@ Slack (MET) :             5.882ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.165ns  (arrival time - required time)
-  Source:                 SCORE_TRANSMITTER/BYTE_TX/count_reg[5]/C
+Slack (MET) :             0.121ns  (arrival time - required time)
+  Source:                 SmithWaterman/rst_counter_reg[2]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            SCORE_TRANSMITTER/BYTE_TX/count_reg[7]/D
+  Destination:            SmithWaterman/rst_counter_reg[4]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.309ns  (logic 0.189ns (61.083%)  route 0.120ns (38.917%))
-  Logic Levels:           1  (LUT5=1)
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.991ns
-    Source Clock Delay      (SCD):    1.475ns
+  Data Path Delay:        0.492ns  (logic 0.355ns (72.225%)  route 0.137ns (27.775%))
+  Logic Levels:           2  (CARRY4=2)
+  Clock Path Skew:        0.266ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.039ns
+    Source Clock Delay      (SCD):    1.527ns
+    Clock Pessimism Removal (CPR):    0.245ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.644     0.894    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.608     1.527    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y99         FDRE                                         r  SmithWaterman/rst_counter_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X86Y99         FDRE (Prop_fdre_C_Q)         0.141     1.668 r  SmithWaterman/rst_counter_reg[2]/Q
+                         net (fo=2, routed)           0.136     1.804    SmithWaterman/rst_counter_reg[2]
+    SLICE_X86Y99         CARRY4 (Prop_carry4_S[2]_CO[3])
+                                                      0.160     1.964 r  SmithWaterman/rst_counter_reg[0]_i_2/CO[3]
+                         net (fo=1, routed)           0.001     1.965    SmithWaterman/rst_counter_reg[0]_i_2_n_0
+    SLICE_X86Y100        CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.054     2.019 r  SmithWaterman/rst_counter_reg[4]_i_1/O[0]
+                         net (fo=1, routed)           0.000     2.019    SmithWaterman/rst_counter_reg[4]_i_1_n_7
+    SLICE_X86Y100        FDRE                                         r  SmithWaterman/rst_counter_reg[4]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.699     1.136    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.873     2.039    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y100        FDRE                                         r  SmithWaterman/rst_counter_reg[4]/C
+                         clock pessimism             -0.245     1.793    
+    SLICE_X86Y100        FDRE (Hold_fdre_C_D)         0.105     1.898    SmithWaterman/rst_counter_reg[4]
+  -------------------------------------------------------------------
+                         required time                         -1.898    
+                         arrival time                           2.019    
+  -------------------------------------------------------------------
+                         slack                                  0.121    
+
+Slack (MET) :             0.132ns  (arrival time - required time)
+  Source:                 SmithWaterman/rst_counter_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            SmithWaterman/rst_counter_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.503ns  (logic 0.366ns (72.833%)  route 0.137ns (27.167%))
+  Logic Levels:           2  (CARRY4=2)
+  Clock Path Skew:        0.266ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.039ns
+    Source Clock Delay      (SCD):    1.527ns
+    Clock Pessimism Removal (CPR):    0.245ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.644     0.894    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.608     1.527    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y99         FDRE                                         r  SmithWaterman/rst_counter_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X86Y99         FDRE (Prop_fdre_C_Q)         0.141     1.668 r  SmithWaterman/rst_counter_reg[2]/Q
+                         net (fo=2, routed)           0.136     1.804    SmithWaterman/rst_counter_reg[2]
+    SLICE_X86Y99         CARRY4 (Prop_carry4_S[2]_CO[3])
+                                                      0.160     1.964 r  SmithWaterman/rst_counter_reg[0]_i_2/CO[3]
+                         net (fo=1, routed)           0.001     1.965    SmithWaterman/rst_counter_reg[0]_i_2_n_0
+    SLICE_X86Y100        CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.065     2.030 r  SmithWaterman/rst_counter_reg[4]_i_1/O[2]
+                         net (fo=1, routed)           0.000     2.030    SmithWaterman/rst_counter_reg[4]_i_1_n_5
+    SLICE_X86Y100        FDRE                                         r  SmithWaterman/rst_counter_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.699     1.136    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.873     2.039    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y100        FDRE                                         r  SmithWaterman/rst_counter_reg[6]/C
+                         clock pessimism             -0.245     1.793    
+    SLICE_X86Y100        FDRE (Hold_fdre_C_D)         0.105     1.898    SmithWaterman/rst_counter_reg[6]
+  -------------------------------------------------------------------
+                         required time                         -1.898    
+                         arrival time                           2.030    
+  -------------------------------------------------------------------
+                         slack                                  0.132    
+
+Slack (MET) :             0.157ns  (arrival time - required time)
+  Source:                 SmithWaterman/rst_counter_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            SmithWaterman/rst_counter_reg[5]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.528ns  (logic 0.391ns (74.121%)  route 0.137ns (25.879%))
+  Logic Levels:           2  (CARRY4=2)
+  Clock Path Skew:        0.266ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.039ns
+    Source Clock Delay      (SCD):    1.527ns
+    Clock Pessimism Removal (CPR):    0.245ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.644     0.894    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.608     1.527    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y99         FDRE                                         r  SmithWaterman/rst_counter_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X86Y99         FDRE (Prop_fdre_C_Q)         0.141     1.668 r  SmithWaterman/rst_counter_reg[2]/Q
+                         net (fo=2, routed)           0.136     1.804    SmithWaterman/rst_counter_reg[2]
+    SLICE_X86Y99         CARRY4 (Prop_carry4_S[2]_CO[3])
+                                                      0.160     1.964 r  SmithWaterman/rst_counter_reg[0]_i_2/CO[3]
+                         net (fo=1, routed)           0.001     1.965    SmithWaterman/rst_counter_reg[0]_i_2_n_0
+    SLICE_X86Y100        CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.090     2.055 r  SmithWaterman/rst_counter_reg[4]_i_1/O[1]
+                         net (fo=1, routed)           0.000     2.055    SmithWaterman/rst_counter_reg[4]_i_1_n_6
+    SLICE_X86Y100        FDRE                                         r  SmithWaterman/rst_counter_reg[5]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.699     1.136    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.873     2.039    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y100        FDRE                                         r  SmithWaterman/rst_counter_reg[5]/C
+                         clock pessimism             -0.245     1.793    
+    SLICE_X86Y100        FDRE (Hold_fdre_C_D)         0.105     1.898    SmithWaterman/rst_counter_reg[5]
+  -------------------------------------------------------------------
+                         required time                         -1.898    
+                         arrival time                           2.055    
+  -------------------------------------------------------------------
+                         slack                                  0.157    
+
+Slack (MET) :             0.157ns  (arrival time - required time)
+  Source:                 SmithWaterman/rst_counter_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            SmithWaterman/rst_counter_reg[7]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.528ns  (logic 0.391ns (74.121%)  route 0.137ns (25.879%))
+  Logic Levels:           2  (CARRY4=2)
+  Clock Path Skew:        0.266ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.039ns
+    Source Clock Delay      (SCD):    1.527ns
+    Clock Pessimism Removal (CPR):    0.245ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.644     0.894    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.608     1.527    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y99         FDRE                                         r  SmithWaterman/rst_counter_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X86Y99         FDRE (Prop_fdre_C_Q)         0.141     1.668 r  SmithWaterman/rst_counter_reg[2]/Q
+                         net (fo=2, routed)           0.136     1.804    SmithWaterman/rst_counter_reg[2]
+    SLICE_X86Y99         CARRY4 (Prop_carry4_S[2]_CO[3])
+                                                      0.160     1.964 r  SmithWaterman/rst_counter_reg[0]_i_2/CO[3]
+                         net (fo=1, routed)           0.001     1.965    SmithWaterman/rst_counter_reg[0]_i_2_n_0
+    SLICE_X86Y100        CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.090     2.055 r  SmithWaterman/rst_counter_reg[4]_i_1/O[3]
+                         net (fo=1, routed)           0.000     2.055    SmithWaterman/rst_counter_reg[4]_i_1_n_4
+    SLICE_X86Y100        FDRE                                         r  SmithWaterman/rst_counter_reg[7]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.699     1.136    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.873     2.039    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y100        FDRE                                         r  SmithWaterman/rst_counter_reg[7]/C
+                         clock pessimism             -0.245     1.793    
+    SLICE_X86Y100        FDRE (Hold_fdre_C_D)         0.105     1.898    SmithWaterman/rst_counter_reg[7]
+  -------------------------------------------------------------------
+                         required time                         -1.898    
+                         arrival time                           2.055    
+  -------------------------------------------------------------------
+                         slack                                  0.157    
+
+Slack (MET) :             0.158ns  (arrival time - required time)
+  Source:                 DATA_RECEIVER/r_size_reg[6]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            DATA_RECEIVER/int_size_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.249ns  (logic 0.141ns (56.587%)  route 0.108ns (43.413%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.023ns
+    Source Clock Delay      (SCD):    1.505ns
     Clock Pessimism Removal (CPR):    0.502ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -845,14 +1389,12 @@ Slack (MET) :             0.165ns  (arrival time - required time)
     E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.644     0.894    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.556     1.475    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
-    SLICE_X47Y113        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/count_reg[5]/C
+                         net (fo=334, routed)         0.586     1.505    DATA_RECEIVER/clk_IBUF_BUFG
+    SLICE_X77Y116        FDRE                                         r  DATA_RECEIVER/r_size_reg[6]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X47Y113        FDRE (Prop_fdre_C_Q)         0.141     1.616 r  SCORE_TRANSMITTER/BYTE_TX/count_reg[5]/Q
-                         net (fo=5, routed)           0.120     1.737    SCORE_TRANSMITTER/BYTE_TX/count_reg_n_0_[5]
-    SLICE_X46Y113        LUT5 (Prop_lut5_I3_O)        0.048     1.785 r  SCORE_TRANSMITTER/BYTE_TX/count[7]_i_1__0/O
-                         net (fo=1, routed)           0.000     1.785    SCORE_TRANSMITTER/BYTE_TX/count[7]_i_1__0_n_0
-    SLICE_X46Y113        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/count_reg[7]/D
+    SLICE_X77Y116        FDRE (Prop_fdre_C_Q)         0.141     1.646 r  DATA_RECEIVER/r_size_reg[6]/Q
+                         net (fo=1, routed)           0.108     1.755    DATA_RECEIVER/r_size_reg_n_0_[6]
+    SLICE_X76Y115        FDRE                                         r  DATA_RECEIVER/int_size_reg[6]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -862,29 +1404,136 @@ Slack (MET) :             0.165ns  (arrival time - required time)
     E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.699     1.136    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.826     1.991    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
-    SLICE_X46Y113        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/count_reg[7]/C
-                         clock pessimism             -0.502     1.488    
-    SLICE_X46Y113        FDRE (Hold_fdre_C_D)         0.131     1.619    SCORE_TRANSMITTER/BYTE_TX/count_reg[7]
+                         net (fo=334, routed)         0.858     2.023    DATA_RECEIVER/clk_IBUF_BUFG
+    SLICE_X76Y115        FDRE                                         r  DATA_RECEIVER/int_size_reg[6]/C
+                         clock pessimism             -0.502     1.520    
+    SLICE_X76Y115        FDRE (Hold_fdre_C_D)         0.076     1.596    DATA_RECEIVER/int_size_reg[6]
   -------------------------------------------------------------------
-                         required time                         -1.619    
-                         arrival time                           1.785    
+                         required time                         -1.596    
+                         arrival time                           1.755    
+  -------------------------------------------------------------------
+                         slack                                  0.158    
+
+Slack (MET) :             0.160ns  (arrival time - required time)
+  Source:                 SmithWaterman/rst_counter_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            SmithWaterman/rst_counter_reg[8]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.531ns  (logic 0.394ns (74.267%)  route 0.137ns (25.733%))
+  Logic Levels:           3  (CARRY4=3)
+  Clock Path Skew:        0.266ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.039ns
+    Source Clock Delay      (SCD):    1.527ns
+    Clock Pessimism Removal (CPR):    0.245ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.644     0.894    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.608     1.527    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y99         FDRE                                         r  SmithWaterman/rst_counter_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X86Y99         FDRE (Prop_fdre_C_Q)         0.141     1.668 r  SmithWaterman/rst_counter_reg[2]/Q
+                         net (fo=2, routed)           0.136     1.804    SmithWaterman/rst_counter_reg[2]
+    SLICE_X86Y99         CARRY4 (Prop_carry4_S[2]_CO[3])
+                                                      0.160     1.964 r  SmithWaterman/rst_counter_reg[0]_i_2/CO[3]
+                         net (fo=1, routed)           0.001     1.965    SmithWaterman/rst_counter_reg[0]_i_2_n_0
+    SLICE_X86Y100        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.039     2.004 r  SmithWaterman/rst_counter_reg[4]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     2.004    SmithWaterman/rst_counter_reg[4]_i_1_n_0
+    SLICE_X86Y101        CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.054     2.058 r  SmithWaterman/rst_counter_reg[8]_i_1/O[0]
+                         net (fo=1, routed)           0.000     2.058    SmithWaterman/rst_counter_reg[8]_i_1_n_7
+    SLICE_X86Y101        FDRE                                         r  SmithWaterman/rst_counter_reg[8]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.699     1.136    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.873     2.039    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y101        FDRE                                         r  SmithWaterman/rst_counter_reg[8]/C
+                         clock pessimism             -0.245     1.793    
+    SLICE_X86Y101        FDRE (Hold_fdre_C_D)         0.105     1.898    SmithWaterman/rst_counter_reg[8]
+  -------------------------------------------------------------------
+                         required time                         -1.898    
+                         arrival time                           2.058    
+  -------------------------------------------------------------------
+                         slack                                  0.160    
+
+Slack (MET) :             0.165ns  (arrival time - required time)
+  Source:                 DATA_RECEIVER/query_reg[18]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            SmithWaterman/q_buf_reg[18]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.251ns  (logic 0.141ns (56.174%)  route 0.110ns (43.826%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.025ns
+    Source Clock Delay      (SCD):    1.506ns
+    Clock Pessimism Removal (CPR):    0.502ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.644     0.894    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.587     1.506    DATA_RECEIVER/clk_IBUF_BUFG
+    SLICE_X75Y113        FDRE                                         r  DATA_RECEIVER/query_reg[18]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X75Y113        FDRE (Prop_fdre_C_Q)         0.141     1.647 r  DATA_RECEIVER/query_reg[18]/Q
+                         net (fo=1, routed)           0.110     1.757    SmithWaterman/i_query[18]
+    SLICE_X75Y112        FDRE                                         r  SmithWaterman/q_buf_reg[18]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.699     1.136    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
+                         net (fo=334, routed)         0.860     2.025    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X75Y112        FDRE                                         r  SmithWaterman/q_buf_reg[18]/C
+                         clock pessimism             -0.502     1.522    
+    SLICE_X75Y112        FDRE (Hold_fdre_C_D)         0.070     1.592    SmithWaterman/q_buf_reg[18]
+  -------------------------------------------------------------------
+                         required time                         -1.592    
+                         arrival time                           1.757    
   -------------------------------------------------------------------
                          slack                                  0.165    
 
-Slack (MET) :             0.173ns  (arrival time - required time)
-  Source:                 SCORE_TRANSMITTER/BYTE_TX/count_reg[5]/C
+Slack (MET) :             0.169ns  (arrival time - required time)
+  Source:                 DATA_RECEIVER/query_reg[19]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            SCORE_TRANSMITTER/BYTE_TX/count_reg[6]/D
+  Destination:            SmithWaterman/q_buf_reg[19]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.306ns  (logic 0.186ns (60.702%)  route 0.120ns (39.298%))
-  Logic Levels:           1  (LUT4=1)
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.991ns
-    Source Clock Delay      (SCD):    1.475ns
+  Data Path Delay:        0.251ns  (logic 0.141ns (56.174%)  route 0.110ns (43.826%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.025ns
+    Source Clock Delay      (SCD):    1.506ns
     Clock Pessimism Removal (CPR):    0.502ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -896,14 +1545,12 @@ Slack (MET) :             0.173ns  (arrival time - required time)
     E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.644     0.894    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.556     1.475    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
-    SLICE_X47Y113        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/count_reg[5]/C
+                         net (fo=334, routed)         0.587     1.506    DATA_RECEIVER/clk_IBUF_BUFG
+    SLICE_X75Y113        FDRE                                         r  DATA_RECEIVER/query_reg[19]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X47Y113        FDRE (Prop_fdre_C_Q)         0.141     1.616 r  SCORE_TRANSMITTER/BYTE_TX/count_reg[5]/Q
-                         net (fo=5, routed)           0.120     1.737    SCORE_TRANSMITTER/BYTE_TX/count_reg_n_0_[5]
-    SLICE_X46Y113        LUT4 (Prop_lut4_I1_O)        0.045     1.782 r  SCORE_TRANSMITTER/BYTE_TX/count[6]_i_1__0/O
-                         net (fo=1, routed)           0.000     1.782    SCORE_TRANSMITTER/BYTE_TX/count[6]_i_1__0_n_0
-    SLICE_X46Y113        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/count_reg[6]/D
+    SLICE_X75Y113        FDRE (Prop_fdre_C_Q)         0.141     1.647 r  DATA_RECEIVER/query_reg[19]/Q
+                         net (fo=1, routed)           0.110     1.757    SmithWaterman/i_query[19]
+    SLICE_X75Y112        FDRE                                         r  SmithWaterman/q_buf_reg[19]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -913,30 +1560,30 @@ Slack (MET) :             0.173ns  (arrival time - required time)
     E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.699     1.136    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.826     1.991    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
-    SLICE_X46Y113        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/count_reg[6]/C
-                         clock pessimism             -0.502     1.488    
-    SLICE_X46Y113        FDRE (Hold_fdre_C_D)         0.120     1.608    SCORE_TRANSMITTER/BYTE_TX/count_reg[6]
+                         net (fo=334, routed)         0.860     2.025    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X75Y112        FDRE                                         r  SmithWaterman/q_buf_reg[19]/C
+                         clock pessimism             -0.502     1.522    
+    SLICE_X75Y112        FDRE (Hold_fdre_C_D)         0.066     1.588    SmithWaterman/q_buf_reg[19]
   -------------------------------------------------------------------
-                         required time                         -1.608    
-                         arrival time                           1.782    
+                         required time                         -1.588    
+                         arrival time                           1.757    
   -------------------------------------------------------------------
-                         slack                                  0.173    
+                         slack                                  0.169    
 
-Slack (MET) :             0.176ns  (arrival time - required time)
-  Source:                 SCORE_TRANSMITTER/BYTE_TX/count_reg[5]/C
+Slack (MET) :             0.171ns  (arrival time - required time)
+  Source:                 SmithWaterman/rst_counter_reg[2]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            SCORE_TRANSMITTER/BYTE_TX/count_reg[8]/D
+  Destination:            SmithWaterman/rst_counter_reg[10]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.310ns  (logic 0.186ns (59.920%)  route 0.124ns (40.080%))
-  Logic Levels:           1  (LUT6=1)
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.991ns
-    Source Clock Delay      (SCD):    1.475ns
-    Clock Pessimism Removal (CPR):    0.502ns
+  Data Path Delay:        0.542ns  (logic 0.405ns (74.790%)  route 0.137ns (25.210%))
+  Logic Levels:           3  (CARRY4=3)
+  Clock Path Skew:        0.266ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.039ns
+    Source Clock Delay      (SCD):    1.527ns
+    Clock Pessimism Removal (CPR):    0.245ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -947,14 +1594,21 @@ Slack (MET) :             0.176ns  (arrival time - required time)
     E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.644     0.894    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.556     1.475    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
-    SLICE_X47Y113        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/count_reg[5]/C
+                         net (fo=334, routed)         0.608     1.527    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y99         FDRE                                         r  SmithWaterman/rst_counter_reg[2]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X47Y113        FDRE (Prop_fdre_C_Q)         0.141     1.616 r  SCORE_TRANSMITTER/BYTE_TX/count_reg[5]/Q
-                         net (fo=5, routed)           0.124     1.741    SCORE_TRANSMITTER/BYTE_TX/count_reg_n_0_[5]
-    SLICE_X46Y113        LUT6 (Prop_lut6_I2_O)        0.045     1.786 r  SCORE_TRANSMITTER/BYTE_TX/count[8]_i_2__0/O
-                         net (fo=1, routed)           0.000     1.786    SCORE_TRANSMITTER/BYTE_TX/count[8]_i_2__0_n_0
-    SLICE_X46Y113        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/count_reg[8]/D
+    SLICE_X86Y99         FDRE (Prop_fdre_C_Q)         0.141     1.668 r  SmithWaterman/rst_counter_reg[2]/Q
+                         net (fo=2, routed)           0.136     1.804    SmithWaterman/rst_counter_reg[2]
+    SLICE_X86Y99         CARRY4 (Prop_carry4_S[2]_CO[3])
+                                                      0.160     1.964 r  SmithWaterman/rst_counter_reg[0]_i_2/CO[3]
+                         net (fo=1, routed)           0.001     1.965    SmithWaterman/rst_counter_reg[0]_i_2_n_0
+    SLICE_X86Y100        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.039     2.004 r  SmithWaterman/rst_counter_reg[4]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     2.004    SmithWaterman/rst_counter_reg[4]_i_1_n_0
+    SLICE_X86Y101        CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.065     2.069 r  SmithWaterman/rst_counter_reg[8]_i_1/O[2]
+                         net (fo=1, routed)           0.000     2.069    SmithWaterman/rst_counter_reg[8]_i_1_n_5
+    SLICE_X86Y101        FDRE                                         r  SmithWaterman/rst_counter_reg[10]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -964,29 +1618,29 @@ Slack (MET) :             0.176ns  (arrival time - required time)
     E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.699     1.136    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.826     1.991    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
-    SLICE_X46Y113        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/count_reg[8]/C
-                         clock pessimism             -0.502     1.488    
-    SLICE_X46Y113        FDRE (Hold_fdre_C_D)         0.121     1.609    SCORE_TRANSMITTER/BYTE_TX/count_reg[8]
+                         net (fo=334, routed)         0.873     2.039    SmithWaterman/clk_IBUF_BUFG
+    SLICE_X86Y101        FDRE                                         r  SmithWaterman/rst_counter_reg[10]/C
+                         clock pessimism             -0.245     1.793    
+    SLICE_X86Y101        FDRE (Hold_fdre_C_D)         0.105     1.898    SmithWaterman/rst_counter_reg[10]
   -------------------------------------------------------------------
-                         required time                         -1.609    
-                         arrival time                           1.786    
+                         required time                         -1.898    
+                         arrival time                           2.069    
   -------------------------------------------------------------------
-                         slack                                  0.176    
+                         slack                                  0.171    
 
-Slack (MET) :             0.179ns  (arrival time - required time)
-  Source:                 SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[7]/C
+Slack (MET) :             0.171ns  (arrival time - required time)
+  Source:                 SCORE_TRANSMITTER/temp_byte_reg[0]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            SCORE_TRANSMITTER/BYTE_TX/o_tx_reg/D
+  Destination:            SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[0]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.283ns  (logic 0.186ns (65.775%)  route 0.097ns (34.225%))
-  Logic Levels:           1  (LUT5=1)
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.990ns
-    Source Clock Delay      (SCD):    1.475ns
+  Data Path Delay:        0.257ns  (logic 0.141ns (54.828%)  route 0.116ns (45.172%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.037ns
+    Source Clock Delay      (SCD):    1.519ns
     Clock Pessimism Removal (CPR):    0.501ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -998,14 +1652,12 @@ Slack (MET) :             0.179ns  (arrival time - required time)
     E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.644     0.894    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.556     1.475    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
-    SLICE_X48Y115        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[7]/C
+                         net (fo=334, routed)         0.600     1.519    SCORE_TRANSMITTER/clk_IBUF_BUFG
+    SLICE_X89Y107        FDRE                                         r  SCORE_TRANSMITTER/temp_byte_reg[0]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X48Y115        FDRE (Prop_fdre_C_Q)         0.141     1.616 r  SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[7]/Q
-                         net (fo=2, routed)           0.097     1.713    SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg_n_0_[7]
-    SLICE_X49Y115        LUT5 (Prop_lut5_I2_O)        0.045     1.758 r  SCORE_TRANSMITTER/BYTE_TX/o_tx_i_2/O
-                         net (fo=1, routed)           0.000     1.758    SCORE_TRANSMITTER/BYTE_TX/o_tx_i_2_n_0
-    SLICE_X49Y115        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/o_tx_reg/D
+    SLICE_X89Y107        FDRE (Prop_fdre_C_Q)         0.141     1.660 r  SCORE_TRANSMITTER/temp_byte_reg[0]/Q
+                         net (fo=1, routed)           0.116     1.777    SCORE_TRANSMITTER/BYTE_TX/Q[0]
+    SLICE_X89Y108        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[0]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -1015,321 +1667,15 @@ Slack (MET) :             0.179ns  (arrival time - required time)
     E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.699     1.136    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.825     1.990    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
-    SLICE_X49Y115        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/o_tx_reg/C
-                         clock pessimism             -0.501     1.488    
-    SLICE_X49Y115        FDRE (Hold_fdre_C_D)         0.091     1.579    SCORE_TRANSMITTER/BYTE_TX/o_tx_reg
+                         net (fo=334, routed)         0.871     2.037    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
+    SLICE_X89Y108        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[0]/C
+                         clock pessimism             -0.501     1.535    
+    SLICE_X89Y108        FDRE (Hold_fdre_C_D)         0.070     1.605    SCORE_TRANSMITTER/BYTE_TX/temp_byte_reg[0]
   -------------------------------------------------------------------
-                         required time                         -1.579    
-                         arrival time                           1.758    
+                         required time                         -1.605    
+                         arrival time                           1.777    
   -------------------------------------------------------------------
-                         slack                                  0.179    
-
-Slack (MET) :             0.192ns  (arrival time - required time)
-  Source:                 DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[4]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/temp_done_reg/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.297ns  (logic 0.186ns (62.659%)  route 0.111ns (37.341%))
-  Logic Levels:           1  (LUT3=1)
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.988ns
-    Source Clock Delay      (SCD):    1.473ns
-    Clock Pessimism Removal (CPR):    0.501ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.644     0.894    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.554     1.473    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[4]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X49Y117        FDRE (Prop_fdre_C_Q)         0.141     1.614 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[4]/Q
-                         net (fo=5, routed)           0.111     1.725    DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg_n_0_[4]
-    SLICE_X48Y117        LUT3 (Prop_lut3_I1_O)        0.045     1.770 r  DATA_RECEIVER/BYTE_RX/temp_done_i_1__0/O
-                         net (fo=1, routed)           0.000     1.770    DATA_RECEIVER/BYTE_RX/temp_done_i_1__0_n_0
-    SLICE_X48Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/temp_done_reg/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.699     1.136    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.822     1.988    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X48Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/temp_done_reg/C
-                         clock pessimism             -0.501     1.486    
-    SLICE_X48Y117        FDRE (Hold_fdre_C_D)         0.092     1.578    DATA_RECEIVER/BYTE_RX/temp_done_reg
-  -------------------------------------------------------------------
-                         required time                         -1.578    
-                         arrival time                           1.770    
-  -------------------------------------------------------------------
-                         slack                                  0.192    
-
-Slack (MET) :             0.221ns  (arrival time - required time)
-  Source:                 DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/count_reg[7]/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.374ns  (logic 0.186ns (49.728%)  route 0.188ns (50.272%))
-  Logic Levels:           1  (LUT6=1)
-  Clock Path Skew:        0.032ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.985ns
-    Source Clock Delay      (SCD):    1.473ns
-    Clock Pessimism Removal (CPR):    0.479ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.644     0.894    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.554     1.473    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X49Y117        FDRE (Prop_fdre_C_Q)         0.141     1.614 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/Q
-                         net (fo=12, routed)          0.188     1.802    DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg_n_0_[3]
-    SLICE_X50Y118        LUT6 (Prop_lut6_I5_O)        0.045     1.847 r  DATA_RECEIVER/BYTE_RX/count[7]_i_1/O
-                         net (fo=1, routed)           0.000     1.847    DATA_RECEIVER/BYTE_RX/count[7]_i_1_n_0
-    SLICE_X50Y118        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[7]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.699     1.136    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.820     1.985    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y118        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[7]/C
-                         clock pessimism             -0.479     1.505    
-    SLICE_X50Y118        FDRE (Hold_fdre_C_D)         0.121     1.626    DATA_RECEIVER/BYTE_RX/count_reg[7]
-  -------------------------------------------------------------------
-                         required time                         -1.626    
-                         arrival time                           1.847    
-  -------------------------------------------------------------------
-                         slack                                  0.221    
-
-Slack (MET) :             0.226ns  (arrival time - required time)
-  Source:                 DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/BYTE_RX/count_reg[3]/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.378ns  (logic 0.186ns (49.202%)  route 0.192ns (50.798%))
-  Logic Levels:           1  (LUT6=1)
-  Clock Path Skew:        0.032ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.985ns
-    Source Clock Delay      (SCD):    1.473ns
-    Clock Pessimism Removal (CPR):    0.479ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.644     0.894    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.554     1.473    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X49Y117        FDRE                                         r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X49Y117        FDRE (Prop_fdre_C_Q)         0.141     1.614 r  DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/Q
-                         net (fo=12, routed)          0.192     1.806    DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg_n_0_[3]
-    SLICE_X50Y118        LUT6 (Prop_lut6_I5_O)        0.045     1.851 r  DATA_RECEIVER/BYTE_RX/count[3]_i_1/O
-                         net (fo=1, routed)           0.000     1.851    DATA_RECEIVER/BYTE_RX/count[3]_i_1_n_0
-    SLICE_X50Y118        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[3]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.699     1.136    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.820     1.985    DATA_RECEIVER/BYTE_RX/clk_IBUF_BUFG
-    SLICE_X50Y118        FDRE                                         r  DATA_RECEIVER/BYTE_RX/count_reg[3]/C
-                         clock pessimism             -0.479     1.505    
-    SLICE_X50Y118        FDRE (Hold_fdre_C_D)         0.120     1.625    DATA_RECEIVER/BYTE_RX/count_reg[3]
-  -------------------------------------------------------------------
-                         required time                         -1.625    
-                         arrival time                           1.851    
-  -------------------------------------------------------------------
-                         slack                                  0.226    
-
-Slack (MET) :             0.248ns  (arrival time - required time)
-  Source:                 SCORE_TRANSMITTER/BYTE_TX/index_reg[1]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            SCORE_TRANSMITTER/BYTE_TX/index_reg[2]/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.369ns  (logic 0.247ns (66.884%)  route 0.122ns (33.116%))
-  Logic Levels:           1  (LUT6=1)
-  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.990ns
-    Source Clock Delay      (SCD):    1.475ns
-    Clock Pessimism Removal (CPR):    0.514ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.644     0.894    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.556     1.475    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
-    SLICE_X46Y115        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/index_reg[1]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X46Y115        FDRE (Prop_fdre_C_Q)         0.148     1.623 r  SCORE_TRANSMITTER/BYTE_TX/index_reg[1]/Q
-                         net (fo=3, routed)           0.122     1.746    SCORE_TRANSMITTER/BYTE_TX/index_reg_n_0_[1]
-    SLICE_X46Y115        LUT6 (Prop_lut6_I1_O)        0.099     1.845 r  SCORE_TRANSMITTER/BYTE_TX/index[2]_i_1/O
-                         net (fo=1, routed)           0.000     1.845    SCORE_TRANSMITTER/BYTE_TX/index[2]_i_1_n_0
-    SLICE_X46Y115        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/index_reg[2]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.699     1.136    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.825     1.990    SCORE_TRANSMITTER/BYTE_TX/clk_IBUF_BUFG
-    SLICE_X46Y115        FDRE                                         r  SCORE_TRANSMITTER/BYTE_TX/index_reg[2]/C
-                         clock pessimism             -0.514     1.475    
-    SLICE_X46Y115        FDRE (Hold_fdre_C_D)         0.121     1.596    SCORE_TRANSMITTER/BYTE_TX/index_reg[2]
-  -------------------------------------------------------------------
-                         required time                         -1.596    
-                         arrival time                           1.845    
-  -------------------------------------------------------------------
-                         slack                                  0.248    
-
-Slack (MET) :             0.249ns  (arrival time - required time)
-  Source:                 DATA_RECEIVER/FSM_sequential_state_reg[2]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            DATA_RECEIVER/temp_done_reg/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.355ns  (logic 0.227ns (63.956%)  route 0.128ns (36.044%))
-  Logic Levels:           1  (LUT6=1)
-  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.990ns
-    Source Clock Delay      (SCD):    1.474ns
-    Clock Pessimism Removal (CPR):    0.500ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.644     0.894    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.555     1.474    DATA_RECEIVER/clk_IBUF_BUFG
-    SLICE_X48Y116        FDRE                                         r  DATA_RECEIVER/FSM_sequential_state_reg[2]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X48Y116        FDRE (Prop_fdre_C_Q)         0.128     1.602 r  DATA_RECEIVER/FSM_sequential_state_reg[2]/Q
-                         net (fo=5, routed)           0.128     1.730    DATA_RECEIVER/BYTE_RX/state__0[2]
-    SLICE_X47Y115        LUT6 (Prop_lut6_I4_O)        0.099     1.829 r  DATA_RECEIVER/BYTE_RX/temp_done_i_1__1/O
-                         net (fo=1, routed)           0.000     1.829    DATA_RECEIVER/BYTE_RX_n_0
-    SLICE_X47Y115        FDRE                                         r  DATA_RECEIVER/temp_done_reg/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.699     1.136    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.825     1.990    DATA_RECEIVER/clk_IBUF_BUFG
-    SLICE_X47Y115        FDRE                                         r  DATA_RECEIVER/temp_done_reg/C
-                         clock pessimism             -0.500     1.489    
-    SLICE_X47Y115        FDRE (Hold_fdre_C_D)         0.091     1.580    DATA_RECEIVER/temp_done_reg
-  -------------------------------------------------------------------
-                         required time                         -1.580    
-                         arrival time                           1.829    
-  -------------------------------------------------------------------
-                         slack                                  0.249    
-
-Slack (MET) :             0.250ns  (arrival time - required time)
-  Source:                 SCORE_TRANSMITTER/FSM_sequential_state_reg[0]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            SCORE_TRANSMITTER/FSM_sequential_state_reg[2]/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.370ns  (logic 0.189ns (51.084%)  route 0.181ns (48.916%))
-  Logic Levels:           1  (LUT4=1)
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.989ns
-    Source Clock Delay      (SCD):    1.474ns
-    Clock Pessimism Removal (CPR):    0.501ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.250     0.250 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.644     0.894    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.920 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.555     1.474    SCORE_TRANSMITTER/clk_IBUF_BUFG
-    SLICE_X48Y116        FDRE                                         r  SCORE_TRANSMITTER/FSM_sequential_state_reg[0]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X48Y116        FDRE (Prop_fdre_C_Q)         0.141     1.615 r  SCORE_TRANSMITTER/FSM_sequential_state_reg[0]/Q
-                         net (fo=7, routed)           0.181     1.796    SCORE_TRANSMITTER/BYTE_TX/state__0[0]
-    SLICE_X49Y116        LUT4 (Prop_lut4_I0_O)        0.048     1.844 r  SCORE_TRANSMITTER/BYTE_TX/FSM_sequential_state[2]_i_1/O
-                         net (fo=1, routed)           0.000     1.844    SCORE_TRANSMITTER/BYTE_TX_n_4
-    SLICE_X49Y116        FDRE                                         r  SCORE_TRANSMITTER/FSM_sequential_state_reg[2]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         0.438     0.438 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.699     1.136    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.165 r  clk_IBUF_BUFG_inst/O
-                         net (fo=52, routed)          0.824     1.989    SCORE_TRANSMITTER/clk_IBUF_BUFG
-    SLICE_X49Y116        FDRE                                         r  SCORE_TRANSMITTER/FSM_sequential_state_reg[2]/C
-                         clock pessimism             -0.501     1.487    
-    SLICE_X49Y116        FDRE (Hold_fdre_C_D)         0.107     1.594    SCORE_TRANSMITTER/FSM_sequential_state_reg[2]
-  -------------------------------------------------------------------
-                         required time                         -1.594    
-                         arrival time                           1.844    
-  -------------------------------------------------------------------
-                         slack                                  0.250    
+                         slack                                  0.171    
 
 
 
@@ -1344,35 +1690,35 @@ Sources:            { clk }
 
 Check Type        Corner  Lib Pin  Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
 Min Period        n/a     BUFG/I   n/a            2.155         10.000      7.845      BUFGCTRL_X0Y16  clk_IBUF_BUFG_inst/I
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X49Y117   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[0]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X49Y117   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[1]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X49Y117   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[2]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X49Y117   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X49Y117   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[4]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X51Y117   DATA_RECEIVER/BYTE_RX/count_reg[0]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X50Y117   DATA_RECEIVER/BYTE_RX/count_reg[1]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X50Y117   DATA_RECEIVER/BYTE_RX/count_reg[2]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X50Y118   DATA_RECEIVER/BYTE_RX/count_reg[3]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X49Y117   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[0]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X49Y117   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[1]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X49Y117   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[2]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X49Y117   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X49Y117   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[4]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X51Y117   DATA_RECEIVER/BYTE_RX/count_reg[0]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X50Y117   DATA_RECEIVER/BYTE_RX/count_reg[1]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X50Y117   DATA_RECEIVER/BYTE_RX/count_reg[2]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X50Y117   DATA_RECEIVER/BYTE_RX/count_reg[4]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X48Y117   DATA_RECEIVER/BYTE_RX/index_reg[0]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X50Y118   DATA_RECEIVER/BYTE_RX/count_reg[3]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X51Y118   DATA_RECEIVER/BYTE_RX/count_reg[5]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X50Y118   DATA_RECEIVER/BYTE_RX/count_reg[6]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X50Y118   DATA_RECEIVER/BYTE_RX/count_reg[7]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X51Y118   DATA_RECEIVER/BYTE_RX/count_reg[8]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X46Y114   SCORE_TRANSMITTER/BYTE_TX/FSM_sequential_state_reg[1]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X46Y114   SCORE_TRANSMITTER/BYTE_TX/FSM_sequential_state_reg[2]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X46Y113   SCORE_TRANSMITTER/BYTE_TX/count_reg[0]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X47Y112   SCORE_TRANSMITTER/BYTE_TX/count_reg[1]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X46Y112   SCORE_TRANSMITTER/BYTE_TX/count_reg[2]/C
+Min Period        n/a     FDSE/C   n/a            1.000         10.000      9.000      SLICE_X84Y122   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[0]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X84Y122   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[1]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X84Y122   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[2]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X84Y122   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[3]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X84Y122   DATA_RECEIVER/BYTE_RX/FSM_onehot_state_reg[4]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X75Y114   DATA_RECEIVER/int_size_reg[4]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X76Y115   DATA_RECEIVER/int_size_reg[5]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X76Y115   DATA_RECEIVER/int_size_reg[6]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X76Y115   DATA_RECEIVER/int_size_reg[7]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X81Y114   SmithWaterman/s_buf_reg[0]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X83Y118   DATA_RECEIVER/BYTE_RX/temp_byte_reg[2]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X80Y113   SmithWaterman/q_buf_reg[0]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X81Y114   SmithWaterman/s_buf_reg[5]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X81Y114   SmithWaterman/s_buf_reg[7]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X81Y113   SmithWaterman/q_buf_reg[2]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X80Y114   SmithWaterman/q_buf_reg[5]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X80Y114   SmithWaterman/q_buf_reg[6]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X81Y113   SmithWaterman/q_buf_reg[8]/C
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X72Y118   DATA_RECEIVER/index_reg[11]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X76Y115   DATA_RECEIVER/int_size_reg[5]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X76Y115   DATA_RECEIVER/int_size_reg[6]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X76Y115   DATA_RECEIVER/int_size_reg[7]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X76Y115   DATA_RECEIVER/int_size_reg[8]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X76Y115   DATA_RECEIVER/int_size_reg[9]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X77Y115   DATA_RECEIVER/query_reg[10]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X77Y115   DATA_RECEIVER/query_reg[11]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X77Y116   DATA_RECEIVER/r_size_reg[4]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X77Y116   DATA_RECEIVER/r_size_reg[5]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X77Y116   DATA_RECEIVER/r_size_reg[6]/C
 
 
 

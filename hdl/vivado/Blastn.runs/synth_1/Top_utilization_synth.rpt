@@ -1,8 +1,8 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
-| Tool Version : Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-| Date         : Tue Nov 26 14:17:43 2019
-| Host         : cygnus running 64-bit Ubuntu 19.04
+| Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
+| Date         : Mon Dec  2 22:11:26 2019
+| Host         : EP-09409A890D running 64-bit major release  (build 9200)
 | Command      : report_utilization -file Top_utilization_synth.rpt -pb Top_utilization_synth.pb
 | Design       : Top
 | Device       : 7a100tcsg324-1
@@ -30,11 +30,11 @@ Table of Contents
 +-------------------------+------+-------+-----------+-------+
 |        Site Type        | Used | Fixed | Available | Util% |
 +-------------------------+------+-------+-----------+-------+
-| Slice LUTs*             |   63 |     0 |     63400 |  0.10 |
-|   LUT as Logic          |   63 |     0 |     63400 |  0.10 |
+| Slice LUTs*             |  713 |     0 |     63400 |  1.12 |
+|   LUT as Logic          |  713 |     0 |     63400 |  1.12 |
 |   LUT as Memory         |    0 |     0 |     19000 |  0.00 |
-| Slice Registers         |   52 |     0 |    126800 |  0.04 |
-|   Register as Flip Flop |   52 |     0 |    126800 |  0.04 |
+| Slice Registers         |  334 |     0 |    126800 |  0.26 |
+|   Register as Flip Flop |  334 |     0 |    126800 |  0.26 |
 |   Register as Latch     |    0 |     0 |    126800 |  0.00 |
 | F7 Muxes                |    0 |     0 |     31700 |  0.00 |
 | F8 Muxes                |    0 |     0 |     15850 |  0.00 |
@@ -56,8 +56,8 @@ Table of Contents
 | 0     |          Yes |           - |            - |
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
-| 0     |          Yes |         Set |            - |
-| 52    |          Yes |       Reset |            - |
+| 2     |          Yes |         Set |            - |
+| 332   |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -90,7 +90,7 @@ Table of Contents
 +-----------------------------+------+-------+-----------+-------+
 |          Site Type          | Used | Fixed | Available | Util% |
 +-----------------------------+------+-------+-----------+-------+
-| Bonded IOB                  |    5 |     0 |       210 |  2.38 |
+| Bonded IOB                  |    4 |     0 |       210 |  1.90 |
 | Bonded IPADs                |    0 |     0 |         2 |  0.00 |
 | PHY_CONTROL                 |    0 |     0 |         6 |  0.00 |
 | PHASER_REF                  |    0 |     0 |         6 |  0.00 |
@@ -146,16 +146,17 @@ Table of Contents
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| FDRE     |   52 |        Flop & Latch |
-| LUT6     |   30 |                 LUT |
-| LUT4     |   19 |                 LUT |
-| LUT5     |   13 |                 LUT |
-| LUT3     |    8 |                 LUT |
-| LUT2     |    7 |                 LUT |
+| FDRE     |  332 |        Flop & Latch |
+| LUT6     |  284 |                 LUT |
+| LUT3     |  184 |                 LUT |
+| LUT5     |  169 |                 LUT |
+| LUT4     |  108 |                 LUT |
+| LUT2     |   78 |                 LUT |
+| CARRY4   |   36 |          CarryLogic |
+| LUT1     |   34 |                 LUT |
 | IBUF     |    3 |                  IO |
-| OBUF     |    2 |                  IO |
-| LUT1     |    2 |                 LUT |
-| CARRY4   |    1 |          CarryLogic |
+| FDSE     |    2 |        Flop & Latch |
+| OBUF     |    1 |                  IO |
 | BUFG     |    1 |               Clock |
 +----------+------+---------------------+
 

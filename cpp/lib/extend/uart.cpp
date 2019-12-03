@@ -73,7 +73,7 @@ int uart_init(const char *path)
     );
 
     if (hComm == INVALID_HANDLE_VALUE) {
-        fprintf(stderr, "Serial Port Error: Port %s can't be opened\n", ComPortName);
+        fprintf(stderr, "Serial Port Error: Port %s can't be opened\n", ComPortName.c_str());
         exit(-1);
     }
 

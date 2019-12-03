@@ -60,23 +60,21 @@ proc step_failed { step } {
   close $ch
 }
 
-set_msg_config -id {Common 17-41} -limit 10000000
 
 start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
-  set_param xicom.use_bs_reader 1
-  set_param chipscope.maxJobs 2
+  set_param chipscope.maxJobs 3
   create_project -in_memory -part xc7a100tcsg324-1
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
-  set_property webtalk.parent_dir /home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.cache/wt [current_project]
-  set_property parent.project_path /home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.xpr [current_project]
-  set_property ip_output_repo /home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.cache/ip [current_project]
+  set_property webtalk.parent_dir C:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.cache/wt [current_project]
+  set_property parent.project_path C:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.xpr [current_project]
+  set_property ip_output_repo C:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
-  add_files -quiet /home/jacob/Workspace/school/seniorproj/Blastn/hdl/vivado/Blastn.runs/synth_1/Top.dcp
-  read_xdc /home/jacob/Workspace/school/seniorproj/Blastn/hdl/nexys4.xdc
+  add_files -quiet C:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.runs/synth_1/Top.dcp
+  read_xdc C:/Users/jelondon/Desktop/Blastn-master/hdl/nexys4.xdc
   link_design -top Top -part xc7a100tcsg324-1
   close_msg_db -file init_design.pb
 } RESULT]

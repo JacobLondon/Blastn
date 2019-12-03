@@ -9,7 +9,8 @@ namespace Blastn {
  */
 
 // MUST be divisible by 4
-#define SW_MAX_LENGTH 2000
+// The equivalent is g_SIZE in VHDL
+#define SW_MAX_LENGTH 12
 
 enum Pack {
     A = 0,

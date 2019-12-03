@@ -9,15 +9,10 @@ entity ScoreTx is
     Port (
         i_clk         : in  STD_LOGIC;
         i_enable      : in  STD_LOGIC;
+        i_rst         : in  STD_LOGIC;
         i_score       : in  STD_LOGIC_VECTOR(g_BITS - 1 downto 0);
         o_tx          : out STD_LOGIC;
         o_ready       : out STD_LOGIC
-        
-        -- *** Used for thorough simulation of ScoreTx
-        --byte          : out STD_LOGIC_VECTOR(7 downto 0);
-        --enable        : out STD_LOGIC;
-        --ready         : out STD_LOGIC;
-        --done          : out STD_LOGIC
     );
 end ScoreTx;
 
@@ -30,6 +25,7 @@ architecture Blastn of ScoreTx is
         Port ( 
             i_clk         : in  STD_LOGIC;
             i_enable      : in  STD_LOGIC;
+            i_rst         : in  STD_LOGIC;
             i_byte        : in  STD_LOGIC_VECTOR(7 downto 0);   -- Byte to be transmitted 
             o_tx          : out STD_LOGIC;                      -- Individual serial bits transmitted       
             o_ready       : out STD_LOGIC;                      -- Transmission ready flag
@@ -56,6 +52,7 @@ begin
         Port map (
             i_clk         => i_clk,
             i_enable      => tx_enable,
+            i_rst         => i_rst,
             i_byte        => temp_byte,
             o_tx          => o_tx,
             o_ready       => tx_ready,
@@ -66,82 +63,83 @@ begin
     begin
 
         if rising_edge(i_clk) then
-            case state is
-                when s_idle =>
-                    tx_enable      <= '0';
-                    temp_byte      <= i_score(7 downto 0);
+            if (i_rst = '1') then
+                state      <= s_idle;
+                tx_enable  <= '0';
+                temp_ready <= '0';
+                temp_byte  <= (others => '0');
+            else
+                case state is
+                    when s_idle =>
+                        tx_enable      <= '0';
+                        temp_byte      <= i_score(7 downto 0);
 
-                    if (tx_ready = '1') then
-                        temp_ready <= '1';
-                        
-                        if (i_enable = '1') then
-                            state  <= s_byte0;
+                        if (tx_ready = '1') then
+                            temp_ready <= '1';
+                            
+                            if (i_enable = '1') then
+                                state  <= s_byte0;
+                            end if;
+                        else
+                            temp_ready <= '0';
                         end if;
-                    else
+
+                    when s_byte0 =>
+                        tx_enable  <= '1';
                         temp_ready <= '0';
-                    end if;
+                        state      <= s_pre_byte1;
 
-                when s_byte0 =>
-                    tx_enable  <= '1';
-                    temp_ready <= '0';
-                    state      <= s_pre_byte1;
+                    when s_pre_byte1 =>
+                        tx_enable  <= '0';
+                        temp_byte <= i_score(15 downto 8);
+                        
+                        if (tx_done = '1') then
+                            state <= s_byte1;
+                        end if;
 
-                when s_pre_byte1 =>
-                    tx_enable  <= '0';
-                    temp_byte <= i_score(15 downto 8);
-                    
-                    if (tx_done = '1') then
-                        state <= s_byte1;
-                    end if;
+                    when s_byte1 =>
+                        if (tx_ready = '1') then
+                            tx_enable  <= '1';
+                            state      <= s_idle;
+                            state      <= s_pre_byte2;
+                        end if;
 
-                when s_byte1 =>
-                    if (tx_ready = '1') then
-                        tx_enable  <= '1';
-                        state      <= s_idle;
-                        state      <= s_pre_byte2;
-                    end if;
+                    when s_pre_byte2 =>
+                        tx_enable  <= '0';
+                        temp_byte <= i_score(23 downto 16);
+                        
+                        if (tx_done = '1') then
+                            state <= s_byte2;
+                        end if;
 
-                when s_pre_byte2 =>
-                    tx_enable  <= '0';
-                    temp_byte <= i_score(23 downto 16);
-                    
-                    if (tx_done = '1') then
-                        state <= s_byte2;
-                    end if;
+                    when s_byte2 =>
+                        if (tx_ready = '1') then
+                            tx_enable  <= '1';
+                            state      <= s_pre_byte3;
+                        end if;
 
-                when s_byte2 =>
-                    if (tx_ready = '1') then
-                        tx_enable  <= '1';
-                        state      <= s_pre_byte3;
-                    end if;
+                    when s_pre_byte3 =>
+                        tx_enable  <= '0';
+                        temp_byte <= i_score(31 downto 24);
+                        
+                        if (tx_done = '1') then
+                            state <= s_byte3;
+                        end if;
 
-                when s_pre_byte3 =>
-                    tx_enable  <= '0';
-                    temp_byte <= i_score(31 downto 24);
-                    
-                    if (tx_done = '1') then
-                        state <= s_byte3;
-                    end if;
+                    when s_byte3 =>
+                        if (tx_ready = '1') then
+                            tx_enable  <= '1';
+                            state      <= s_idle;
+                        end if;
 
-                when s_byte3 =>
-                    if (tx_ready = '1') then
-                        tx_enable  <= '1';
-                        state      <= s_idle;
-                    end if;
+                    when others =>
+                        state <= s_idle;
 
-                when others =>
-                    state <= s_idle;
-
-            end case;
+                end case;
+            end if;
         end if;
     end process STATE_CONTROL;
-    
+
     o_ready  <= temp_ready;
-    
-    -- *** Used for thorough simulation of ScoreTx
-    --done     <= tx_done;
-    --byte     <= temp_byte;
-    --enable   <= tx_enable;
-    --ready    <= tx_ready;
 
 end Blastn;

@@ -5,7 +5,7 @@ entity CollectorTb is
     Generic (
         tb_CLK_PER_BIT : POSITIVE:= 100000000 / 256000;         -- Needs to be set correctly
         tb_SIZE        : POSITIVE:= 32;
-        tb_BITS        : POSITIVE:= 16
+        tb_BITS        : POSITIVE:= 10
     );
 end CollectorTb;
 
@@ -27,14 +27,14 @@ architecture Blastn of CollectorTb is
     component Collector
         Generic ( 
             g_CLK_PER_BIT : POSITIVE:= 100000000 / 256000;
-            g_SIZE        : POSITIVE:= 16;
+            g_SIZE        : POSITIVE:= 10;
             g_BITS        : POSITIVE:= 32
         );
         Port ( 
             i_clk         : in  STD_LOGIC;
             i_rx          : in  STD_LOGIC;
-            o_query       : out STD_LOGIC_VECTOR(g_SIZE - 1 downto 0);
-            o_subject     : out STD_LOGIC_VECTOR(g_SIZE - 1 downto 0);
+            o_query       : out STD_LOGIC_VECTOR(g_SIZE * 3 - 1 downto 0);
+            o_subject     : out STD_LOGIC_VECTOR(g_SIZE * 2 - 1 downto 0);
             co_done       : out STD_LOGIC
             
             -- *** Used for thorough simulation of Collector
@@ -54,8 +54,8 @@ architecture Blastn of CollectorTb is
     signal tb_done    : STD_LOGIC:= '0';
     
     signal tb_tx_byte : STD_LOGIC_VECTOR(7 downto 0):= (others => '0');                 -- Byte to be transmitted
-    signal tb_query   : STD_LOGIC_VECTOR(tb_SIZE - 1 downto 0):= (others => '0');
-    signal tb_subject : STD_LOGIC_VECTOR(tb_SIZE - 1 downto 0):= (others => '0');
+    signal tb_query   : STD_LOGIC_VECTOR(tb_SIZE * 3 - 1 downto 0):= (others => '0');
+    signal tb_subject : STD_LOGIC_VECTOR(tb_SIZE * 2 - 1 downto 0):= (others => '0');
 
     -- *** Used for thorough simulation of Collector
     --signal tb_rx_byte : STD_LOGIC_VECTOR(7 downto 0):= (others => '0');

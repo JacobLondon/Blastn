@@ -1,8 +1,8 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------
-| Tool Version     : Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-| Date             : Tue Nov 26 14:18:37 2019
-| Host             : cygnus running 64-bit Ubuntu 19.04
+| Tool Version     : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
+| Date             : Mon Dec  2 22:12:56 2019
+| Host             : EP-09409A890D running 64-bit major release  (build 9200)
 | Command          : report_power -file Top_power_routed.rpt -pb Top_power_summary_routed.pb -rpx Top_power_routed.rpx
 | Design           : Top
 | Device           : xc7a100tcsg324-1
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.098        |
+| Total On-Chip Power (W)  | 0.107        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.001        |
+| Dynamic (W)              | 0.010        |
 | Device Static (W)        | 0.097        |
 | Effective TJA (C/W)      | 4.6          |
-| Max Ambient (C)          | 84.6         |
-| Junction Temperature (C) | 25.4         |
+| Max Ambient (C)          | 84.5         |
+| Junction Temperature (C) | 25.5         |
 | Confidence Level         | Medium       |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -52,16 +52,16 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Clocks         |    <0.001 |        3 |       --- |             --- |
-| Slice Logic    |    <0.001 |      140 |       --- |             --- |
-|   LUT as Logic |    <0.001 |       63 |     63400 |            0.10 |
-|   Register     |    <0.001 |       52 |    126800 |            0.04 |
-|   CARRY4       |    <0.001 |        1 |     15850 |           <0.01 |
-|   Others       |     0.000 |        8 |       --- |             --- |
-| Signals        |    <0.001 |       87 |       --- |             --- |
-| I/O            |    <0.001 |        5 |       210 |            2.38 |
+| Clocks         |     0.002 |        3 |       --- |             --- |
+| Slice Logic    |     0.003 |     1236 |       --- |             --- |
+|   LUT as Logic |     0.003 |      752 |     63400 |            1.19 |
+|   CARRY4       |    <0.001 |       36 |     15850 |            0.23 |
+|   Register     |    <0.001 |      334 |    126800 |            0.26 |
+|   Others       |     0.000 |        9 |       --- |             --- |
+| Signals        |     0.004 |     1124 |       --- |             --- |
+| I/O            |    <0.001 |        4 |       210 |            1.90 |
 | Static Power   |     0.097 |          |           |                 |
-| Total          |     0.098 |          |           |                 |
+| Total          |     0.107 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -71,7 +71,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.016 |       0.001 |      0.015 |
+| Vccint    |       1.000 |     0.024 |       0.009 |      0.015 |
 | Vccaux    |       1.800 |     0.018 |       0.000 |      0.018 |
 | Vcco33    |       3.300 |     0.004 |       0.000 |      0.004 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
@@ -137,10 +137,12 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+------+-----------+
-| Name | Power (W) |
-+------+-----------+
-| Top  |     0.001 |
-+------+-----------+
++-----------------+-----------+
+| Name            | Power (W) |
++-----------------+-----------+
+| Top             |     0.010 |
+|   DATA_RECEIVER |     0.002 |
+|   SmithWaterman |     0.007 |
++-----------------+-----------+
 
 

@@ -1,16 +1,2 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/align_score.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module AlignScore
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/cell.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module Cell
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/comparator.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module Comparator
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/gap_adder.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module GapAdder
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/selector.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module Selector
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/selector_adder.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module SelectorAdder
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/src/score_matrix_sq.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'ScoreMatrixSq'
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/jacob/Workspace/school/seniorproj/Blastn/hdl/sim/score_matrix_sq_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/jelondon/Desktop/Blastn-master/hdl/sim/score_matrix_sq_tb.vhd" into library xil_defaultlib
 INFO: [VRFC 10-3107] analyzing entity 'ScoreMatrixSqTb'
