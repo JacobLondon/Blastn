@@ -9,7 +9,7 @@
  * [u32 Query_Size, u32 GapStartIndex, u32 GapCount, Query_Sequence, Subject_Sequence]
  * 
  * Receive (RX)
- * u64 Result
+ * s32 Result
  * 
  * 
  * FPGA Format
@@ -67,7 +67,7 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
     // ALSO: Assume a gap CANNOT start before index 3
     // ALSO: Gaps must ONLY be in the query, not the subject
 
-    for (i = 0, j = 0, shiftpos = 0; i + 3 < size && i / 4 < SW_MAX_LENGTH; i += 4) {
+    for (i = 0, j = 0, shiftpos = 0; i + 3 < size && i / 4 < SW_MAX_BYTES; i += 4) {
         // insert 4 letters per byte
         for (gap_probe = 0; gap_probe < 4; gap_probe++) {
             // found first gap
@@ -79,7 +79,8 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
             }
             
             // logical or the current letter with A, C, G, or T at the current bit offset in the current byte
-            this->query[j] = this->query[j] | (PACK_FIND(query[i + gap_probe] << ((shiftpos % 4) * 2)));
+			char found = pack_find(query[i + gap_probe]);
+            this->query[j] = this->query[j] | (found << ((shiftpos % 4) * 2));
             shiftpos++;
         }
         // go to the next byte
@@ -97,10 +98,10 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
     this->gap_count[3] = (BYTE4 & gap_count_tmp) >> 24;
     this->gap_index[3] = (BYTE4 & gap_index_tmp) >> 24;
 
-    // query 
-    for (i = 0; i + 3 < size && i / 4 < SW_MAX_LENGTH; i += 4) {
+    // subject 
+    for (i = 0; i + 3 < size && i / 4 < SW_MAX_BYTES; i += 4) {
         for (j = 0; j < 4; j++)
-            this->subject[i / 4] = this->subject[i / 4] | (PACK_FIND(subject[i + j]) << (j * 2));
+            this->subject[i / 4] = this->subject[i / 4] | (pack_find(subject[i + j]) << (j * 2));
     }
 
     // load data into main buffer
@@ -109,20 +110,43 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
     buf[2] = this->size[2];
     buf[3] = this->size[3];
 
-    buf[0] = this->gap_index[0];
-    buf[1] = this->gap_index[1];
-    buf[2] = this->gap_index[2];
-    buf[3] = this->gap_index[3];
+    buf[4] = this->gap_index[0];
+    buf[5] = this->gap_index[1];
+    buf[6] = this->gap_index[2];
+    buf[7] = this->gap_index[3];
 
-    buf[0] = this->gap_count[0];
-    buf[1] = this->gap_count[1];
-    buf[2] = this->gap_count[2];
-    buf[3] = this->gap_count[3];
+    buf[8]  = this->gap_count[0];
+    buf[9]  = this->gap_count[1];
+    buf[10] = this->gap_count[2];
+    buf[11] = this->gap_count[3];
 
     for (i = 0; i < this->usize; i++) {
-        buf[4 + 4 + 4 + i] = query[i];
-        buf[4 + 4 + 4 + this->usize + i] = subject[i];
+        buf[4 + 4 + 4 + i] = this->query[i];
+        buf[4 + 4 + 4 + SW_MAX_BYTES + i] = this->subject[i];
     }
+	this->usize = this->usize / 4; // pack 4 letters per byte
+
+	printf("Query: %s\n", query);
+	printf("Subject: %s\n", subject);
+	printf("Letter count: %x\tByte count: %x\tPacked count: %x%x%x%x\n", size, this->usize, this->size[3], this->size[2], this->size[1], this->size[0]);
+	//printf("Packed data: %s\n", (char *)(buf + 1;2))
+	printf("Query:\t\t");
+	for (int j = SW_MAX_BYTES - 1; j >= 0; j--) {
+		printf("%x", this->query[j]);
+	}
+	printf("\n");
+
+	printf("Subject:\t");
+	for (int j = SW_MAX_BYTES - 1; j >= 0; j--) {
+		printf("%x", this->subject[j]);
+	}
+	printf("\n");
+
+	printf("Fully Packed Size: %x%x%x%x\n", buf[3], buf[2], buf[1], buf[0]);
+	printf("Unpacked Gap Index: %x\tPacked Gap Index: %x%x%x%x\n", gap_index_tmp, buf[7], buf[6], buf[5], buf[4]);
+	printf("Unpacked Gap Count: %x\tPacked Gap Count: %x%x%x%x\n", gap_count_tmp, buf[11], buf[10], buf[9], buf[8]);
+
+	exit(-1);
 }
 
 void PackedFmt::write()

@@ -40,7 +40,7 @@ SizeOverflow:
         case SW::MULTI_THREAD:
             return smith_waterman_mt(qextended, sextended, match, mismatch, gap);
         case SW::FPGA:
-			if (qextended.size() <= SW_MAX_LENGTH)
+			if (qextended.size() <= SW_MAX_BYTES)
 				return smith_waterman_fgpa(qextended.c_str(), sextended.c_str(), qextended.size());
 			else
 				goto SizeOverflow;

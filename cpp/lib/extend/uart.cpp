@@ -3,21 +3,11 @@
 
 #include "uart.hpp"
 
-#ifdef __linux__
-    #include <errno.h>
-    #include <fcntl.h>
-    #include <termios.h>
-    #include <unistd.h>
-    int uart_fd;
-#elif defined(_WIN32)
-    #include <Windows.h>
-    #include <string>
-    HANDLE hComm;
-    std::string ComPortName = "\\\\.\\";
-    BOOL Status;
-#else
-    #error Unsupported operating system. Please use either Linux or Windows.
-#endif
+#include <Windows.h>
+#include <string>
+HANDLE hComm;
+std::string ComPortName = "\\\\.\\";
+BOOL Status;
 
 /**
  * Initialize the serial port connection depending on the operating system.
@@ -25,40 +15,6 @@
 
 int uart_init(const char *path)
 {
-#ifdef __linux__
-    uart_fd = open(path, O_RDWR | O_NOCTTY | O_NDELAY);
-
-    if (uart_fd == -1) {
-        fprintf(stderr, "Error: Could not open serial connection to %s\n", path);
-        return 0;
-    }
-
-    struct termios serial_settings;
-    tcgetattr(uart_fd, &serial_settings);
-
-    cfsetispeed(&serial_settings, B921600);
-    cfsetospeed(&serial_settings, B921600);
-
-    serial_settings.c_cflag &= ~PARENB;         // disable parity
-    serial_settings.c_cflag &= ~CSTOPB;         // 1 stop bit
-    serial_settings.c_cflag &= ~CSIZE;          // clear mask for size setting
-    serial_settings.c_cflag |= CS8;             // set bit size to 8 bits per data
-    serial_settings.c_cflag &= ~CRTSCTS;        // no hardware flow control
-    serial_settings.c_cflag |= CREAD | CLOCAL;  // receiver en, ignore modem control lines
-
-    serial_settings.c_iflag &= ~(IXON | IXOFF | IXANY); // disable xon/xoff for input and output
-    serial_settings.c_iflag &= ~(ICANON | ECHO | ECHOE | ISIG); // non cannonical mode
-
-    serial_settings.c_oflag &= ~OPOST; // no output processing
-
-
-    if ((tcsetattr(uart_fd, TCSANOW, &serial_settings)) != 0) {
-        fprintf(stderr, "Error: Could not initialize uart file descriptor attributes\n");
-        return 0;
-    }
-
-#else // _WIN32
-
     ComPortName += path;
 
     // opening the serial port
@@ -114,7 +70,6 @@ int uart_init(const char *path)
         fprintf(stderr, "Serial Port Error: Could not set timeouts\n");
         exit(-1);
     }
-#endif
 
     return 1;
 }
@@ -125,11 +80,7 @@ int uart_init(const char *path)
 
 int uart_close()
 {
-#ifdef __linux__
-    return close(uart_fd);
-#else // _WIN32
     return CloseHandle(hComm);
-#endif
 }
 
 /**
@@ -138,9 +89,6 @@ int uart_close()
 
 void uart_write(unsigned char *buf, size_t size)
 {
-#ifdef __linux__
-    write(uart_fd, buf, size);
-#else // _WIN32
     DWORD  bytes_written = 0;
     Status = WriteFile(
         hComm,          // serial port handle
@@ -156,7 +104,6 @@ void uart_write(unsigned char *buf, size_t size)
         fprintf(stderr, "Serial Port Error: Code %d received in writing to serial port\n", GetLastError());
         exit(-1);
     }
-#endif
 }
 
 /**
@@ -165,9 +112,6 @@ void uart_write(unsigned char *buf, size_t size)
 
 void uart_read(unsigned char *buf, size_t size)
 {
-#ifdef __linux__
-    read(uart_fd, buf, size);
-#else // _WIN32
     // set receive mask to configure Windows to monitor the serial device for character reception
     Status = SetCommMask(hComm, EV_RXCHAR);
 
@@ -193,9 +137,10 @@ void uart_read(unsigned char *buf, size_t size)
     else {
         do {
             Status = ReadFile(hComm, &rx_byte, sizeof(rx_byte), &bytes_read, NULL);
-            if (i < size)
-                buf[i++] = rx_byte;
+			if (i < size)
+				buf[i++] = rx_byte;
+			else
+				break;
         } while (bytes_read > 0);
     }
-#endif
 }

@@ -2,14 +2,8 @@
 
 #include <stdlib.h>
 
-#ifdef __linux__
-    extern int uart_fd;
-#elif defined(_WIN32)
-    #include <Windows.h>
-    extern HANDLE hComm;
-#else
-    #error Unsupported operating system. Please use either Linux or Windows.
-#endif
+#include <Windows.h>
+extern HANDLE hComm;
 
 int uart_init(const char *path);
 int uart_close();

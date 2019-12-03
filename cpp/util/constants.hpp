@@ -10,22 +10,30 @@ namespace Blastn {
 
 // MUST be divisible by 4
 // The equivalent is g_SIZE in VHDL
-#define SW_MAX_LENGTH 12
+#define SW_MAX_BYTES 12
 
 enum Pack {
-    A = 0,
-    C = 1,
-    G = 2,
-    T = 3,
+    A = 0b00,
+    C = 0b01,
+    G = 0b10,
+    T = 0b11
 };
 
-#define PACK_LOOKUP "ACGT"
-
-#define PACK_FIND(letter) \
-      ((letter) == PACK_LOOKUP[0] ? Pack::A \
-    : ((letter) == PACK_LOOKUP[1] ? Pack::C \
-    : ((letter) == PACK_LOOKUP[2] ? Pack::G \
-    : Pack::T)))
+auto pack_find = [&](char letter) {
+	switch (letter) {
+	case 'A': case 'a':
+		return Pack::A;
+	case 'C': case 'c':
+		return Pack::C;
+	case 'G': case 'g':
+		return Pack::G;
+	case 'T': case 't':
+		return Pack::T;
+	default:
+		fprintf(stderr, "Error: Invalid Smith-Waterman letter: %x\n", letter);
+		std::exit(-1);
+	}
+};
 
 /**
  * Specify which smith waterman implementation to use in extend
