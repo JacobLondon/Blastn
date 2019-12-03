@@ -13,7 +13,7 @@ BOOL Status;
  * Initialize the serial port connection depending on the operating system.
  */
 
-int uart_init(const char *path)
+int uart_init(const char *path, size_t baud_rate)
 {
     ComPortName += path;
 
@@ -45,7 +45,8 @@ int uart_init(const char *path)
         exit(-1);
     }
 
-    dcb_params.BaudRate = CBR_256000;   // BaudRate = 256000
+    //dcb_params.BaudRate = CBR_256000;   // BaudRate = 256000
+	dcb_params.BaudRate = baud_rate;
     dcb_params.ByteSize = 8;            // ByteSize = 8
     dcb_params.StopBits = ONESTOPBIT;   // StopBits = 1
     dcb_params.Parity   = NOPARITY;     // Parity   = None
@@ -98,7 +99,7 @@ void uart_write(unsigned char *buf, size_t size)
         NULL
     );
 
-    printf("Bytes written: %ld\n", bytes_written);
+    //printf("Bytes written: %ld\n", bytes_written);
 
     if (!Status) {
         fprintf(stderr, "Serial Port Error: Code %d received in writing to serial port\n", GetLastError());

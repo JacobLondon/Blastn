@@ -11,6 +11,7 @@ namespace Blastn {
 // MUST be divisible by 4
 // The equivalent is g_SIZE in VHDL
 #define SW_MAX_BYTES 12
+constexpr size_t BaudRate = 1000000;
 
 enum Pack {
     A = 0b00,

@@ -17,33 +17,34 @@ proc create_report { reportName command } {
     send_msg_id runtcl-5 warning "$msg"
   }
 }
-set_param chipscope.maxJobs 3
+set_param chipscope.maxJobs 1
+set_param xicom.use_bs_reader 1
 create_project -in_memory -part xc7a100tcsg324-1
 
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir C:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.cache/wt [current_project]
-set_property parent.project_path C:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.xpr [current_project]
+set_property webtalk.parent_dir C:/Users/jedim/Desktop/Blastn/hdl/vivado/Blastn.cache/wt [current_project]
+set_property parent.project_path C:/Users/jedim/Desktop/Blastn/hdl/vivado/Blastn.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language VHDL [current_project]
-set_property ip_output_repo c:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.cache/ip [current_project]
+set_property ip_output_repo c:/Users/jedim/Desktop/Blastn/hdl/vivado/Blastn.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 read_verilog -library xil_defaultlib {
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/align_score.v
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/cell.v
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/comparator.v
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/gap_adder.v
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/selector.v
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/selector_adder.v
+  C:/Users/jedim/Desktop/Blastn/hdl/src/align_score.v
+  C:/Users/jedim/Desktop/Blastn/hdl/src/cell.v
+  C:/Users/jedim/Desktop/Blastn/hdl/src/comparator.v
+  C:/Users/jedim/Desktop/Blastn/hdl/src/gap_adder.v
+  C:/Users/jedim/Desktop/Blastn/hdl/src/selector.v
+  C:/Users/jedim/Desktop/Blastn/hdl/src/selector_adder.v
 }
 read_vhdl -library xil_defaultlib {
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/Collector.vhd
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/ScoreTx.vhd
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/UartRx.vhd
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/UartTx.vhd
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/score_matrix_sq.vhd
-  C:/Users/jelondon/Desktop/Blastn-master/hdl/src/top.vhd
+  C:/Users/jedim/Desktop/Blastn/hdl/src/Collector.vhd
+  C:/Users/jedim/Desktop/Blastn/hdl/src/ScoreTx.vhd
+  C:/Users/jedim/Desktop/Blastn/hdl/src/UartRx.vhd
+  C:/Users/jedim/Desktop/Blastn/hdl/src/UartTx.vhd
+  C:/Users/jedim/Desktop/Blastn/hdl/src/score_matrix_sq.vhd
+  C:/Users/jedim/Desktop/Blastn/hdl/src/top.vhd
 }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
@@ -53,8 +54,8 @@ read_vhdl -library xil_defaultlib {
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc C:/Users/jelondon/Desktop/Blastn-master/hdl/nexys4.xdc
-set_property used_in_implementation false [get_files C:/Users/jelondon/Desktop/Blastn-master/hdl/nexys4.xdc]
+read_xdc C:/Users/jedim/Desktop/Blastn/hdl/nexys4.xdc
+set_property used_in_implementation false [get_files C:/Users/jedim/Desktop/Blastn/hdl/nexys4.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]

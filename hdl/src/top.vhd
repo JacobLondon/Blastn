@@ -6,7 +6,8 @@ entity Top is
     Generic (
         g_RSTCNT: POSITIVE := 5;
         g_SIZE : POSITIVE := 12;
-        g_BITS : POSITIVE := 32
+        g_BITS : POSITIVE := 32;
+        g_BAUD_RATE : POSITIVE := 1000000
     );
     Port (
         clk : in  STD_LOGIC;
@@ -96,7 +97,7 @@ begin
 
     SCORE_TRANSMITTER: ScoreTx
         Generic map (
-            g_CLK_PER_BIT => 100000000 / 256000
+            g_CLK_PER_BIT => 100000000 / g_BAUD_RATE
         )
         Port map (
             i_clk    => clk,
@@ -109,7 +110,7 @@ begin
 
     DATA_RECEIVER: Collector
         Generic map (
-            g_CLK_PER_BIT => 100000000 / 256000,
+            g_CLK_PER_BIT => 100000000 / g_BAUD_RATE,
             g_SIZE        => g_SIZE
         )
         Port map (

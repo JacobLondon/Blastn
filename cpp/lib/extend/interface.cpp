@@ -33,15 +33,18 @@ namespace Blastn {
 PackedFmt::PackedFmt(const char *uart_path)
 : usize{0}, size{0}, gap_index{0}, gap_count{0}, query{0}, subject{0}
 {
-    if (uart_path && !uart_init(uart_path)) {
-        std::cerr << "Error: Could not open connection to " << uart_path << std::endl;
-        std::exit(-1);
-    }
+	if (!uart_path)
+		return;
+	if (!uart_init(uart_path, BaudRate)) {
+		std::cerr << "Error: Could not open connection to " << uart_path << std::endl;
+		std::exit(-1);
+	}
 }
 
 PackedFmt::~PackedFmt()
 {
-    uart_close();
+    if (usize != 0)
+		uart_close();
 }
 
 static const u32 BYTE1 = 0x000000FFu;
@@ -125,34 +128,12 @@ void PackedFmt::pack(const char *query, const char *subject, u32 size)
         buf[4 + 4 + 4 + SW_MAX_BYTES + i] = this->subject[i];
     }
 	this->usize = this->usize / 4; // pack 4 letters per byte
-
-	printf("Query: %s\n", query);
-	printf("Subject: %s\n", subject);
-	printf("Letter count: %x\tByte count: %x\tPacked count: %x%x%x%x\n", size, this->usize, this->size[3], this->size[2], this->size[1], this->size[0]);
-	//printf("Packed data: %s\n", (char *)(buf + 1;2))
-	printf("Query:\t\t");
-	for (int j = SW_MAX_BYTES - 1; j >= 0; j--) {
-		printf("%x", this->query[j]);
-	}
-	printf("\n");
-
-	printf("Subject:\t");
-	for (int j = SW_MAX_BYTES - 1; j >= 0; j--) {
-		printf("%x", this->subject[j]);
-	}
-	printf("\n");
-
-	printf("Fully Packed Size: %x%x%x%x\n", buf[3], buf[2], buf[1], buf[0]);
-	printf("Unpacked Gap Index: %x\tPacked Gap Index: %x%x%x%x\n", gap_index_tmp, buf[7], buf[6], buf[5], buf[4]);
-	printf("Unpacked Gap Count: %x\tPacked Gap Count: %x%x%x%x\n", gap_count_tmp, buf[11], buf[10], buf[9], buf[8]);
-
-	exit(-1);
 }
 
 void PackedFmt::write()
 {
     // write size, gap index, gap count, and the data
-    uart_write(this->buf, 4 + 4 + 4 + 2*this->usize);
+    uart_write(this->buf, 4 + 4 + 4 + 2*SW_MAX_BYTES);
 }
 
 void PackedFmt::read()

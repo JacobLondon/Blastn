@@ -65,16 +65,17 @@ start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
-  set_param chipscope.maxJobs 3
+  set_param chipscope.maxJobs 1
+  set_param xicom.use_bs_reader 1
   create_project -in_memory -part xc7a100tcsg324-1
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
-  set_property webtalk.parent_dir C:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.cache/wt [current_project]
-  set_property parent.project_path C:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.xpr [current_project]
-  set_property ip_output_repo C:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.cache/ip [current_project]
+  set_property webtalk.parent_dir C:/Users/jedim/Desktop/Blastn/hdl/vivado/Blastn.cache/wt [current_project]
+  set_property parent.project_path C:/Users/jedim/Desktop/Blastn/hdl/vivado/Blastn.xpr [current_project]
+  set_property ip_output_repo C:/Users/jedim/Desktop/Blastn/hdl/vivado/Blastn.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
-  add_files -quiet C:/Users/jelondon/Desktop/Blastn-master/hdl/vivado/Blastn.runs/synth_1/Top.dcp
-  read_xdc C:/Users/jelondon/Desktop/Blastn-master/hdl/nexys4.xdc
+  add_files -quiet C:/Users/jedim/Desktop/Blastn/hdl/vivado/Blastn.runs/synth_1/Top.dcp
+  read_xdc C:/Users/jedim/Desktop/Blastn/hdl/nexys4.xdc
   link_design -top Top -part xc7a100tcsg324-1
   close_msg_db -file init_design.pb
 } RESULT]

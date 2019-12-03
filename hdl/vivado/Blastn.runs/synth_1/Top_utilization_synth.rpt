@@ -1,8 +1,8 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date         : Mon Dec  2 22:11:26 2019
-| Host         : EP-09409A890D running 64-bit major release  (build 9200)
+| Date         : Tue Dec  3 14:06:38 2019
+| Host         : DESKTOP-H5ET5KP running 64-bit major release  (build 9200)
 | Command      : report_utilization -file Top_utilization_synth.rpt -pb Top_utilization_synth.pb
 | Design       : Top
 | Device       : 7a100tcsg324-1
@@ -30,11 +30,11 @@ Table of Contents
 +-------------------------+------+-------+-----------+-------+
 |        Site Type        | Used | Fixed | Available | Util% |
 +-------------------------+------+-------+-----------+-------+
-| Slice LUTs*             |  713 |     0 |     63400 |  1.12 |
-|   LUT as Logic          |  713 |     0 |     63400 |  1.12 |
+| Slice LUTs*             |  704 |     0 |     63400 |  1.11 |
+|   LUT as Logic          |  704 |     0 |     63400 |  1.11 |
 |   LUT as Memory         |    0 |     0 |     19000 |  0.00 |
-| Slice Registers         |  334 |     0 |    126800 |  0.26 |
-|   Register as Flip Flop |  334 |     0 |    126800 |  0.26 |
+| Slice Registers         |  330 |     0 |    126800 |  0.26 |
+|   Register as Flip Flop |  330 |     0 |    126800 |  0.26 |
 |   Register as Latch     |    0 |     0 |    126800 |  0.00 |
 | F7 Muxes                |    0 |     0 |     31700 |  0.00 |
 | F8 Muxes                |    0 |     0 |     15850 |  0.00 |
@@ -57,7 +57,7 @@ Table of Contents
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
 | 2     |          Yes |         Set |            - |
-| 332   |          Yes |       Reset |            - |
+| 328   |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -146,12 +146,12 @@ Table of Contents
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| FDRE     |  332 |        Flop & Latch |
-| LUT6     |  284 |                 LUT |
-| LUT3     |  184 |                 LUT |
-| LUT5     |  169 |                 LUT |
-| LUT4     |  108 |                 LUT |
-| LUT2     |   78 |                 LUT |
+| FDRE     |  328 |        Flop & Latch |
+| LUT6     |  268 |                 LUT |
+| LUT5     |  180 |                 LUT |
+| LUT3     |  177 |                 LUT |
+| LUT4     |  110 |                 LUT |
+| LUT2     |   87 |                 LUT |
 | CARRY4   |   36 |          CarryLogic |
 | LUT1     |   34 |                 LUT |
 | IBUF     |    3 |                  IO |
