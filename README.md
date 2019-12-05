@@ -1,6 +1,9 @@
 # Blastn
 An implementation of the basic local alignment search tool (Blast) for nucleotides. The goal of this project is to implement the Blastn algorithm in C++ and interop with an FPGA implementation of the Smith-Waterman algorithm to greatly accelerate the word extension stage of Blastn.
 
+# Project's New Location
+[New GitHub](https://github.com/Reconfigurable-Computing-CalPoly-Pomona/Reconfigurable-BLAST-N)
+
 ## Process
 ![Blastn Process](docs/blastn-flowchart.png)
 
