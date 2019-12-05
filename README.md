@@ -43,5 +43,5 @@ Electrical and Computer Engineering Senior Project at California State Polytechn
 - Sivaramakrishnan Prabakar
 
 ## Advisors
-- Mohamed El-Hadedy (Mohamed Aly)
 - Mostafa M. Hashim Ellabaan
+- Mohamed El-Hadedy
